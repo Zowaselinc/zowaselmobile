@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+    
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style2.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bypass.css"/>
+</head>   
+<body class="bg-white">
+<div class="page-wraper">
+
+    <!-- Preloader -->
+	<div id="preloader">
+		<div class="spinner"></div>
+	</div>
+    <!-- Preloader end-->
+
+    <!-- Page Content -->
+    <div class="page-content">
+        
+        <!-- Banner -->
+        <div class="banner-wrapper">
+            <div class="circle-1"></div>
+            <div class="container inner-wrapper">
+                <h1 class="dz-title">       <img src="logos/logo.png" width="180px" class="brand-title text-white mt-2"/>
+                </h1>
+              
+            </div>
+        </div>
+        <!-- Banner End -->
+        
+        <div class="account-box">
+            <div class="container">
+                <div class="account-area">
+                    <h3 class="title">Verify Account</h3>
+                    <p>Enter 6-digit code sent to your mail to verify your account</p>
+					
+
+                    <!-- 6 digits button -->
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between digit-group" data-group-name="digits">
+                            <input type="text" maxlength="1" (keypress)="keyPressNumbers($event)" id="digit-1" name="digit-1" data-next="digit-2" class="form-control px-0 text-center mx-1" placeholder="">
+                            <input type="text" maxlength="1" (keypress)="keyPressNumbers($event)" id="digit-2" name="digit-2" data-next="digit-3" class="form-control px-0 text-center mx-1" placeholder="">
+                            <input type="text" maxlength="1" (keypress)="keyPressNumbers($event)" id="digit-3" name="digit-3" data-next="digit-4" class="form-control px-0 text-center mx-1" placeholder="">
+                            <input type="text" maxlength="1" (keypress)="keyPressNumbers($event)" id="digit-4" name="digit-4" data-next="digit-5" class="form-control px-0 text-center mx-1" placeholder="">
+                            <input type="text" maxlength="1" (keypress)="keyPressNumbers($event)" id="digit-5" name="digit-5" data-next="digit-6" class="form-control px-0 text-center mx-1" placeholder="">
+                            <input type="text" maxlength="1" (keypress)="keyPressNumbers($event)" id="digit-6" name="digit-6" data-next="digit-7" class="form-control px-0 text-center mx-1" placeholder="">
+                        </div>
+                    </div>
+                    <!-- 6 digits button -->
+
+
+                    <div class="text-center mb-auto p-tb20">
+                        <a class="text-dark">Didn't get the code in your mail? <span class="text-success" onclick="resendotpcode()">Resend Code</span></a>
+
+                        <button type="button" class="btn mt-4 btn-success w-100 btn-rounded" onclick="verifyotp()">Continue</button>
+                    </div>
+
+
+                
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content End -->
+    
+    <!-- Footer -->
+    <footer class="footer fixed">
+        <div class="container">
+            <a class="saprate text-dark">Already have an account?</a>
+            <a href="login.html" class="btn btn-transparent btn-rounded d-block">SIGN IN</a>
+        </div>
+    </footer>
+    <!-- Footer End -->
+    
+	<!-- CART -->
+	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom2">
+		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close">
+			<i class="fa-solid fa-xmark"></i>
+		</button>
+        <div class="offcanvas-body">
+			<h4 class="title border-bottom pb-2 mb-2">Terms & Condition</h4>
+			<p class="mb-0">Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const.</p>
+        </div>
+    </div>
+	<!-- CART -->
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+
+
+
+</div>
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/settings.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="./assets/js/env.js"></script> 
+<script src="./assets/js/onboarding.js"></script> 
+<script src="assets/js/modal.js"></script>
+</body>
+</html>

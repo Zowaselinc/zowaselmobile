@@ -1,0 +1,41 @@
+<div class="toolbar-inner menubar-nav">
+    <!-- <a href="notification.html" class="nav-link notificationLink">
+        <i class="fas fa-bell"></i>
+    </a> -->
+    <a href="index.html" class="nav-link homeLink">
+        <i class="fas fa-home"></i>
+    </a>
+    <a href="negotiations.html" class="nav-link messageLink">
+        <i class="fa-solid fa-message"></i>
+    </a>
+    <a href="profile.html" class="nav-link profileLink">
+        <i class="fas fa-user-tie"></i>
+    </a>
+    <a href="wallet.html" class="nav-link profileLink">
+        <i class="fas fa-wallet"></i>
+    </a>
+</div>
+
+
+<script>
+    // const urlString = window.location.href;
+    const urlString = window.location.pathname;
+    // console.log(urlString);
+
+    let paramString = urlString.split('dashboard/')[1];
+    console.log(paramString);
+
+    $('.nav-link').removeClass('active');
+    if(paramString == "notification.html"){
+        $('.notificationLink').addClass('active');
+    }
+    if(paramString == "index.html"){
+        $('.homeLink').addClass('active');
+    }
+    if(paramString == "messages.html"){
+        $('.messageLink').addClass('active');
+    }
+    if(paramString == "profile.html"){
+        $('.profileLink').addClass('active');
+    }
+</script>

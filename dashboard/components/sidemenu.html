@@ -1,0 +1,154 @@
+<div class="author-box">
+    <div class="">
+        <img src="../logos/logo.png" alt="author-image">
+    </div>
+    <div>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+</div>
+<ul class="nav navbar-nav">	
+    <li class="nav-label">Main Menu</li>
+
+    <li>
+        <a class="nav-link" href="index.html">
+            <span class="dz-icon">
+                <i class="fa fa-home"></i>
+            </span>
+            <span class="link-title">Home</span>
+        </a>
+    </li>
+
+    <li>
+        <a class="nav-link" href="wallet.html"> 
+            <span class="dz-icon">
+                <i class="fas fa-wallet"></i>
+            </span>
+            <span class="link-title">Wallet</span>
+        </a>
+    </li>
+
+    <!-- <li>
+        <a class="nav-link" href="messages.html">
+            <span class="dz-icon">
+                <i class="fa-solid fa-message"></i>
+            </span>
+            <span class="link-title">Message</span>
+        </a>
+    </li> -->
+    
+    <li>
+        <a class="nav-link isaDropdown" data-bs-toggle="collapse" data-bs-target="#marketplace-collapse" aria-expanded="false">
+            <span class="dz-icon">
+                <i class="fa-solid fa-shop"></i>
+            </span>
+            <span class="link-title hasarrow">
+                <span>Market place</span>
+                <i class="fa-solid fa-angle-right"></i>
+            </span>
+        </a>
+
+        <div class="collapse" id="marketplace-collapse">
+            <ul class="btn-toggle-nav small ps-3 spacing-4">
+                <!-- <li><a class="nav-link link-title" href="cropsforsale.html">Crops for sale</a></li>
+                <li><a class="nav-link link-title" href="auctionedcrops.html">Auctioned crops</a></li> -->
+                <li class="merchantview"><a class="nav-link link-title" href="addinput.html">Add Input</a></li>
+                <li class="merchantview"><a class="nav-link link-title" href="viewuseraddedinput.html">My Inputs</a></li>
+                <li class="merchantview"><a class="nav-link link-title spacing-4" href="addcrop.html">Add Crop for Sale</a></li>
+                <li class="merchantview"><a class="nav-link link-title spacing-4" href="viewusercropsforsale.html">My Crops for Sale</a></li>
+                <li class="merchantview"><a class="nav-link link-title spacing-4" href="addcropauction.html">Add Crop for auction</a></li>
+                <li class="merchantview"><a class="nav-link link-title spacing-4" href="viewusercropsforauction.html">My Crops for auction</a></li>
+                <li class="merchantview"><a class="nav-link link-title spacing-4" href="cropswanted.html">Crops wanted by Corporate</a></li>
+                
+                <li class="corporateview"><a class="nav-link link-title" href="inputs.html">Inputs for sale</a></li>
+                <li class="corporateview"><a class="nav-link link-title spacing-4" href="addcropwanted.html">Add Crop Wanted</a></li>
+            </ul>
+        </div>
+    </li>
+
+    <li>
+        <a class="nav-link" href="negotiations.html">
+            <span class="dz-icon">
+                <i class="fa-solid fa-handshake"></i>
+            </span>
+            <span class="link-title">Negotiations</span>
+        </a>
+    </li>
+
+    <li>
+        <a class="nav-link" href="support.html">
+            <span class="dz-icon">
+                <i class="fas fa-headset"></i>
+            </span>
+            <span class="link-title">Support</span>
+        </a>
+    </li>
+
+    <!-- <li>
+        <a class="nav-link" href="settings.html">
+            ghb
+            <span>Settings</span>
+        </a>
+    </li> -->
+
+    <li>
+        <a class="nav-link" href="profile.html">
+            <span class="dz-icon">
+                <i class="fas fa-user-tie"></i>
+            </span>
+            <span class="link-title">My account</span>
+        </a>
+    </li>
+
+    <!-- <li>
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#admin-collapse" aria-expanded="false"> 
+            <span class="dz-icon">
+                <i class="fa fa-user-tie"></i>  
+            </span>
+            <span class="link-title">Admin</span>
+        </a>
+
+        <div class="collapse" id="admin-collapse">
+            <ul class="btn-toggle-nav small ps-3 spacing-4">
+                <li><a href="./admin-role.html" class="nav-link link-title" href="admin-role.html">Admin Role</a></li>
+                <li><a href="./alladministrators.html" class="nav-link link-title spacing-4" href="alladministrators.html">Administrator</a></li>
+                <li><a href="../dashboards/activity-log.html" class="nav-link link-title spacing-4" href="../dashboards/activity-log.html">Activity Log</a></li>
+                <li><a href="./errorlog.html" class="nav-link link-title spacing-4" href="errorlog.html">Error Log</a></li>
+            </ul>
+        </div>
+    </li> -->
+
+    <li>
+        <a class="nav-link" onclick="logout()">
+            <span class="dz-icon">
+                <i class="fas fa-power-off"></i>
+            </span>
+            <span class="link-title">Logout</span>
+        </a>
+    </li>
+
+    
+ 
+</ul>
+<div class="sidebar-bottom">
+    <h6 class="name">Zowasel</h6>
+    <p>App Version 1.0</p>
+</div>
+
+
+
+
+
+<script>
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    if(usertype=="merchant"){
+        $('.merchantview').show();
+        $('.corporateview').hide();
+    }else if(usertype=="corporate"){
+        $('.merchantview').hide();
+        $('.corporateview').show();
+    }
+</script>

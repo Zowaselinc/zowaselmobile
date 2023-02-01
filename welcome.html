@@ -9,9 +9,9 @@
 	<meta name="author" content="DexignZone" /> 
     <meta name="keywords" content="" /> 
     <meta name="robots" content="" /> 
-	<meta name="description" content="Foodia - Food Restaurant Mobile App Template ( Bootstrap 5 + PWA )"/>
-	<meta property="og:title" content="Foodia - Food Restaurant Mobile App Template ( Bootstrap 5 + PWA )" />
-	<meta property="og:description" content="Foodia - Food Restaurant Mobile App Template ( Bootstrap 5 + PWA )" />
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
 	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
 	<meta name="format-detection" content="telephone=no">
     
@@ -19,11 +19,12 @@
 	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
     
     <!-- Title -->
-	<title>Zowasel</title>
+	<title>Zowasel Mobile</title>
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style2.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,12 +50,12 @@
          
 					
 				</div>
-				<div class="join-area">
+				<div class="join-area overflowauto">
 					<div class="started">
 						<h2 class="text-white">Continue as</h2>
 						<p>Please Choose A User Type that best describes you.</p>
 					</div>
-					<a href="login.html" class="welcome-box h-auto">
+					<a href="login.html" onclick="userType('corporate')" class="welcome-box h-auto">
 						<div class="d-flex align-items-center">
 							<img src="logos/office-building.png" alt="">
 							<div class="ms-2">
@@ -63,7 +64,7 @@
 							</div>
 						</div>
 					</a>
-                    <a href="login.html" class="welcome-box h-auto">
+                    <a href="login.html" onclick="userType('merchant')" class="welcome-box h-auto">
 						<div class="d-flex align-items-center">
 							<img src="logos/grocery-store.png" alt="">
 							<div class="ms-2">
@@ -72,7 +73,7 @@
 							</div>
 						</div>
 					</a>
-                    <a href="login.html" class="welcome-box h-auto">
+                    <a href="login.html" onclick="userType('agent')" class="welcome-box h-auto">
 						<div class="d-flex align-items-center">
 							<img src="assets/images/welcome/man.png" alt="">
 							<div class="ms-2">
@@ -81,7 +82,7 @@
 							</div>
 						</div>
 					</a>
-					<a href="login.html" class="welcome-box h-auto">
+					<a href="login.html" onclick="userType('partner')" class="welcome-box h-auto">
 						<div class="d-flex align-items-center">
 							<img src="logos/handshake.png" alt="">
 							<div class="ms-2">
@@ -175,5 +176,7 @@
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
 <script src="assets/js/settings.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="./assets/js/env.js"></script> 
+<script src="./assets/js/onboarding.js"></script> 
 </body>
 </html>
