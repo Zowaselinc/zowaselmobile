@@ -412,7 +412,7 @@ function populateSingleProductDetails(){
                 // alert(response.message);
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
-                $('.productName').html(thedata.title);
+                $('.productName').html(thedata.category.name+" "+thedata.specification.color);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name);
 
@@ -1457,14 +1457,22 @@ $('#formpage3').submit(function(e){
 
     console.log(cropfilesToUpload," console.log(cropfilesToUpload);");
 
+    const activePage = window.location.pathname;
+    // alert(activePage);
+
     // Grab all the ids
     // let croptitle = document.getElementById('croptitle');
     let category = document.getElementById('category');
     let subcategory = document.getElementById('subcategory');
     let color = document.getElementById('color');
-    let packaging = document.getElementById('packaging');
-    let application = document.getElementById('application');
-    let manufacture_name = document.getElementById('manufacture_name');
+    
+    let application, manufacture_name, packaging;
+    if(activePage=="/dashboard/addcropauction.html"||activePage=="/dashboard/addcrop.html"){
+        application = document.getElementById('application');
+        manufacture_name = document.getElementById('manufacture_name');
+        packaging = document.getElementById('packaging');
+    }
+    
     let moisturecontent = document.getElementById('moisturecontent');
     let foreignmatter = document.getElementById('foreignmatter');
     let testweight = document.getElementById('testweight');
@@ -1521,9 +1529,13 @@ $('#formpage3').submit(function(e){
     formData.append("currency", currency.value);
     formData.append("is_negotiable", negotiable.value);
     formData.append("video", videourl.value);
-    formData.append("packaging", packaging.value);
-    formData.append("application", application.value);
-    formData.append("manufacture_name", manufacture_name.value);
+    
+    if(activePage=="/dashboard/addcropauction.html"||activePage=="/dashboard/addcrop.html"){
+        formData.append("application", application.value);
+        formData.append("manufacture_name", manufacture_name.value);
+        formData.append("packaging", packaging.value);
+    }
+    
     // formData.append("manufacture_date", "2022/12/02");
     // formData.append("expiration_date", "2023/04/12");
     formData.append("model_type", "crop");
@@ -1578,8 +1590,7 @@ $('#formpage3').submit(function(e){
         formData.append("image"+i, file, filename);
     }
 
-    const activePage = window.location.pathname;
-    // alert(activePage);
+    
     let croptype;
     if(activePage=="/dashboard/addcropauction.html"){
         croptype = "auction";
@@ -2450,7 +2461,7 @@ function fetchUserCropsforSaleByUserID(){
 
 
 function goToMyPersonalCropDetails1(n){
-    alert(n);
+    // alert(n);
     localStorage.setItem('singleproductID', n);
     localStorage.setItem('last_input_crop_page', "viewusercropsforsale.html");
     location.assign('mypersonalproductdetails.html');
@@ -2552,7 +2563,7 @@ function fetchUserCropsforAuctionByUserID(){
 
 
 function goToMyPersonalCropDetails2(n){
-    alert('ef');
+    // alert('ef');
     localStorage.setItem('singleproductID', n);
     localStorage.setItem('last_input_crop_page', "viewusercropsforauction.html");
     location.assign('mypersonalproductdetails.html');

@@ -161,6 +161,10 @@
                                 <!-- <option value="1">Random category</option> -->
                             </select>
                         </div>
+                        <!-- <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Packaging <span>(optional)</span></label>
+                            <input name="packaging" type="text" class="form-control" id="packaging" style="border:1px solid #ced4da;" />
+                        </div> -->
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Product Color <span class="required">*</span></label>
                             <select class="form-select" aria-label="Default select example" id="color" required="">
@@ -345,6 +349,12 @@
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label mb-0">Grain Size <span class="required">*</span></label>
                             <select class="form-select ponetohundredpercent" id="grainsize" aria-label="Default select example" required="">
+                                
+                            </select>
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Total defects <span class="required">*</span></label>
+                            <select class="form-select ponetohundredpercent" id="total_defects" aria-label="Default select example" required="">
                                 
                             </select>
                         </div>
@@ -550,7 +560,7 @@
 
         $('#formpage1').submit(function(e){
             e.preventDefault();
-            alert($('#editor').val());
+            // alert($('#editor').val());
             let form_slide1_response = document.getElementById('form_slide1_response');
             let cropdescription = document.getElementById('editor');
             if(cropdescription.value==""||cropdescription.value===null){
