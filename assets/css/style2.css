@@ -30,6 +30,22 @@
 
 
 
+/* ---------------------------- PULL TO REFERESH ---------------------------- */
+#main {
+  flex: 1;
+  transition: transform 0.3s;
+}
+.trigger {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  float: right;
+  display: block;
+  border: 1px solid white;
+}
+/* ---------------------------- PULL TO REFERESH ---------------------------- */
+
 
 /*==========================Create Password Page============================*/
 .invalid {

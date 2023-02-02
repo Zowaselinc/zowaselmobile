@@ -5,6 +5,22 @@ console.log(liveBaseUrl);
 
 
 
+/* ---------------------------- PULL TO REFERESH ---------------------------- */
+/* global PullToRefresh */
+PullToRefresh.init({
+    mainElement: '#main',
+    onRefresh: function() { 
+        // alert('refresh');
+        location.reload();
+    }
+});
+/* ---------------------------- PULL TO REFERESH ---------------------------- */
+
+
+
+
+
+
 const populateUserDetails =()=>{
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);

@@ -42,6 +42,9 @@
     </style>
 </head>   
 <body class="bg-white">
+
+
+
 <div class="page-wraper">
     
     <!-- Header -->
@@ -92,7 +95,7 @@
 
     
     <!-- Page Content -->
-    <div class="page-content bottom-content ">
+    <div id="main" class="page-content bottom-content ">
          <!-- Banner -->
          <div class="dashboard-banner-wrapper">
             <div class="circle-1"></div>
@@ -499,12 +502,13 @@
 <script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../../assets/js/settings.js"></script>
 <script src="../../assets/js/custom.js"></script>
-<script src="../../assets/js/env.js"></script> <script src="../../assets/js/dashboard.js"></script>
 <script src="../assets/js/modal.js"></script>
 <script src="../assets/js/plugins/country-state-array.js"></script>
 <script src="../assets/js/countrylist.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
-
+<script src="../assets/lib/pulltorefresh.js"></script>
+<script src="../../assets/js/env.js"></script> 
+<script src="../../assets/js/dashboard.js"></script>
 
 
 
@@ -519,6 +523,9 @@
     populateCountryList();
     addCropPage();
 </script>
+
+
+
 
 <script>
     var myClassicEditor;
