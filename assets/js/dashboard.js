@@ -212,11 +212,27 @@ const fundWalletPage=()=>{
 
 
 
-/* ------------------------------ FETCH PRODUCT CATEGORY ----------------------------- */
+/* ------------------------------ FETCH CROPS WANTED ----------------------------- */
 function fetchWantedCrops(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    let theURL, gotoProductdetails, currentPage;
+    if(usertype == "corporate"){
+        theURL = `crop/wanted/${userid}`;
+        gotoProductdetails = `mypersonalproductdetails.html`;
+        currentPage = `localStorage.setItem('last_input_crop_page', 'cropswanted.html')`;
+    }else{
+        theURL = `crop/getbycropwanted`;
+        gotoProductdetails = `productdetails.html`;
+        currentPage = ``;
+    }
+
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/crop/getbycropwanted`,
+        url: `${liveMobileUrl}/${theURL}`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -255,11 +271,12 @@ function fetchWantedCrops(){
                         }
 
                         rowContent += `
-                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); location.assign('productdetails.html')">
+                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                        location.assign('${gotoProductdetails}')">
                             <div class="item-content" style="background:whitesmoke;padding-left:8px;">
                                 <div class="item-inner">
                                     <div class="item-title-row">
-                                        <h6 class="item-title"><a href="productdetails.html">${row.subcategory.name} - ${row.specification.color}</a></h6>
+                                        <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} - ${row.specification.color}</a></h6>
                                         <div class="item-subtitle">${row.category.name}</div>
                                     </div>
                                     <div class="item-footer">
@@ -297,7 +314,7 @@ function fetchWantedCrops(){
         }
     });
 }
-/* ------------------------------ CROPS WANTED ------------------------------ */
+/* ------------------------------ FETCH CROPS WANTED ------------------------------ */
 
 
 
