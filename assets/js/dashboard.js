@@ -342,7 +342,7 @@ function populateSingleMyPersonalProductDetails(){
                 // alert(response.message);
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
-                $('.productName').html(thedata.title);
+                $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name);
 
@@ -1316,7 +1316,7 @@ const addCropPage =()=>{
         startPageLoader();
         if(categoryid){
             $.ajax({
-                url: `${liveBaseUrl}/subcategory/getbycategory/`+categoryid,
+                url: `${liveMobileUrl}/subcategory/getbycategory/`+categoryid,
                 type: "GET",
                 "timeout": 25000,
                 "headers": {
@@ -1330,7 +1330,7 @@ const addCropPage =()=>{
                     let rowContent = "";
                     if(response.error == true){
                         // alert(response.message);
-                        responsemodal("erroricon.png", "Error", response.message);
+                        basicmodal("", response.message);
                     }else{
                         // alert(response.message);
                         let thedata = response.data;
@@ -1921,7 +1921,7 @@ function fetchMerchantAddedInputs(){
 
     startPageLoader();
     $.ajax({
-        url: `${localBaseUrl}/input/getallbyuserid/`+userid,
+        url: `${liveMobileUrl}/input/getallbyuserid/`+userid,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -2292,7 +2292,7 @@ function updateCart(row_id, input_id, price, input_stock){
 
         startPageLoader();
         $.ajax({
-            url: `${localBaseUrl}/input/cart/add`,
+            url: `${liveMobileUrl}/input/cart/add`,
             type: "POST",
             "timeout": 25000,
             "headers": {
@@ -2348,7 +2348,7 @@ function confirmaccepted(section, section_id){
         
         startPageLoader();
         $.ajax({
-            url: `${localBaseUrl}/input/cart/delete/`+section_id,
+            url: `${liveMobileUrl}/input/cart/delete/`+section_id,
             type: "DELETE",
             "timeout": 25000,
             "headers": {
