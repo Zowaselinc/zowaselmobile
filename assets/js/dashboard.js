@@ -1,6 +1,6 @@
-// import { localBaseUrl, liveBaseUrl } from './env.js';
+// import { localBaseUrl, liveMobileUrl } from './env.js';
 console.log(localBaseUrl);
-console.log(liveBaseUrl);
+console.log(liveMobileUrl);
 // alert(localBaseUrl)
 
 
@@ -525,15 +525,20 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let userid = user.user.id;
+    let usertype = user.user.type;
+
+    console.log(singleproductID, "singleproductID");
+    console.log(userid, "userid");
+    console.log(liveMobileUrl, "liveMobileUrl");
 
     startPageLoader();
     $.ajax({
-        url: `${liveBaseUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
+        url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
         type: "GET",
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
+            // "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -601,7 +606,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             // index= x+1;
 
                             let chatboxClass;
-                            if(row[x].type == "merchant"){
+                            if(row[x].type == "merchant" && usertype == "merchant"){
                                 chatboxClass = `user`;
                             }else{
                                 chatboxClass = ``;
@@ -785,9 +790,10 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let userid = user.user.id;
+    let usertype = user.user.type;
 
     $.ajax({
-        url: `${liveBaseUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
+        url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -860,7 +866,7 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             // index= x+1;
 
                             let chatboxClass;
-                            if(row[x].type == "merchant"){
+                            if(row[x].type == "merchant" && usertype == "merchant"){
                                 chatboxClass = `user`;
                             }else{
                                 chatboxClass = ``;
@@ -1054,9 +1060,10 @@ const sendmessage =()=>{
 
     let negotiationtextmessage = document.getElementById('negotiationtextmessage');
     if(negotiationtextmessage.value){
+        console.log(productOwnerDetails);
 
         $.ajax({
-            url: `${liveBaseUrl}/crop/negotiation/add`,
+            url: `${liveMobileUrl}/negotiation/add`,
             type: "POST",
             "timeout": 10000,
             "headers": {
@@ -1064,9 +1071,9 @@ const sendmessage =()=>{
                 "authorization": localStorage.getItem('authToken')
             },
             "data": JSON.stringify({
-                "sender_id": userid, 
-                "receiver_id": productOwnerFirstName, 
-                "crop_id": singleproductID, 
+                "sender_id": parseInt(userid), 
+                "receiver_id": parseInt(productOwnerFirstName), 
+                "crop_id": parseInt(singleproductID), 
                 "type": usertype, 
                 "message": negotiationtextmessage.value
             }),
@@ -1147,7 +1154,7 @@ const negotiationPage =()=>{
         startPageLoader();
 
         $.ajax({
-            url: `${liveBaseUrl}/crop/negotiation/sendoffer`,
+            url: `${liveMobileUrl}/crop/negotiation/sendoffer`,
             type: "POST",
             "timeout": 25000,
             "headers": {
@@ -1238,7 +1245,7 @@ const negotiationPage =()=>{
 function fetchCropCategories(){
     startPageLoader();
     $.ajax({
-        url: `${liveBaseUrl}/category/crop/getall`,
+        url: `${liveMobileUrl}/category/crop/getall`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -1395,7 +1402,7 @@ const addCropAuctionPage =()=>{
         startPageLoader();
         if(categoryid){
             $.ajax({
-                url: `${liveBaseUrl}/subcategory/getbycategory/`+categoryid,
+                url: `${liveMobileUrl}/subcategory/getbycategory/`+categoryid,
                 type: "GET",
                 "timeout": 25000,
                 "headers": {
@@ -1756,7 +1763,7 @@ const addInputPage =()=>{
         startPageLoader();
         if(categoryid){
             $.ajax({
-                url: `${liveBaseUrl}/subcategory/getbycategory/`+categoryid,
+                url: `${liveMobileUrl}/subcategory/getbycategory/`+categoryid,
                 type: "GET",
                 "timeout": 25000,
                 "headers": {
@@ -2503,7 +2510,7 @@ function fetchUserCropsforAuctionByUserID(){
     let usertype = user.user.type;
 
     $.ajax({
-        url: `${liveBaseUrl}/crop/auction/`+userid,
+        url: `${liveMobileUrl}/crop/auction/`+userid,
         type: "GET",
         "timeout": 25000,
         "headers": {

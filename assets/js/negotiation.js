@@ -56,7 +56,7 @@ const fetchUserConversations =()=>{
 
                         rowContent += `
                             <li>
-                                <a href="messagesdetails.html">
+                                <a onclick="gotoMessageDetails(${row.crop_id})">
                                     <div class="media-content">
                                         <div>
                                             <h5 class="name">${fullname}</h5>
@@ -93,3 +93,17 @@ const fetchUserConversations =()=>{
 /************************************************************************************
  * /* -------------------- // FETCH CONVERSATIONS BY USER ID ------------------- *
  ************************************************************************************/
+
+
+
+
+
+
+
+
+
+function gotoMessageDetails(n){
+    // console.log(n); The CROP ID
+    localStorage.setItem('singleproductID', n);
+    location.assign('negotiate.html');
+}
