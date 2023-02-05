@@ -606,10 +606,18 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             // index= x+1;
 
                             let chatboxClass;
-                            if(row[x].type == "merchant" && usertype == "merchant"){
-                                chatboxClass = `user`;
-                            }else{
-                                chatboxClass = ``;
+                            if(usertype == "merchant"){
+                                if(row[x].type == "merchant"){
+                                    chatboxClass = `user`;
+                                }else{
+                                    chatboxClass = ``;
+                                }
+                            }else if(usertype == "corporate"){
+                                if(row[x].type == "corporate"){
+                                    chatboxClass = `user`;
+                                }else{
+                                    chatboxClass = ``;
+                                }
                             }
 
                             let time = row[x].created_at;
@@ -866,11 +874,20 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             // index= x+1;
 
                             let chatboxClass;
-                            if(row[x].type == "merchant" && usertype == "merchant"){
-                                chatboxClass = `user`;
-                            }else{
-                                chatboxClass = ``;
+                            if(usertype == "merchant"){
+                                if(row[x].type == "merchant"){
+                                    chatboxClass = `user`;
+                                }else{
+                                    chatboxClass = ``;
+                                }
+                            }else if(usertype == "corporate"){
+                                if(row[x].type == "corporate"){
+                                    chatboxClass = ``;
+                                }else{
+                                    chatboxClass = `user`;
+                                }
                             }
+                            
 
                             let time = row[x].created_at;
                             // console.log(time);
@@ -1053,6 +1070,7 @@ const sendmessage =()=>{
     user = JSON.parse(user);
     let userid = user.user.id;
     let usertype = user.user.type;
+
 
     let productOwnerDetails = localStorage.getItem('productOwnerDetails');
     productOwnerDetails = JSON.parse(productOwnerDetails);

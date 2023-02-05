@@ -14805,7 +14805,7 @@ ul.list-check {
           text-align: right; }
     .message-content .chat-content .message-item .bubble {
       padding: 8px 15px;
-      background: #fff;
+      background: navajowhite;
       border-radius: 12px 12px 12px 0;
       color: #141515;
       display: inline-flex;

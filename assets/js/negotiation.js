@@ -38,11 +38,13 @@ const fetchUserConversations =()=>{
                         let row = thedata[i];
                         index= i+1;
 
-                        let fullname;
+                        let fullname, productOwnerDetails;
                         if(row.initiator.id == userid){ //initiator
                             fullname = row.participant.first_name+" "+row.participant.last_name;
+                            productOwnerDetails = JSON.stringify(row.participant);
                         }else{ //participant
                             fullname = row.initiator.first_name+" "+row.initiator.last_name;
+                            productOwnerDetails = JSON.stringify(row.initiator);
                         }
 
                         let thecrop;
@@ -56,10 +58,11 @@ const fetchUserConversations =()=>{
 
                         rowContent += `
                             <li>
-                                <a onclick="gotoMessageDetails(${row.crop_id})">
+                                <a onclick="gotoMessageDetails(${row.crop_id}, ${index})">
                                     <div class="media-content">
                                         <div>
                                             <h5 class="name">${fullname}</h5>
+                                            <div class="d-none" id="productOwnerDetails${index}">${productOwnerDetails}</div>
                                             <h6>${thecrop}</h6>
                                             <p class="my-1">
                                                 ${row.created_at}
@@ -102,8 +105,12 @@ const fetchUserConversations =()=>{
 
 
 
-function gotoMessageDetails(n){
+function gotoMessageDetails(n, index){
     // console.log(n); The CROP ID
+    // console.log(index, "index");
+    let productOwnerDetails = $('#productOwnerDetails'+index).html();
+    // console.log(productOwnerDetails);
+    localStorage.setItem('productOwnerDetails', productOwnerDetails);
     localStorage.setItem('singleproductID', n);
     location.assign('negotiate.html');
 }
