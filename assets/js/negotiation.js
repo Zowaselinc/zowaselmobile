@@ -1,3 +1,38 @@
+/* --------------------------------- LOADER --------------------------------- */
+function startPageLoader(){
+    setTimeout(()=>{
+        const loader = document.querySelector('.loader');
+        loader.classList.add("loader");
+        loader.classList.remove("loader-hidden");
+    },1000)
+}
+
+function EndPageLoader(){
+    setTimeout(()=>{
+        const loader = document.querySelector('.loader');
+        loader.classList.add("loader-hidden");
+    },1000)
+}
+
+window.addEventListener('load', ()=>{
+    const loader = document.querySelector('.loader');
+
+    loader.classList.add("loader-hidden");
+
+    // loader.addEventListener("transitionend", ()=>{
+    //     document.body.removeChild("loader");
+    // })
+})
+/* --------------------------------- LOADER --------------------------------- */
+
+
+
+
+
+
+
+
+
 /************************************************************************************
  * /* -------------------- // FETCH CONVERSATIONS BY USER ID ------------------- *
  ************************************************************************************/
