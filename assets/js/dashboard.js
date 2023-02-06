@@ -637,7 +637,12 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                 }
 
                                 if(negotiationpage_type=="cropwanted"){
-                                    accept_decline_checkbox = `rer`;
+                                    accept_decline_checkbox = `
+                                        <div class="d-flex justify-conntent-between">
+                                            <span class="text-success">Accept <input type="checkbox" /> </span>
+                                            <span class="tetx-danger">Decline <input type="checkbox" /> </span>
+                                        </div>
+                                    `;
                                 }
                             }
 
@@ -894,21 +899,33 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                         for (let x = 0; x < row.length; x++) {
                             // index= x+1;
 
-                            let chatboxClass;
+                            let negotiationpage_type = localStorage.getItem('negotiationpage_type');
+                            let chatboxClass, accept_decline_checkbox;
                             if(usertype == "merchant"){
                                 if(row[x].type == "merchant"){
                                     chatboxClass = `user`;
                                 }else{
                                     chatboxClass = ``;
                                 }
+
+                                accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+
                             }else if(usertype == "corporate"){
                                 if(row[x].type == "corporate"){
-                                    chatboxClass = ``;
-                                }else{
                                     chatboxClass = `user`;
+                                }else{
+                                    chatboxClass = ``;
+                                }
+
+                                if(negotiationpage_type=="cropwanted"){
+                                    accept_decline_checkbox = `
+                                        <div class="d-flex justify-conntent-between">
+                                            <span class="text-success">Accept <input type="checkbox" /> </span>
+                                            <span class="tetx-danger">Decline <input type="checkbox" /> </span>
+                                        </div>
+                                    `;
                                 }
                             }
-                            
 
                             let time = row[x].created_at;
                             // console.log(time);
@@ -921,13 +938,11 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             // console.log(timeInAmPm, "timeInAmPm");
 
                             let themessagetype = row[x].messagetype;
-
                             if(themessagetype == "offer"){
                                 // Hide Send offer button if an offer has been sent already
                                 $('.open_offer_form').hide();
                                 // Hide Send offer button if an offer has been sent already
                             }
-                            
                             // let themessageandType;
                             if(themessagetype == "text"){
                                 themessageandType = `
@@ -938,7 +953,7 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                         </div>
                                     </div>
                                 `;
-                            }else if(themessagetype == "offer"){                                
+                            }else if(themessagetype == "offer"){
                                 let offerbox = JSON.parse(row[x].message);
                                 themessageandType = `
                                     <div class="offer-right mb-2 mt-1">
@@ -984,8 +999,8 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                             </div>
                                             <!---->
                                             <div class="message-item">
-                                                <div class="message-time">We will let you know when corporate accepts/declines offer.</div> 
-                                                <div class="message-time">${timeInAmPm}</div> 
+                                                <div class="accept_decline_checkbox">${accept_decline_checkbox}</div> 
+                                                <div class="message-time">${timeInAmPm}</div>  
                                             </div>
                                         </div>
                                     </div> 
@@ -1041,7 +1056,6 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             ${groupDateANDthemesssageType}
                         `;
 
-
                         
                         
                     }
@@ -1055,6 +1069,11 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                     //     ChatDiv.scrollTop(height);
                     //     console.log(height, "Chartbox Height");
                     // },500)
+                    
+                    $('[data-toggle="tooltip"]').tooltip('toggle');
+                    setTimeout(()=>{
+                        $('[data-toggle="tooltip"]').tooltip('hide');
+                    },10000)  
                     
                 }else{
                     $('#thechatside').html("No conversation yet");
