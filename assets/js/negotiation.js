@@ -112,5 +112,13 @@ function gotoMessageDetails(n, index){
     // console.log(productOwnerDetails);
     localStorage.setItem('productOwnerDetails', productOwnerDetails);
     localStorage.setItem('singleproductID', n);
+
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+    localStorage.setItem('negotiationpage_type', "cropwanted");
+    
+    
     location.assign('negotiate.html');
 }

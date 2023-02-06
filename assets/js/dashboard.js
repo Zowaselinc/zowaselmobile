@@ -379,17 +379,30 @@ function populateSingleMyPersonalProductDetails(){
                 $('#productCategory').html(thedata.category.name);
                 $('#testWeight').val(thedata.specification.test_weight);
                 $('#productColor').html(thedata.specification.color);
-                $('#productHardness').val(thedata.specification.hardness);
                 $('#productMoisture').val(thedata.specification.moisture);
-                $('#productSplit').val(thedata.specification.splits);
                 $('#productForeignMatter').val(thedata.specification.foreign_matter);
                 $('#productOilContent').val(thedata.specification.oil_content);
                 $('#productBrokenGrains').val(thedata.specification.broken_grains);
                 $('#productInfestation').val(thedata.specification.infestation);
                 $('#productWeevil').val(thedata.specification.weevil);
                 $('#productGrainSize').html(thedata.specification.grain_size);
-                $('#productDamagedKernel').html('');
+                // $('#productDamagedKernel').html('');
                 $('#productRottenShriveled').val(thedata.specification.rotten_shriveled);
+                if(thedata.specification.hardness == "" || thedata.specification.hardness===null){
+                    $('#productHardness').val(0);
+                }else{
+                    $('#productHardness').val(thedata.specification.hardness);
+                }
+                if(thedata.specification.splits == "" || thedata.specification.splits===null){
+                    $('#productSplit').val(0);
+                }else{
+                    $('#productSplit').val(thedata.specification.splits);
+                }
+                if(thedata.specification.productDamagedKernel == "" || thedata.specification.productDamagedKernel===null){
+                    $('#productDamagedKernel').val('');
+                }else{
+                    $('#productDamagedKernel').val(thedata.specification.splits);
+                }
                 // INPUT VALUES
             }
         },
@@ -605,18 +618,26 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                         for (let x = 0; x < row.length; x++) {
                             // index= x+1;
 
-                            let chatboxClass;
+                            let negotiationpage_type = localStorage.getItem('negotiationpage_type');
+                            let chatboxClass, accept_decline_checkbox;
                             if(usertype == "merchant"){
                                 if(row[x].type == "merchant"){
                                     chatboxClass = `user`;
                                 }else{
                                     chatboxClass = ``;
                                 }
+
+                                accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+
                             }else if(usertype == "corporate"){
                                 if(row[x].type == "corporate"){
                                     chatboxClass = `user`;
                                 }else{
                                     chatboxClass = ``;
+                                }
+
+                                if(negotiationpage_type=="cropwanted"){
+                                    accept_decline_checkbox = `rer`;
                                 }
                             }
 
@@ -692,7 +713,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                             </div>
                                             <!---->
                                             <div class="message-item">
-                                                <div class="message-time">We will let you know when corporate accepts/declines offer.</div> 
+                                                <div class="accept_decline_checkbox">${accept_decline_checkbox}</div> 
                                                 <div class="message-time">${timeInAmPm}</div>  
                                             </div>
                                         </div>
@@ -1169,77 +1190,86 @@ const negotiationPage =()=>{
         let damagedkernel = document.getElementById('productDamagedKernel');
         // Get the inputs values of the offer form
 
-        startPageLoader();
 
-        $.ajax({
-            url: `${liveMobileUrl}/crop/negotiation/sendoffer`,
-            type: "POST",
-            "timeout": 25000,
-            "headers": {
-                "Content-Type": "application/json",
-                "authorization": localStorage.getItem('authToken')
-            },
-            "data": JSON.stringify({
-                "sender_id": userid, 
-                "receiver_id": productOwnerID, 
-                "crop_id": singleproductID, 
-                "type": usertype, 
+        mcxDialog.confirm("I accept to place an offer with the price and specification", {
+            sureBtnClick: function(){
+              // callback
+              //   alert("Ewo");
+              startPageLoader();
 
-                    "qty": qty.value,
-                    "price": price.value,
-                    "color": "",
-                    "moisture": moisture.value,
-                    "foreign_matter": foreign_matter.value,
-                    "broken_grains": broken_grains.value,
-                    "weevil": weevil.value,
-                    "dk": "",
-                    "rotten_shriveled": rotten_shriveled.value,
-                    "test_weight": test_weight.value,
-                    "hectoliter": "",
-                    "hardness": hardness.value,
-                    "splits": splits.value,
-                    "oil_content": oil_content.value,
-                    "infestation":  infestation.value,
-                    "grain_size": "",
-                    "total_defects": "",
-                    "dockage": "", 
-                    "ash_content": "", 
-                    "acid_ash": "",
-                    "volatile": "",
-                    "mold": "", 
-                    "drying_process": "",
-                    "dead_insect": "", 
-                    "mammalian": "",
-                    "infested_by_weight": "",
-                    "curcumin_content": "",
-                    "extraneous": "",
-                    "unit": ""
+                $.ajax({
+                    url: `${liveMobileUrl}/crop/negotiation/sendoffer`,
+                    type: "POST",
+                    "timeout": 25000,
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "authorization": localStorage.getItem('authToken')
+                    },
+                    "data": JSON.stringify({
+                        "sender_id": userid, 
+                        "receiver_id": productOwnerID, 
+                        "crop_id": singleproductID, 
+                        "type": usertype, 
 
-            }),
-            success: function(response) { 
-                EndPageLoader();
-                if(response.error == true){
-                    // alert(response.message);
-                    responsemodal("erroricon.png", "Error", response.message);
-                }else{
-                    // alert(response.message);
-                    responsemodal("successicon.png", "Success", response.message);
-                    populateUserandFarmOwnerNegotiationMessages();
-                    setTimeout(()=>{
-                        $('#offer-form').hide();
-                    },2000)      
-                }
-            },
-            error: function(xmlhttprequest, textstatus, message) {
-                EndPageLoader();
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out");
-                } else {
-                    // alert(textstatus);
-                    basicmodal("", textstatus);
-                }
+                            "qty": qty.value,
+                            "price": price.value,
+                            "color": "",
+                            "moisture": moisture.value,
+                            "foreign_matter": foreign_matter.value,
+                            "broken_grains": broken_grains.value,
+                            "weevil": weevil.value,
+                            "dk": "",
+                            "rotten_shriveled": rotten_shriveled.value,
+                            "test_weight": test_weight.value,
+                            "hectoliter": "",
+                            "hardness": hardness.value,
+                            "splits": splits.value,
+                            "oil_content": oil_content.value,
+                            "infestation":  infestation.value,
+                            "grain_size": "",
+                            "total_defects": "",
+                            "dockage": "", 
+                            "ash_content": "", 
+                            "acid_ash": "",
+                            "volatile": "",
+                            "mold": "", 
+                            "drying_process": "",
+                            "dead_insect": "", 
+                            "mammalian": "",
+                            "infested_by_weight": "",
+                            "curcumin_content": "",
+                            "extraneous": "",
+                            "unit": ""
+
+                    }),
+                    success: function(response) { 
+                        EndPageLoader();
+                        if(response.error == true){
+                            // alert(response.message);
+                            responsemodal("erroricon.png", "Error", response.message);
+                        }else{
+                            // alert(response.message);
+                            responsemodal("successicon.png", "Success", response.message);
+                            populateUserandFarmOwnerNegotiationMessages();
+                            setTimeout(()=>{
+                                $('#offer-form').hide();
+                            },2000)      
+                        }
+                    },
+                    error: function(xmlhttprequest, textstatus, message) {
+                        EndPageLoader();
+                        if(textstatus==="timeout") {
+                            basicmodal("", "Service timed out");
+                        } else {
+                            // alert(textstatus);
+                            basicmodal("", textstatus);
+                        }
+                    }
+                });
             }
+
         });
+ 
 
     });
 }
@@ -1257,6 +1287,66 @@ const negotiationPage =()=>{
 /************************************************************************************
  * /* -------------------------------- ADD CROPS ------------------------------- 
  ************************************************************************************/
+
+
+/* ------------------------- FETCH PRODUCT COLORS ------------------------- */
+function fetchCropColors(){
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/color/getall`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            $('.loader').addClass('loader-hidden');
+            // console.log(response, "The get all category response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+                $('.loader').addClass('loader-hidden');
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                let rowContent = "";
+                let index;
+                // console.log(thedata, "category data");
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                    //   console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        rowContent += `
+                            <option value="${row.name}">${row.name}</option>
+                        `;   
+                    }
+                    $('#color').append(rowContent);        
+          
+                }else{
+                    // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/* ------------------------- FETCH PRODUCT COLORS ------------------------- */
+
+
 
 
 /* ------------------------- FETCH PRODUCT CATEGORY ------------------------- */
