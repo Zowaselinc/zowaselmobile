@@ -170,6 +170,9 @@ window.addEventListener('load', ()=>{
                 if(JSON.parse(thedata.products)[0].specification.model_type){
                     $('.offer_type').html(JSON.parse(thedata.products)[0].specification.model_type);
                 }else{ $('.offer_type').html("-"); }
+                if(JSON.parse(thedata.negotiation.message).qty){
+                    $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
+                }else{ $('.crop_quantity').html("-"); }
              
                     
             }
