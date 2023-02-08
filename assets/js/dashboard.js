@@ -627,7 +627,13 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                     chatboxClass = ``;
                                 }
 
-                                accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                if(row[x].status == "accepted"){
+                                    accept_decline_checkbox = `<span style="color:#30BD6E;" class="fw-bolder">Offer accepted</span>`;
+                                }else if(row[x].status == "declined"){
+                                    accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
+                                }else{
+                                    accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                }
 
                             }else if(usertype == "corporate"){
                                 if(row[x].type == "corporate"){
@@ -636,12 +642,18 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                     chatboxClass = ``;
                                 }
 
-                                if(negotiationpage_type=="cropwanted"){
+                                if(row[x].status == "accepted"){
+                                    accept_decline_checkbox = `Offer accepted. <span style="color:#30BD6E;" class="fw-bolder" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">Proceed to payment.</span>`;
+                                }else if(row[x].status == "declined"){
+                                    accept_decline_checkbox = `<span class="text-danger">Offer declined.</span>`;
+                                }else if(negotiationpage_type=="cropwanted"){
                                     accept_decline_checkbox = `
-                                        <div class="d-flex justify-conntent-between">
-                                            <span class="text-success">Accept <input type="checkbox" /> </span>
-                                            <span class="tetx-danger">Decline <input type="checkbox" /> </span>
-                                        </div>
+                                        <form>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
+                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
+                                            </div>
+                                        </form>
                                     `;
                                 }
                             }
@@ -908,7 +920,13 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                     chatboxClass = ``;
                                 }
 
-                                accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                if(row[x].status == "accepted"){
+                                    accept_decline_checkbox = `<span style="color:#30BD6E;" class="fw-bolder">Offer accepted</span>`;
+                                }else if(row[x].status == "declined"){
+                                    accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
+                                }else{
+                                    accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                }
 
                             }else if(usertype == "corporate"){
                                 if(row[x].type == "corporate"){
@@ -917,12 +935,18 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                     chatboxClass = ``;
                                 }
 
-                                if(negotiationpage_type=="cropwanted"){
+                                if(row[x].status == "accepted"){
+                                    accept_decline_checkbox = `Offer accepted. <span style="color:#30BD6E;" class="fw-bolder" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">Proceed to payment.</span>`;
+                                }else if(row[x].status == "declined"){
+                                    accept_decline_checkbox = `<span class="text-danger">Offer declined.</span>`;
+                                }else if(negotiationpage_type=="cropwanted"){
                                     accept_decline_checkbox = `
-                                        <div class="d-flex justify-conntent-between">
-                                            <span class="text-success">Accept <input type="checkbox" /> </span>
-                                            <span class="tetx-danger">Decline <input type="checkbox" /> </span>
-                                        </div>
+                                        <form>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
+                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
+                                            </div>
+                                        </form>
                                     `;
                                 }
                             }
@@ -1087,14 +1111,119 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                 basicmodal("", "Service timed out \nCheck your internet connection");
             } else {
                 // alert(textstatus);
-                basicmodal("", textstatus+"<br/>This session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
+                // basicmodal("", textstatus+"<br/>This session has ended, Login again");
+                // setTimeout(()=>{
+                //     logout();
+                // },3000)
             }
         }
     });
 }
+
+
+
+
+/* ------------------------------ ACCEPT OFFER ------------------------------ */
+function acceptoffer(negotiation_id){
+    // alert("Accept offer "+negotiation_id);
+    mcxDialog.confirm("I accept this offer with the price and specification", {
+        sureBtnClick: function(){
+          // callback
+          //   alert("Ewo");
+          startPageLoader();
+
+            $.ajax({
+                url: `${liveMobileUrl}/crop/negotiation/accept`,
+                type: "POST",
+                "timeout": 25000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                "data": JSON.stringify({
+                    "id": negotiation_id
+                }),
+                success: function(response) { 
+                    EndPageLoader();
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        responsemodal("successicon.png", "Success", response.message);
+                        // populateUserandFarmOwnerNegotiationMessages();
+                        // setTimeout(()=>{
+                        //     $('#offer-form').hide();
+                        // },2000)      
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
+                    }
+                }
+            });
+        }
+
+    });
+}
+/* ------------------------------ ACCEPT OFFER ------------------------------ */
+
+
+/* ------------------------------ DECLINE OFFER ------------------------------ */
+function declineoffer(negotiation_id){
+    // alert("Decline offer "+negotiation_id);
+    mcxDialog.confirm("I accept this offer with the price and specification", {
+        sureBtnClick: function(){
+          // callback
+          //   alert("Ewo");
+          startPageLoader();
+
+            $.ajax({
+                url: `${liveMobileUrl}/crop/negotiation/decline`,
+                type: "POST",
+                "timeout": 25000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                "data": JSON.stringify({
+                    "id": negotiation_id
+                }),
+                success: function(response) { 
+                    EndPageLoader();
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        responsemodal("successicon.png", "Success", response.message);
+                        // populateUserandFarmOwnerNegotiationMessages();
+                        // setTimeout(()=>{
+                        //     $('#offer-form').hide();
+                        // },2000)      
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
+                    }
+                }
+            });
+        }
+
+    });
+}
+/* ------------------------------ DECLINE OFFER ------------------------------ */
+
 
 
 
@@ -1293,6 +1422,21 @@ const negotiationPage =()=>{
     });
 }
 /* ---------------------------- SEND NEGOTIATION OFFER --------------------------- */
+
+
+
+
+
+
+
+
+/* ------------ GO TO ORDER SUMMARY FROM CLICK PROCEED TO PAYMENT ----------- */
+function gotoOrderSummary(order_id){
+    // alert(order_id);
+    localStorage.setItem('orderHash', order_id);
+    location.assign('order/ordersummary.html');
+}
+/* ------------ GO TO ORDER SUMMARY FROM CLICK PROCEED TO PAYMENT ----------- */
 
 
 

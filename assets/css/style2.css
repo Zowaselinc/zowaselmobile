@@ -28,6 +28,17 @@
 } 
 
 
+.tablestyle1 thead tr th{
+  color: #212529;
+  border: 1px solid #dee2e6;
+  font-size: 15px;
+}
+.tablestyle1 tbody tr td{
+  color: #242828;
+  border: 1px solid #dee2e6;
+}
+
+
 
 
 /* ---------------------------- PULL TO REFERESH ---------------------------- */
@@ -917,3 +928,86 @@
   background-color: #05B050;
 }
 /* ---------------------------------- CART ---------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+/* --------------------------- ORDER SUMMARY PAGE --------------------------- */
+.page-header {
+  width: 100%;
+  padding: 14px 30px;
+  background: #262c3f;
+}
+.header-tabs{
+  display: flex;
+  border-radius: 8.91px;
+  /* background: rgba(118, 118, 128, 0.17); */
+  padding: 1.5px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+}
+.header-tabs div{
+  background: rgba(118, 118, 128, 0.17);
+  padding: 5px 8px;
+}
+.active-Tab {
+  border: 0.5px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 3px 8px rgb(0 0 0 / 12%), 0px 3px 1px rgb(0 0 0 / 4%);
+  border-radius: 6.93px;
+  background: #262c3f !important;
+  color: #ffffff !important;
+}
+.header-tabs-title{
+  margin: 5px 0;
+  color: #0a0d13;
+  letter-spacing: -0.02em;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+}
+.pricing-details-wrapper {
+  margin: 29px 0;
+}
+.table-rows {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+}
+.table-rows > div:nth-of-type(1) {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 166.67%;
+  color: #303546;
+}
+.table-rows > div:last-child:not(.quality-spec) {
+  position: absolute;
+  right: 0;
+}
+.theorder-btn-group a{
+  border: none;
+  width: 274px;
+  height: 47px;
+  padding: 10px;
+  background: #2d3748;
+  margin-bottom: 80px;
+  color: #ffffff;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 27px;
+}
+/* --------------------------- ORDER SUMMARY PAGE --------------------------- */

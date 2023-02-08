@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <script type="text/javascript"  src="../../assets/js/accessauthentication_dashboard.js"></script>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile</title>
+	
+	<!-- PWA Version -->
+	<link rel="manifest" href="manifest.json">
+    
+    <!-- Stylesheets -->
+	<link rel="stylesheet" href="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/style2.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> -->
+
+</head>   
+<body class="bg-white">
+<div class="page-wraper">
+    
+    <!-- Header -->
+    <header class="header user-head">
+        <div class="main-bar">
+            <div class="container">
+                <div class="header-content">
+                    <div class="left-content">
+                        <a href="javascript:void(0);" class="back-btn">
+                            <svg width="18" height="18" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M9.03033 0.46967C9.2966 0.735936 9.3208 1.1526 9.10295 1.44621L9.03033 1.53033L2.561 8L9.03033 14.4697C9.2966 14.7359 9.3208 15.1526 9.10295 15.4462L9.03033 15.5303C8.76406 15.7966 8.3474 15.8208 8.05379 15.6029L7.96967 15.5303L0.96967 8.53033C0.703403 8.26406 0.679197 7.8474 0.897052 7.55379L0.96967 7.46967L7.96967 0.46967C8.26256 0.176777 8.73744 0.176777 9.03033 0.46967Z" fill="#a19fa8"/>
+							</svg>
+                        </a>
+                    </div>
+                    <div class="mid-content">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="right-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+    
+    <!-- Preloader -->
+	<!-- <div id="preloader">
+		<div class="spinner"></div>
+	</div> -->
+    <!-- Preloader end-->
+    
+	<!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+		
+    </div>
+    <!-- Sidebar End -->
+    
+    
+    <!-- Page content  -->
+    <div id="main" class="page-content">
+        <div class="header-tabs">
+            <div class="price-details active-Tab" onclick="switchtab('pricingDetails')">Pricing Details</div>
+            <div class="full-spec" onclick="switchtab('fullSpecification')">Full specification</div>
+            <div class="purchase-order" onclick="switchtab('purchaseOrder')">Purchase Order</div>
+        </div>
+
+        <!-- ---------------------- Pricing Details Container ---------------------- -->
+        <div class="container bottom-content pricingDetails_Container"> 
+
+            <!-- PRICING DETAILS -->
+            <div class="header-tabs-title pricing-details">Pricing Details</div>
+            <hr/>
+
+            <div class="pricing-details-wrapper">
+                <div class="table-rows table-row-first">
+                    <div>Accepted Price</div>
+                    <div class="accepted_price"></div>
+                </div>
+                <div class="table-rows table-row-first">
+                    <div>Confirmed Quantity</div>
+                    <div class="confirmed_quantity"></div>
+                </div>
+                <!--v-if-->
+                <div class="table-rows mb-0">
+                    <div>Total Price</div>
+                    <div class="total_price"></div>
+                </div>
+            </div>
+
+            <!-- For Corporate View -->
+            <!-- Buttons -->
+            <div class="btn-group theorder-btn-group w-100 gap-4">
+                <a href="javascript:void(0)" class="btn" type="button" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Overage Policy</a>
+                <a href="javascript:void(0)" class="btn" type="button" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Rejection Policy</a>
+            </div>
+            <!-- Buttons -->
+
+
+            <!-- Overage Policy Modals -->
+            <div id="staticBackdrop" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header"><h1 id="staticBackdropLabel" class="modal-title fs-5">Overage Policy</h1></div>
+                        <div class="modal-body px-3 text-justify">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitant morbi justo, ullamcorper urna tristique. Ornare ut mi interdum nunc rutrum cursus aliquet. Posuere vel vel, tristique egestas. Sit eu ac sed urna eleifend
+                            egestas praesent quis. Dui egestas gravida amet, vel. Facilisis lorem vel posuere et. Ut purus at egestas adipiscing donec commodo, rutrum et justo. Imperdiet amet, diam pellentesque nulla a. Et nunc elit ipsum, suspendisse
+                            eget. Aliquam placerat erat sem tellus risus euismod odio non. Massa faucibus arcu faucibus neque egestas. Urna tellus sed nec mauris congue risus, at. Id consequat diam sed etiam. Integer blandit pharetra ut consequat nunc
+                            est. Sit etiam id neque pharetra feugiat blandit convallis in vitae. Non lacus adipiscing faucibus tempor. Facilisi egestas venenatis mattis rhoncus sagittis habitasse morbi lectus consectetur. Ultricies id varius dui
+                            euismod ut. Volutpat accumsan, nec, tortor, tincidunt. Leo risus ipsum eget adipiscing. Aliquam nisl morbi faucibus vulputate tempor elit libero facilisi sit. At odio morbi nam tellus enim, viverra elit, nisi. Nulla placerat
+                            enim tincidunt tortor cursus at nunc amet. Nisi in nam tellus id dignissim massa tortor cursus. Tortor eget purus tellus sollicitudin vulputate. Scelerisque et neque elit urna. Leo, proin habitasse scelerisque nibh elementum
+                            morbi. Sem amet, et pulvinar felis consequat quis eget sed. Tellus tempus id orci vitae. Non nascetur purus faucibus tellus enim arcu. Amet, elementum tortor diam auctor et faucibus tempor sagittis, venenatis. Ridiculus
+                            mattis tellus mollis in tortor. Est dictum condimentum lectus mollis libero. Sit ut vitae mauris varius eget. Molestie viverra aliquet est egestas elit orci, aenean. Pellentesque eros, varius et massa. Risus eget a risus,
+                            sed non eget interdum risus. Elementum risus ut nibh gravida libero. Justo, ornare laoreet urna turpis id in. Scelerisque et pretium, consectetur euismod lorem dui molestie amet quis. In enim sed commodo nec aliquam.
+                            Pulvinar nunc nunc, ipsum arcu. Nibh sed est duis molestie id. Faucibus magna orci, pulvinar maecenas scelerisque volutpat id. Libero id tortor, proin mauris tincidunt habitant.
+                        </div>
+                        <div class="modal-footer"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Back</button></div>
+                    </div>
+                </div>
+            </div>            
+            <!-- Overage Policy Modals -->
+
+
+
+            <!-- Rejection Policy Modal -->
+            <div id="staticBackdrop1" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header"><h1 id="staticBackdropLabel" class="modal-title fs-5">Rejection Policy</h1></div>
+                        <div class="modal-body px-3 text-justify">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitant morbi justo, ullamcorper urna tristique. Ornare ut mi interdum nunc rutrum cursus aliquet. Posuere vel vel, tristique egestas. Sit eu ac sed urna eleifend
+                            egestas praesent quis. Dui egestas gravida amet, vel. Facilisis lorem vel posuere et. Ut purus at egestas adipiscing donec commodo, rutrum et justo. Imperdiet amet, diam pellentesque nulla a. Et nunc elit ipsum, suspendisse
+                            eget. Aliquam placerat erat sem tellus risus euismod odio non. Massa faucibus arcu faucibus neque egestas. Urna tellus sed nec mauris congue risus, at. Id consequat diam sed etiam. Integer blandit pharetra ut consequat nunc
+                            est. Sit etiam id neque pharetra feugiat blandit convallis in vitae. Non lacus adipiscing faucibus tempor. Facilisi egestas venenatis mattis rhoncus sagittis habitasse morbi lectus consectetur. Ultricies id varius dui
+                            euismod ut. Volutpat accumsan, nec, tortor, tincidunt. Leo risus ipsum eget adipiscing. Aliquam nisl morbi faucibus vulputate tempor elit libero facilisi sit. At odio morbi nam tellus enim, viverra elit, nisi. Nulla placerat
+                            enim tincidunt tortor cursus at nunc amet. Nisi in nam tellus id dignissim massa tortor cursus. Tortor eget purus tellus sollicitudin vulputate. Scelerisque et neque elit urna. Leo, proin habitasse scelerisque nibh elementum
+                            morbi. Sem amet, et pulvinar felis consequat quis eget sed. Tellus tempus id orci vitae. Non nascetur purus faucibus tellus enim arcu. Amet, elementum tortor diam auctor et faucibus tempor sagittis, venenatis. Ridiculus
+                            mattis tellus mollis in tortor. Est dictum condimentum lectus mollis libero. Sit ut vitae mauris varius eget. Molestie viverra aliquet est egestas elit orci, aenean. Pellentesque eros, varius et massa. Risus eget a risus,
+                            sed non eget interdum risus. Elementum risus ut nibh gravida libero. Justo, ornare laoreet urna turpis id in. Scelerisque et pretium, consectetur euismod lorem dui molestie amet quis. In enim sed commodo nec aliquam.
+                            Pulvinar nunc nunc, ipsum arcu. Nibh sed est duis molestie id. Faucibus magna orci, pulvinar maecenas scelerisque volutpat id. Libero id tortor, proin mauris tincidunt habitant.
+                        </div>
+                        <div class="modal-footer"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Back</button></div>
+                    </div>
+                </div>
+            </div>          
+            <!-- Rejection Policy Modal -->
+            
+            <!-- PRICING DETAILS -->
+
+          
+        </div>  
+        <!-- ---------------------- Pricing Details Container ---------------------- -->
+
+
+        <!-- -------------------- Full Specification Container --------------------- -->
+        <div class="container bottom-content fullSpecifications_Container content" style="display: none;">
+            <div class="header-tabs-title pricing-details">Standard Quality Specification (SQS)</div>
+
+            <!-- Table -->
+            <table class="tablestyle1 table table-SQS table-bordered">
+                <thead>
+                    <tr>
+                        <th>Parameters</th>
+                        <th><span id="parameters" class="d-block">Specification</span>(Dropdown Menu)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Color</td>
+                        <td>
+                            <div class="F_color">-</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Moisture</td>
+                        <td><span class="F_moisture"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Foreign Matter (FM)</td>
+                        <td><span class="F_foreign_matters"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Broken Grains</td>
+                        <td><span class="F_brokenGrain"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Weevil</td>
+                        <td><span class="F_weevil"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Damaged Kernel(DK)</td>
+                        <td><span class="F_damaged_kernel">-</span></td>
+                    </tr>
+                    <tr>
+                        <td>Rotten/Shriveled</td>
+                        <td><span class="F_rotten"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Test weight</td>
+                        <td><span class="F_test_weight"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Hardness</td>
+                        <td><span class="F_hardness"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Splits</td>
+                        <td><span class="F_splits"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Oil Content</td>
+                        <td><span class="F_oil_content"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Infestation</td>
+                        <td><span class="F_infestation"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Grain Size</td>
+                        <td><div class="F_grain_size">-</div></td>
+                    </tr>
+                    <tr>
+                        <td>Hectoliter Test Weight</td>
+                        <td><span class="F_hectoliter_weight"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Total Defects</td>
+                        <td class="F_total_defects">-</td>
+                    </tr>
+                    <tr>
+                        <td>Dockage</td>
+                        <td class="F_dockage">-</td>
+                    </tr>
+                    <tr>
+                        <td>Ash Content</td>
+                        <td class="F_ash_content">-</td>
+                    </tr>
+                    <tr>
+                        <td>Acid Insoluble ash</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Volatile</td>
+                        <td class="F_volatile">-</td>
+                    </tr>
+                    <tr>
+                        <td>Mold % By Weigh</td>
+                        <td class="F_mold">-</td>
+                    </tr>
+                    <tr>
+                        <td>Drying Process</td>
+                        <td class="F_drying_process">-</td>
+                    </tr>
+                </tbody>
+            </table>            
+            <!-- Table -->
+
+
+            <div id="editor"></div>
+
+            <!-- Buttons -->
+            <div class="btn-group theorder-btn-group w-100 gap-4 mt-3">
+                <a href="javascript:void(0)" class="btn downloadFullSpecification w-100" type="button">Download!</a>
+            </div>
+            <!-- Buttons -->
+
+        </div>
+        <!-- -------------------- Full Specification Container --------------------- -->
+
+
+        <!-- -------------------- Purchase Order Container --------------------- -->
+        <div class="container bottom-content purchaseOrder_Container" style="display: none;">
+            <div class="header-tabs-title pricing-details">Standard Quality Specification (SQS)</div>
+
+            <!-- Table -->
+            <table class="tablestyle1 table table-SQS table-bordered">
+                <thead>
+                    <tr>
+                        <th>Parameters</th>
+                        <th><span id="parameters" class="d-block">Specification</span>(Dropdown Menu)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Color</td>
+                        <td>
+                            <div class="color">-</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Moisture</td>
+                        <td><span class="moisture"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Foreign Matter (FM)</td>
+                        <td><span class="foreign_matters"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Broken Grains</td>
+                        <td><span class="brokenGrain"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Weevil</td>
+                        <td><span class="weevil"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Damaged Kernel(DK)</td>
+                        <td><span class="damaged_kernel">-</span></td>
+                    </tr>
+                    <tr>
+                        <td>Rotten/Shriveled</td>
+                        <td><span class="rotten"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Test weight</td>
+                        <td><span class="test_weight"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Hardness</td>
+                        <td><span class="hardness"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Splits</td>
+                        <td><span class="splits"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Oil Content</td>
+                        <td><span class="oil_content"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Infestation</td>
+                        <td><span class="infestation"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>Grain Size</td>
+                        <td><div class="grain_size">-</div></td>
+                    </tr>
+                    <tr>
+                        <td>Hectoliter Test Weight</td>
+                        <td><span class="hectoliter_weight"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Total Defects</td>
+                        <td class="total_defects">-</td>
+                    </tr>
+                    <tr>
+                        <td>Dockage</td>
+                        <td class="dockage">-</td>
+                    </tr>
+                    <tr>
+                        <td>Ash Content</td>
+                        <td class="ash_content">-</td>
+                    </tr>
+                    <tr>
+                        <td>Acid Insoluble ash</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Volatile</td>
+                        <td class="volatile">-</td>
+                    </tr>
+                    <tr>
+                        <td>Mold % By Weigh</td>
+                        <td class="mold">-</td>
+                    </tr>
+                    <tr>
+                        <td>Drying Process</td>
+                        <td class="drying_process">-</td>
+                    </tr>
+                </tbody>
+            </table>            
+            <!-- Table -->
+
+            <!-- Table -->
+            <div class="header-tabs-title pricing-details">Others:</div>
+
+            <table class="tablestyle1 table table-SQS table-bordered">
+                <thead>
+                    <tr>
+                        <th>Parameters</th>
+                        <th><span id="parameters" class="d-block">Details</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Crop Type:</td>
+                        <td class="crop_type"></td>
+                    </tr>
+                    <tr>
+                        <td>Quality Specs</td>
+                        <td class="quality_specification"></td>
+                    </tr>
+                    <tr>
+                        <td>Offer Type:</td>
+                        <td class="offer_type"></td>
+                    </tr>
+                    <tr>
+                        <td>Crop Quantity:</td>
+                        <td class="crop_quantity"></td>
+                    </tr>
+                    <tr>
+                        <td>Delivery Window:</td>
+                        <td class="delivery_window"></td>
+                    </tr>
+                    <tr>
+                        <td>Buyer Details:</td>
+                        <td class="buyer_details"></td>
+                    </tr>
+                    <tr>
+                        <td>Accepted Date:</td>
+                        <td class="accepted_date"></td>
+                    </tr>
+                    <tr>
+                        <td>Seller Details:</td>
+                        <td class="seller_details"></td>
+                    </tr>
+                </tbody>
+            </table>            
+            <!-- Table -->
+
+
+            <!-- Buttons -->
+            <div class="btn-group theorder-btn-group w-100 gap-4 mt-3">
+                <a class="btn downloadFullSpecification w-100" type="button">Download!</a>
+            </div>
+            <!-- Buttons -->
+
+        </div>
+        <!-- -------------------- Purchase Order Container --------------------- -->
+    </div>
+    <!-- Page content End -->
+
+
+
+
+
+
+
+
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+
+
+
+
+
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="../../assets/js/jquery.js"></script>
+<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../../assets/js/settings.js"></script>
+<script src="../../assets/js/custom.js"></script>
+<script src="../../assets/lib/pulltorefresh.js"></script>
+<script src="../../assets/js/env.js"></script> 
+<script src="../../assets/js/order.js"></script>
+
+<!-- Js PDF -->
+<script src="../../assets/js/jspdf.min.js"></script>
+<!-- Js PDF Auto Table -->
+<script src="../../assets/js/jspdf.plugin.autotable.min.js"></script>
+
+<script src="../../index.js" defer></script>
+<script>
+    $(".stepper").TouchSpin();
+</script>
+<script>
+    // sidemenu();
+    // populateUserDetails();
+    populateOrderSummaryDetails();
+</script>
+
+<script>
+    const switchtab =(switchname)=>{
+        // alert(switchname);
+        $('.price-details, .full-spec, .purchase-order').removeClass('active-Tab');
+
+        if(switchname=="pricingDetails"){
+            $('.fullSpecifications_Container, .purchaseOrder_Container').hide();
+            $('.pricingDetails_Container').show();
+            $('.price-details').addClass('active-Tab');
+        }else if(switchname=="fullSpecification"){
+            $('.pricingDetails_Container, .purchaseOrder_Container').hide();
+            $('.fullSpecifications_Container').show();
+            $('.full-spec').addClass('active-Tab');
+        }else if(switchname=="purchaseOrder"){
+            $('.fullSpecifications_Container, .pricingDetails_Container').hide();
+            $('.purchaseOrder_Container').show();
+            $('.purchase-order').addClass('active-Tab');
+        }
+
+
+    }
+
+
+
+    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
+    var doc = new jsPDF('p','pt','a4','letter'); // create new jsPDF() function
+    var specialElementHandlers = { 
+    '#editor': function(element, renderer) { // this is where the specific content of our PDF will be rendered
+        return true;
+    }
+    };
+
+    // Download Full Specification
+    $('.downloadFullSpecification').click(function() { // upon clicking the downloadFullSpecification button, perform the following function
+        doc.fromHTML(
+            $('.content').html() // take HTML from the .content section
+            , 15 // margin from the left
+            , 15 // margin from the top
+            , { 
+                'width': 170, // max width of content in PDF
+                'elementHandlers': specialElementHandlers // include are handler from above
+            }
+        );
+        doc.save('productquality_specification.pdf'); // save pdf to a file with name content.pdf
+    });
+    // Download Full Specification
+
+
+
+
+    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
+
+</script>
+</body>
+</html>
