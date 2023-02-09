@@ -943,7 +943,7 @@
 /* --------------------------- ORDER SUMMARY PAGE --------------------------- */
 .page-header {
   width: 100%;
-  padding: 14px 30px;
+  padding: 14px 10px;
   background: #262c3f;
 }
 .header-tabs{
@@ -1009,5 +1009,24 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 27px;
+}
+.page-header h1{
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 120%;
+  color: #ffffff;
+  margin: 0px;
+}
+.page-header .waybills .pages {
+  cursor: pointer;
+  margin-right: 6%;
+  text-transform: capitalize;
+  color: #ffffff;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
 }
 /* --------------------------- ORDER SUMMARY PAGE --------------------------- */

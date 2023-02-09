@@ -628,7 +628,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                 }
 
                                 if(row[x].status == "accepted"){
-                                    accept_decline_checkbox = `<span style="color:#30BD6E;" class="fw-bolder">Offer accepted</span>`;
+                                    accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
                                 }else{
@@ -921,7 +921,7 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                 }
 
                                 if(row[x].status == "accepted"){
-                                    accept_decline_checkbox = `<span style="color:#30BD6E;" class="fw-bolder">Offer accepted</span>`;
+                                    accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
                                 }else{
