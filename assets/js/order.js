@@ -67,6 +67,7 @@ window.addEventListener('load', ()=>{
             }else{
                 // alert(response.message);
                 let thedata = response.data;
+                let croprequest = response.crop_request;
                 let rowContent = "";
                 let index;
                 console.log(thedata, "Order data");
@@ -173,6 +174,21 @@ window.addEventListener('load', ()=>{
                 if(JSON.parse(thedata.negotiation.message).qty){
                     $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
                 }else{ $('.crop_quantity').html("-"); }
+                if(JSON.parse(thedata.negotiation.message).qty){
+                    $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
+                }else{ $('.crop_quantity').html("-"); }
+                if(croprequest.delivery_window){
+                    $('.delivery_window').html(croprequest.delivery_window);
+                }else{ $('.delivery_window').html("-"); }
+                if(thedata.buyer.first_name){
+                    $('.buyer_details').html(thedata.buyer.first_name+" "+thedata.buyer.last_name);
+                }else{ $('.buyer_details').html("-"); }
+                if(thedata.negotiation.updated_at){
+                    $('.accepted_date').html(thedata.negotiation.updated_at);
+                }else{ $('.accepted_date').html("-"); }
+                if(thedata.seller.first_name){
+                    $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
+                }else{ $('.seller_details').html("-"); }
              
                     
             }
