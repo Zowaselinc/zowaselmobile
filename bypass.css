@@ -17,4 +17,13 @@
 
 .form-label{
     color: #242828 !important;
+    margin-bottom: 0px !important;
+    margin-top: 7px !important;
+}
+
+.zowaselBlue{
+    background: #262c3f;
+}
+.zowaselGreen{
+    background: #05b050;
 }

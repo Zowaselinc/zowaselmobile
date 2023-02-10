@@ -79,86 +79,179 @@
     
     <!-- Page content  -->
     <div id="main" class="page-content">
-        <div class="page-header">
-            <!--v-if--><!-- for waybill details -->
-            <div class="waybills w-100 d-flex justify-content-between align-items-center">
-                <a class="arrow-left-img"><img class="img-fluid" src="../../logos/ArrowLeft.svg" width="20px"/></a>
-                <h1>Dispatch Section</h1>
-                <div class="pages">1 of 2</div>
+        <!-- -------------------------- DISPATCH SECTION --------------------------- -->
+        <div class="dispactchSection slide slide1">
+            <div class="page-header">
+                <!--v-if--><!-- for waybill details -->
+                <div class="waybills w-100 d-flex justify-content-between align-items-center">
+                    <a class="arrow-left-img"></a>
+                    <h1>Dispatch Section</h1>
+                    <div class="pages">1 of 2</div>
+                </div>
             </div>
+
+
+            <!-- DISPATCH FORM -->
+            <div class="container">
+                <form id="dispatch_form">
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">From (Seller)</label>
+                            <input id="seller_details" required type="text" readonly class="form-control mt-0" aria-describedby="emailHelp" placeholder="Seller Information" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">To (Buyer)</label>
+                            <input id="buyer_details" required type="text" readonly class="form-control mt-0" aria-describedby="emailHelp" placeholder="Buyer Information " />
+                        </div>
+                    </div>
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
+                            <input id="dispatch_date" required type="date" class="form-control mt-0 today_date_picker" aria-describedby="emailHelp" placeholder="Seller Information" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Cosignee</label>
+                            <input id="cosignee" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Cosignee" />
+                        </div>
+                    </div>
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Truck Number</label>
+                            <input id="truck_number" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Truck Number" />
+                        </div>
+                    </div>
+                    <!-- PRODUCT DESCRIPTION AND QUANTITY -->
+                    <div class="inputs-group margin-btm-lg d-none">
+                        <div class="w-100">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Product Description</label>
+                            <textarea id="product_description" required type="hidden" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Product description" height="600"></textarea>
+
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Product Quantity</label>
+                            <textarea id="product_quantity" required type="hidden" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Product quantity" height="600"></textarea>
+
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Product Details</label>
+                            <textarea id="product_details" required type="hidden" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Product quantity" height="600"></textarea>
+                        </div>
+                    </div>
+                    <!-- PRODUCT DESCRIPTION AND QUANTITY -->
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="w-100">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Remarks</label>
+                            <textarea id="remarks" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Remarks" height="600"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+
+
+                    <h6 class="mt-4 formsection_title">DRIVER'S DETAILS</h6>
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Driver's Name</label>
+                            <input id="driver_name" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Drivers Name" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Driving License/ Permit Number</label>
+                            <input id="driver_license" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Driving License/ Permit Number" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
+                            <input id="driver_details_date" required type="date" class="today_date form-control mt-0" aria-describedby="emailHelp" placeholder="Date" />
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+
+
+                    <h6 class="mt-4 formsection_title">SELLER'S DETAILS</h6>
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Seller's Representative</label>
+                            <input id="seller_representative" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Sellers Representative" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Title</label>
+                            <input id="seller_title" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Title" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
+                            <input id="seller_details_date" required type="" class="today_date form-control mt-0" aria-describedby="emailHelp" placeholder="Date" />
+                        </div>
+                    </div>
+                    
+                    <!-- <button class="btn btn-success w-100 mb-4 mt-4" type="button" onclick="gotonextSlide('slide2')">Proceed to receipt section</button> -->
+                    <button class="btn btn-success w-100 mb-4 mt-4" type="submit">Proceed to receipt section</button>
+                </form>   
+            </div>     
+            <!-- DISPATCH FORM -->
         </div>
+        <!-- -------------------------- DISPATCH SECTION --------------------------- -->
 
 
-        <!-- DISPATCH FORM -->
-        <div class="container">
-            <form>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">From</label>
-                        <input id="exampleInputEmail1" type="email" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Seller Information" />
-                    </div>
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">To</label>
-                        <input id="exampleInputEmail1" type="email" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Buyer Information " />
-                    </div>
+
+
+
+
+        <!-- -------------------------- RECEIPT SECTION --------------------------- -->
+        <div class="receiptSection slide slide2" style="display:none;">
+            <div class="page-header">
+                <!--v-if--><!-- for waybill details -->
+                <div class="waybills w-100 d-flex justify-content-between align-items-center">
+                    <a class="arrow-left-img" onclick="gotonextSlide('slide1')"><img class="img-fluid" src="../../logos/ArrowLeft.svg" width="20px"/></a>
+                    <h1>Receipt Section</h1>
+                    <div class="pages">2 of 2</div>
                 </div>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
-                        <input id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Seller Information" />
+            </div>
+
+
+            <!-- RECEIPT FORM -->
+            <div class="container">
+                <form id="receipt_form">
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="w-100">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Remarks</label>
+                            <textarea id="receipt_remark" type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Remarks" height="600"></textarea>
+                        </div>
                     </div>
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Cosignee</label>
-                        <input id="exampleInputEmail1" type="email" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Cosignee" />
+                    <div class="mb-4"></div>
+
+
+                    <h6 class="mt-4 formsection_title">SELLER'S DETAILS</h6>
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-4"><h6>Sellers Representative</h6></label>
+                            <input id="receipt_seller_rep" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Sellers Representative" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Title</label>
+                            <input id="receipt_seller_title" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Title" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
+                            <input id="receipt_seller_rep_currentdate" readonly required type="date" class="form-control mt-0 today_date" aria-describedby="emailHelp" placeholder="Date" />
+                        </div>
                     </div>
-                </div>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Truck Number</label>
-                        <input id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Truck Number" />
+                    <div class="inputs-group margin-btm-lg">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0"><h6>Received By</h6></label>
+                            <input id="receipt_receiver" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Received By" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Title</label>
+                            <input id="receipt_receiver_title" required type="text" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Title" />
+                        </div>
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
+                            <input id="receipt_receiver_currentdate" readonly required type="date" class="form-control mt-0 today_date" aria-describedby="emailHelp" placeholder="Date" />
+                        </div>
                     </div>
-                </div>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="w-100">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Remarks</label>
-                        <textarea id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Remarks" height="600"></textarea>
-                    </div>
-                </div>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Drivers Name</label>
-                        <input id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Drivers Name" />
-                    </div>
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Sellers Representative</label>
-                        <input id="exampleInputEmail1" type="email" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Sellers Representative" />
-                    </div>
-                </div>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Driving License/ Permit Number</label>
-                        <input id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Driving License/ Permit Number" />
-                    </div>
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Title</label>
-                        <input id="exampleInputEmail1" type="email" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Title" />
-                    </div>
-                </div>
-                <div class="inputs-group margin-btm-lg">
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
-                        <input id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Date" />
-                    </div>
-                    <div class="">
-                        <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Date</label>
-                        <input id="exampleInputEmail1" type="" class="form-control mt-0" aria-describedby="emailHelp" placeholder="Date" />
-                    </div>
-                </div>
-                <button class="btn table-btn w-100 mb-4" type="button">Proceed to receipt section</button>
-            </form>   
-        </div>     
-        <!-- DISPATCH FORM -->
-        
+                    <button class="btn table-btn w-100 btn-1 zowaselBlue text-white mt-4" type="submit">
+                        <span>Upload waybill document</span><img class="ps-2" src="../../logos/cloud.svg" alt="cloud" />
+                    </button>
+                    <button class="btn table-btn w-100 mb-4 zowaselGreen text-white mt-4" type="button">Generate waybill document</button>
+                </form>       
+            </div>     
+            <!-- RECEIPT FORM -->
+        </div>
+        <!-- -------------------------- RECEIPT SECTION --------------------------- -->
 
      
 
@@ -205,6 +298,7 @@
 <script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../../assets/js/settings.js"></script>
 <script src="../../assets/js/custom.js"></script>
+<script src="../../assets/js/modal.js"></script>
 <script src="../../assets/lib/pulltorefresh.js"></script>
 <script src="../../assets/js/env.js"></script> 
 <script src="../../assets/js/order.js"></script>
@@ -222,25 +316,21 @@
     // sidemenu();
     // populateUserDetails();
     populateOrderSummaryDetails();
+    // Call this function if the second form slide ie receipt are all fieled correctly
+    // waybillDetailsPage();
+    // Call this function if the second form slide ie receipt are all fieled correctly
 </script>
 
 <script>
-    const switchtab =(switchname)=>{
+    const gotonextSlide =(switchname)=>{
         // alert(switchname);
-        $('.price-details, .full-spec, .purchase-order').removeClass('active-Tab');
+        $('.slide').hide();
 
-        if(switchname=="pricingDetails"){
-            $('.fullSpecifications_Container, .purchaseOrder_Container').hide();
-            $('.pricingDetails_Container').show();
-            $('.price-details').addClass('active-Tab');
-        }else if(switchname=="fullSpecification"){
-            $('.pricingDetails_Container, .purchaseOrder_Container').hide();
-            $('.fullSpecifications_Container').show();
-            $('.full-spec').addClass('active-Tab');
-        }else if(switchname=="purchaseOrder"){
-            $('.fullSpecifications_Container, .pricingDetails_Container').hide();
-            $('.purchaseOrder_Container').show();
-            $('.purchase-order').addClass('active-Tab');
+        if(switchname){
+            $('.'+switchname+'').show();
+            location.href="#";
+        }else {
+            consle.log("No slide name found");
         }
 
 
@@ -270,12 +360,35 @@
         doc.save('productquality_specification.pdf'); // save pdf to a file with name content.pdf
     });
     // Download Full Specification
-
-
-
-
     // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
 
+
+    var receiver_currentdate = document.getElementById('receiver_currentdate');
+    var seller_rep_currentdate = document.getElementById('seller_rep_currentdate');
+    // receiver_currentdate.value = new Date().toJSON().split('T')[0];
+    // seller_rep_currentdate.value = new Date().toJSON().split('T')[0];
+    
+    var today_date = document.getElementsByClassName('today_date');
+    for(let i=0; i<today_date.length; i++){
+        today_date[i].value = new Date().toJSON().split('T')[0];
+    }
+
+
+    let dispatch_form = document.getElementById('dispatch_form');
+    dispatch_form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        gotonextSlide('slide2');
+    })
+
+    let receipt_form = document.getElementById('receipt_form');
+    receipt_form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        // alert("dvfd");
+        waybillDetailsPage();
+
+    })
 </script>
 </body>
 </html>

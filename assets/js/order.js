@@ -33,6 +33,12 @@ window.addEventListener('load', ()=>{
 
 
 
+const today = new Date().toISOString().split("T")[0];
+var date = $('.today_date_picker');
+date.attr('min', today);
+
+
+
 /************************************************************************************
  * /* -------------------- // POPULATE ORDER DETAILS ------------------- *
  ************************************************************************************/
@@ -189,6 +195,27 @@ window.addEventListener('load', ()=>{
                 if(thedata.seller.first_name){
                     $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
                 }else{ $('.seller_details').html("-"); }
+
+
+
+                /********************************
+                 * FOR WAYBILLDETAILS.HTML PAGE *
+                 ********************************/
+                $('#seller_details').val(thedata.seller.first_name+" "+thedata.seller.last_name);
+                $('#buyer_details').val(thedata.buyer.first_name+" "+thedata.buyer.last_name);
+                // JSON.parse(thedata.products)[0].specification.color
+
+                // Pick up the last item in the product array BCOS the last one is the one agreed on
+                let parsedProduct = JSON.parse(thedata.products);
+                let thelastproduct = parsedProduct.at(-1);
+                console.log(thelastproduct, "thelastproduct");
+
+                $('#product_description').val(thelastproduct.description);
+                $('#product_quantity').val(thelastproduct.specification.qty);
+                $('#product_details').val(thedata.products);
+                /********************************
+                 * FOR WAYBILLDETAILS.HTML PAGE *
+                 ********************************/
              
                     
             }
@@ -206,4 +233,100 @@ window.addEventListener('load', ()=>{
 }
 /************************************************************************************
  * /* -------------------- // POPULATE ORDER DETAILS ------------------- *
+ ************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+/************************************************************************************
+ * /* ------------------------- UPDATE WAYBILL DETAILS ------------------------- 
+ ************************************************************************************/
+const waybillDetailsPage =()=>{
+
+    let order_hash = localStorage.getItem('orderHash');
+
+    startPageLoader();
+    // console.log($('#product_details').val());
+
+    $.ajax({
+        url: `${localBaseUrl}/order/${order_hash}/waybilldetails`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "waybill_details": {
+                "dispatch_section": {
+                    "from": $('#seller_details').val(),
+                    "to": $('#buyer_details').val(),
+                    "date": $('#dispatch_date').val(),
+                    "cosignee": $('#cosignee').val(),
+                    "truck_number": $('#truck_number').val(),
+                    "description": $('#product_description').val(),
+                    "quantity": $('#product_quantity').val(),
+                    "remarks": $('#remarks').val(),
+                    "drivers_data": {
+                        "drivers_name": $('#driver_name').val(),
+                        "driving_license": $('#driver_license').val(),
+                        "date": $('#driver_details_date').val()
+                    },
+                    "sellers_data": {
+                        "sellers_representative": $('#seller_representative').val(),
+                        "title": $('#seller_title').val(),
+                        "date": $('#seller_details_date').val()
+                    },
+                    "items": $('#product_details').val()
+                },
+                "receipt_section": {
+                    "remarks": $('#receipt_remark').val(),
+                    "sellers_data": {
+                        "sellers_representative": $('#receipt_seller_rep').val(),
+                        "title": $('#receipt_seller_title').val(),
+                        "date": $('#receipt_seller_rep_currentdate').val()
+                    },
+                    "recipient_data": {
+                        "received_by": $('#receipt_receiver').val(),
+                        "title": $('#receipt_receiver_title').val(),
+                        "date": $('#receipt_receiver_currentdate').val()
+                    },
+                    "items": $('#product_details').val()
+                }
+            }
+        }),
+        success: function(response) { 
+            EndPageLoader();
+            console.log(response);
+            if(response.error === true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    location.assign('ordertracking.html');
+                },2500)      
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/************************************************************************************
+ * /* ------------------------- UPDATE WAYBILL DETAILS ------------------------- 
  ************************************************************************************/
