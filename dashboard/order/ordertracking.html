@@ -346,43 +346,25 @@
 
 
 
-    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
-    //Global Variable Declaration
-    var base64Img = null;
-    margins = {
-        top: 70,
-        bottom: 40,
-        left: 30,
-        width: 550
-    };
-
-    /* append other function below: */
-
+    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- --
     function downloadwaybillDocument(){
         const waybillReceipt = document.getElementById("waybillReceipt");
         waybillReceipt.style.marginTop = "-100px";
         console.log(waybillReceipt);
         console.log(window);
         var opt = {
-        margin:       [0,1],
+        margin:       [1,1],
         filename:     'myfile.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { dpi: 192, letterRendering:true},
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        format: [10000, 60]
+        // html2canvas:  { scale:1, scrollY:0 },
+        html2canvas:  { scale: 1, scrollY:90, logging: true, dpi: 192, letterRendering: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+        // format: [10000, 60]
         };
         html2pdf().from(waybillReceipt).set(opt).save();
         // .from() -> .toContainer() -> .toCanvas() -> .toImg() -> .toPdf() -> .save()
         
     };
-
-// function downloadwaybillDocument(){
-//     doc.fromHTML($('#waybillReceipt').html(), 15, 15, {
-//         'width': 170,
-//             'elementHandlers': specialElementHandlers
-//     });
-//     doc.save('sample-file.pdf');
-// };
 
 
 
