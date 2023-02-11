@@ -1041,3 +1041,144 @@
   align-self: center;
 }
 /* --------------------------- ORDER SUMMARY PAGE --------------------------- */
+
+
+
+
+
+/* -------------------------- TRACKING DETAILS PAGE ------------------------- */
+.tracking-container-wrapper .progress-bar-wrapper {
+  gap: 15px;
+}
+.tracking-container-wrapper .progress-bar-wrapper .progress-outer {
+  background: #b5b4b9;
+}
+.tracking-container-wrapper .progress-bar-wrapper .progress {
+  height: 0.4rem;
+}
+.progress-bar-wrapper .progress-outer .progress-inner {
+  background: #05b050;
+}
+.progress-bar-wrapper .circle {
+  justify-content: space-around;
+  top: -8px;
+}
+.progress-bar-wrapper .circle .circle-main {
+  width: 20px;
+  height: 20px;
+  background: #e6f7ee;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.progress-bar-wrapper .circle .circle-main span {
+  width: 70%;
+  height: 70%;
+  background: #05b050;
+  border-radius: 50%;
+}
+.progress-bar-wrapper .progress-level-container {
+  /* display: flex; */
+  justify-content: space-around;
+}
+.progress-bar-wrapper .progress-level-container .levels {
+  width: 45%;
+}
+.progress-bar-wrapper .progress-level-container .levels h3 {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14.5px;
+  line-height: 27px;
+  color: rgba(45, 55, 72, 0.6);
+  text-align: center;
+}
+.progress-bar-wrapper .progress-level-container .levels p {
+  font-family: "Maven Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  color: rgba(45, 55, 72, 0.6);
+}
+
+.tracking-container-wrapper .underlined-title{
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: center;
+  color: #000000;
+  margin: 50px auto 0;
+  padding: 7px 10px;
+  border-bottom: 2px solid;
+  width: 205px;
+  height: 49px;
+}
+.tracking-container-wrapper a.payment-status {
+  border-radius: 7px;
+  margin-top: 50px;
+  background: #fde296;
+  letter-spacing: 0.01em;
+  color: #0a0d13;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+}
+.tracking-container-wrapper a.wallet {
+  color: #ffffff;
+  background: #05b050;
+}
+
+/* RECEIPT SECTION */
+.receipt-wrapper{
+  color: rgba(0, 0, 0, 0.849);
+  background-color: white;
+}
+.receipt-wrapper .logo-wrapper {
+  width: 100px;
+  margin-left: 25px;
+  margin-bottom: 15px;
+}
+.receipt-wrapper address {
+  margin-left: 25px;
+  margin-bottom: 15px;
+}
+.receipt-wrapper address p {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+.receipt-wrapper .form-wrapper{
+  background-color: white;
+}
+.receipt-wrapper .row {
+  border: 0.5px solid rgba(0, 0, 0, 0.18);
+}
+.receipt-wrapper .row .row-item-1 {
+  height: 25px;
+  font-weight: bold;
+  font-size: 12px;
+}
+.receipt-wrapper .row .col-item-1{
+  font-size: 12.2px;
+  text-align: left;
+  height: auto;
+}
+.receipt-wrapper .row .col-item-2{
+  font-size: 12.2px;
+  text-align: left;
+  height: auto;
+}
+.receipt-wrapper .row div {
+  border: 0.6px solid rgba(0, 0, 0, 0.18);
+  height: auto;
+}
+.row-item-general{
+  overflow-wrap: break-word;
+}
+.waybilldata{
+  display: block;
+}
+/* -------------------------- TRACKING DETAILS PAGE ------------------------- */

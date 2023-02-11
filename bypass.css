@@ -27,3 +27,12 @@
 .zowaselGreen{
     background: #05b050;
 }
+.boldtitle{
+    font-style: normal;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 32px;
+    letter-spacing: 0.01em;
+    color: #0a0d13;
+    margin-bottom: 60px;
+}

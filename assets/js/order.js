@@ -216,6 +216,52 @@ date.attr('min', today);
                 /********************************
                  * FOR WAYBILLDETAILS.HTML PAGE *
                  ********************************/
+
+
+
+                /********************************
+                 * FOR ORDERTRACKING.HTML PAGE *
+                 ********************************/
+                console.log(JSON.parse(thedata.tracking_details), "tracking details");
+                $('.tracking_pickup_location').html(JSON.parse(thedata.tracking_details).pickup_location);
+                $('.tracking_delivered_location').html(JSON.parse(thedata.tracking_details).delivery_location);
+                $('.order_hash').html(localStorage.getItem('orderHash'));
+
+
+                let waybill_details = JSON.parse(thedata.waybill_details);
+                console.log("Waybill_Details", waybill_details);
+                $('.w_from').html(waybill_details.dispatch_section.from);
+                $('.w_to').html(waybill_details.dispatch_section.to);
+                $('.w_date').html(waybill_details.dispatch_section.date);
+                $('.w_cosignee').html(waybill_details.dispatch_section.cosignee);
+                $('.w_truckno').html(waybill_details.dispatch_section.truck_number);
+                // 
+                if(thelastproduct.specification.color){
+                    $('.w_crop1').html(thelastproduct.subcategory.name+" - "+thelastproduct.specification.color);
+                }else{
+                    $('.w_crop1').html(thelastproduct.subcategory.name);
+                }
+                $('.w_crop1qty').html(thelastproduct.specification.qty);
+                // 
+                $('.w_remark').html(waybill_details.dispatch_section.remarks);
+                $('.w_drivername').html(waybill_details.dispatch_section.drivers_data.drivers_name);
+                $('.w_drivingicense').html("#"+waybill_details.dispatch_section.drivers_data.driving_license);
+                $('.w_sellerRepname').html(waybill_details.dispatch_section.sellers_data.sellers_representative);
+                $('.w_sellertitle').html(waybill_details.dispatch_section.sellers_data.title);
+                $('.w_todaydate').html(new Date().toJSON().split('T')[0]);
+                // 
+                $('.w_receiptremark').html(waybill_details.receipt_section.remarks);
+                $('.w_receipt_sellerRep').html(waybill_details.receipt_section.sellers_data.sellers_representative);
+                $('.w_receipt_receiveBy').html(waybill_details.receipt_section.recipient_data.received_by);
+                $('.w_receipt_sellerTitle').html(waybill_details.receipt_section.sellers_data.title);
+                $('.w_receipt_receiverTitle').html(waybill_details.receipt_section.recipient_data.title);
+
+
+
+
+                 /********************************
+                  * FOR ORDERTRACKING.HTML PAGE *
+                  ********************************/
              
                     
             }
@@ -256,7 +302,7 @@ const waybillDetailsPage =()=>{
     // console.log($('#product_details').val());
 
     $.ajax({
-        url: `${localBaseUrl}/order/${order_hash}/waybilldetails`,
+        url: `${liveMobileUrl}/order/${order_hash}/waybilldetails`,
         type: "POST",
         "timeout": 25000,
         "headers": {
