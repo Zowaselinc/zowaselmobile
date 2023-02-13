@@ -29,13 +29,13 @@
     <link rel="stylesheet" href="../../assets/vendor/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../../bypass.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> -->
-
 </head>   
 <body class="bg-white">
 <div class="page-wraper">
@@ -109,7 +109,7 @@
 
             <!-- For Corporate View -->
             <!-- Buttons -->
-            <div class="btn-group theorder-btn-group w-100 gap-4">
+            <div class="btn-group theorder-btn-group w-100 gap-4 merchantSideOnly" style="display:none;">
                 <a href="javascript:void(0)" class="btn" type="button" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Overage Policy</a>
                 <a href="javascript:void(0)" class="btn" type="button" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Rejection Policy</a>
             </div>
@@ -165,7 +165,6 @@
             <!-- Rejection Policy Modal -->
             
             <!-- PRICING DETAILS -->
-
           
         </div>  
         <!-- ---------------------- Pricing Details Container ---------------------- -->
@@ -439,8 +438,18 @@
 
 
             <!-- Buttons -->
-            <div class="btn-group w-100 gap-4 mt-3">
-                <a href="waybilldetails.html" class="btn btn-success w-100" type="button">Proceed to Waybill</a>
+            <div class="btn-group w-100 gap-4 mt-3 waybilldetails_button" style="display:none;">
+                <a href="waybilldetails.html" class="btn zowaselGreen text-white w-100" type="button">Proceed to Waybill</a>
+            </div>
+            
+            <div class="w-100 gap-4 mt-3 ordertracking_button" style="display:none;">
+                <span class="text-warning text-bold mb-2 d-block"><i>Waybill details has been updated</i></span>
+                <a href="ordertracking.html" class="btn zowaselGreen text-white w-100" type="button">Proceed to Order Tracking</a>
+            </div>
+
+            <div class="w-100 gap-4 mt-3 corporateOrderPaymentBtn_Section" style="display:none;">
+                <span class="text-warning text-bold mb-2 corporateNo_waybillInfo" style="display:none;">Please wait for merchant to fill the waybill information. <br/> You can check back after some time so that you can proceed with your payment.<br/></span>
+                <a href="orderpayment.html" class="btn corporateOrderPayment_button zowaselGreen text-white w-100" type="button" style="display:none;">Proceed to payment</a>
             </div>
             <!-- Buttons -->
 
@@ -507,6 +516,19 @@
 </script>
 
 <script>
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+
+    if(usertype == "corporate"){
+        $('.merchantSideOnly').hide();
+    }else{
+        $('.merchantSideOnly').show()
+    }
+
+
     const switchtab =(switchname)=>{
         // alert(switchname);
         $('.price-details, .full-spec, .purchase-order').removeClass('active-Tab');

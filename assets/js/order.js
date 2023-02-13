@@ -77,8 +77,8 @@ date.attr('min', today);
                 let rowContent = "";
                 let index;
                 console.log(thedata, "Order data");
-                console.log(JSON.parse(thedata.negotiation.message));
-                console.log(JSON.parse(thedata.products), "Products");
+                // console.log(JSON.parse(thedata.negotiation.message));
+                // console.log(JSON.parse(thedata.products), "Products");
 
 
                 // PRICING DETAILS
@@ -196,6 +196,37 @@ date.attr('min', today);
                     $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
                 }else{ $('.seller_details').html("-"); }
 
+                // First Check if Corporate has made any payment tracking details has be updated to this order
+                // THEN Check if tracking details has be updated to this order
+                if(usertype == "corporate"){
+                    $('.corporateOrderPaymentBtn_Section').show();
+                    if(!thedata.waybill_details){
+                        $('.corporateNo_waybillInfo').show();
+                    }else {
+                        $('.corporateNo_waybillInfo').hide();
+                        
+                        if(!thedata.amount_paid){
+                            $('.corporateOrderPayment_button').show();
+                        }else if(thedata.tracking_details){
+                            $('.ordertracking_button').show();
+                        }else{
+                            $('.waybilldetails_button').show();
+                        }
+
+                    }
+
+                }else{
+                    if(thedata.tracking_details){
+                        $('.ordertracking_button').show();
+                    }
+
+                    if(!thedata.waybill_details){
+                        $('.waybilldetails_button').show();
+                        $('.ordertracking_button').hide();
+                    }
+                }
+
+
 
 
                 /********************************
@@ -208,7 +239,7 @@ date.attr('min', today);
                 // Pick up the last item in the product array BCOS the last one is the one agreed on
                 let parsedProduct = JSON.parse(thedata.products);
                 let thelastproduct = parsedProduct.at(-1);
-                console.log(thelastproduct, "thelastproduct");
+                // console.log(thelastproduct, "thelastproduct");
 
                 $('#product_description').val(thelastproduct.description);
                 $('#product_quantity').val(thelastproduct.specification.qty);
@@ -222,19 +253,32 @@ date.attr('min', today);
                 /********************************
                  * FOR ORDERTRACKING.HTML PAGE *
                  ********************************/
-                console.log(JSON.parse(thedata.tracking_details), "tracking details");
-                $('.tracking_pickup_location').html(JSON.parse(thedata.tracking_details).pickup_location);
-                $('.tracking_delivered_location').html(JSON.parse(thedata.tracking_details).delivery_location);
-                $('.order_hash').html(localStorage.getItem('orderHash'));
+                let paymentStatus;
+                if(thedata.payment_status.toLowerCase() == "paid"){
+                    paymentStatus = "Paid";
+                }else if(thedata.payment_status.toLowerCase() == "unpaid"){
+                    paymentStatus = "Pending";
+                }else{
+                    paymentStatus = "NILL";
+                }
+                $('.order_payment_status').html(paymentStatus);
+                // console.log(JSON.parse(thedata.tracking_details), "tracking details");
+                if(thedata.tracking_details){
+                    $('.tracking_pickup_location').html(JSON.parse(thedata.tracking_details).pickup_location);
+                    $('.tracking_delivered_location').html(JSON.parse(thedata.tracking_details).delivery_location);
+                    $('.order_hash').html(localStorage.getItem('orderHash'));
+                }
 
 
                 let waybill_details = JSON.parse(thedata.waybill_details);
-                console.log("Waybill_Details", waybill_details);
-                $('.w_from').html(waybill_details.dispatch_section.from);
-                $('.w_to').html(waybill_details.dispatch_section.to);
-                $('.w_date').html(waybill_details.dispatch_section.date);
-                $('.w_cosignee').html(waybill_details.dispatch_section.cosignee);
-                $('.w_truckno').html(waybill_details.dispatch_section.truck_number);
+                // console.log("Waybill_Details", waybill_details);
+                if(waybill_details){
+                    $('.w_from').html(waybill_details.dispatch_section.from);
+                    $('.w_to').html(waybill_details.dispatch_section.to);
+                    $('.w_date').html(waybill_details.dispatch_section.date);
+                    $('.w_cosignee').html(waybill_details.dispatch_section.cosignee);
+                    $('.w_truckno').html(waybill_details.dispatch_section.truck_number);
+                } 
                 // 
                 if(thelastproduct.specification.color){
                     $('.w_crop1').html(thelastproduct.subcategory.name+" - "+thelastproduct.specification.color);
@@ -243,25 +287,115 @@ date.attr('min', today);
                 }
                 $('.w_crop1qty').html(thelastproduct.specification.qty);
                 // 
-                $('.w_remark').html(waybill_details.dispatch_section.remarks);
-                $('.w_drivername').html(waybill_details.dispatch_section.drivers_data.drivers_name);
-                $('.w_drivingicense').html("#"+waybill_details.dispatch_section.drivers_data.driving_license);
-                $('.w_sellerRepname').html(waybill_details.dispatch_section.sellers_data.sellers_representative);
-                $('.w_sellertitle').html(waybill_details.dispatch_section.sellers_data.title);
-                $('.w_todaydate').html(new Date().toJSON().split('T')[0]);
+                if(waybill_details){
+                    $('.w_remark').html(waybill_details.dispatch_section.remarks);
+                    $('.w_drivername').html(waybill_details.dispatch_section.drivers_data.drivers_name);
+                    $('.w_drivingicense').html("#"+waybill_details.dispatch_section.drivers_data.driving_license);
+                    $('.w_sellerRepname').html(waybill_details.dispatch_section.sellers_data.sellers_representative);
+                    $('.w_sellertitle').html(waybill_details.dispatch_section.sellers_data.title);
+                    $('.w_todaydate').html(new Date().toJSON().split('T')[0]);
+                    // 
+                    $('.w_receiptremark').html(waybill_details.receipt_section.remarks);
+                    $('.w_receipt_sellerRep').html(waybill_details.receipt_section.sellers_data.sellers_representative);
+                    $('.w_receipt_receiveBy').html(waybill_details.receipt_section.recipient_data.received_by);
+                    $('.w_receipt_sellerTitle').html(waybill_details.receipt_section.sellers_data.title);
+                    $('.w_receipt_receiverTitle').html(waybill_details.receipt_section.recipient_data.title);
+                }
                 // 
-                $('.w_receiptremark').html(waybill_details.receipt_section.remarks);
-                $('.w_receipt_sellerRep').html(waybill_details.receipt_section.sellers_data.sellers_representative);
-                $('.w_receipt_receiveBy').html(waybill_details.receipt_section.recipient_data.received_by);
-                $('.w_receipt_sellerTitle').html(waybill_details.receipt_section.sellers_data.title);
-                $('.w_receipt_receiverTitle').html(waybill_details.receipt_section.recipient_data.title);
+                /********************************
+                 * FOR ORDERTRACKING.HTML PAGE *
+                 ********************************/
 
 
 
+                /***************************************
+                 * FOR UPDATESHIPPINGDETAILS.HTML PAGE *
+                 ***************************************/
+                if(thedata.tracking_details){
+                    $('.pickup_location').val(JSON.parse(thedata.tracking_details).pickup_location);
+                    $('.delivery_location').val(JSON.parse(thedata.tracking_details).delivery_location);
+                    let transit_info = JSON.parse(thedata.tracking_details).transit;
+                    $('.oldtransit_information').val(JSON.stringify(transit_info));
 
-                 /********************************
-                  * FOR ORDERTRACKING.HTML PAGE *
-                  ********************************/
+
+                    if(thedata.tracking_details !== null){
+                        let trackingdata = JSON.parse(thedata.tracking_details);
+                        let rowContent, rowContent2 = "";
+                        let serialnumber, index;
+                        // console.log(trackingdata, "trackingdata in JSON");
+                        let transit = trackingdata.transit;
+                        console.log(transit, "transit");
+                        if(transit.length > 0){
+                            for (let i = 0; i < transit.length; i++) {
+                            // console.log('Hello World', + i);
+                                let row = transit[i];
+                                serialnumber= i+1;
+                                index = i;
+
+                                rowContent += `
+                                <tr>
+                                    <td id='transit_pickuplocation${serialnumber}' style="display:none;">${trackingdata.pickup_location}</td>
+                                    <td id='transit_deliverylocation${serialnumber}' style="display:none;">${trackingdata.delivery_location}</td>
+                                    <td id='fulltransit_info${serialnumber}' style="display:none;">${JSON.stringify(transit)}</td>
+                                    <td id='transit${serialnumber}' style="display:none;">${JSON.stringify(row)}</td>
+                                    <th scope="row">${row.date}</th>
+                                    <td>${order_hash}</td>
+                                    <td>${row.location}</td>
+                                    <td>
+                                        <span style="background:#edbd71;border-radius:7px;padding:4px 10px;font-weight:700;font-size:14px;display:block">
+                                            ${row.status}
+                                        </span>
+                                    </td>
+                                    <td><button class="delete" onclick="deleteTrackingData(${serialnumber}, ${index})">Delete</button></td>
+                                </tr>
+                                `;   
+
+
+                                rowContent2 += `
+                                <tr>
+                                    <th scope="row">${row.date}</th>
+                                    <td>${row.location}</td>
+                                    <td>
+                                        <span style="background:#edbd71;border-radius:7px;padding:4px 10px;font-weight:700;font-size:14px;display:block">
+                                            ${row.status}
+                                        </span>
+                                    </td>
+                                </tr>
+                                `;   
+                            }
+                            $('#p_shippingUpdates').html(rowContent);
+                            $('#p_shippingUpdates2').html(rowContent2);
+
+                            // Got the transit array from fetched data
+                            // let thefoundtrackingObj = transit.find((animal) => animal.status.toLowerCase() === "transit");
+                            // console.log(thefoundtrackingObj);
+
+                            //returns the first found object. //returns undefined, as not found
+                            let foundArrivedObj = transit.find((x) => x.status.toLowerCase() === "arrived");
+                            let foundTransitObj = transit.find((x) => x.status.toLowerCase() === "transit");
+                            let foundShippedObj = transit.find((x) => x.status.toLowerCase() === "shipped");
+
+                            // console.log(foundArrivedObj);
+
+                            $('.tracker').removeClass('is-active');
+                            if(foundArrivedObj){
+                                $('.delivered_tracker').addClass('is-active');
+                            }else if(foundTransitObj){
+                                $('.transit_tracker').addClass('is-active');
+                            }else if(foundShippedObj){
+                                $('.shipped_tracker').addClass('is-active');
+                            }
+                
+                
+                
+                        }else{
+                            $('#p_shippingUpdates').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No transit information yet.</h5></td></tr>");
+                        }
+                    }
+                }
+                /***************************************
+                 * FOR UPDATESHIPPINGDETAILS.HTML PAGE *
+                 ***************************************/
              
                     
             }
@@ -284,6 +418,76 @@ date.attr('min', today);
 
 
 
+
+
+
+/************************************************************************************
+ * /* ------------------------- DELETE TRACKING DETAILS ------------------------ *
+ ************************************************************************************/
+const deleteTrackingData =(sn, index)=>{
+    // console.log(sn, "Single Row sn");
+    let transit_obj = $('#transit'+sn).html();
+    transit_obj = JSON.parse(transit_obj);
+    // console.log(transit_obj, "Single transit_obj");
+
+    let fulltransit_info = $('#fulltransit_info'+sn).html();
+    fulltransit_info = JSON.parse(fulltransit_info);
+    // console.log(fulltransit_info, "All fulltransit_info");
+
+    // console.log(index, "index");
+    // let selectd = fulltransit_info[index];
+    let removeselectd = fulltransit_info.splice(index,1);
+    /*console.log(removeselectd);
+    console.log(fulltransit_info);*/
+    let order_hash = localStorage.getItem('orderHash');
+
+    startPageLoader();
+    // console.log($('#product_details').val());
+
+    $.ajax({
+        url: `${liveMobileUrl}/order/${order_hash}/trackingdetails`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "tracking_details": {
+                "pickup_location": $('#transit_pickuplocation'+sn).text(),
+                "transit": fulltransit_info,
+                "delivery_location": $('#transit_deliverylocation'+sn).text()
+            }
+        }),
+        success: function(response) { 
+            EndPageLoader();
+            // console.log(response);
+            if(response.error === true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    populateOrderSummaryDetails();
+                    $('.mymodal').hide();
+                },2500)      
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/************************************************************************************
+ * /* ------------------------- DELETE TRACKING DETAILS ------------------------ *
+ ************************************************************************************/
 
 
 
@@ -375,4 +579,102 @@ const waybillDetailsPage =()=>{
 }
 /************************************************************************************
  * /* ------------------------- UPDATE WAYBILL DETAILS ------------------------- 
+ ************************************************************************************/
+
+
+
+
+
+
+
+
+
+/************************************************************************************
+ * /* ------------------------- UPDATE SHIPPING DETAILS ------------------------ *
+ ************************************************************************************/
+ const updateshippingDetails =()=>{
+    let order_hash = localStorage.getItem('orderHash');
+
+    let transit_arr = $('#oldtransit_information').val();
+    transit_arr = JSON.parse(transit_arr);
+    
+
+    // // returns the first found object. //returns undefined, as not found
+    // let foundArrivedObj = transit_arr.find((x) => x.status.toLowerCase() === "arrived");
+    // let foundTransitObj = transit_arr.find((x) => x.status.toLowerCase() === "transit");
+    // let foundShippedObj = transit_arr.find((x) => x.status.toLowerCase() === "shipped");
+
+    // // console.log(foundShippedObj,"fref");
+    // let selectedStatus = $('#status').val();
+    // let checkstatus;
+
+    // if(selectedStatus.toLowerCase() == "transit"){
+    //     if(foundShippedObj){
+    //         checkstatus = true;
+    //     }else { 
+    //         checkstatus = false; 
+    //         basicmodal("", "Item has not been shipped yet");
+    //     }
+    // }
+
+
+    // You can use with Spread Operator (...) like this to add object to the array of objects:
+    // arr = [...arr,{num: 3, char: "c"}];
+    transit_arr = [...transit_arr,
+        {
+            "date": $('#update_date').val(), "location": $('#location').val(), "status": $('#status').val()
+        },
+    ];
+    //...arr --> spread operator
+    
+    // console.log(transit_arr);
+
+
+    startPageLoader();
+    // console.log($('#product_details').val());
+
+    $.ajax({
+        url: `${liveMobileUrl}/order/${order_hash}/trackingdetails`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "tracking_details": {
+                "pickup_location": $('#pickup_location').val(),
+                "transit": transit_arr,
+                "delivery_location": $('#delivery_location').val()
+            }
+        }),
+        success: function(response) { 
+            EndPageLoader();
+            console.log(response);
+            if(response.error === true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    populateOrderSummaryDetails();
+                    $('.mymodal').hide();
+                    $('#location,#status').val('');
+                },2500)      
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/************************************************************************************
+ * /* ------------------------- UPDATE SHIPPING DETAILS ------------------------ *
  ************************************************************************************/

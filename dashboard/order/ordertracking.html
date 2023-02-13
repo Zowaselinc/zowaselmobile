@@ -83,49 +83,67 @@
         <div class="container">
             <!-- --------------------------- ORDER TRACKING ---------------------------- -->
             <div class="tracking-container-wrapper">
-                <h4 class="boldtitle">Order Number: #<span class="order_hash"></span><!--ORDEA9C780E40FD36F8--></h4>
+                <h4 class="boldtitle mb-5">Order Number: #<span class="order_hash"></span><!--ORDEA9C780E40FD36F8--></h4>
                 <!-- progress bar -->
-                <div class="progress-bar-wrapper d-flex flex-column w-100 position-relative">
+                <!-- <div class="progress-bar-wrapper d-flex flex-column w-100 position-relative">
                     <div class="progress progress-outer"><div class="progress progress-inner" style="width: 23.4277%;"></div></div>
                     <div class="circle d-flex w-100 position-absolute">
                         <div class="circle-1 circle-main"><span></span></div>
                         <div class="circle-4 circle-main"><span></span></div>
                     </div>
-                    <!--levels-->
+                   
                     <div class="progress-level-container d-flex">
-                        <!-- levels -->
+                        
                         <div class="levels level-1">
                             <h3>Pickup location</h3>
-                            <p class="tracking_pickup_location"><!--2 Wasrehouse street, Lagos--></p>
+                            <p class="tracking_pickup_location"></p>
                         </div>
                         <div class="levels level-3">
                             <h3>Delivered</h3>
                             <p class="tracking_delivered_location"></p>
                         </div>
                     </div>
+                </div> -->
+
+                <div class="mb-4">
+                    <ul class="list-unstyled multi-steps">
+                      <li class="tracker pickup_tracker is-active">
+                        Pickup location
+                        <p class="tracking_pickup_location text-dark"></p>
+                      </li>
+                      <li class="tracker shipped_tracker">Shipped</li>
+                      <li class="tracker transit_tracker">Transit</li>
+                      <li class="tracker delivered_tracker">Delivered</li>
+                    </ul>
                 </div>
+                <!-- progress bar -->
+
                 <!-- table -->
                 <h4 class="underined-title">Tracking Details</h4>
-                <table class="table table-borderless mt-4">
-                    <thead>
-                        <tr>
-                            <th class="text-left">Date</th>
-                            <th class="text-center">Location</th>
-                            <th class="text-right">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless mt-4">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Date</th>
+                                <th class="text-center">Location</th>
+                                <th class="text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="p_shippingUpdates2">
+
+                        </tbody>
+                    </table>
+                </div>
 
                 <!-- Pending and GotoWallet Button -->
-                <div class="d-flex justify-content-between align-items-center gap-4">
-                    <a class="btn payment-status payment-status">Payment Status: Pending</a>
-                    <a class="btn payment-status wallet">Go to wallet</a>
+                <div class="d-flex justify-content-between align-items-center gap-3">
+                    <a class="btn payment-status payment-status py-3 px-2 d-block">Payment Status: <!--Pending--><span class="order_payment_status"></span></a>
+                    <a class="btn payment-status wallet py-3 px-2 d-block" href="../wallet.html">Go to wallet</a>
                 </div>
                 <!-- Pending and GotoWallet Button -->
                 
                 <!-- for corporates view -->
-                <a class="btn payment-status wallet d-block w-100">Update Tracking</a>
+                <a class="btn payment-status wallet d-block w-100" href="updateshipping.html">Update Tracking</a>
 
                 <button class="btn zowaselBlue text-white my-3 w-100" onclick="showWaybillDocument('waybilldocument')">View waybill document</button>
             </div>
@@ -351,10 +369,10 @@
         const waybillReceipt = document.getElementById("waybillReceipt");
         waybillReceipt.style.marginTop = "-100px";
         console.log(waybillReceipt);
-        console.log(window);
+        // console.log(window);
         var opt = {
         margin:       [1,1],
-        filename:     'myfile.pdf',
+        filename:     'waybill.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         // html2canvas:  { scale:1, scrollY:0 },
         html2canvas:  { scale: 1, scrollY:90, logging: true, dpi: 192, letterRendering: true },

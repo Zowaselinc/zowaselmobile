@@ -12620,7 +12620,7 @@ button {
   border: 2px dashed var(--border-color); }
 
 .table > :not(:first-child) {
-  border-top: 0px solid currentColor; }
+  border-top: 2px solid currentColor; }
 
 .table-striped > tbody > tr:nth-of-type(odd) > * {
   --bs-table-accent-bg: var(--rgba-primary-1); }
