@@ -78,16 +78,26 @@ date.attr('min', today);
                 let index;
                 console.log(thedata, "Order data");
                 // console.log(JSON.parse(thedata.negotiation.message));
-                // console.log(JSON.parse(thedata.products), "Products");
+                console.log(JSON.parse(thedata.products), "Products");
 
 
                 // PRICING DETAILS
-                $('.accepted_price').html("NGN "+JSON.parse(thedata.negotiation.message).price);
-                $('.confirmed_quantity').html(JSON.parse(thedata.negotiation.message).qty);
-                $('.total_price').html("NGN "+thedata.total);
+                if(thedata.negotiation){
+                    $('.accepted_price').html("NGN "+JSON.parse(thedata.negotiation.message).price);
+                    $('.confirmed_quantity').html(JSON.parse(thedata.negotiation.message).qty);
+                    $('.total_price').html("NGN "+thedata.total);   
+                }else{
+                    let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
+                    let totalprice = parseInt(thedata.total);
+                    let quantity =  totalprice/acceptedprice;
+
+                    $('.accepted_price').html("NGN "+acceptedprice);
+                    $('.confirmed_quantity').html(quantity);
+                    $('.total_price').html("NGN "+totalprice);
+                }
 
 
-                // PURCHASE ORDER
+                // FULL SPECIFICATION
                 $('.F_color').html(JSON.parse(thedata.products)[0].specification.color);
                 $('.F_moisture').html(JSON.parse(thedata.products)[0].specification.moisture);
                 $('.F_foreign_matters').html(JSON.parse(thedata.products)[0].specification.foreign_matter);
@@ -130,44 +140,89 @@ date.attr('min', today);
                 
                 
                 // PURCHASE ORDER
-                $('.color').html(JSON.parse(thedata.negotiation.message).color);
-                $('.moisture').html(JSON.parse(thedata.negotiation.message).moisture);
-                $('.foreign_matters').html(JSON.parse(thedata.negotiation.message).foreign_matter);
-                $('.brokenGrain').html(JSON.parse(thedata.negotiation.message).broken_grains);
-                $('.weevil').html(JSON.parse(thedata.negotiation.message).weevil);
-                if(JSON.parse(thedata.negotiation.message).damaged_kernel){
-                    $('.damaged_kernel').html(JSON.parse(thedata.negotiation.message).damaged_kernel+"%");
-                }else{ $('.damaged_kernel').html("-"); }
-                $('.rotten').html(JSON.parse(thedata.negotiation.message).rotten_shriveled);
-                $('.test_weight').html(JSON.parse(thedata.negotiation.message).test_weight);
-                $('.hardness').html(JSON.parse(thedata.negotiation.message).hardness);
-                $('.splits').html(JSON.parse(thedata.negotiation.message).splits);
-                $('.oil_content').html(JSON.parse(thedata.negotiation.message).oil_content);
-                $('.infestation').html(JSON.parse(thedata.negotiation.message).infestation);
-                if(JSON.parse(thedata.negotiation.message).grain_size){
-                    $('.grain_size').html(JSON.parse(thedata.negotiation.message).grain_size);
-                }else{ $('.grain_size').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).hectoliter_weight){
-                    $('.hectoliter_weight').html(JSON.parse(thedata.negotiation.message).hectoliter_weight+"%");
-                }else{ $('.hectoliter_weight').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).total_defects){
-                    $('.total_defects').html(JSON.parse(thedata.negotiation.message).total_defects);
-                }else{ $('.total_defects').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).dockage){
-                    $('.dockage').html(JSON.parse(thedata.negotiation.message).dockage);
-                }else{ $('.dockage').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).ash_content){
-                    $('.ash_content').html(JSON.parse(thedata.negotiation.message).ash_content);
-                }else{ $('.ash_content').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).volatile){
-                    $('.volatile').html(JSON.parse(thedata.negotiation.message).volatile);
-                }else{ $('.volatile').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).mold){
-                    $('.mold').html(JSON.parse(thedata.negotiation.message).mold);
-                }else{ $('.mold').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).drying_process){
-                    $('.drying_process').html(JSON.parse(thedata.negotiation.message).drying_process);
-                }else{ $('.drying_process').html("-"); }
+                if(thedata.negotiation){
+
+                    $('.color').html(JSON.parse(thedata.negotiation.message).color);
+                    $('.moisture').html(JSON.parse(thedata.negotiation.message).moisture);
+                    $('.foreign_matters').html(JSON.parse(thedata.negotiation.message).foreign_matter);
+                    $('.brokenGrain').html(JSON.parse(thedata.negotiation.message).broken_grains);
+                    $('.weevil').html(JSON.parse(thedata.negotiation.message).weevil);
+                    if(JSON.parse(thedata.negotiation.message).damaged_kernel){
+                        $('.damaged_kernel').html(JSON.parse(thedata.negotiation.message).damaged_kernel+"%");
+                    }else{ $('.damaged_kernel').html("-"); }
+                    $('.rotten').html(JSON.parse(thedata.negotiation.message).rotten_shriveled);
+                    $('.test_weight').html(JSON.parse(thedata.negotiation.message).test_weight);
+                    $('.hardness').html(JSON.parse(thedata.negotiation.message).hardness);
+                    $('.splits').html(JSON.parse(thedata.negotiation.message).splits);
+                    $('.oil_content').html(JSON.parse(thedata.negotiation.message).oil_content);
+                    $('.infestation').html(JSON.parse(thedata.negotiation.message).infestation);
+                    if(JSON.parse(thedata.negotiation.message).grain_size){
+                        $('.grain_size').html(JSON.parse(thedata.negotiation.message).grain_size);
+                    }else{ $('.grain_size').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).hectoliter_weight){
+                        $('.hectoliter_weight').html(JSON.parse(thedata.negotiation.message).hectoliter_weight+"%");
+                    }else{ $('.hectoliter_weight').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).total_defects){
+                        $('.total_defects').html(JSON.parse(thedata.negotiation.message).total_defects);
+                    }else{ $('.total_defects').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).dockage){
+                        $('.dockage').html(JSON.parse(thedata.negotiation.message).dockage);
+                    }else{ $('.dockage').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).ash_content){
+                        $('.ash_content').html(JSON.parse(thedata.negotiation.message).ash_content);
+                    }else{ $('.ash_content').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).volatile){
+                        $('.volatile').html(JSON.parse(thedata.negotiation.message).volatile);
+                    }else{ $('.volatile').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).mold){
+                        $('.mold').html(JSON.parse(thedata.negotiation.message).mold);
+                    }else{ $('.mold').html("-"); }
+                    if(JSON.parse(thedata.negotiation.message).drying_process){
+                        $('.drying_process').html(JSON.parse(thedata.negotiation.message).drying_process);
+                    }else{ $('.drying_process').html("-"); }
+
+                }else{
+
+                    $('.color').html(JSON.parse(thedata.products)[0].specification.color);
+                    $('.moisture').html(JSON.parse(thedata.products)[0].specification.moisture);
+                    $('.foreign_matters').html(JSON.parse(thedata.products)[0].specification.foreign_matter);
+                    $('.brokenGrain').html(JSON.parse(thedata.products)[0].specification.broken_grains);
+                    $('.weevil').html(JSON.parse(thedata.products)[0].specification.weevil);
+                    if(JSON.parse(thedata.products)[0].specification.damaged_kernel){
+                        $('.damaged_kernel').html(JSON.parse(thedata.products)[0].specification.damaged_kernel+"%");
+                    }else{ $('.damaged_kernel').html("-"); }
+                    $('.rotten').html(JSON.parse(thedata.products)[0].specification.rotten_shriveled);
+                    $('.test_weight').html(JSON.parse(thedata.products)[0].specification.test_weight);
+                    $('.hardness').html(JSON.parse(thedata.products)[0].specification.hardness);
+                    $('.splits').html(JSON.parse(thedata.products)[0].specification.splits);
+                    $('.oil_content').html(JSON.parse(thedata.products)[0].specification.oil_content);
+                    $('.infestation').html(JSON.parse(thedata.products)[0].specification.infestation);
+                    if(JSON.parse(thedata.products)[0].specification.grain_size){
+                        $('.grain_size').html(JSON.parse(thedata.products)[0].specification.grain_size);
+                    }else{ $('.grain_size').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.hectoliter_weight){
+                        $('.hectoliter_weight').html(JSON.parse(thedata.products)[0].specification.hectoliter_weight+"%");
+                    }else{ $('.hectoliter_weight').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.total_defects){
+                        $('.total_defects').html(JSON.parse(thedata.products)[0].specification.total_defects);
+                    }else{ $('.total_defects').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.dockage){
+                        $('.dockage').html(JSON.parse(thedata.products)[0].specification.dockage);
+                    }else{ $('.dockage').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.ash_content){
+                        $('.ash_content').html(JSON.parse(thedata.products)[0].specification.ash_content);
+                    }else{ $('.ash_content').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.volatile){
+                        $('.volatile').html(JSON.parse(thedata.products)[0].specification.volatile);
+                    }else{ $('.volatile').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.mold){
+                        $('.mold').html(JSON.parse(thedata.products)[0].specification.mold);
+                    }else{ $('.mold').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.drying_process){
+                        $('.drying_process').html(JSON.parse(thedata.products)[0].specification.drying_process);
+                    }else{ $('.drying_process').html("-"); }
+
+                }
 
 
                 // Others
@@ -177,21 +232,37 @@ date.attr('min', today);
                 if(JSON.parse(thedata.products)[0].specification.model_type){
                     $('.offer_type').html(JSON.parse(thedata.products)[0].specification.model_type);
                 }else{ $('.offer_type').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).qty){
-                    $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
-                }else{ $('.crop_quantity').html("-"); }
-                if(JSON.parse(thedata.negotiation.message).qty){
-                    $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
-                }else{ $('.crop_quantity').html("-"); }
+
+                if(thedata.negotiation){
+                    if(JSON.parse(thedata.negotiation.message).qty){
+                        $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
+                    }else{ $('.crop_quantity').html("-"); }
+                }else{
+                    let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
+                    let totalprice = parseInt(thedata.total);
+                    let quantity =  totalprice/acceptedprice;
+                    if(quantity){
+                        $('.crop_quantity').html(quantity);
+                    }else{ $('.crop_quantity').html("-"); }
+                }
+
                 if(croprequest.delivery_window){
                     $('.delivery_window').html(croprequest.delivery_window);
                 }else{ $('.delivery_window').html("-"); }
                 if(thedata.buyer.first_name){
                     $('.buyer_details').html(thedata.buyer.first_name+" "+thedata.buyer.last_name);
                 }else{ $('.buyer_details').html("-"); }
-                if(thedata.negotiation.updated_at){
-                    $('.accepted_date').html(thedata.negotiation.updated_at);
-                }else{ $('.accepted_date').html("-"); }
+
+                if(thedata.negotiation){
+                    if(thedata.negotiation.updated_at){
+                        $('.accepted_date').html(thedata.negotiation.updated_at);
+                    }else{ $('.accepted_date').html("-"); }
+                }else{
+                    if(thedata.updated_at){
+                        $('.accepted_date').html(thedata.updated_at);
+                    }else{ $('.accepted_date').html("-"); }
+                }
+
                 if(thedata.seller.first_name){
                     $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
                 }else{ $('.seller_details').html("-"); }
@@ -204,7 +275,7 @@ date.attr('min', today);
                         $('.corporateNo_waybillInfo').show();
                     }else {
                         $('.corporateNo_waybillInfo').hide();
-                        
+
                         if(!thedata.amount_paid){
                             $('.corporateOrderPayment_button').show();
                         }else if(thedata.tracking_details){
@@ -212,7 +283,6 @@ date.attr('min', today);
                         }else{
                             $('.waybilldetails_button').show();
                         }
-
                     }
 
                 }else{

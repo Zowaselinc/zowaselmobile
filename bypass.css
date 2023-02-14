@@ -81,3 +81,79 @@ table tbody td{
     color: #c32021;
 }
 /* ---------------------------------- TABLE --------------------------------- */
+
+
+
+
+
+
+/* ------------------------------ MODAL CONTENT ----------------------------- */
+
+.modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: calc(.3rem - 1px);
+    border-top-right-radius: calc(.3rem - 1px);
+}
+.modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding: .75rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: calc(.3rem - 1px);
+    border-bottom-left-radius: calc(.3rem - 1px);
+}
+.btn-close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: .25em .25em;
+    color: #000;
+    border: 0;
+    border-radius: .25rem;
+    opacity: .9;
+}
+.modal-input {
+    width: 100%;
+}
+/* input {
+    padding: 10px 15px !important;
+    margin-top: 8px;
+    gap: 10px;
+    border: 1px solid #B0B0B0 !important;
+} */
+.actual-detailss {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+.actual-detailss .left-lines{
+    width: 50%;
+}
+.actual-detailss .each-detail {
+    margin-top: 20px;
+}
+.actual-detailss .each-detail h4{
+    font-size: 16px;
+}
+.actual-detailss .each-detail p{
+    font-size: 14px;
+}
+.accept-box {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.accept-box input {
+    margin: 0;
+}
+/* ------------------------------ MODAL CONTENT ----------------------------- */

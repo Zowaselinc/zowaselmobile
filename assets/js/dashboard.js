@@ -422,7 +422,7 @@ function populateSingleMyPersonalProductDetails(){
 function populateSingleProductDetails(){
     startPageLoader();
     $.ajax({
-        url: `${liveBaseUrl}/crop/getbyid/`+localStorage.getItem('singleproductID'),
+        url: `${liveMobileUrl}/crop/getbyid/`+localStorage.getItem('singleproductID'),
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -506,7 +506,7 @@ function populateSingleProductDetails(){
 }
 
 
-const gotoNegotiation =()=>{
+function gotoNegotiation(){
     let productOwnerFarmName = $('.productOwnerFarmName').text();
     // alert(productOwnerFarmName);
 
@@ -623,6 +623,8 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             if(usertype == "merchant"){
                                 if(row[x].type == "merchant"){
                                     chatboxClass = `user`;
+                                }else if(row[x].type == "admin"){
+                                    chatboxClass = `admin`;
                                 }else{
                                     chatboxClass = ``;
                                 }
@@ -638,6 +640,8 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             }else if(usertype == "corporate"){
                                 if(row[x].type == "corporate"){
                                     chatboxClass = `user`;
+                                }else if(row[x].type == "admin"){
+                                    chatboxClass = `admin`;
                                 }else{
                                     chatboxClass = ``;
                                 }
@@ -916,6 +920,8 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             if(usertype == "merchant"){
                                 if(row[x].type == "merchant"){
                                     chatboxClass = `user`;
+                                }else if(row[x].type == "admin"){
+                                    chatboxClass = `admin`;
                                 }else{
                                     chatboxClass = ``;
                                 }
@@ -931,6 +937,8 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             }else if(usertype == "corporate"){
                                 if(row[x].type == "corporate"){
                                     chatboxClass = `user`;
+                                }else if(row[x].type == "admin"){
+                                    chatboxClass = `admin`;
                                 }else{
                                     chatboxClass = ``;
                                 }
@@ -2864,3 +2872,64 @@ function goToMyPersonalCropDetails2(n){
     location.assign('mypersonalproductdetails.html');
 }
 /* --------------------- FETCH CROPS FOR AUCTION BY USERID --------------------- */
+
+
+
+
+
+
+
+
+
+/* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
+function acceptOfferDirectly(){
+    startPageLoader();
+
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    let singleproductID = localStorage.getItem('singleproductID');
+
+    $.ajax({
+        url: `${liveMobileUrl}/crop/${singleproductID}/fulfil`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "quantity": parseInt($('#accepted_quantity').val()),
+            "user_id": userid,
+            "user_type": usertype
+        }),
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                localStorage.setItem('orderHash', response.data.order_hash);
+                setTimeout(()=>{
+                    location.assign('order/ordersummarydirect.html');
+                },3000)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
