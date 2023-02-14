@@ -38,6 +38,8 @@ const populateUserDetails =()=>{
 
     $('.email').text(user.user.email);
 
+    // $('.wallet_balance').text()
+
     if(!(user.user.primary_address)){ $('.primary_address').text("Null"); }else{ 
         $('.primary_address').text(user.user.primary_address); 
         $('.primary_address').val(user.user.primary_address); 
