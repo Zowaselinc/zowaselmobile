@@ -79,11 +79,16 @@ const populateUserDetails =()=>{
 }
 
 
-const sidemenu =()=>{
-    $.get( "components/sidemenu.html", function( data ) {
-          $( "#sidebar" ).html( data );
-    })
-
+const sidemenu =(page)=>{
+    if(page){
+        $.get( "../components/sidemenu.html", function( data ) {
+            $( "#sidebar" ).html( data );
+        })
+    }else{
+        $.get( "components/sidemenu.html", function( data ) {
+            $( "#sidebar" ).html( data );
+        })
+    }
     // console.log(data,"grgr");
 }
 
@@ -103,7 +108,9 @@ const logout =()=>{
     // alert("ef");
     localStorage.clear();
     sessionStorage.clear();
-    location.assign('../login.html');
+    // alert(window.location.origin);
+    let routeroot = window.location.origin;
+    location.assign(routeroot+'/login.html');
 }
 /* -------------------------------- // LOGOUT ------------------------------- */
 

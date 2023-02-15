@@ -58,6 +58,13 @@ input[type="radio"] {
     margin-bottom: 60px;
 }
 
+.status_paid{
+    color: #05B050;
+}
+.status_unpaid{
+    color: #dd4040;
+}
+
 
 
 /* ---------------------------------- TABLE --------------------------------- */

@@ -38,6 +38,13 @@ var date = $('.today_date_picker');
 date.attr('min', today);
 
 
+function truncate(str, length) {
+    if (str.length > length) {
+        return str.slice(0, length) + '...';
+    } else return str;
+}
+
+
 
 /************************************************************************************
  * /* -------------------- // POPULATE ORDER DETAILS ------------------- *
@@ -747,4 +754,103 @@ const waybillDetailsPage =()=>{
 }
 /************************************************************************************
  * /* ------------------------- UPDATE SHIPPING DETAILS ------------------------ *
+ ************************************************************************************/
+
+
+
+
+
+
+
+
+
+/************************************************************************************
+ * /* ----------------------- FETCH USER ORDER BY USER ID ---------------------- *
+ ************************************************************************************/
+function fetchUserOrdersByUserID(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/users/16/orders`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            $('.loader').addClass('loader-hidden');
+            console.log(response, "The get all order response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+                $('.loader').addClass('loader-hidden');
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                let rowContent = "";
+                let index;
+                // console.log(thedata, "category data");
+                console.log(JSON.parse(thedata[7].tracking_details).transit.length);
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                    //   console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        let shippingstatus;
+                        // console.log(JSON.parse(row.tracking_details).transit.length);
+                        if(JSON.parse(row.tracking_details).transit.length > 0){
+                            let lasttracking_details = JSON.parse(row.tracking_details).transit.at(-1);
+                            let lasttracking_status = lasttracking_details.status;
+                            // let lasttracking_status = JSON.stringify(lasttracking_details.status);
+                            shippingstatus = `
+                                <span style="background:#edbd71;border-radius:7px;padding:4px 10px;font-weight:700;font-size:14px;display:block">
+                                    ${lasttracking_status}
+                                </span>
+                            `;
+
+                        }else{
+                            shippingstatus = "---";
+                        }
+
+                        rowContent += `
+                        <tr>
+                            <td id='' style="display:none;">${JSON.stringify(row)}</td>
+                            <th scope="row">${row.created_at.split(' ')[0]}</th>
+                            <td>${truncate(row.order_hash, 6)}</td>
+                            <td>${row.total}</td>
+                            <td class="status_${row.payment_status.toLowerCase()}">${row.payment_status}</td>
+                            <td class="text-center">${shippingstatus}</td>
+                            <td><button class="delete" onclick="deleteTrackingData(${index})">Delete</button></td>
+                        </tr>
+                        `;   
+                    }
+                    $('#p_orders').append(rowContent);        
+          
+                }else{
+                    // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/************************************************************************************
+ * /* ----------------------- FETCH USER ORDER BY USER ID ---------------------- *
  ************************************************************************************/

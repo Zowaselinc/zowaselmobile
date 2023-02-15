@@ -544,7 +544,7 @@ function LoginScreen(){
                 }else{
                     // alert(response.message);
                     responsemodal("successicon.png", "Success", response.message);
-                    localStorage.setItem('authToken', response.token);
+                    localStorage.setItem('authToken', "Bearer "+response.token);
                     localStorage.setItem('zowaselUser', JSON.stringify(response.user));
                     setTimeout(()=>{
                         location.href="dashboard/index.html";
