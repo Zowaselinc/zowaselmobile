@@ -94,13 +94,13 @@ const sidemenu =(page)=>{
 
 
 
-const headermenu =()=>{
-    $.get( "components/headermenu.html", function( data ) {
-          $( "#headermenu" ).html( data );
-        //   console.log(data,"grgr");
-    })
+// const headermenu =()=>{
+//     $.get( "components/headermenu.html", function( data ) {
+//           $( "#headermenu" ).html( data );
+//         //   console.log(data,"grgr");
+//     })
 
-}
+// }
 
 
 const buttommenu =()=>{
