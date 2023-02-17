@@ -183,7 +183,7 @@ const RegisterScreen =()=>{
                     "method": "POST",
                     "timeout": 25000,
                     "headers": {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                     },
                     "data": JSON.stringify({
                         "email": email.value

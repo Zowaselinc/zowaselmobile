@@ -36,8 +36,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-
 </head>   
 <body class="bg-white">
 <div class="page-wraper" style="overflow:hidden;">
@@ -94,7 +92,7 @@
         <div class="container">
             
              <!-- TITLE -->
-             <h4 class="title mb-4 text-success">Orders</h4>
+             <h4 class="title text-success">Orders</h4>
              <!-- TITLE -->
              
 
@@ -126,27 +124,6 @@
                     
 				</div>
 
-
-
-                <div class="button">
-                    <a id="download" href="#">Download button</a>
-                  </div>
-
-                  <script>
-                      function download(canvas, filename) {
-  const data = canvas.toDataURL("image/png;base64");
-  const donwloadLink = document.querySelector("#download");
-  donwloadLink.download = filename;
-  donwloadLink.href = data;
-}
-
-html2canvas(document.querySelector(".table")).then((canvas) => {
-  // document.body.appendChild(canvas);
-  download(canvas, "asd");
-});
-
-
-                  </script>
 
                  <div class="saprater"></div>  
 

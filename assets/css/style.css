@@ -9804,7 +9804,8 @@ section {
         display: inline-block; }
       .header.transparent .right-content .theme-btn.active .dark,
       .header.transparent .right-content .theme-color.active .dark {
-        display: none; }
+        /* display: none;  */
+      }
   .header .back-btn {
     display: flex;
     line-height: 1;

@@ -775,7 +775,7 @@ function fetchUserOrdersByUserID(){
 
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/users/16/orders`,
+        url: `${liveMobileUrl}/users/${userid}/orders`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -793,11 +793,11 @@ function fetchUserOrdersByUserID(){
                 $('.loader').addClass('loader-hidden');
             }else{
                 // alert(response.message);
-                let thedata = response.data;
+                let thedata = (response.data).reverse();
                 let rowContent = "";
                 let index;
                 // console.log(thedata, "category data");
-                console.log(JSON.parse(thedata[7].tracking_details).transit.length);
+                // console.log(JSON.parse(thedata[7].tracking_details).transit.length);
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                     //   console.log('Hello World', + i);
@@ -820,6 +820,13 @@ function fetchUserOrdersByUserID(){
                             shippingstatus = "---";
                         }
 
+                        let negotiationstatus;
+                        if(row.negotiation_id){
+                            negotiationstatus = "yes";
+                        }else{
+                            negotiationstatus = "no";
+                        }
+
                         rowContent += `
                         <tr>
                             <td id='' style="display:none;">${JSON.stringify(row)}</td>
@@ -828,14 +835,14 @@ function fetchUserOrdersByUserID(){
                             <td>${row.total}</td>
                             <td class="status_${row.payment_status.toLowerCase()}">${row.payment_status}</td>
                             <td class="text-center">${shippingstatus}</td>
-                            <td><button class="delete" onclick="deleteTrackingData(${index})">Delete</button></td>
+                            <td><button class="view" onclick="viewSingleOrder('${row.order_hash}', '${negotiationstatus}')">View</button></td>
                         </tr>
                         `;   
                     }
                     $('#p_orders').append(rowContent);        
           
                 }else{
-                    // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                    $('#p_orders').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No order found</h3></td></tr>");
                 }
                     
             }
@@ -850,6 +857,17 @@ function fetchUserOrdersByUserID(){
             }
         }
     });
+}
+
+
+function viewSingleOrder(n, negotiationstatus){
+    // alert(n);
+    localStorage.setItem("orderHash", n);
+    if(negotiationstatus=="yes"){
+        location.assign('/dashboard/order/ordersummary.html');
+    }else{
+        location.assign('/dashboard/order/ordersummarydirect.html');
+    }
 }
 /************************************************************************************
  * /* ----------------------- FETCH USER ORDER BY USER ID ---------------------- *

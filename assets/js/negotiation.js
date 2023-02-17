@@ -86,9 +86,9 @@ const fetchUserConversations =()=>{
                         if(row.crop == "" || row.crop===null || row.crop.subcategory===null){
                             thecrop = "";
                         }else if(row.crop.specification == "" || row.crop.specification === null){
-                            thecrop = row.crop.subcategory.name+" ("+row.crop.type+")";
+                            thecrop = row.crop.category.name+" ("+row.crop.type+")";
                         }else{
-                            thecrop = row.crop.subcategory.name+" - "+row.crop.specification.color+" ("+row.crop.type+")";
+                            thecrop = row.crop.category.name+" - "+row.crop.specification.color+" ("+row.crop.type+")  ";
                         }
 
                         rowContent += `

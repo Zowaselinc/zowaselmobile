@@ -1,0 +1,246 @@
+
+<script>
+//     function dzThemeSettings()
+// {
+
+// 	var dzThemeSettings = '<ul class="theme-color-settings"><li><input class="filled-in" id="primary_color_1" name="primary_bg" type="radio" value="color-red" /><label for="primary_color_1"></label></li><li><input class="filled-in" id="primary_color_2" name="primary_bg" type="radio" value="color-green" /> <label for="primary_color_2"></label></li><li><input class="filled-in" id="primary_color_3" name="primary_bg" type="radio" value="color-blue" /> <label for="primary_color_3"></label></li><li><input class="filled-in" id="primary_color_4" name="primary_bg" type="radio" value="color-pink" /> <label for="primary_color_4"></label></li><li><input class="filled-in" id="primary_color_5" name="primary_bg" type="radio" value="color-yellow" /> <label for="primary_color_5"></label></li><li><input class="filled-in" id="primary_color_6" name="primary_bg" type="radio" value="color-orange" /> <label for="primary_color_6"></label></li><li><input class="filled-in" id="primary_color_7" name="primary_bg" type="radio" value="color-purple" /> <label for="primary_color_7"></label></li><li><input class="filled-in" id="primary_color_8" name="primary_bg" type="radio" value="color-deeppurple" /> <label for="primary_color_8"></label></li><li><input class="filled-in" id="primary_color_9" name="primary_bg" type="radio" value="color-lightblue" /> <label for="primary_color_9"></label></li><li><input class="filled-in" id="primary_color_10" name="primary_bg" type="radio" value="color-teal" /> <label for="primary_color_10"></label></li><li><input class="filled-in" id="primary_color_11" name="primary_bg" type="radio" value="color-lime" /> <label for="primary_color_11"></label></li><li><input class="filled-in" id="primary_color_12" name="primary_bg" type="radio" value="color-deeporange" /> <label for="primary_color_12"></label></li></ul>';
+// }
+
+
+ /* Theme Panel Save */
+//  var themeOption = ['themeColor','themeVersion'];
+	// const body = $('body');
+    // const html = $('html');
+
+
+
+  
+
+    // "use strict"
+	// dzThemeSettings();
+
+    //get the DOM elements from right sidebar
+    // const versionSelect = $('#theme_version');
+
+    //change the theme version controller
+    /* versionSelect.on('change', function() {
+        body.attr('data-theme-version', this.value);
+		setCookie('themeVersion_value', this.value);
+    }); */
+	
+    //change the theme version controller
+    $('.theme-btn').on('click',function(){
+        $('body').toggleClass('theme-dark');
+        $('.theme-btn').toggleClass('active');
+        $('.theme-btn').toggleClass('light');
+        if($('body').hasClass('theme-dark')){
+           setCookie('themeVersion_value', 'theme-dark'); 
+        }else{
+           setCookie('themeVersion_value', '');  
+        }
+        
+    });
+
+
+
+    /* Cookies Function */
+function setCookie(cname, cvalue, exhours) 
+{
+    var d = new Date();
+    d.setTime(d.getTime() + (30*60*1000)); /* 30 Minutes */
+    var expires = "expires="+ d.toString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) 
+{
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+function setThemePanel(){
+    jQuery.each(themeOption, function(index, themeOptionItem) {
+		themeOptionItemValue = getCookie(themeOptionItem+'_value');
+		//alert(themeOptionItemValue);
+		//alert(themeOptionItem+' '+themeOptionItemValue);
+		//alert('.'+themeOptionItem+'-view '+' .'+themeOptionItemValue);
+		//alert(themeOptionItemValue);
+		
+		if(themeOptionItemValue != '' && themeOptionItemValue != 1){
+			
+			if(themeOptionItem == 'themeColor'){
+				body.attr('data-theme-color', themeOptionItemValue);
+			}else if(themeOptionItem == 'themeVersion'){
+				body.addClass(themeOptionItemValue);
+                jQuery('.theme-btn').addClass('active');
+			}
+		}
+	});
+	
+	/* var ts_logo_selector = getCookie('themeStandardColor_logo_selector');
+	
+	var tf_logo_selector = getCookie('themeFullColor_logo_selector');
+	
+	if(ts_logo_selector != '' && tf_logo_selector != 1)
+	{
+		var ts_logo_image = getCookie('themeStandardColor_logo_image');
+		
+		var logoSelectorArr = ts_logo_selector.split(',');
+		var logoSrcArr		= ts_logo_image.split(',');
+		var arrCount = logoSelectorArr.length;
+		for(var i=0; i<arrCount; i++){
+			jQuery(logoSelectorArr[i]).attr('src',logoSrcArr[i]);
+		}
+	}
+	
+	if(tf_logo_selector != '' && tf_logo_selector != 1)
+	{
+		var tf_logo_image = getCookie('themeFullColor_logo_image');
+		
+		var logoSelectorArr = tf_logo_selector.split(',');
+		var logoSrcArr		= tf_logo_image.split(',');
+		var arrCount = logoSelectorArr.length;
+		for(var i=0; i<arrCount; i++){
+			jQuery(logoSelectorArr[i]).attr('src',logoSrcArr[i]);
+		}
+	} */
+}
+
+
+/* Cookies Function End */
+</script>
+
+
+
+<script>
+/************************************************************************************
+ * /* ---------------- FETCH USER NOTIFICATION BY USER ID AND TYPE ---------------- *
+ ************************************************************************************/
+function fetchUserNotificationsByUserTypeandID(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    // startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/notification/${usertype}/${userid}`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            // EndPageLoader();
+            // $('.loader').addClass('loader-hidden');
+            // console.log(response, "The get all notification by useridANDtype response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+                // $('.loader').addClass('loader-hidden');
+            }else{
+                // alert(response.message);
+                let thedata = (response.data).reverse();
+                let rowContent = "";
+                let index;
+                // console.log(thedata, "category data");
+                // console.log(JSON.parse(thedata[7].tracking_details).transit.length);
+                let total_newnotification;
+                if(thedata.length > 0){
+                    // GET ALL UNSEEN RECORDS
+                    let newnotification = thedata.filter((item)=>item.general_seen==0);
+                    total_newnotification = newnotification.length;
+                    if(total_newnotification>0){
+                        $('.notification-count').show();
+                    }else{
+                        $('.notification-count').hide();
+                    }
+                    $('.notification-count').text(total_newnotification); 
+          
+                }else{
+                    $('.notification-count').hide();
+                    $('.notification-count').text(0);
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/************************************************************************************
+ * /* ---------------- FETCH USER NOTIFICATION BY USER ID AND TYPE ---------------- *
+ ************************************************************************************/
+fetchUserNotificationsByUserTypeandID();
+setInterval(() => {
+        setTimeout(()=>{
+            fetchUserNotificationsByUserTypeandID();
+        },500)
+}, 2000);
+
+</script>
+
+
+
+
+
+
+
+
+
+<div class="main-bar">
+    <div class="container" >
+<div class="header-content">
+    <div class="left-content">
+        <a href="javascript:void(0);" class="menu-toggler">
+            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24" width="30px" fill="#000000"><path d="M13 14v6c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1zm-9 7h6c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1zM3 4v6c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1zm12.95-1.6L11.7 6.64c-.39.39-.39 1.02 0 1.41l4.25 4.25c.39.39 1.02.39 1.41 0l4.25-4.25c.39-.39.39-1.02 0-1.41L17.37 2.4c-.39-.39-1.03-.39-1.42 0z"/></svg>
+        </a>
+    </div>
+    <div class="mid-content">
+    </div>
+    <div class="right-content">
+        <a href="/dashboard/notification.html" class="position-relative">
+            <i class="fa fa-bell" style="color:#bfc9da;font-size:20px;"></i>
+            <span class="notification-count" style="display: none;"><!--3--></span>
+        </a>
+
+        <a href="javascript:void(0);" class="theme-btn">
+            <svg class="dark" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><g><path d="M11.57,2.3c2.38-0.59,4.68-0.27,6.63,0.64c0.35,0.16,0.41,0.64,0.1,0.86C15.7,5.6,14,8.6,14,12s1.7,6.4,4.3,8.2 c0.32,0.22,0.26,0.7-0.09,0.86C16.93,21.66,15.5,22,14,22c-6.05,0-10.85-5.38-9.87-11.6C4.74,6.48,7.72,3.24,11.57,2.3z"/></g></g></g>
+            </svg>
+
+            <svg class="light" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><g><path d="M11.57,2.3c2.38-0.59,4.68-0.27,6.63,0.64c0.35,0.16,0.41,0.64,0.1,0.86C15.7,5.6,14,8.6,14,12s1.7,6.4,4.3,8.2 c0.32,0.22,0.26,0.7-0.09,0.86C16.93,21.66,15.5,22,14,22c-6.05,0-10.85-5.38-9.87-11.6C4.74,6.48,7.72,3.24,11.57,2.3z"/></g></g></g>
+            </svg>
+        </a>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+

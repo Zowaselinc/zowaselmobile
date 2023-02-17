@@ -92,6 +92,17 @@ const sidemenu =(page)=>{
     // console.log(data,"grgr");
 }
 
+
+
+const headermenu =()=>{
+    $.get( "components/headermenu.html", function( data ) {
+          $( "#headermenu" ).html( data );
+        //   console.log(data,"grgr");
+    })
+
+}
+
+
 const buttommenu =()=>{
     $.get( "components/buttommenu.html", function( data ) {
           $( "#buttommenu" ).html( data );
@@ -279,13 +290,25 @@ function fetchWantedCrops(){
                             image = `<img src="../logos/vegees.svg" height="100%" alt="logo">`;
                         }
 
+
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+
                         rowContent += `
                         <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
                         location.assign('${gotoProductdetails}')">
                             <div class="item-content" style="background:whitesmoke;padding-left:8px;">
                                 <div class="item-inner">
                                     <div class="item-title-row">
-                                        <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} - ${row.specification.color}</a></h6>
+                                        <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} ${thecolor}</a></h6>
                                         <div class="item-subtitle">${row.category.name}</div>
                                     </div>
                                     <div class="item-footer">
@@ -296,7 +319,7 @@ function fetchWantedCrops(){
                                     </div>
                                 </div>
                                 <div class="item-media media media-90" style="flex:1;">
-                                    <h6 class="me-3 text-success">NGN ${row.specification.price} / ${row.specification.test_weight}</h6>
+                                    <h6 class="me-3 text-success">NGN ${theprice} / ${thetest_weight}</h6>
                                 </div>
                             </div>
                         </li>
@@ -336,7 +359,7 @@ function populateSingleMyPersonalProductDetails(){
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            // "authorization": localStorage.getItem('authToken')
+            "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -543,6 +566,7 @@ function gotoNegotiation(){
 const populateUserandFarmOwnerNegotiationMessages =()=>{
 
     let singleproductID = localStorage.getItem('singleproductID');
+    let productOwnerDetails = localStorage.getItem('productOwnerDetails');
 
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -550,17 +574,21 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
     let usertype = user.user.type;
 
     console.log(singleproductID, "singleproductID");
+    console.log(productOwnerDetails, "productOwnerDetails");
     console.log(userid, "userid");
     console.log(liveMobileUrl, "liveMobileUrl");
 
+    let productownerid = JSON.parse(productOwnerDetails).id;
+    console.log(productownerid);
+
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
+        url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid+`/productownerid/`+productownerid,
         type: "GET",
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            // "authorization": localStorage.getItem('authToken')
+            "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -832,9 +860,9 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
             } else {
                 // alert(textstatus);
                 basicmodal("", textstatus+"<br/>This session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
+                // setTimeout(()=>{
+                //     logout();
+                // },3000)
             }
         }
     });
