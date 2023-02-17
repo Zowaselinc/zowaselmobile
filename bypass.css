@@ -115,7 +115,9 @@ table tbody td{
     position: absolute;
     background-color: red;
     /* margin: -6px 0 0 38px; */
-    right: 17px;
+    /* right: 17px; */
+    right: 10px;
+    top: -11px;
     font-family: monospace;
     font-size: 20px;
     text-align: center;
