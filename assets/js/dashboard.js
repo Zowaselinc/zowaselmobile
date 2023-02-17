@@ -350,6 +350,130 @@ function fetchWantedCrops(){
 
 
 
+
+
+
+
+/* ------------------------------ FETCH ALL CROPS FOR SALE ----------------------------- */
+function fetchAllCropsForSale(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    let theURL, gotoProductdetails, currentPage;
+    if(usertype == "corporate"){
+        theURL = `crop/getbycropoffer`;
+        // gotoProductdetails = `mypersonalproductdetails.html`;
+        // currentPage = `localStorage.setItem('last_input_crop_page', 'cropswanted.html')`;
+    }else{
+        theURL = `crop/getbycropwanted`;
+        // gotoProductdetails = `productdetails.html`;
+        // currentPage = ``;
+    }
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/${theURL}`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            console.log(response, "The logged response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                let thedata = response.data.rows;
+                let rowContent = "";
+                let index;
+                console.log(thedata, "erfrefre");
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                      // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        let image;
+                        if((row.category.name).toLowerCase()=="grains"){
+                            image = `<img src="../logos/grain2.png" height="100%" alt="logo">`
+                        }else if((row.category.name).toLowerCase()=="spices"){
+                            image = `<img src="../logos/spicy2.png" height="100%" alt="logo">`
+                        }else if((row.category.name).toLowerCase()=="cash crops"){
+                            image = `<img src="../logos/cash.png" height="100%" alt="logo">`
+                        }else{
+                            image = `<img src="../logos/vegees.svg" height="100%" alt="logo">`;
+                        }
+
+
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+
+                        rowContent += `
+                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                        location.assign('${gotoProductdetails}')">
+                            <div class="item-content" style="background:whitesmoke;padding-left:8px;">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} ${thecolor}</a></h6>
+                                        <div class="item-subtitle">${row.category.name}</div>
+                                    </div>
+                                    <div class="item-footer">
+                                        <div class="">
+                                            
+                                            <h6>${row.user.first_name}</h6>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="item-media media media-90" style="flex:1;">
+                                    <h6 class="me-3 text-success">NGN ${theprice} / ${thetest_weight}</h6>
+                                </div>
+                            </div>
+                        </li>
+                        `;   
+                    }
+                    $('#p_allcropsforsale').html(rowContent);
+        
+        
+          
+                }else{
+                    $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/* ------------------------------ FETCH ALL CROPS FOR SALE ------------------------------ */
+
+
+
+
+
 /* ----------------------- GET SINGLE PRODUCT DETAILS ----------------------- */
 function populateSingleMyPersonalProductDetails(){
     startPageLoader();
@@ -1506,7 +1630,7 @@ function fetchCropColors(){
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
+            // "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -1566,7 +1690,7 @@ function fetchCropCategories(){
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
+            // "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -1644,7 +1768,7 @@ const addCropPage =()=>{
                 "timeout": 25000,
                 "headers": {
                     "Content-Type": "application/json",
-                    "authorization": localStorage.getItem('authToken')
+                    // "authorization": localStorage.getItem('authToken')
                 },
                 success: function(response) { 
                     // alert("efe");
@@ -1723,7 +1847,7 @@ const addCropAuctionPage =()=>{
                 "timeout": 25000,
                 "headers": {
                     "Content-Type": "application/json",
-                    "authorization": localStorage.getItem('authToken')
+                    // "authorization": localStorage.getItem('authToken')
                 },
                 success: function(response) { 
                     // alert("efe");
@@ -2019,7 +2143,7 @@ function fetchInputCategories(){
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
+            // "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -2084,7 +2208,7 @@ const addInputPage =()=>{
                 "timeout": 25000,
                 "headers": {
                     "Content-Type": "application/json",
-                    "authorization": localStorage.getItem('authToken')
+                    // "authorization": localStorage.getItem('authToken')
                 },
                 success: function(response) { 
                     // alert("efe");

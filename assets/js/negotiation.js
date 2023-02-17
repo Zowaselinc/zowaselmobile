@@ -50,7 +50,7 @@ const fetchUserConversations =()=>{
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
+            // "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
