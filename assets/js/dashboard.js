@@ -330,7 +330,7 @@ function fetchWantedCrops(){
         
           
                 }else{
-                    $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                    $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop wanted yet</h5></td></tr>");
                 }
                     
             }
@@ -364,11 +364,11 @@ function fetchAllCropsForSale(){
     let theURL, gotoProductdetails, currentPage;
     if(usertype == "corporate"){
         theURL = `crop/getbycropoffer`;
-        // gotoProductdetails = `mypersonalproductdetails.html`;
-        // currentPage = `localStorage.setItem('last_input_crop_page', 'cropswanted.html')`;
+        gotoProductdetails = `productdetails.html`;
+        currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
     }else{
         theURL = `crop/getbycropwanted`;
-        // gotoProductdetails = `productdetails.html`;
+        // gotoProductdetails = `mypersonalproductdetails.html`;
         // currentPage = ``;
     }
 
@@ -452,7 +452,7 @@ function fetchAllCropsForSale(){
         
           
                 }else{
-                    $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                    $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop for sale yet</h5></td></tr>");
                 }
                     
             }
@@ -2069,6 +2069,9 @@ $('#formpage3').submit(function(e){
         "url": `${liveMobileUrl}/crop/${croptype}/add`,
         "method": "POST",
         "timeout": 0,
+        "headers": {
+            "authorization": localStorage.getItem('authToken')
+        },
         "processData": false,
         "mimeType": "multipart/form-data",
         "contentType": false,
