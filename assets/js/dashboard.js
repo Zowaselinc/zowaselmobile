@@ -162,7 +162,7 @@ window.addEventListener('load', ()=>{
 
 
 
-/* ----------------------------- // FOUND WALLET ---------------------------- */
+/* ----------------------------- // FUND WALLET ---------------------------- */
 const fundWalletPage=()=>{
     const fundWalletForm = document.getElementById('payForm');
     fundWalletForm.addEventListener('submit', makePayment);
@@ -225,6 +225,49 @@ const fundWalletPage=()=>{
     }
 }
 /* ----------------------------- // FUND WALLET ----------------------------- */
+
+/* --------------------------- GRAB WALLET DETAILS -------------------------- */
+const populateWalletDetails=()=>{
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/wallet/user_id`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            console.log(response, "The wallet response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                let row = response.data;
+
+                function toCommas(value) {
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                $('.wallet_balance').text(toCommas(row[0].balance));
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/* --------------------------- GRAB WALLET DETAILS -------------------------- */
 
 
 
@@ -2879,18 +2922,29 @@ function fetchUserCropsforSaleByUserID(){
 
                         let therow = JSON.stringify(row);
 
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+
                         rowContent += `
                         <li onclick="goToMyPersonalCropDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
                             <div class="item-inner w-100">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.category.name} - ${row.specification.color}</a></h6>
+                                    <h6 class="item-title"><a>${row.category.name} - ${thecolor}</a></h6>
                                     <div class="item-subtitle text-truncate">${row.description}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${row.specification.price}</h6>
+                                        <h6 class="me-3 mb-0">NGN ${theprice}</h6>
                                     </div>    
                                     
                                 </div>

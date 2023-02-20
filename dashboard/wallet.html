@@ -96,7 +96,7 @@
                 <div class="wallet_card">
                     <div class="main-balance">
                         <h3>Wallet-Balance</h3>
-                        <h1>NGN 4,879,496</h1>
+                        <h1>NGN <span class="wallet_balance"></span><!--4,879,496--></h1>
                         <div class="buttons-area mtb-4">
                             <a class="withdraw-btn" href="withdraw.html">Withdraw</a>
                             <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -518,6 +518,7 @@
 <script>
     sidemenu();
     populateUserDetails();
+    populateWalletDetails();
     buttommenu();
 </script>
 </body>
