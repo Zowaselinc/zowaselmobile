@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../../bypass.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +38,7 @@
 
 </head>   
 <body class="bg-white">
-<div class="page-wraper" id="main">
+<div class="page-wraper" style="overflow:hidden;">
     
     <!-- Header -->
 	<header class="header transparent">
@@ -84,47 +85,59 @@
 		</div>
 	</div>
     <!-- Banner End -->
+
     
     <!-- Page Content -->
-    <div class="page-content fb">
-        <!-- <div class="container pb-0"> 
-			<form>
-				<div class="mb-3 input-group input-radius">
-					<span class="input-group-text">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-							<path d="M20.5605 18.4395L16.7528 14.6318C17.5395 13.446 18 12.0262 18 10.5C18 6.3645 14.6355 3 10.5 3C6.3645 3 3 6.3645 3 10.5C3 14.6355 6.3645 18 10.5 18C12.0262 18 13.446 17.5395 14.6318 16.7528L18.4395 20.5605C19.0245 21.1462 19.9755 21.1462 20.5605 20.5605C21.1462 19.9748 21.1462 19.0252 20.5605 18.4395ZM5.25 10.5C5.25 7.605 7.605 5.25 10.5 5.25C13.395 5.25 15.75 7.605 15.75 10.5C15.75 13.395 13.395 15.75 10.5 15.75C7.605 15.75 5.25 13.395 5.25 10.5Z" fill="#B9B9B9"/>
-						</svg>
-					</span>
-					<input type="text" placeholder="Search" class="form-control main-in ps-0 bs-0">
+    <div id="main" class="page-content bottom-content ">
+        <div class="container">
+            
+             <!-- TITLE -->
+             <h4 class="title text-success">My Sales</h4>
+             <!-- TITLE -->
+             
+
+              <!-- Crop List -->   
+             <div class="item-list recent-jobs-list">
+                 
+
+                <div class="item-list recent-jobs-list">
+					   <!-- table -->
+                       <!-- <h4 class="underined-title">My Orders</h4> -->
+                       <div class="table-responsive">
+                           <table class="table table-borderless mt-4">
+                               <thead>
+                                   <tr>
+                                       <th class="text-left">Date</th>
+                                       <th class="text-center">Order ID</th>
+                                       <th class="text-right">Amount</th>
+                                       <th class="text-right">Payment Status</th>
+                                       <th class="text-right">Shipping Status</th>
+                                       <th class="text-right">Action</th>
+                                   </tr>
+                               </thead>
+                               <tbody id="p_Sales">
+       
+                               </tbody>
+                           </table>
+                       </div> 
+                    
+                    
 				</div>
-			</form>
-        </div> -->
-        <div class="container pt-0">
-            <!-- Masseges List -->
-            <ul class="dz-list message-list" id="pConversationList">
-                <!-- <li>
-                    <a href="messagesdetails.html">
-                        <div class="media-content">
-                            <div>
-                                <h6 class="name">Gustauv Semalam</h6>
-                                <p class="my-1">
-                                    <i class="fa-solid fa-check text-primary me-1"></i>
-                                    Roger that sir, thankyou
-                                </p>
-                            </div>
-                            <span class="time">2m ago</span>
-                        </div>
-                    </a>
-                </li> -->
-            </ul>
-            <!-- <a href="javascript:void(0);" class="btn scrollTop btn-primary btn-rounded px-3 chat-btn"><i class="fa-solid fa-plus me-2"></i> New Chat</a> -->
+
+
+                 <div class="saprater"></div>  
+
+                 <!-- LOAD MORE -->
+                 <div id="more" class="text-center">Load More</div>
+                 <!-- LOAD MORE -->
+
+      
+             </div>
+             <!-- Crop List -->   
+
         </div>
     </div>
     <!-- Page Content End-->
-
-
-
-
 
 
 
@@ -143,7 +156,6 @@
     <!-- ------------------------------- MODAL -------------------------------- -->
 
 
-
 	
 </div>  
 <!--**********************************
@@ -154,13 +166,14 @@
 <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
 <script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
 <script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
-<script src="../assets/js/settings.js"></script> <!-- ThemeColor -->
-<script src="../assets/js/custom.js"></script> <!-- Sidebar Slide -->
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
-<script src="../../assets/js/env.js"></script> 
-<script src="../../assets/js/dashboard.js"></script>
-<script src="../assets/js/negotiation.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/order.js"></script>
+
 
 
 <script src="../index.js" defer></script>
@@ -170,7 +183,42 @@
 <script>
     sidemenu();
     populateUserDetails();
-    fetchUserConversations();
+    fetchUserOrdersByUserID();
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('.lazy').hide();
+        $('.lazy').each(function(index,value) {
+            console.log(index, "frelkferk");
+            if(index < 2 ) {
+            $(this).show();
+            }
+        });
+
+        console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+
+        if($('.lazy:hidden').length) {
+            $('#more').show();
+        }
+        if(!$('.lazy:hidden').length) {
+            $('#more').hide();
+        }
+    
+    });
+
+
+    $('#more').on('click', function() {
+        $('.lazy:hidden').each(function(index, value) {
+        if(index < 3) {
+            $(this).show();
+        }
+        });
+        if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+        }
+    });
+</script>
+
 </body>
 </html>

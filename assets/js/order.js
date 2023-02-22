@@ -791,9 +791,22 @@ function fetchUserOrdersByUserID(){
     let userid = user.user.id;
     let usertype = user.user.type;
 
+    const urlString = window.location.pathname;
+    let paramString = urlString.split('dashboard/')[1];
+    console.log(paramString);
+
+    let routeType,tbodySelector;
+    if(paramString == "order/orders.html"){
+        routeType = "orders";
+        tbodySelector = "p_orders";
+    }else if(paramString == "mysales.html"){
+        routeType = "sales";
+        tbodySelector = "p_Sales";
+    }
+
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/users/${userid}/orders`,
+        url: `${liveMobileUrl}/users/${userid}/${routeType}`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -857,10 +870,18 @@ function fetchUserOrdersByUserID(){
                         </tr>
                         `;   
                     }
-                    $('#p_orders').append(rowContent);        
-          
+                    if(tbodySelector == "p_orders"){
+                        $('#p_orders').append(rowContent);
+                    }else if(tbodySelector == "p_Sales"){
+                        $('#p_Sales').append(rowContent);
+                    }
+                            
                 }else{
-                    $('#p_orders').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No order found</h5></td></tr>");
+                    if(tbodySelector == "p_orders"){
+                        $('#p_orders').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No sales found</h5></td></tr>");
+                    }else if(tbodySelector == "p_Sales"){
+                        $('#p_Sales').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No sales found</h5></td></tr>");
+                    }
                 }
                     
             }

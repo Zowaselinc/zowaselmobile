@@ -97,7 +97,7 @@ function truncate(str, length) {
                     $('#p_notification').append(rowContent);        
           
                 }else{
-                    $('#p_notification').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No notification found</h3></td></tr>");
+                    $('#p_notification').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No notification found</h5></td></tr>");
                 }
                     
             }
