@@ -552,6 +552,28 @@ function populateSingleMyPersonalProductDetails(){
                     isverified = `<img src="../logos/verified.svg" alt="">&nbsp; Verified merchant`;
                 }
 
+                let videoLink;
+                if(!thedata.video){
+                    $('.videoLinkContainer').hide();
+                }else{
+                    $('.videoLinkContainer').show();
+                    let thevideoLink = thedata.video;
+                    let embedLink = thevideoLink.includes("embed/");
+                    let watchLink = thevideoLink.includes("watch?");
+                    let mp4Link = thevideoLink.includes(".mp4");
+                    if(embedLink){
+                        $('#videoLink').attr('src', thevideoLink);
+                    }else if(watchLink){
+                        let watchExtension = thedata.video.split('watch?v=')[1];
+                        videoLink = "https://www.youtube.com/embed/"+watchExtension;
+                        $('#videoLink').attr('src', videoLink);
+                    }else if(mp4Link){
+                        $('#videoLinkTagArea').html(`<video src="${thevideoLink}" width="100%" height="315" controls></video>`);
+                    }else{
+                        $('#videoLinkTagArea').html(``);
+                    }
+                }
+
                 $('.productAmount').html(thedata.specification.price);
                 $('.productPackaging').html(thedata.packaging);
                 $('.productCategory').html(thedata.category.name);
