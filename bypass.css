@@ -132,6 +132,20 @@ table tbody td{
 
 
 
+/* ------------------------------- CROP STATUS ------------------------------ */
+.cropstatus{
+    width: 15px;
+    height: 15px;
+    /* background-color: #54D969; */
+    border: 3px solid #fff;
+    border-radius: 50px;
+}
+/* ------------------------------- CROP STATUS ------------------------------ */
+
+
+
+
+
 
 
 /* ------------------------------ MODAL CONTENT ----------------------------- */

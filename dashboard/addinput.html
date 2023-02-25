@@ -543,11 +543,11 @@
 
             startPageLoader();
             var settings = {
-                "url": "https://hjh83ppbwi.us-east-1.awsapprunner.com/api/input/add",
+                "url": `${liveBaseUrl}/input/add`,
                 "method": "POST",
-                "timeout": 0,
+                "timeout": 25000,
                 "headers": {
-                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`
+                    "Authorization": `${localStorage.getItem('authToken')}`
                 },
                 "processData": false,
                 "mimeType": "multipart/form-data",

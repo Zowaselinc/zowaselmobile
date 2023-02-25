@@ -126,16 +126,16 @@
                         <li>
                             <div class="reviews-info">
                                 <h6 class="" style="margin-left:0px;">
-                                    <span class="productOwnerFarmName"><!--Naziri's-->&nbsp;&nbsp; </span>
-                                    <span>Farm</h6>
+                                    <span class="productOwnerFarmName"><!--Naziri's--> </span>&nbsp;&nbsp;
+                                    <!-- <span>Farm</h6> -->
                                 </h6>
+
+                                <span class="isVerified d-flex align-items-center">
+
+                                </span>
                             </div>
                         </li>
-                        <li>
-                            <span class="isVerified d-flex align-items-center">
-
-                            </span>
-                        </li>
+                       
                         <!--<li>
                             <a class="d-flex delivery" href="javascript:void(0);">
                                 <i class="fa-solid fa-truck"></i>
@@ -156,13 +156,19 @@
                     <!-- <div class="dz-stepper border-1 col-5">
                         <input class="stepper" type="text" value="3" name="demo3">
                     </div> -->
+                    <div class="price">
+                        <span class="text-style">Quantity:</span>
+                        <h5>
+                            <span class="productQuantity">
+                        </h5>
+                    </div>
                 </div>
 
                 <div class="farmOwnerUserDetails d-none"></div>
 
                 <div class="offerbutton_holder">
                     <a href="javascript:void(0)" class="fulfil btn" type="button" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Fulfil/Accept Offer</a>
-                    <a onclick="gotoNegotiation()" class="negotiate">Negotiate</a>
+                    <a onclick="gotoNegotiation()" class="negotiate clicktoNegotiate" style="display:none;">Negotiate</a>
                 </div>
                 <!-- <div class="d-flex align-items-center justify-content-between">
                     <div class="badge badge-danger font-w400 px-3">20% OFF DISCOUNT</div>    
@@ -185,6 +191,19 @@
             <!-- Content Section 2 -->
 
             <!-- Content Section 3 -->
+            <div class="container videoLinkContainer" style="display: none;">
+                <div class="company-detail">
+                    <div class="detail-content" id="videoLinkTagArea">
+                        <!-- <div class="flex-1"> -->
+                            <!-- <embed id="videoLink" src="https://www.youtube.com/embed/zAlX1V3lK5s?playlist=zAlX1V3lK5s&loop=1" width="100%" height="315" allowfullscreen /> -->
+                            <iframe id="videoLink" alt="Product Video" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+            <!-- Content Section 3 -->
+
+            <!-- Content Section 4 -->
             <div class="container p-0">
                 <div class="company-detail">
                     
@@ -258,7 +277,7 @@
                 </div>
                 
             </div>
-            <!-- Content Section 3 -->
+            <!-- Content Section 4 -->
 
 		</div>    
     </div>    

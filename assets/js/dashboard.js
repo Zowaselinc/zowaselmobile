@@ -284,7 +284,8 @@ function fetchWantedCrops(){
 
     let theURL, gotoProductdetails, currentPage;
     if(usertype == "corporate"){
-        theURL = `crop/wanted/${userid}`;
+        $('.activeColorHolder').show();
+        theURL = `crop/wanted/userid`;
         gotoProductdetails = `mypersonalproductdetails.html`;
         currentPage = `localStorage.setItem('last_input_crop_page', 'cropswanted.html')`;
     }else{
@@ -315,7 +316,7 @@ function fetchWantedCrops(){
                 let thedata = response.data.rows;
                 let rowContent = "";
                 let index;
-                console.log(thedata, "erfrefre");
+                console.log(thedata, "All crops wanted");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -337,7 +338,7 @@ function fetchWantedCrops(){
                         let thecolor, theprice, thetest_weight;
                         let specification = row.specification;
                         if(specification){
-                            if(specification.color){ thecolor = row.specification.color; }else{ thecolor = ""; }
+                            if(specification.color){ thecolor = "- "+ row.specification.color; }else{ thecolor = ""; }
                             if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
                             if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
                         }else{
@@ -345,10 +346,18 @@ function fetchWantedCrops(){
                             theprice = "";
                         }
 
+                        let activeProductClass, negotiationProductClass;
+                        if(usertype == "corporate"){
+                            if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        }else{
+                            activeProductClass = "d-none";
+                        }
+                        if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
                         rowContent += `
-                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
-                        location.assign('${gotoProductdetails}')">
-                            <div class="item-content" style="background:whitesmoke;padding-left:8px;">
+                        <li class="lazy" onclick="checkifActiveB4GoingtoSinglePage(${parseInt(row.id)}, ${parseInt(row.active)}, '${gotoProductdetails}')">
+      
+                        <div class="item-content" style="background:whitesmoke;padding-left:8px;">
                                 <div class="item-inner">
                                     <div class="item-title-row">
                                         <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} ${thecolor}</a></h6>
@@ -361,8 +370,13 @@ function fetchWantedCrops(){
                                         </div>    
                                     </div>
                                 </div>
-                                <div class="item-media media media-90" style="flex:1;">
+                                <div class="item-media d-flex flex-column align-item-center justify-content-center" style="flex:1;">
                                     <h6 class="me-3 text-success">NGN ${theprice} / ${thetest_weight}</h6>
+
+                                    <div class="d-flex">
+                                        <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
+                                        <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                                    </div>
                                 </div>
                             </div>
                         </li>
@@ -388,6 +402,22 @@ function fetchWantedCrops(){
             }
         }
     });
+}
+
+
+
+function checkifActiveB4GoingtoSinglePage(rowID, isActive, gotoProductdetails){
+    if(isActive==0){
+        basicmodal("", "Product is currently not active");
+    }else{
+        localStorage.setItem('singleproductID', rowID); 
+        location.assign(gotoProductdetails);
+
+        if(usertype == "corporate"){
+            localStorage.setItem('last_input_crop_page', 'cropswanted.html');
+        }else{
+        }
+    }
 }
 /* ------------------------------ FETCH CROPS WANTED ------------------------------ */
 
@@ -459,7 +489,7 @@ function fetchAllCropsForSale(){
                         let thecolor, theprice, thetest_weight;
                         let specification = row.specification;
                         if(specification){
-                            if(specification.color){ thecolor = row.specification.color; }else{ thecolor = ""; }
+                            if(specification.color){ thecolor = "- "+row.specification.color; }else{ thecolor = ""; }
                             if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
                             if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
                         }else{
@@ -467,11 +497,15 @@ function fetchAllCropsForSale(){
                             theprice = "";
                         }
 
+                        let activeProductClass, negotiationProductClass;
+                        if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
                         rowContent += `
                         <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
                         location.assign('${gotoProductdetails}')">
                             <div class="item-content" style="background:whitesmoke;padding-left:8px;">
-                                <div class="item-inner">
+                                <div class="item-inner"> 
                                     <div class="item-title-row">
                                         <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} ${thecolor}</a></h6>
                                         <div class="item-subtitle">${row.category.name}</div>
@@ -483,8 +517,14 @@ function fetchAllCropsForSale(){
                                         </div>    
                                     </div>
                                 </div>
-                                <div class="item-media media media-90" style="flex:1;">
+
+                                <div class="item-media d-flex flex-column align-item-center justify-content-center" style="flex:1;">
                                     <h6 class="me-3 text-success">NGN ${theprice} / ${thetest_weight}</h6>
+
+                                    <div class="d-flex">
+                                        <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
+                                        <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                                    </div>
                                 </div>
                             </div>
                         </li>
@@ -543,14 +583,15 @@ function populateSingleMyPersonalProductDetails(){
                 let thedata = response.data;
                 $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                 $('.productDescription').html(thedata.description);
-                $('.productOwnerFarmName').html(thedata.user.first_name);
+                $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
 
                 let isverified;
                 if(thedata.user.is_verified === 0){
-                    isverified = `<img src="../logos/unavailable.png" alt="">&nbsp; Unverified merchant`;
+                    isverified = `<img src="../logos/unavailable.png" width="22px" alt="">&nbsp; Unverified`;
                 }else{
-                    isverified = `<img src="../logos/verified.svg" alt="">&nbsp; Verified merchant`;
+                    isverified = `<img src="../logos/verified.svg" width="22px" alt="">&nbsp; Verified`;
                 }
+                $('.isVerified').html(isverified);
 
                 let videoLink;
                 if(!thedata.video){
@@ -663,15 +704,45 @@ function populateSingleProductDetails(){
                 // alert(response.message);
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
-                $('.productName').html(thedata.category.name+" "+thedata.specification.color);
+                $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
+                $('.productQuantity').html(thedata.specification.qty);
                 $('.productDescription').html(thedata.description);
-                $('.productOwnerFarmName').html(thedata.user.first_name);
+                $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
+
+                let videoLink;
+                if(!thedata.video){
+                    $('.videoLinkContainer').hide();
+                }else{
+                    $('.videoLinkContainer').show();
+                    let thevideoLink = thedata.video;
+                    let embedLink = thevideoLink.includes("embed/");
+                    let watchLink = thevideoLink.includes("watch?");
+                    let mp4Link = thevideoLink.includes(".mp4");
+                    if(embedLink){
+                        $('#videoLink').attr('src', thevideoLink);
+                    }else if(watchLink){
+                        let watchExtension = thedata.video.split('watch?v=')[1];
+                        videoLink = "https://www.youtube.com/embed/"+watchExtension;
+                        $('#videoLink').attr('src', videoLink);
+                    }else if(mp4Link){
+                        $('#videoLinkTagArea').html(`<video src="${thevideoLink}" width="100%" height="315" controls></video>`);
+                    }else{
+                        $('#videoLinkTagArea').html(``);
+                    }
+                }
 
                 let isverified;
                 if(thedata.user.is_verified === 0){
-                    isverified = `<img src="../logos/unavailable.png" alt="">&nbsp; Unverified merchant`;
+                    isverified = `<img src="../logos/unavailable.png" width="22px" alt="">&nbsp; Unverified`;
                 }else{
-                    isverified = `<img src="../logos/verified.svg" alt="">&nbsp; Verified merchant`;
+                    isverified = `<img src="../logos/verified.svg" width="22px" alt="">&nbsp; Verified`;
+                }
+                $('.isVerified').html(isverified);
+
+                if(parseInt(thedata.is_negotiable)==1){
+                    $('.clicktoNegotiate').show();
+                }else if(parseInt(thedata.is_negotiable)==0){
+                    $('.clicktoNegotiate').hide();
                 }
 
                 $('.productAmount').html(thedata.specification.price);
@@ -1995,11 +2066,34 @@ $('#formpage3').submit(function(e){
     let subcategory = document.getElementById('subcategory');
     let color = document.getElementById('color');
     
-    let application, manufacture_name, packaging;
+    let application, manufacture_name, packaging, warehouse_address_value;
     if(activePage=="/dashboard/addcropauction.html"||activePage=="/dashboard/addcrop.html"){
         application = document.getElementById('application');
         manufacture_name = document.getElementById('manufacture_name');
         packaging = document.getElementById('packaging');
+        warehouse_address_value = document.getElementById('warehouse_address').value;
+    }else{
+        warehouse_address_value = "";
+    }
+
+    let deliveryWindowValue;
+    if(activePage=="/dashboard/addcropwanted.html"||activePage=="/dashboard/addcrop.html"){
+        let windowFrom = document.getElementById('windowFrom').value;
+        let windowTo = document.getElementById('windowTo').value;
+
+        // format from M/D/YYYY to YYYYMMDD
+        let windowFromValue = windowFrom.replaceAll("-", "/");
+        let windowToValue = windowTo.replaceAll("-", "/");
+
+        let thedeliveryWindowValue = windowFromValue+"-"+windowToValue;
+        deliveryWindowValue = JSON.stringify(thedeliveryWindowValue);
+    }
+
+    let start_date, end_date, minimum_bid;
+    if(activePage=="/dashboard/addcropauction.html"){
+        start_date = document.getElementById('start_date');
+        end_date = document.getElementById('end_date');
+        minimum_bid = document.getElementById('minimum_bid');
     }
     
     let moisturecontent = document.getElementById('moisturecontent');
@@ -2010,11 +2104,10 @@ $('#formpage3').submit(function(e){
     let currency = document.getElementById('currency');
     let quantity = document.getElementById('quantity');
     let amount = document.getElementById('amount');
-    let windowFrom = document.getElementById('windowFrom');
     let countryList = document.getElementById('countryList');
     let stateList = document.getElementById('stateList');
-    let videourl = document.getElementById('videourl');
     let zipcode = document.getElementById('zipcode');
+    let videourl = document.getElementById('videourl');
     let deliveryaddress = document.getElementById('deliveryaddress');
     let brokengrains = document.getElementById('brokengrains');
     let weevil = document.getElementById('weevil');
@@ -2049,7 +2142,7 @@ $('#formpage3').submit(function(e){
     //Store form Data
     var formData = new FormData();
 
-    formData.append("user_id", user.user.id);
+    // formData.append("user_id", user.user.id);
     // formData.append("title", croptitle.value);
     formData.append("category_id", category.value);
     formData.append("subcategory_id", subcategory.value);
@@ -2063,6 +2156,17 @@ $('#formpage3').submit(function(e){
         formData.append("application", application.value);
         formData.append("manufacture_name", manufacture_name.value);
         formData.append("packaging", packaging.value);
+    }
+    if(activePage=="/dashboard/addcropauction.html"){
+        formData.append("start_date", start_date.value);
+        formData.append("end_date", end_date.value);
+        formData.append("minimum_bid", minimum_bid.value);
+    }
+    if(activePage=="/dashboard/addcropwanted.html"){
+        formData.append("address", deliveryaddress.value);
+    }
+    if(activePage=="/dashboard/addcropwanted.html"||activePage=="/dashboard/addcrop.html"){
+        formData.append("delivery_window", "deliveryWindowValue");
     }
     
     // formData.append("manufacture_date", "2022/12/02");
@@ -2093,18 +2197,18 @@ $('#formpage3').submit(function(e){
     formData.append("drying_process", dryingprocess.value);
     formData.append("dead_insect", wholedeadinsects.value);
     formData.append("mammalian", mammalian.value);
-    formData.append("infested_by_weight", "2");
+    formData.append("infested_by_weight", insect_defiled_infested.value);
     formData.append("curcumin_content", curcumincontent.value);
     formData.append("extraneous", extaneous.value);
-    formData.append("unit", "kg");
+    formData.append("unit", testweight.value);
+    formData.append("country", countryList.value);
     formData.append("state", stateList.value);
     formData.append("zip", zipcode.value);
-    formData.append("country", countryList.value);
-    formData.append("address", "Zuba");
+    // formData.append("address", "Zuba");
     formData.append("delivery_method", "Delivery");
-    formData.append("delivery_date", "2023/02/12");
-    formData.append("delivery_window", "2023/02/01-2023/03/15");
-    formData.append("warehouse_address", "2 Wasrehouse street, Lagos");
+    // formData.append("delivery_date", "2023/02/12");
+    // formData.append("delivery_window", windowFrom+" - "+windowTo);
+    formData.append("warehouse_address", "warehouse_address_value");
     formData.append("moisture_content", moisturecontent.value);
 
     // formData.append("file", fileInput.files[0], "cornproduct_resize.jpg");
@@ -2135,6 +2239,7 @@ $('#formpage3').submit(function(e){
         "method": "POST",
         "timeout": 0,
         "headers": {
+            // "Content-Type": "application/json",
             "authorization": localStorage.getItem('authToken')
         },
         "processData": false,
@@ -2161,13 +2266,13 @@ $('#formpage3').submit(function(e){
                 let croptype;
                 if(activePage=="/dashboard/addcropauction.html"){
                     croptype = "auction";
-                    location.assign('auctionedcrops.html');
+                    location.assign('/dashboard/viewusercropsforauction.html');
                 }else if(activePage=="/dashboard/addcrop.html"){
                     croptype = "sale";
                     location.assign('viewusercropsforsale.html');
                 }else if(activePage=="/dashboard/addcropwanted.html"){
                     croptype = "wanted";
-                    location.assign('cropswanted.html');
+                    location.assign('/dashboard/cropswanted.html');
                 }
                 // location.assign('viewusercropsforsale.html');
             },2000)
@@ -2916,7 +3021,7 @@ function fetchUserCropsforSaleByUserID(){
     let usertype = user.user.type;
 
     $.ajax({
-        url: `${liveMobileUrl}/crop/offer/`+userid,
+        url: `${liveMobileUrl}/crop/offer/userid`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -2955,13 +3060,17 @@ function fetchUserCropsforSaleByUserID(){
                             theprice = "";
                         }
 
+                        let activeProductClass, negotiationProductClass;
+                        if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
                         rowContent += `
                         <li onclick="goToMyPersonalCropDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
                             <div class="item-inner w-100">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.category.name} - ${thecolor}</a></h6>
+                                    <h6 class="item-title"><a>${row.subcategory.name} - ${thecolor}</a></h6>
                                     <div class="item-subtitle text-truncate">${row.description}</div>
                                 </div>
                                 <div class="item-footer">
@@ -2975,17 +3084,21 @@ function fetchUserCropsforSaleByUserID(){
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
                                     
                                 </a>    
+                                <div class="d-flex justify-content-between">
+                                    <span class="cropstatus cropActive ${activeProductClass}"></span>
+                                    <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                                </div>
                             </div>
                         </div>
                     </li>
                         `;   
                     }
-                    $('#inputs').html(rowContent);
+                    $('#p_cropsByUserID').html(rowContent);
         
         
           
                 }else{
-                    $('#inputs').html("No Input yet");
+                    $('#p_cropsByUserID').html("No Input yet");
                 }
                     
             }
@@ -3029,7 +3142,7 @@ function fetchUserCropsforAuctionByUserID(){
     let usertype = user.user.type;
 
     $.ajax({
-        url: `${liveMobileUrl}/crop/auction/`+userid,
+        url: `${liveMobileUrl}/crop/auction/userid`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -3057,13 +3170,17 @@ function fetchUserCropsforAuctionByUserID(){
 
                         let therow = JSON.stringify(row);
 
+                        let activeProductClass, negotiationProductClass;
+                        if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
                         rowContent += `
                         <li onclick="goToMyPersonalCropDetails2(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
                             <div class="item-inner w-100">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.category.name} - ${row.specification.color}</a></h6>
+                                    <h6 class="item-title"><a>${row.subcategory.name} - ${row.specification.color}</a></h6>
                                     <div class="item-subtitle text-truncate">${row.description}</div>
                                 </div>
                                 <div class="item-footer">
@@ -3076,18 +3193,22 @@ function fetchUserCropsforAuctionByUserID(){
                             <div class="item-media media media-90">
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
                                     
-                                </a>    
+                                </a>
+                                <div class="d-flex justify-content-between">
+                                    <span class="cropstatus cropActive ${activeProductClass}"></span>
+                                    <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                                </div>   
                             </div>
                         </div>
                     </li>
                         `;   
                     }
-                    $('#inputs').html(rowContent);
+                    $('#p_cropAuctionByUserID').html(rowContent);
         
         
           
                 }else{
-                    $('#inputs').html("No Input yet");
+                    $('#p_cropAuctionByUserID').html("No Input yet");
                 }
                     
             }
