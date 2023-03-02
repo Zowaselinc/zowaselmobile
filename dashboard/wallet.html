@@ -353,9 +353,9 @@
         </div>
         <div class="container pt-0">
             <!-- Masseges List -->
-            <div class="transactions mb-5">
+            <div class="transactions mb-5" id="recentTransactions">
                 <!-- item -->
-                <a href="viewtransaction.html   " class="item">
+                <!-- <a href="viewtransaction.html" class="item">
                     <div class="detail">
                         <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
                         <div>
@@ -367,52 +367,7 @@
                     <div class="right">
                         <div class="price text-danger"> - ₦150000</div>
                     </div>
-                </a>
-                <!-- * item -->
-                <!-- item -->
-                <a href="viewtransaction.html   " class="item">
-                    <div class="detail">
-                        <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
-                        <div>
-                            <strong>Apple</strong>
-                            <p>54R9399XXXXX</p>
-                            <p>Nov 15, 2022 12:60:88</p>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="price text-danger">- ₦29000 </div>
-                    </div>
-                </a>
-                <!-- * item -->
-                <!-- item -->
-                <a href="viewtransaction.html   " class="item">
-                    <div class="detail">
-                        <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
-                        <div>
-                            <strong>Alex Ljung</strong>
-                            <p>54R9399XXXXX</p>
-                            <p>Nov 15, 2022 12:60:88</p>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="price text-danger">- ₦1,000000</div>
-                    </div>
-                </a>
-                <!-- * item -->
-                <!-- item -->
-                <a href="viewtransaction.html   " class="item">
-                    <div class="detail">
-                        <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
-                        <div>
-                            <strong>Beatriz Brito</strong>
-                            <p>54R9399XXXXX</p>
-                            <p>Nov 15, 2022 12:60:88</p>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="price text-danger">- ₦186000</div>
-                    </div>
-                </a>
+                </a> -->
                 <!-- * item -->
             </div>
         </div>
@@ -445,7 +400,7 @@
             <!-- Masseges List -->
             <div class="transactions mb-8">
                 <!-- item -->
-                <a href="viewtransaction.html   " class="item">
+                <a href="viewtransaction.html" class="item">
                     <div class="detail">
                         <img src="../logos/wallet.png" alt="img" class="image-block imaged w48">
                         <div>
@@ -458,7 +413,7 @@
                 </a>
                 <!-- * item -->
                 <!-- item -->
-                <a href="viewtransaction.html   " class="item">
+                <a href="viewtransaction.html" class="item">
                     <div class="detail">
                         <img src="../logos/wallet.png" alt="img" class="image-block imaged w48">
                         <div>
@@ -471,7 +426,7 @@
                 </a>
                 <!-- * item -->
                 <!-- item -->
-                <a href="viewtransaction.html   " class="item">
+                <a href="viewtransaction.html" class="item">
                     <div class="detail">
                         <img src="../logos/wallet.png" alt="img" class="image-block imaged w48">
                         <div>
@@ -491,6 +446,20 @@
 
 
 
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+
+
 	
 	
 	
@@ -505,13 +474,14 @@
 <script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../assets/js/settings.js"></script>
 <script src="../assets/js/custom.js"></script>
+<script src="../assets/js/modal.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
-<script src="../../assets/js/env.js"></script> 
-<script src="../../assets/js/dashboard.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
 
 
 
-<script src="index.js" defer></script>
+<script src="../index.js" defer></script>
 <script>
     $(".stepper").TouchSpin();
 </script>
@@ -519,6 +489,7 @@
     sidemenu();
     populateUserDetails();
     populateWalletDetails();
+    fetchRecentTransactions();
     buttommenu();
 </script>
 </body>

@@ -103,29 +103,41 @@
             </div>
             <!-- PRICING DETAILS -->
 
+            <form id="payForOrderForm">
+                <!-- PAYMENT OPTIONS -->
+                <div class="zowaselWhitesmoke p-4 paymentOptionContainer">
+                    <div class="notRedHot" style="display: none;">
+                        <div class="d-flex align-items-center gap-4 mb-3">
+                            <input type="radio" name="payment_option" value="24-48hrs after delivery" />
+                            <span class="zowaselDarkBlueColor font-18">24-48hrs after delivery</span>
+                        </div>
+                    </div>
+                    <div class="redHot" style="display: none;">
+                        <div class="d-flex align-items-center gap-4 mb-3">
+                            <input type="radio" name="payment_option" value="Full payment" />
+                            <span class="zowaselDarkBlueColor font-18">Full payment</span>
+                        </div>
+                    </div>
+                    <div class="notRedHot" style="display: none;">
+                        <div class="d-flex align-items-center gap-4">
+                            <input type="radio" name="payment_option" value="Advance Payment" />
+                            <span class="zowaselDarkBlueColor font-18">Advance Payment </span>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="total_price" />
+                <input type="hidden" id="order_details" />
+                <input type="hidden" id="order_type" />
+                <input type="hidden" id="order_type_id" />
+                <input type="hidden" id="order_hash" />
+                <!-- PAYMENT OPTIONS -->
 
-            <!-- PAYMENT OPTIONS -->
-            <div class="zowaselWhitesmoke p-4 paymentOptionContainer">
-                <div class="d-flex align-items-center gap-4 mb-3">
-                    <input type="radio" name="payment_option" value="24-48hrs after delivery" />
-                    <span class="zowaselDarkBlueColor font-18">24-48hrs after delivery</span>
+                <!-- PAY BUTTON -->
+                <div class="w-100 gap-4 mt-3 corporateOrderPayment_button" style="display:none;">
+                    <button class="btn zowaselGreen text-white w-100" type="submit">Pay</button>
                 </div>
-                <div class="d-flex align-items-center gap-4 mb-3">
-                    <input type="radio" name="payment_option" value="Full payment" />
-                    <span class="zowaselDarkBlueColor font-18">Full payment</span>
-                </div>
-                <div class="d-flex align-items-center gap-4">
-                    <input type="radio" name="payment_option" value="Advance Payment " />
-                    <span class="zowaselDarkBlueColor font-18">Advance Payment </span>
-                </div>
-            </div>
-            <!-- PAYMENT OPTIONS -->
-
-            <!-- PAY BUTTON -->
-            <div class="w-100 gap-4 mt-3 corporateOrderPayment_button" style="display:none;">
-                <a href="javascript:void(0)" class="btn zowaselGreen text-white w-100" type="button">Pay</a>
-            </div>
-            <!-- PAY BUTTON -->
+                <!-- PAY BUTTON -->
+            </form>
           
         </div>  
         <!-- ---------------------- Pricing Details Container ---------------------- -->
@@ -173,6 +185,8 @@
 <script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../../assets/js/settings.js"></script>
 <script src="../../assets/js/custom.js"></script>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script src="../../assets/js/modal.js"></script>
 <script src="../../assets/lib/pulltorefresh.js"></script>
 <script src="../../assets/js/env.js"></script> 
 <script src="../../assets/js/order.js"></script>
@@ -190,6 +204,7 @@
     // sidemenu();
     // populateUserDetails();
     populateOrderSummaryDetails();
+    orderPaymentPage();
 </script>
 
 <script>

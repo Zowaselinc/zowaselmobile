@@ -192,6 +192,18 @@ const fundWalletPage=()=>{
             // After their modal for payment has appeared, we can make use of their test cards in developer.flutterwave.com/docs/test-cards
             // Type	Card number	CVV	PIN	Expiry	OTP
             // MasterCard PIN authentication	5531886652142950	564	3310	09/32	12345
+
+            // {
+            //     "label": "TRX-FEZ39ZVILDZCS8CPGJNT",
+            //     "modalauditid": "TRX-FEZ39ZVILDZCS8CPGJNT",
+            //     "actor": "jackwilliams@yopmail.com",
+            //     "action": "request",
+            //     "context": "mobile",
+            //     "comment": "IP Resolved 105.112.126.117",
+            //     "object": "IP",
+            //     "date": 1677672432039,
+            //     "token": "flw_event_wt_e5fe4da063edacb29ec19f"
+            // }
             FlutterwaveCheckout({
                 public_key: "FLWPUBK_TEST-a1b8a6d0b897f10b7332e3af9f902c70-X",
                 tx_ref: "ZOWASELFUND-"+Math.floor((Math.random()*1000000000)+1),
@@ -201,7 +213,7 @@ const fundWalletPage=()=>{
                 // redirect_url: "https://glaciers.titanic.com/handle-flutterwave-payment",
                 // meta: {
                 //     consumer_id: 23,
-                //     consumer_mac: "92a3-912ba-1192a",
+                //     con  sumer_mac: "92a3-912ba-1192a",
                 // },
                 customer: {
                     email: email,
@@ -268,6 +280,76 @@ const populateWalletDetails=()=>{
     });
 }
 /* --------------------------- GRAB WALLET DETAILS -------------------------- */
+
+/* ------------------------ FETCH RECENT TRANSACTIONS ----------------------- */
+const fetchRecentTransactions=()=>{
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/wallet/transactions/recent`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            console.log(response, "The recent transactions response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                let rowContent = "";
+                let index;
+                console.log(thedata, "10 recent transactions");
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                      // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        rowContent += `
+                        <a href="viewtransaction.html" class="item">
+                            <div class="detail">
+                                <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
+                                <div>
+                                    <strong>Apple</strong>
+                                    <p>54R9399XXXXX</p>
+                                    <p>Nov 15, 2022 12:60:88</p>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="price text-danger"> - ₦150000</div>
+                            </div>
+                        </a>
+                        `;   
+                    }
+                    $('#recentTransactions').html(rowContent);
+        
+        
+          
+                }else{
+                    $('#recentTransactions').html("<h5 class='text-center'>No transacton found.</h5>");
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
+            }
+        }
+    });
+}
+/* ------------------------ FETCH RECENT TRANSACTIONS ----------------------- */
 
 
 
@@ -3244,53 +3326,59 @@ function goToMyPersonalCropDetails2(n){
 
 /* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
 function acceptOfferDirectly(){
-    startPageLoader();
-
+    
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let userid = user.user.id;
     let usertype = user.user.type;
-
+    let crop_DBQuantity = $('.productQuantity').text();
+    let accepted_quantity = parseInt($('#accepted_quantity').val());
+    
     let singleproductID = localStorage.getItem('singleproductID');
-
-    $.ajax({
-        url: `${liveMobileUrl}/crop/${singleproductID}/fulfil`,
-        type: "POST",
-        "timeout": 25000,
-        "headers": {
-            "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
-        },
-        "data": JSON.stringify({
-            "quantity": parseInt($('#accepted_quantity').val()),
-            "user_id": userid,
-            "user_type": usertype
-        }),
-        success: function(response) { 
-            // alert("efe");
-            EndPageLoader();
-            // $('.loader').hide();
-            if(response.error == true){
-                // alert(response.message);
-                responsemodal("erroricon.png", "Error", response.message);
-            }else{
-                // alert(response.message);
-                responsemodal("successicon.png", "Success", response.message);
-                localStorage.setItem('orderHash', response.data.order_hash);
-                setTimeout(()=>{
-                    location.assign('order/ordersummarydirect.html');
-                },3000)
+    
+    if(accepted_quantity > crop_DBQuantity){
+        responsemodal("erroricon.png", "", "Quantity exeeds offer quantity");
+    }else{
+        startPageLoader();
+        $.ajax({
+            url: `${liveMobileUrl}/crop/${singleproductID}/fulfil`,
+            type: "POST",
+            "timeout": 25000,
+            "headers": {
+                "Content-Type": "application/json",
+                "authorization": localStorage.getItem('authToken')
+            },
+            "data": JSON.stringify({
+                "quantity": parseInt($('#accepted_quantity').val()),
+                "user_id": userid,
+                "user_type": usertype
+            }),
+            success: function(response) { 
+                // alert("efe");
+                EndPageLoader();
+                // $('.loader').hide();
+                if(response.error == true){
+                    // alert(response.message);
+                    responsemodal("erroricon.png", "Error", response.message);
+                }else{
+                    // alert(response.message);
+                    responsemodal("successicon.png", "Success", response.message);
+                    localStorage.setItem('orderHash', response.data.order_hash);
+                    setTimeout(()=>{
+                        location.assign('order/ordersummarydirect.html');
+                    },3000)
+                }
+            },
+            error: function(xmlhttprequest, textstatus, message) {
+                EndPageLoader();
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out");
+                } else {
+                    // alert(textstatus);
+                    basicmodal("", textstatus);
+                }
             }
-        },
-        error: function(xmlhttprequest, textstatus, message) {
-            EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
-            }
-        }
-    });
+        });
+    }
 }
 /* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
