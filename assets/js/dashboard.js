@@ -3180,7 +3180,7 @@ function fetchUserCropsforSaleByUserID(){
         
           
                 }else{
-                    $('#p_cropsByUserID').html("No Input yet");
+                    $('#p_cropsByUserID').html("No Crop for sale yet");
                 }
                     
             }

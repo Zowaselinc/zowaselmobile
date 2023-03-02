@@ -82,18 +82,22 @@ const fetchUserConversations =()=>{
                             productOwnerDetails = JSON.stringify(row.initiator);
                         }
 
-                        let thecrop;
+                        let thecrop, thecroptype;
                         if(row.crop == "" || row.crop===null || row.crop.subcategory===null){
                             thecrop = "";
-                        }else if(row.crop.specification == "" || row.crop.specification === null){
-                            thecrop = row.crop.category.name+" ("+row.crop.type+")";
+                            thecroptype = "";
                         }else{
-                            thecrop = row.crop.category.name+" - "+row.crop.specification.color+" ("+row.crop.type+")  ";
+                            thecroptype = row.crop.type;
+                            if(row.crop.specification == "" || row.crop.specification === null){
+                                thecrop = row.crop.category.name+" ("+row.crop.type+")";
+                            }else{
+                                thecrop = row.crop.category.name+" - "+row.crop.specification.color+" ("+row.crop.type+")  ";
+                            }
                         }
 
                         rowContent += `
                             <li>
-                                <a onclick="gotoMessageDetails(${row.crop_id}, ${index})">
+                                <a onclick="gotoMessageDetails(${row.crop_id}, '${thecroptype}', ${index})">
                                     <div class="media-content">
                                         <div>
                                             <h5 class="name">${fullname}</h5>
@@ -140,7 +144,7 @@ const fetchUserConversations =()=>{
 
 
 
-function gotoMessageDetails(n, index){
+function gotoMessageDetails(n, thecroptype, index){
     // console.log(n); The CROP ID
     // console.log(index, "index");
     let productOwnerDetails = $('#productOwnerDetails'+index).html();
@@ -152,7 +156,7 @@ function gotoMessageDetails(n, index){
     user = JSON.parse(user);
     let userid = user.user.id;
     let usertype = user.user.type;
-    localStorage.setItem('negotiationpage_type', "cropwanted");
+    localStorage.setItem('negotiationpage_type', thecroptype);
     
     
     location.assign('negotiate.html');

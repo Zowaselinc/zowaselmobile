@@ -243,7 +243,7 @@ function updateGeneralNotificationAsSeen(){
                 basicmodal("", "Service timed out");
             } else {
                 // alert(textstatus);
-                basicmodal("", textstatus);
+                // basicmodal("", textstatus);
             }
         }
     });
