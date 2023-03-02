@@ -1,6 +1,6 @@
-// import { liveMobileUrl, liveBaseUrl } from './env.js';
+// import { liveMobileUrl, liveGlobalBaseUrl } from './env.js';
 console.log(liveMobileUrl);
-console.log(liveBaseUrl);
+console.log(liveGlobalBaseUrl);
 // alert(liveMobileUrl)
 // WELCOME.HTML
 const userType =(userType)=>{
@@ -185,7 +185,7 @@ const RegisterScreen =()=>{
                 startPageLoader();
 
                 $.ajax({
-                    "url": `${liveBaseUrl}/register/verify`,
+                    "url": `${liveGlobalBaseUrl}/register/verify`,
                     "method": "POST",
                     "timeout": 25000,
                     "headers": {
@@ -332,7 +332,7 @@ const resendotpcode =()=>{
       startPageLoader();
 
       $.ajax({
-        "url": `${liveBaseUrl}/register/verify`,
+        "url": `${liveGlobalBaseUrl}/register/verify`,
         "method": "POST",
         "timeout": 25000,
         "headers": {
@@ -389,7 +389,7 @@ const resendotpcode =()=>{
     startPageLoader();
 
     $.ajax({
-        "url": `${liveBaseUrl}/register/confirm`,
+        "url": `${liveGlobalBaseUrl}/register/confirm`,
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -531,7 +531,7 @@ function LoginScreen(){
 
         // alert("ef");
         $.ajax({
-            url: `${liveBaseUrl}/login`,
+            url: `${liveGlobalBaseUrl}/login`,
             type: "POST",
             "timeout": 25000,
             "headers": {
@@ -573,7 +573,7 @@ function LoginScreen(){
 
 
         // var settings = {
-        //     "url": `${liveBaseUrl}/login`,
+        //     "url": `${liveGlobalBaseUrl}/login`,
         //     "method": "POST",
         //     "timeout": 1000,
         //     "headers": {
