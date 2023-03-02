@@ -25,11 +25,7 @@ const RegisterScreen =()=>{
     const account_type = form.elements["account_type"];
     const privacy_policy = document.getElementById('privacy_policy');
 
-
-
-
-    let registerRequiredField = []; 
-    let registerLengthField = []; 
+ 
 
     //Show input error messages
     function showError(input, message) {
@@ -67,6 +63,9 @@ const RegisterScreen =()=>{
 
 
     //checkRequired fields
+    let registerRequiredField = [];
+    let registerLengthField = []; 
+    let totalRegisterLengthFieldError;
     function checkRequired(inputArr) {
         // console.log(inputArr);
         inputArr.forEach(function(input){
@@ -114,13 +113,17 @@ const RegisterScreen =()=>{
             // showError(input, `${getFieldName(input)} must be at least ${min} characters`);
             showError(input, `${fieldname} should be at least ${min} characters`);
             registerLengthField.push("lengtherror");
+            return true;
         }else if(input.value.length > max) {
             showError(input, `${fieldname} must be les than ${max} characters`);
             registerLengthField.push("lengtherror");
+            return true;
         }else {
             showSucces(input);
             registerLengthField.pop("lengtherror");
+            return false;
         }
+        
     }
 
     //get FieldName
@@ -149,12 +152,15 @@ const RegisterScreen =()=>{
 
         // If there are no required fields
         if(!registerRequiredField.includes('requiredfield')){
-            checkLength(firstname,3,25);
-            checkLength(lastname,3,25);
-            checkLength(email,12,45);
-            checkLength(phonenumber,11,14);
+            let a1 = checkLength(firstname,3,25);
+            let a2 = checkLength(lastname,3,25);
+            let a3 = checkLength(email,12,45);
+            let a4 = checkLength(phonenumber,11,14);
 
-            if(!registerLengthField.includes('lengtherror')){
+            console.log(a1, "checkLength");
+            
+            if(a1===true||a2===true||a3===true||a4===true){
+            }else{
                 // checkEmail(email);
                 // checkPasswordMatch(password, password2);
                 
@@ -214,7 +220,6 @@ const RegisterScreen =()=>{
                 /* ------------------------------ DB CONNECTION ----------------------------- */
 
             }
-
         }
         
         
