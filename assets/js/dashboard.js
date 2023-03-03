@@ -666,6 +666,7 @@ function populateSingleMyPersonalProductDetails(){
                 $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
+                $('#productSaleType').html(thedata.type);
 
                 let isverified;
                 if(thedata.user.is_verified === 0){
@@ -790,6 +791,7 @@ function populateSingleProductDetails(){
                 $('.productQuantity').html(thedata.specification.qty);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
+                $('#productSaleType').html(thedata.type);
 
                 let videoLink;
                 if(!thedata.video){
@@ -893,6 +895,7 @@ function gotoNegotiation(){
         responsemodal("erroricon.png", "Error", "Second party details cannot be retrieved");
     }else{
         localStorage.setItem('productOwnerDetails', JSON.stringify(farmOwnerUserDetails));
+        localStorage.setItem('negotiationpage_type', $('#productSaleType').text());
         location.assign('negotiate.html');
     }
 }
@@ -1012,8 +1015,17 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                     accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
-                                }else{
+                                }else if(negotiationpage_type=="cropwanted"){
                                     accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                }else if(negotiationpage_type=="offer"){
+                                    accept_decline_checkbox = `
+                                        <form>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
+                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
+                                            </div>
+                                        </form>
+                                    `;
                                 }
 
                             }else if(usertype == "corporate"){
@@ -1038,6 +1050,8 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                             </div>
                                         </form>
                                     `;
+                                }else if(negotiationpage_type=="offer"){
+                                    accept_decline_checkbox = `We will let you know when merchant accepts/declines offer.`;
                                 }
                             }
 
@@ -1309,8 +1323,15 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                     accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
-                                }else{
-                                    accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                }else if(negotiationpage_type=="offer"){
+                                    accept_decline_checkbox = `
+                                        <form>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
+                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
+                                            </div>
+                                        </form>
+                                    `;
                                 }
 
                             }else if(usertype == "corporate"){
@@ -1335,6 +1356,8 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                             </div>
                                         </form>
                                     `;
+                                }else if(negotiationpage_type=="offer"){
+                                    accept_decline_checkbox = `We will let you know when merchant accepts/declines offer.`;
                                 }
                             }
 
