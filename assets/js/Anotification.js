@@ -126,7 +126,7 @@ function truncate(str, length) {
                         </a>
                         `;   
                     }
-                    $('#p_notification').append(rowContent);        
+                    $('#p_notification').html(rowContent);        
           
                 }else{
                     $('#p_notification').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No notification found</h5></td></tr>");
@@ -136,13 +136,29 @@ function truncate(str, length) {
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }    
     });
 }
 
@@ -164,7 +180,7 @@ function gotoNotificationDestination(id, model, model_id){
             // alert("efe");
             // EndPageLoader();
             // $('.loader').addClass('loader-hidden');
-            console.log(response, "Update negotiation singe_seen response");
+            console.log(response, "Update negotiation single_seen response");
             if(response.error == true){
                 console.log(response.message);
                 // responsemodal("erroricon.png", "Error", response.message);
@@ -176,13 +192,29 @@ function gotoNotificationDestination(id, model, model_id){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }    
     });
     // UPDATE SINGLE NOTIFICATION TO SEEN
 
@@ -239,13 +271,29 @@ function updateGeneralNotificationAsSeen(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                // basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }    
     });
 }
 /************************************************************************************
