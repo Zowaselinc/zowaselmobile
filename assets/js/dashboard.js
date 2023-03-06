@@ -692,6 +692,29 @@ function populateSingleMyPersonalProductDetails(){
                 }
                 $('.isVerified').html(isverified);
 
+                let activecrop;
+                let active = thedata.active;
+                // alert(active);
+                // Active and nonActive crop
+                if(parseInt(active)===0){
+                    activecrop = `
+                    <div>
+                        <span>Crop Deactivated  &nbsp;</span>
+                        <span class="cropstatus2 cropActive d-block bg-danger"></span>
+                    </div>
+                    `;
+                }else if(parseInt(active)===1){
+                    activecrop = `
+                    <div>
+                        <span>Active crop &nbsp;</span>
+                        <span class="cropstatus2 cropActive d-block bg-success"></span>
+                    </div>
+                    <button class="btn btn-danger" onclick="deactivateCrop(${thedata.id})">Deactivate crop</button>
+                    `;
+                }
+                $('.cropActiveStatus-v').html(activecrop);
+                // Active and nonActive crop
+
                 let videoLink;
                 if(!thedata.video){
                     $('.videoLinkContainer').hide();
@@ -779,6 +802,67 @@ function populateSingleMyPersonalProductDetails(){
     })
 }
 
+
+function deactivateCrop(crop_id){
+    // alert(crop_id);
+    mcxDialog.confirm("I accept to deactivate this crop", {
+        sureBtnClick: function(){
+          // callback
+          //   alert("Ewo");
+          startPageLoader();
+
+            $.ajax({
+                url: `${liveMobileUrl}/crop/${crop_id}/deactivate`,
+                type: "POST",
+                "timeout": 25000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                "data": JSON.stringify({
+                    "crop_id": crop_id
+                }),
+                success: function(response) { 
+                    EndPageLoader();
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        responsemodal("successicon.png", "Success", response.message);
+                        populateSingleMyPersonalProductDetails();  
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout" || textstatus=="error") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.log('ajax.statusCode: 200');
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }  
+            });
+        }
+
+    });
+}
 
 function populateSingleProductDetails(){
     startPageLoader();
@@ -2206,8 +2290,11 @@ $('#formpage3').submit(function(e){
         let windowFromValue = windowFrom.replaceAll("-", "/");
         let windowToValue = windowTo.replaceAll("-", "/");
 
-        let thedeliveryWindowValue = windowFromValue+"-"+windowToValue;
-        deliveryWindowValue = JSON.stringify(thedeliveryWindowValue);
+        // let thedeliveryWindowValue = windowFromValue+"-"+windowToValue;
+        // deliveryWindowValue = JSON.stringify(thedeliveryWindowValue);
+        deliveryWindowValue = {
+            "from": windowFromValue,"to":windowToValue
+        }
     }
 
     let start_date, end_date, minimum_bid;
@@ -2288,6 +2375,9 @@ $('#formpage3').submit(function(e){
     }
     if(activePage=="/dashboard/addcropwanted.html"||activePage=="/dashboard/addcrop.html"){
         formData.append("delivery_window", "deliveryWindowValue");
+    }
+    if(activePage=="/dashboard/addcropauction.html"){
+        formData.append("delivery_window", "NULL");
     }
     
     // formData.append("manufacture_date", "2022/12/02");

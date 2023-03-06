@@ -140,6 +140,13 @@ table tbody td{
     border: 3px solid #fff;
     border-radius: 50px;
 }
+.cropstatus2 {
+    width: 23px;
+    height: 23px;
+    /* background-color: #54D969; */
+    border: 3px solid whitesmoke;
+    border-radius: 50px;
+}
 /* ------------------------------- CROP STATUS ------------------------------ */
 
 
