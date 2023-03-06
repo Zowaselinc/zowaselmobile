@@ -527,11 +527,27 @@ function truncate(str, length) {
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -601,11 +617,27 @@ const deleteTrackingData =(sn, index)=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -693,11 +725,27 @@ const waybillDetailsPage =()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -791,11 +839,27 @@ const waybillDetailsPage =()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -920,11 +984,27 @@ function fetchUserOrdersByUserID(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -984,7 +1064,7 @@ const orderPaymentPage=()=>{
         //     // MasterCard PIN authentication	5531886652142950	564	3310	09/32	12345
 
             FlutterwaveCheckout({
-                public_key: "FLWPUBK_TEST-a1b8a6d0b897f10b7332e3af9f902c70-X",
+                public_key: `${FLW_PUBLIC_KEY}`,
                 tx_ref: "ZOWASELFUND-"+Math.floor((Math.random()*1000000000)+1),
                 amount: amount.value,
                 currency: "NGN",
@@ -1076,11 +1156,27 @@ const orderPaymentPage=()=>{
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out");
-                } else {
-                    // alert(textstatus);
-                    basicmodal("", textstatus);
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
                 }
             }
         });
