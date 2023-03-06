@@ -1104,7 +1104,7 @@ const orderPaymentPage=()=>{
                         alert("Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         // responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         setTimeout(()=>{
-                            verifyTransaction(transaction_id, transaction_reference);
+                            verifyTransaction(`'${transaction_id}'`, transaction_reference);
                             alert("Anya mo Anya mo");
                         },2000)
                     }
@@ -1149,7 +1149,7 @@ const orderPaymentPage=()=>{
                 "authorization": localStorage.getItem('authToken')
             },
             "data": JSON.stringify({
-                "transaction_id": `${trans_id.toString()}`,
+                "transaction_id": `${trans_id}`,
                 "transaction_ref": trans_ref,
                 "order": order_hash.value,
                 "partial": partial
