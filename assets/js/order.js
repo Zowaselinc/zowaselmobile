@@ -1139,7 +1139,7 @@ const orderPaymentPage=()=>{
         let order_type  = document.getElementById('order_type');
         let order_type_id  = document.getElementById('order_type_id');
         let order_hash = document.getElementById('order_hash');
-
+        
         $.ajax({
             url: `${liveMobileUrl}/transaction/verify`,
             type: "POST",
@@ -1151,7 +1151,7 @@ const orderPaymentPage=()=>{
             "data": JSON.stringify({
                 "transaction_id": trans_id,
                 "transaction_ref": trans_ref,
-                "order": order_hash,
+                "order": order_hash.value,
                 "partial": partial
             }),
             success: function(response) { 
