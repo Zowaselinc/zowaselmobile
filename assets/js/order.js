@@ -26,6 +26,17 @@ window.addEventListener('load', ()=>{
 /* --------------------------------- LOADER --------------------------------- */
 
 
+/* -------------------------------- // LOGOUT ------------------------------- */
+const logout =()=>{
+    // alert("ef");
+    localStorage.clear();
+    sessionStorage.clear();
+    // alert(window.location.origin);
+    let routeroot = window.location.origin;
+    location.assign(routeroot+'/login.html');
+}
+/* -------------------------------- // LOGOUT ------------------------------- */
+
 
 
 

@@ -205,7 +205,7 @@ const fundWalletPage=()=>{
             //     "token": "flw_event_wt_e5fe4da063edacb29ec19f"
             // }
             FlutterwaveCheckout({
-                public_key: "FLWPUBK_TEST-a1b8a6d0b897f10b7332e3af9f902c70-X",
+                public_key: `${FLW_PUBLIC_KEY}`,
                 tx_ref: "ZOWASELFUND-"+Math.floor((Math.random()*1000000000)+1),
                 amount: amount.value,
                 currency: "NGN",
@@ -356,27 +356,11 @@ const fetchRecentTransactions=()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -508,27 +492,11 @@ function fetchWantedCrops(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -672,27 +640,11 @@ function fetchAllCropsForSale(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -860,7 +812,7 @@ function deactivateCrop(crop_id){
           startPageLoader();
 
             $.ajax({
-                url: `${liveMobileUrl}/crop/${crop_id}/deactivate`,
+                url: `${liveMobileUrl}/crop//deactivate`,
                 type: "POST",
                 "timeout": 25000,
                 "headers": {
@@ -868,7 +820,7 @@ function deactivateCrop(crop_id){
                     "authorization": localStorage.getItem('authToken')
                 },
                 "data": JSON.stringify({
-                    "crop_id": crop_id
+                    "id": negotiation_id
                 }),
                 success: function(response) { 
                     EndPageLoader();
@@ -878,34 +830,21 @@ function deactivateCrop(crop_id){
                     }else{
                         // alert(response.message);
                         responsemodal("successicon.png", "Success", response.message);
-                        populateSingleMyPersonalProductDetails();  
+                        // populateUserandFarmOwnerNegotiationMessages();
+                        // setTimeout(()=>{
+                        //     $('#offer-form').hide();
+                        // },2000)      
                     }
                 },
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
-                    // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
-                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
                     }
-                },
-                statusCode: {
-                    200: function(response) {
-                        console.log('ajax.statusCode: 200');
-                    },
-                    403: function(response) {
-                        console.log('ajax.statusCode: 403');
-                        basicmodal("", "Session has ended, Login again");
-                        setTimeout(()=>{
-                            logout();
-                        },3000)
-                    },
-                    404: function(response) {
-                        console.log('ajax.statusCode: 404');
-                    },
-                    500: function(response) {
-                        console.log('ajax.statusCode: 500');
-                    }
-                }  
+                }
             });
         }
 
@@ -1019,27 +958,11 @@ function populateSingleProductDetails(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     })
@@ -1375,27 +1298,14 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out \nCheck your internet connection");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus+"<br/>This session has ended, Login again");
+                // setTimeout(()=>{
+                //     logout();
+                // },3000)
             }
         }
     });
@@ -1694,27 +1604,14 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out \nCheck your internet connection");
+            } else {
+                // alert(textstatus);
+                // basicmodal("", textstatus+"<br/>This session has ended, Login again");
+                // setTimeout(()=>{
+                //     logout();
+                // },3000)
             }
         }
     });
@@ -1810,27 +1707,11 @@ function declineoffer(negotiation_id){
                 },
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
-                    // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
-                        basicmodal("", "Service timed out <br/>Check your internet connection");
-                    }
-                },
-                statusCode: {
-                    200: function(response) {
-                        console.log('ajax.statusCode: 200');
-                    },
-                    403: function(response) {
-                        console.log('ajax.statusCode: 403');
-                        basicmodal("", "Session has ended, Login again");
-                        setTimeout(()=>{
-                            logout();
-                        },3000)
-                    },
-                    404: function(response) {
-                        console.log('ajax.statusCode: 404');
-                    },
-                    500: function(response) {
-                        console.log('ajax.statusCode: 500');
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
                     }
                 }
             });
@@ -1896,27 +1777,11 @@ const sendmessage =()=>{
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out, \nCheck your internet connection");
+                } else {
+                    // alert(textstatus);
+                    basicmodal("", textstatus);
                 }
             }
         });
@@ -2038,27 +1903,11 @@ const negotiationPage =()=>{
                     },
                     error: function(xmlhttprequest, textstatus, message) {
                         EndPageLoader();
-                        // console.log(xmlhttprequest, "Error code");
-                        if(textstatus==="timeout" || textstatus=="error") {
-                            basicmodal("", "Service timed out <br/>Check your internet connection");
-                        }
-                    },
-                    statusCode: {
-                        200: function(response) {
-                            console.log('ajax.statusCode: 200');
-                        },
-                        403: function(response) {
-                            console.log('ajax.statusCode: 403');
-                            basicmodal("", "Session has ended, Login again");
-                            setTimeout(()=>{
-                                logout();
-                            },3000)
-                        },
-                        404: function(response) {
-                            console.log('ajax.statusCode: 404');
-                        },
-                        500: function(response) {
-                            console.log('ajax.statusCode: 500');
+                        if(textstatus==="timeout") {
+                            basicmodal("", "Service timed out");
+                        } else {
+                            // alert(textstatus);
+                            basicmodal("", textstatus);
                         }
                     }
                 });
@@ -2146,27 +1995,11 @@ function fetchCropColors(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -2222,27 +2055,11 @@ function fetchCropCategories(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -2314,27 +2131,12 @@ const addCropPage =()=>{
                 },
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
-                    // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
-                        basicmodal("", "Service timed out <br/>Check your internet connection");
-                    }
-                },
-                statusCode: {
-                    200: function(response) {
-                        console.log('ajax.statusCode: 200');
-                    },
-                    403: function(response) {
-                        console.log('ajax.statusCode: 403');
-                        basicmodal("", "Session has ended, Login again");
-                        setTimeout(()=>{
-                            logout();
-                        },3000)
-                    },
-                    404: function(response) {
-                        console.log('ajax.statusCode: 404');
-                    },
-                    500: function(response) {
-                        console.log('ajax.statusCode: 500');
+                    $('.loader').addClass('loader-hidden');
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
                     }
                 }
             });
@@ -2408,27 +2210,12 @@ const addCropAuctionPage =()=>{
                 },
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
-                    // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
-                        basicmodal("", "Service timed out <br/>Check your internet connection");
-                    }
-                },
-                statusCode: {
-                    200: function(response) {
-                        console.log('ajax.statusCode: 200');
-                    },
-                    403: function(response) {
-                        console.log('ajax.statusCode: 403');
-                        basicmodal("", "Session has ended, Login again");
-                        setTimeout(()=>{
-                            logout();
-                        },3000)
-                    },
-                    404: function(response) {
-                        console.log('ajax.statusCode: 404');
-                    },
-                    500: function(response) {
-                        console.log('ajax.statusCode: 500');
+                    $('.loader').addClass('loader-hidden');
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
                     }
                 }
             });
@@ -2764,27 +2551,11 @@ function fetchInputCategories(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -2843,27 +2614,12 @@ const addInputPage =()=>{
                 },
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
-                    // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
-                        basicmodal("", "Service timed out <br/>Check your internet connection");
-                    }
-                },
-                statusCode: {
-                    200: function(response) {
-                        console.log('ajax.statusCode: 200');
-                    },
-                    403: function(response) {
-                        console.log('ajax.statusCode: 403');
-                        basicmodal("", "Session has ended, Login again");
-                        setTimeout(()=>{
-                            logout();
-                        },3000)
-                    },
-                    404: function(response) {
-                        console.log('ajax.statusCode: 404');
-                    },
-                    500: function(response) {
-                        console.log('ajax.statusCode: 500');
+                    $('.loader').addClass('loader-hidden');
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out");
+                    } else {
+                        // alert(textstatus);
+                        basicmodal("", textstatus);
                     }
                 }
             });
@@ -2961,27 +2717,11 @@ function fetchInputs(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -3064,27 +2804,11 @@ function fetchMerchantAddedInputs(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -3195,27 +2919,11 @@ function addtoCart(){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out, \nCheck your internet connection");
+                } else {
+                    // alert(textstatus);
+                    basicmodal("", textstatus);
                 }
             }
         });
@@ -3344,27 +3052,11 @@ function fetchUserInputCart(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -3448,27 +3140,11 @@ function updateCart(row_id, input_id, price, input_stock){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out, \nCheck your internet connection");
+                } else {
+                    // alert(textstatus);
+                    basicmodal("", textstatus);
                 }
             }
         });
@@ -3512,27 +3188,11 @@ function confirmaccepted(section, section_id){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out, \nCheck your internet connection");
+                } else {
+                    // alert(textstatus);
+                    basicmodal("", textstatus);
                 }
             }
         }); 
@@ -3643,27 +3303,11 @@ function fetchUserCropsforSaleByUserID(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -3769,27 +3413,11 @@ function fetchUserCropsforAuctionByUserID(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus);
             }
         }
     });
@@ -3859,27 +3487,11 @@ function acceptOfferDirectly(){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out");
+                } else {
+                    // alert(textstatus);
+                    basicmodal("", textstatus);
                 }
             }
         });
