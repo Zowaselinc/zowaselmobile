@@ -1149,7 +1149,7 @@ const orderPaymentPage=()=>{
                 "authorization": localStorage.getItem('authToken')
             },
             "data": JSON.stringify({
-                "transaction_id": `${trans_id}`,
+                "transaction_id": trans_id,
                 "transaction_ref": trans_ref,
                 "order": order_hash.value,
                 "partial": partial
