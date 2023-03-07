@@ -554,7 +554,7 @@
     display: flex;
     gap: 10px;
   }
-  .offerbutton_holder .fulfil, .offerbutton_holder .negotiate{
+  .offerbutton_holder .fulfil, .offerbutton_holder .negotiate,  .offerbutton_holder .auctionBid{
     box-shadow: 0 2px 4px rgb(44 39 56 / 8%), 0 4px 8px rgb(44 39 56 / 8%);
     border-radius: 4px;
     height: 50px;

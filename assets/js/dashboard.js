@@ -160,6 +160,27 @@ window.addEventListener('load', ()=>{
 
 
 
+/* ---------------- CALCULATE TIME DIFFERENCE BETWEEN 2 DATES --------------- */
+function daysDifferenceday(d1, d2){
+    // To set two dates to two variables
+    var date1 = new Date(`${d1}`);
+    var date2 = new Date(`${d2}`);
+    // To calculate the time difference of two dates
+    var Difference_In_Time = date2.getTime() - date1.getTime();
+        
+    // To calculate the no. of days between two dates
+    var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    
+    //To display the final no. of days (result)
+    console.log("Total number of days between dates  <br>"
+            + date1 + "<br> and <br>" 
+            + date2 + " is: <br> " 
+            + Difference_In_Days);
+    return Difference_In_Days;
+}
+/* ---------------- CALCULATE TIME DIFFERENCE BETWEEN 2 DATES --------------- */
+
+
 
 
 /* ----------------------------- // FUND WALLET ---------------------------- */
@@ -356,11 +377,27 @@ const fetchRecentTransactions=()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -492,11 +529,27 @@ function fetchWantedCrops(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -654,7 +707,6 @@ function fetchAllCropsForSale(){
 
 
 
-
 /* ----------------------- GET SINGLE PRODUCT DETAILS ----------------------- */
 function populateSingleMyPersonalProductDetails(){
     startPageLoader();
@@ -679,7 +731,11 @@ function populateSingleMyPersonalProductDetails(){
                 // alert(response.message);
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
-                $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
+                // if(thedata.type=="corporate"){
+                //     $('.productName').html(thedata.subcategory.name+" - <style='"+thedata.specification.color+"'>"+thedata.specification.color+"</style>");
+                // }else{
+                //     $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
+                // }
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
                 $('#productSaleType').html(thedata.type);
@@ -874,7 +930,31 @@ function populateSingleProductDetails(){
                 // alert(response.message);
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
-                $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
+                if(thedata.type.toLowerCase()=="auction"){
+                    $('.productName').html(thedata.subcategory.name+" - <span style='color:"+thedata.specification.color.toLowerCase()+";'>"+thedata.specification.color+"</span>");
+                    $('.bidStartDate').html(thedata.auction.start_date);
+                    $('.bidEndDate').html(thedata.auction.end_date);
+                    if(thedata.active===1){
+                        $('.cropActiveStatus-v').html('<span class="text-success">Active</span>');
+                    }else{ $('.cropActiveStatus-v').html('<span class="text-danger">Inactive</span>'); }
+                    $('.minimumBid').html(thedata.currency+" "+thedata.auction.minimum_bid);
+                    let daysRemaining = daysDifferenceday(thedata.auction.start_date, thedata.auction.end_date);
+                    let daysLeft;
+                    if(daysRemaining === 0){
+                        $('.daysRemaining').html("<span class='text-primary'>Bid ends today</span>");
+                    }else if(daysRemaining < 0){
+                        $('.daysRemaining').html("<span class='text-danger'>Bid duration has ended</span>");
+                    }else{
+                        $('.daysRemaining').html(daysRemaining+" days");
+                    }
+
+                    $('#crop_id').val(thedata.id);
+                    $('#inputDaysRemaining').val(daysRemaining);
+                    $('#inputCropActive').val(thedata.active);
+                    $('#inputMinimumBid').val(thedata.auction.minimum_bid);
+                }else{
+                    $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
+                }
                 $('.productQuantity').html(thedata.specification.qty);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
@@ -910,12 +990,18 @@ function populateSingleProductDetails(){
                 }
                 $('.isVerified').html(isverified);
 
-                if(parseInt(thedata.is_negotiable)==1){
-                    $('.clicktoNegotiate').show();
-                }else if(parseInt(thedata.is_negotiable)==0){
-                    $('.clicktoNegotiate').hide();
+                if(thedata.type == "auction"){
+                    $('.clicktoBid').show();
+                }else{
+                    if(parseInt(thedata.is_negotiable)==1){
+                        $('.clicktoAcceptDirectly').show();
+                        $('.clicktoNegotiate').show();
+                    }else if(parseInt(thedata.is_negotiable)==0){
+                        $('.clicktoAcceptDirectly').show();
+                        $('.clicktoNegotiate').hide();
+                    }
                 }
-
+                
                 $('.productAmount').html(thedata.specification.price);
                 $('.productPackaging').html(thedata.packaging);
                 $('.productCategory').html(thedata.category.name);
@@ -1288,7 +1374,14 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                     $('[data-toggle="tooltip"]').tooltip('toggle');
                     setTimeout(()=>{
                         $('[data-toggle="tooltip"]').tooltip('hide');
+                    },10000)
+                    setInterval(()=>{
+                        $('[data-toggle="tooltip"]').tooltip('show');
+                        setTimeout(()=>{
+                            $('[data-toggle="tooltip"]').tooltip('hide');
+                        },5000)
                     },10000)  
+                    
                     
                 }else{
                     $('#thechatside').html("No conversation yet");
@@ -1590,11 +1683,6 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                     //     ChatDiv.scrollTop(height);
                     //     console.log(height, "Chartbox Height");
                     // },500)
-                    
-                    $('[data-toggle="tooltip"]').tooltip('toggle');
-                    setTimeout(()=>{
-                        $('[data-toggle="tooltip"]').tooltip('hide');
-                    },10000)  
                     
                 }else{
                     $('#thechatside').html("No conversation yet");
@@ -2803,14 +2891,30 @@ function fetchMerchantAddedInputs(){
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
-            EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                EndPageLoader();
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
+                }
             }
-        }
     });
 }
 // MERCHANT SIDE
@@ -3052,11 +3156,27 @@ function fetchUserInputCart(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -3140,11 +3260,27 @@ function updateCart(row_id, input_id, price, input_stock){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out, \nCheck your internet connection");
-                } else {
-                    // alert(textstatus);
-                    basicmodal("", textstatus);
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
                 }
             }
         });
@@ -3188,11 +3324,27 @@ function confirmaccepted(section, section_id){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out, \nCheck your internet connection");
-                } else {
-                    // alert(textstatus);
-                    basicmodal("", textstatus);
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
                 }
             }
         }); 
@@ -3303,11 +3455,27 @@ function fetchUserCropsforSaleByUserID(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -3331,7 +3499,8 @@ function goToMyPersonalCropDetails1(n){
 
 
 /* --------------------- FETCH CROPS FOR AUCTION BY USERID --------------------- */
-function fetchUserCropsforAuctionByUserID(){
+// function fetchUserCropsforAuctionByUserID(){
+function fetchCropsforAuction(){
     startPageLoader();
 
     let user = localStorage.getItem('zowaselUser');
@@ -3339,8 +3508,19 @@ function fetchUserCropsforAuctionByUserID(){
     let userid = user.user.id;
     let usertype = user.user.type;
 
+    let theURL, gotoProductdetails, currentPage;
+    if(usertype == "corporate"){
+        theURL = `crop/getbycropauction`;
+        gotoProductdetails = `productdetails.html`;
+        // currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
+    }else if(usertype == "merchant"){
+        theURL = `/crop/auction/userid`;
+        gotoProductdetails = `mypersonalproductdetails.html`;
+        // currentPage = ``;
+    }
+
     $.ajax({
-        url: `${liveMobileUrl}/crop/auction/userid`,
+        url: `${liveMobileUrl}/${theURL}`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -3373,7 +3553,8 @@ function fetchUserCropsforAuctionByUserID(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         rowContent += `
-                        <li onclick="goToMyPersonalCropDetails2(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
+                        <li onclick="localStorage.setItem('singleproductID',${row.id}); 
+                        location.assign('${gotoProductdetails}')" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
                             <div class="item-inner w-100">
@@ -3401,23 +3582,48 @@ function fetchUserCropsforAuctionByUserID(){
                     </li>
                         `;   
                     }
-                    $('#p_cropAuctionByUserID').html(rowContent);
+                    
+                    if(usertype == "corporate"){
+                        $('#p_allCropAuction').html(rowContent);
+                    }else if(usertype == "merchant"){
+                        $('#p_cropAuctionByUserID').html(rowContent);
+                    }
         
         
           
                 }else{
-                    $('#p_cropAuctionByUserID').html("No Input yet");
+                    if(usertype == "corporate"){
+                        $('#p_allCropAuction').html("No Crop yet");
+                    }else if(usertype == "merchant"){
+                        $('#p_cropAuctionByUserID').html("No Crop yet");
+                    }
                 }
                     
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -3487,14 +3693,116 @@ function acceptOfferDirectly(){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out");
-                } else {
-                    // alert(textstatus);
-                    basicmodal("", textstatus);
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
                 }
             }
         });
     }
 }
 /* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
+
+
+
+
+
+/* ----------------------- START BID ON AUCTIONED CROP ---------------------- */
+$('#startBid').submit((e)=>{
+    e.preventDefault();
+    // alert("efer");
+    let crop_id = document.getElementById('crop_id');
+    let inputDaysRemaining = document.getElementById('inputDaysRemaining');
+    let inputCropActive = document.getElementById('inputCropActive');
+    let inputMinimumBid = document.getElementById('inputMinimumBid');
+    let accepted_bidAmount = document.getElementById('accepted_bidAmount');
+    console.log(inputMinimumBid, inputMinimumBid);
+
+    if(parseInt(inputCropActive.value) === 0){
+        basicmodal("", "You can't bid on this product. It has been deactivated");
+    }else if(parseInt(inputDaysRemaining.value) < 0){
+        basicmodal("", "Bid period has ended");
+    }else if(parseInt(accepted_bidAmount.value) < parseInt(inputMinimumBid.value)){
+        basicmodal("", "Your bid is lower than the minimum bid");
+    }else{
+        // alert("Good to go");
+        startPageLoader();
+        $.ajax({
+            url: `${liveMobileUrl}/crop/${crop_id.value}/bid`,
+            type: "POST",
+            "timeout": 25000,
+            "headers": {
+                "Content-Type": "application/json",
+                "authorization": localStorage.getItem('authToken')
+            },
+            "data": JSON.stringify({
+                "amount": parseInt(accepted_bidAmount.value)
+            }),
+            success: function(response) { 
+                // alert("efe");
+                EndPageLoader();
+                // $('.loader').hide();
+                if(response.error == true){
+                    // alert(response.message);
+                    responsemodal("erroricon.png", "Error", response.message);
+                }else{
+                    // alert(response.message);
+                    responsemodal("successicon.png", "Success", response.message);
+                    setTimeout(()=>{
+                        location.assign('viewbids.html?crop='+crop_id.value);
+                    },3000)
+                }
+            },
+            error: function(xmlhttprequest, textstatus, message) {
+                EndPageLoader();
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                400: function(response) {
+                    console.log('ajax.statusCode: 400');
+                    // console.log(response);
+                    responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
+                }
+            }
+        });
+    }
+
+})
+/* ----------------------- START BID ON AUCTIONED CROP ---------------------- */

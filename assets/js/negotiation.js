@@ -62,7 +62,7 @@ const fetchUserConversations =()=>{
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            // "authorization": localStorage.getItem('authToken')
+            "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
             // alert("efe");
@@ -110,7 +110,7 @@ const fetchUserConversations =()=>{
                         rowContent += `
                             <li>
                                 <a onclick="gotoMessageDetails(${row.crop_id}, '${thecroptype}', ${index})">
-                                    <div class="media-content">
+                                    <div class="media-content" style="margin-left:0px !important;">
                                         <div>
                                             <h5 class="name">${fullname}</h5>
                                             <div class="d-none" id="productOwnerDetails${index}">${productOwnerDetails}</div>
@@ -128,7 +128,7 @@ const fetchUserConversations =()=>{
                     $('#pConversationList').append(rowContent);        
           
                 }else{
-                    // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                    $('#pConversationList').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No conversation yet</h3></td></tr>");
                 }
                     
             }
