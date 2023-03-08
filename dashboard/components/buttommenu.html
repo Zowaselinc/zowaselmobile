@@ -11,7 +11,7 @@
     <!-- <a href="profile.html" class="nav-link profileLink">
         <i class="fas fa-user-tie"></i>
     </a> -->
-    <a href="wallet.html" class="nav-link profileLink">
+    <a href="wallet.html" class="nav-link walletLink">
         <i class="fas fa-wallet"></i>
     </a>
     <a href="/dashboard/notification.html" class="nav-link notificationLink position-relative">
@@ -36,8 +36,11 @@
     if(paramString == "index.html"){
         $('.homeLink').addClass('active');
     }
-    if(paramString == "messages.html"){
+    if(paramString == "negotiations.html"){
         $('.messageLink').addClass('active');
+    }
+    if(paramString == "wallet.html"){
+        $('.walletLink').addClass('active');
     }
     if(paramString == "profile.html"){
         $('.profileLink').addClass('active');

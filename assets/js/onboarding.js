@@ -24,6 +24,18 @@ const RegisterScreen =()=>{
     const phonenumber = document.getElementById('phonenumber');
     const account_type = form.elements["account_type"];
     const privacy_policy = document.getElementById('privacy_policy');
+    // If user has company
+    let company_name,company_address,company_state,rc_number,company_email,company_phone;
+    if(account_type.value=="company"){
+        company_name = document.getElementById('company_name');
+        company_address = document.getElementById('company_address');
+        company_state = document.getElementById('company_state');
+        rc_number = document.getElementById('rc_number');
+        company_email = document.getElementById('company_email');
+        company_phone = document.getElementById('company_phone');
+    }
+    
+    
 
  
 
@@ -173,6 +185,9 @@ const RegisterScreen =()=>{
                 registerData['email'] = email.value;
                 registerData['phone'] = phonenumber.value;
                 registerData['account_type'] = account_type.value;
+                if(account_type.value=="company"){
+                    // 
+                }
                 
                 
                 console.log(registerData) // Expected result -> {"first_name":"**","last_name":"**","email":"**","phone":"**"}
@@ -209,11 +224,24 @@ const RegisterScreen =()=>{
                     },
                     error: function(xmlhttprequest, textstatus, message) {
                         EndPageLoader();
-                        if(textstatus==="timeout") {
-                            basicmodal("", "Service timed out");
-                        } else {
-                            // alert(textstatus);
-                            basicmodal("", textstatus);
+                        // console.log(xmlhttprequest, "Error code");
+                        if(textstatus==="timeout" || textstatus=="error") {
+                            basicmodal("", "Service timed out <br/>Check your internet connection");
+                        }
+                    },
+                    statusCode: {
+                        200: function(response) {
+                            console.log('ajax.statusCode: 200');
+                        },
+                        403: function(response) {
+                            console.log('ajax.statusCode: 403');
+                            basicmodal("", "Session has ended, Login again");
+                        },
+                        404: function(response) {
+                            console.log('ajax.statusCode: 404');
+                        },
+                        500: function(response) {
+                            console.log('ajax.statusCode: 500');
                         }
                     }
                 });
@@ -353,11 +381,24 @@ const resendotpcode =()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
       });
@@ -415,11 +456,24 @@ const resendotpcode =()=>{
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -558,11 +612,24 @@ function LoginScreen(){
             },
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out");
-                } else {
-                    // alert(textstatus);
-                    basicmodal("", textstatus);
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
                 }
             }
         });

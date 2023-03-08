@@ -17,6 +17,15 @@ PullToRefresh.init({
 /* ---------------------------- PULL TO REFERESH ---------------------------- */
 
 
+function truncate(str, length) {
+    if (str.length > length) {
+        return str.slice(0, length) + '...';
+    } else return str;
+}
+
+function toCommas(value) {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 
 
@@ -72,6 +81,18 @@ const populateUserDetails =()=>{
         $('#is_verified_icon').attr('src', '../logos/Vector.png');
         $('.is_verified').text("Verified"); 
     }
+
+    // Account
+    if(!(user.user.account_type)){ $('.account_type').text("Null"); }else{ 
+        $('.account_type').text(user.user.account_type.charAt(0).toUpperCase() + user.user.account_type.slice(1)); 
+        $('.account_type').val(user.user.account_type); 
+    }
+
+    if(!(user.user.type)){ $('.user_type').text("Null"); }else{ 
+        $('.user_type').text(user.user.type.charAt(0).toUpperCase() + user.user.type.slice(1)); 
+        $('.user_type').val(user.user.type); 
+    }
+
 
   
 
@@ -281,11 +302,6 @@ const populateWalletDetails=()=>{
             }else{
                 // alert(response.message);
                 let row = response.data;
-
-                function toCommas(value) {
-                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-
                 $('.wallet_balance').text(toCommas(row[0].balance));
             }
         },
@@ -731,11 +747,8 @@ function populateSingleMyPersonalProductDetails(){
                 // alert(response.message);
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
-                // if(thedata.type=="corporate"){
-                //     $('.productName').html(thedata.subcategory.name+" - <style='"+thedata.specification.color+"'>"+thedata.specification.color+"</style>");
-                // }else{
-                //     $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
-                // }
+                
+                $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
                 $('#productSaleType').html(thedata.type);
@@ -931,7 +944,8 @@ function populateSingleProductDetails(){
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
                 if(thedata.type.toLowerCase()=="auction"){
-                    $('.productName').html(thedata.subcategory.name+" - <span style='color:"+thedata.specification.color.toLowerCase()+";'>"+thedata.specification.color+"</span>");
+                    // $('.productName').html(thedata.subcategory.name+" - <span style='color:"+thedata.specification.color.toLowerCase()+";'>"+thedata.specification.color+"</span>");
+                    $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                     $('.bidStartDate').html(thedata.auction.start_date);
                     $('.bidEndDate').html(thedata.auction.end_date);
                     if(thedata.active===1){
@@ -991,7 +1005,7 @@ function populateSingleProductDetails(){
                 $('.isVerified').html(isverified);
 
                 if(thedata.type == "auction"){
-                    $('.clicktoBid').show();
+                    $('.clicktoBid, .clicktoViewBids').show();
                 }else{
                     if(parseInt(thedata.is_negotiable)==1){
                         $('.clicktoAcceptDirectly').show();
@@ -1027,6 +1041,7 @@ function populateSingleProductDetails(){
                 $('#productPackaging').val(thedata.packaging);
                 $('#productCategory').html(thedata.category.name);
                 $('#testWeight').val(thedata.specification.test_weight);
+                $('#productQuantity').attr("max",thedata.specification.qty);
                 $('#productColor').html(thedata.specification.color);
                 $('#productHardness').val(thedata.specification.hardness);
                 $('#productMoisture').val(thedata.specification.moisture);
@@ -1396,9 +1411,9 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
             } else {
                 // alert(textstatus);
                 basicmodal("", textstatus+"<br/>This session has ended, Login again");
-                // setTimeout(()=>{
-                //     logout();
-                // },3000)
+                setTimeout(()=>{
+                    logout();
+                },3000)
             }
         }
     });
@@ -2779,7 +2794,7 @@ function fetchInputs(){
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${row.price}</h6>
+                                        <h6 class="me-3 mb-0">NGN ${toCommas(row.price)}</h6>
                                     </div>    
                                     
                                 </div>
@@ -2855,6 +2870,13 @@ function fetchMerchantAddedInputs(){
 
                         let therow = JSON.stringify(row);
 
+                        let activeProductClass, negotiationProductClass;
+                        if(usertype == "corporate"){
+                            if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        }else{
+                            activeProductClass = "d-none";
+                        }
+
                         rowContent += `
                         <li onclick="goToInputDetails2(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
@@ -2862,19 +2884,19 @@ function fetchMerchantAddedInputs(){
                             <div class="item-inner">
                                 <div class="item-title-row mb-0" style="width:80%;">
                                     <h6 class="item-title"><a>${row.category.name}</a></h6>
-                                    <div class="item-subtitle text-truncate">${row.description}</div>
+                                    <div class="item-subtitle text-truncate">${truncate(row.description, 50)}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${row.price}</h6>
+                                        <h6 class="me-3 mb-0">NGN ${toCommas(row.price)}</h6>
                                     </div>    
                                     
                                 </div>
                             </div>
-                            <div class="item-media media media-90">
-                                <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    
-                                </a>    
+                            <div class="item-media media media-90">  
+                                <div class="d-flex">
+                                    <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
+                                </div>
                             </div>
                         </div>
                     </li>
@@ -3109,7 +3131,7 @@ function fetchUserInputCart(){
                                     </div>
                                     <div class="item-footer mb-0">
                                         <div class="d-flex align-items-center">
-                                            <h6 class="me-3">${row.input.currency} ${row.price}</h6>
+                                            <h6 class="me-3">${row.input.currency} ${toCommas(row.price)}</h6>
                                             <input type="hidden" value="${row.input.stock}" id="stock${row.id}" />
                                         </div>    
                                         <div class="d-flex align-items-center">
@@ -3806,3 +3828,109 @@ $('#startBid').submit((e)=>{
 
 })
 /* ----------------------- START BID ON AUCTIONED CROP ---------------------- */
+
+
+
+/* ---------------------- FETCH AUCTION BIDS BY CROP ID --------------------- */
+function fetchAuctionBidsByCropID(){
+    let pathname = window.location.search;
+    console.log(pathname);
+    let queryString = new URLSearchParams(pathname);
+    let crop_id = queryString.get("crop");
+    // console.log(crop_id);
+
+    if(!crop_id){
+        $('#p_bids').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>Crop not identified</h5></td></tr>");
+    }else{
+        startPageLoader();
+        $.ajax({
+            url: `${liveMobileUrl}/crop/${crop_id}/bid`,
+            type: "GET",
+            "timeout": 25000,
+            "headers": {
+                "Content-Type": "application/json",
+                "authorization": localStorage.getItem('authToken')
+            },
+            success: function(response) { 
+                // alert("efe");
+                EndPageLoader();
+                $('.loader').addClass('loader-hidden');
+                console.log(response, "The get all bid response");
+                if(response.error == true){
+                    // alert(response.message);
+                    responsemodal("erroricon.png", "Error", response.message);
+                    $('.loader').addClass('loader-hidden');
+                }else{
+                    // alert(response.message);
+                    let thedata = (response.data).reverse();
+                    let rowContent = "";
+                    let index;
+                    // console.log(thedata, "category data");
+                    // console.log(JSON.parse(thedata[7].tracking_details).transit.length);
+                    if(thedata.length > 0){
+                        for (let i = 0; i < thedata.length; i++) {
+                        //   console.log('Hello World', + i);
+                            let row = thedata[i];
+                            index= i+1;
+
+                            rowContent += `
+                            <tr>
+                            <td id='' style="display:none;">${JSON.stringify(row)}</td>
+                                <th scope="row">${row.created_at}</th>
+                                <td>${row.user.first_name+" "+row.user.last_name}</td>
+                                <td>${row.amount}</td>
+                            </tr>
+                            `;   
+                        }
+                        $('#p_bids').html(rowContent);      
+                    }else{
+                        $('#p_bids').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No bids yet</h5></td></tr>");
+                    }
+                        
+                }
+            },
+            error: function(xmlhttprequest, textstatus, message) {
+                EndPageLoader();
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout" || textstatus=="error") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
+                }
+            }
+        });
+    }
+}
+/* ---------------------- FETCH AUCTION BIDS BY CROP ID --------------------- */
+
+
+/* ---------------------- GO TO SEE ALL BIDS BY USER ID --------------------- */
+function gotoViewBids(){
+    let crop_id = document.getElementById('crop_id').value;
+    // alert(crop_id);
+    if(!crop_id){
+        basicmodal("", "Something went wrong. Crop details could not be accessed");
+    }else{
+        let productName = document.getElementsByClassName('productName')[0].innerText;
+        // alert(productName);
+        localStorage.setItem('bidProductName', productName);
+        location.assign('viewbids.html?crop='+crop_id);
+    }
+}
+/* ---------------------- GO TO SEE ALL BIDS BY USER ID --------------------- */

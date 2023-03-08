@@ -90,7 +90,9 @@ function truncate(str, length) {
             console.log(response, "The get all notification by useridANDtype response");
             if(response.error == true){
                 // alert(response.message);
-                responsemodal("erroricon.png", "Error", response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+                console.log("erroricon.png", "Error", response.message);
+                $('#p_notification').html("Sorry, An error occured. Failed to grab conversation!!!");
                 // $('.loader').addClass('loader-hidden');
             }else{
                 // alert(response.message);
@@ -141,7 +143,7 @@ function truncate(str, length) {
                     $('#p_notification').html(rowContent);        
           
                 }else{
-                    $('#p_notification').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No notification found</h5></td></tr>");
+                    $('#p_notification').html("No conversation found");
                 }
                     
             }
@@ -180,6 +182,7 @@ function truncate(str, length) {
 function gotoNotificationDestination(id, model, model_id){
 
     // UPDATE SINGLE NOTIFICATION TO SEEN
+    startPageLoader();
     $.ajax({
         url: `${liveMobileUrl}/notification/${id}/updatesingle_seen`,
         type: "POST",
@@ -190,7 +193,7 @@ function gotoNotificationDestination(id, model, model_id){
         },
         success: function(response) { 
             // alert("efe");
-            // EndPageLoader();
+            EndPageLoader();
             // $('.loader').addClass('loader-hidden');
             console.log(response, "Update negotiation single_seen response");
             if(response.error == true){
@@ -200,6 +203,17 @@ function gotoNotificationDestination(id, model, model_id){
             }else{
                 console.log(response.message);
                 fetchUserNotificationsByUserTypeandID2();
+
+                // GO TO NOTIFICATION DESTINATION
+                if(model=="order"){
+                    localStorage.setItem('orderHash', model_id);
+                    location.assign('/dashboard/order/ordersummary.html');
+                }
+                if(model=="conversation"){
+                    //localStorage.setItem('orderHash', model_id);
+                    location.assign('/dashboard/negotiations.html');
+                }
+                // GO TO NOTIFICATION DESTINATION
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
@@ -231,16 +245,16 @@ function gotoNotificationDestination(id, model, model_id){
     // UPDATE SINGLE NOTIFICATION TO SEEN
 
 
-    // GO TO NOTIFICATION DESTINATION
-    if(model=="order"){
-        localStorage.setItem('orderHash', model_id);
-        location.assign('/dashboard/order/ordersummary.html');
-    }
-    if(model=="conversation"){
-        // localStorage.setItem('orderHash', model_id);
-        location.assign('/dashboard/negotiations.html');
-    }
-    // GO TO NOTIFICATION DESTINATION
+    // // GO TO NOTIFICATION DESTINATION
+    // if(model=="order"){
+    //     localStorage.setItem('orderHash', model_id);
+    //     location.assign('/dashboard/order/ordersummary.html');
+    // }
+    // if(model=="conversation"){
+    //     //localStorage.setItem('orderHash', model_id);
+    //     location.assign('/dashboard/negotiations.html');
+    // }
+    // // GO TO NOTIFICATION DESTINATION
 
 }
 /************************************************************************************
