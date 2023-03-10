@@ -1871,7 +1871,8 @@ const sendmessage =()=>{
     let productOwnerFirstName = productOwnerDetails.id;
 
     let negotiationtextmessage = document.getElementById('negotiationtextmessage');
-    if(negotiationtextmessage.value){
+    let messageValue = negotiationtextmessage.value;
+    if(messageValue.trim()){
         console.log(productOwnerDetails);
 
         $.ajax({
@@ -1887,7 +1888,7 @@ const sendmessage =()=>{
                 "receiver_id": parseInt(productOwnerFirstName), 
                 "crop_id": parseInt(singleproductID), 
                 "type": usertype, 
-                "message": negotiationtextmessage.value
+                "message": messageValue
             }),
             success: function(response) { 
                 // EndPageLoader();
