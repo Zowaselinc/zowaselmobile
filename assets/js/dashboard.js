@@ -970,6 +970,7 @@ function populateSingleProductDetails(){
                     $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                 }
                 $('.productQuantity').html(thedata.specification.qty);
+                $('#accepted_quantity').attr("max",thedata.specification.qty);
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
                 $('#productSaleType').html(thedata.type);
@@ -1038,6 +1039,7 @@ function populateSingleProductDetails(){
 
                 // INPUT VALUES
                 $('#productAmount').val(thedata.specification.price);
+                $('#productAmount').attr("max",thedata.specification.price);
                 $('#productPackaging').val(thedata.packaging);
                 $('#productCategory').html(thedata.category.name);
                 $('#testWeight').val(thedata.specification.test_weight);
@@ -1100,6 +1102,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
 
     let singleproductID = localStorage.getItem('singleproductID');
     let productOwnerDetails = localStorage.getItem('productOwnerDetails');
+    let negotiationpage_type = localStorage.getItem('negotiationpage_type');
 
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -1113,10 +1116,340 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
 
     let productownerid = JSON.parse(productOwnerDetails).id;
     console.log(productownerid);
-
+    
     startPageLoader();
     $.ajax({
         url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid+`/productownerid/`+productownerid,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            setTimeout(()=>{
+                EndPageLoader();
+            },1500)
+
+            $('.open_offer_form').show();
+            $('[data-toggle="tooltip"]').tooltip('hide');
+            setTimeout(()=>{
+                $('[data-toggle="tooltip"]').tooltip('show');
+            },1000)
+            setTimeout(()=>{
+                $('[data-toggle="tooltip"]').tooltip('hide');
+            },10000)
+            setInterval(()=>{
+                $('[data-toggle="tooltip"]').tooltip('show');
+                setTimeout(()=>{
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                },5000)
+            },10000)  
+            
+            // $('.loader').hide();
+            console.log(response, "The negotiation response");
+            if(response.error == true){
+                console.log(response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                let thedatafetched = response.data;
+                // console.log(thedatafetched, "The negotiation message data");
+
+                // Now the data coming from response is not arranged.
+                // The Object.values method returns an array of object's values (which are your messages) 
+                // and then you sort them by message id in ascending order using sort function.
+                let thedata = Object.entries(thedatafetched)
+                .map(([key, val]) => ({id: key, ...val}))
+                .sort((a, b) => a.id - b.id);
+
+                // console.log(thedata, "the data");
+
+                let finalObj = {}
+                thedata.forEach((theresult) => {
+
+                    const date = theresult.created_at.split(" ")[0];
+                    if (finalObj[date]) {
+                        finalObj[date].push(theresult);
+                    } else {
+                        finalObj[date] = [theresult];
+                    }
+                })
+                console.log(finalObj, "final Obj")
+
+                let finalObjcount = Object.keys(finalObj).length;
+                // console.log(finalObjcount);
+
+
+                let rowContent = "";
+                let index;
+
+                if(finalObjcount > 0){
+                    $('.chat-image').hide();
+                    $('.thechatside').show();
+
+
+                    for (let i = 0; i < finalObjcount; i++) {
+                      console.log('Hello World', + i);
+                        let grouped_date = Object.keys(finalObj)[i];
+                        let therow = finalObj[Object.keys(finalObj)[i]];
+                        console.log(therow.length);
+                        
+                        // The row is coming out as an array with many objects. Loop through the array
+                    
+                        let row = therow;
+                        console.log(row, "The row rf");
+
+                        let themessageandType;
+                        let chatGroupContent;
+                        for (let x = 0; x < row.length; x++) {
+                            // index= x+1;
+                            let chatboxClass, accept_decline_checkbox;
+                            
+                            if(usertype == "merchant"){
+                                // alert(row[x].status);
+                                if(row[x].status == "declined"){
+                                    $('.open_offer_form').show();
+                                }
+                                if(row[x].type == "merchant"){
+                                    chatboxClass = `user`;
+                                }else if(row[x].type == "admin"){
+                                    chatboxClass = `admin`;
+                                }else{
+                                    chatboxClass = ``;
+                                }
+
+                                if(row[x].status == "accepted"){
+                                    accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
+                                }else if(row[x].status == "declined"){
+                                    accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
+                                    $('.open_offer_form').show();
+                                }else if(negotiationpage_type=="cropwanted"){
+                                    accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
+                                }else if(negotiationpage_type=="offer"){
+                                    accept_decline_checkbox = `
+                                        <form>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
+                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
+                                            </div>
+                                        </form>
+                                    `;
+                                }
+
+                            }else if(usertype == "corporate"){
+                                if(row[x].status == "declined"){
+                                    $('.open_offer_form').show();
+                                }
+                                if(row[x].type == "corporate"){
+                                    chatboxClass = `user`;
+                                }else if(row[x].type == "admin"){
+                                    chatboxClass = `admin`;
+                                }else{
+                                    chatboxClass = ``;
+                                }
+
+                                if(row[x].status == "accepted"){
+                                    accept_decline_checkbox = `Offer accepted. <span style="color:#30BD6E;" class="fw-bolder" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">Proceed to payment.</span>`;
+                                }else if(row[x].status == "declined"){
+                                    accept_decline_checkbox = `<span class="text-danger">Offer declined.</span>`;
+                                }else if(negotiationpage_type=="cropwanted"){
+                                    accept_decline_checkbox = `
+                                        <form>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
+                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
+                                            </div>
+                                        </form>
+                                    `;
+                                }else if(negotiationpage_type=="offer"){
+                                    accept_decline_checkbox = `We will let you know when merchant accepts/declines offer.`;
+                                }
+                            }
+
+                            let time = row[x].created_at;
+                            // console.log(time);
+                            
+                            let myTime = time.split(" ")[1];
+                            let myDate = time.split(" ")[0];
+                            var hour = parseInt(myTime.split(":")[0]) % 12;
+                            // console.log(hour, "The hour");
+                            var timeInAmPm = (hour == 0 ? "12": hour ) + ":" + myTime.split(":")[1] + " " + (parseInt(parseInt(myTime.split(":")[0]) / 12) < 1 ? "AM" : "PM");
+                            // console.log(timeInAmPm, "timeInAmPm");
+
+                            let themessagetype = row[x].messagetype;
+                            if(usertype=="merchant"&&negotiationpage_type=="offer"){
+                                $('.open_offer_form').hide();
+                            }
+                            if(themessagetype == "offer"){
+                                // Hide Send offer button if an offer has been sent already
+                                $('.open_offer_form').hide();
+                                // Hide Send offer button if an offer has been sent already
+                            }
+                            // let themessageandType;
+                            if(themessagetype == "text"){
+                                themessageandType = `
+                                    <div class="chat-content ${chatboxClass}">
+                                        <div class="message-item">
+                                            <div class="bubble">${row[x].message}</div>    
+                                            <div class="message-time">${timeInAmPm}</div>   
+                                        </div>
+                                    </div>
+                                `;
+                            }else if(themessagetype == "offer"){
+                                let offerbox = JSON.parse(row[x].message);
+                                themessageandType = `
+                                    <div class="offer-right mb-2 mt-1">
+                                        <div class="offered">
+                                            <!---->
+                                            <div class="colored">
+                                                <h3>Offer</h3>
+                                                <hr />
+                                                <div class="white-line"></div>
+                                                <div class="each-item">
+                                                    <p>Required Item</p>
+                                                    <h4>${offerbox.qty}${offerbox.test_weight}</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Offer Price</p>
+                                                    <h4>₦${offerbox.price}</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Oil content</p>
+                                                    <h4>${offerbox.oil_content}%</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Foreign matter</p>
+                                                    <h4>${offerbox.foreign_matter}%</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Infestation</p>
+                                                    <h4>${offerbox.infestation}%</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Moisture</p>
+                                                    <h4>${offerbox.moisture}%</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Weevil</p>
+                                                    <h4>${offerbox.weevil}%</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Splits</p>
+                                                    <h4>${offerbox.splits}%</h4>
+                                                </div>
+                                                <button class="d-none">View Full Specification</button>
+                                            </div>
+                                            <!---->
+                                            <div class="message-item">
+                                                <div class="accept_decline_checkbox">${accept_decline_checkbox}</div> 
+                                                <div class="message-time">${timeInAmPm}</div>  
+                                            </div>
+                                        </div>
+                                    </div> 
+                                `;
+                            }else{
+                                themessageandType = `
+                                    <div class="chat-content ${chatboxClass}">
+                                        <div class="message-item">
+                                            <div class="bubble">${row[x].message}</div>    
+                                            <div class="message-time">${timeInAmPm}</div>   
+                                            <div class="message-date d-none">${myDate}</div>  
+                                        </div>
+                                    </div>
+                                `;
+                            }
+
+                            
+                            chatGroupContent += `
+                                ${themessageandType}
+                            `;
+
+
+                        }
+                        
+                        let refactoredChatGroupContent = JSON.stringify(chatGroupContent);
+                        refactoredChatGroupContent = refactoredChatGroupContent.replace(undefined,'<hr/>');
+                        refactoredChatGroupContent = JSON.parse(refactoredChatGroupContent);
+
+
+                        // console.log(refactoredChatGroupContent, " chatGroupContent bbbbbbbbbbbbbbbbbbbb");
+                        var date = new Date();
+                        var dateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
+                        let themomentcode = moment(grouped_date, "YYYY-MM-DD").isSame(dateString, "YYYY-MM-DD");
+                        let themoment;
+                        if(themomentcode === true){
+                            themoment = "Today";
+                        }else if(moment(grouped_date, "YYYY-MM-DD").calendar().split(" ")[0].toLowerCase() == "yesterday"){
+                            themoment = "Yesterday";
+                        }else{
+                            themoment = moment(grouped_date, "YYYY-MM-DD").fromNow();
+                        }
+
+
+
+                        let thegroupeddate = `
+                            <div class="thegroupeddate text-center mt-4" style="text-transform:uppercase;"><span>${themoment} - ${grouped_date}</span></div>
+                        `;
+
+                        let groupDateANDthemesssageType = thegroupeddate+refactoredChatGroupContent;
+
+
+                        rowContent += `
+                            ${groupDateANDthemesssageType}
+                        `;
+
+                        
+                        
+                    }
+                    $('#thechatside').html(rowContent);
+                    // console.log(rowContent, " rowContent");
+                    // console.log(thedata, "the data");
+                  
+                    setTimeout(()=>{
+                        var ChatDiv = $('#thechatside');
+                        var height = ChatDiv[0].scrollHeight;
+                        ChatDiv.scrollTop(height);
+                        console.log(height, "Chartbox Height");
+                    },500)
+
+                    // The Negotiation notification popup has been transferred up. It should show even if no conversations has been made
+                    
+                }else{
+                    $('#thechatside').html("No conversation yet");
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out \nCheck your internet connection");
+            } else {
+                // alert(textstatus);
+                basicmodal("", textstatus+"<br/>This session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            }
+        }
+    });
+}
+
+
+
+const populateUserandFarmOwnerNegotiationMessages2 =()=>{
+
+    let singleproductID = localStorage.getItem('singleproductID');
+
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    $.ajax({
+        url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -1254,6 +1587,9 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             // console.log(timeInAmPm, "timeInAmPm");
 
                             let themessagetype = row[x].messagetype;
+                            if(usertype=="merchant"&&negotiationpage_type=="offer"){
+                                $('.open_offer_form').hide();
+                            }
                             if(themessagetype == "offer"){
                                 // Hide Send offer button if an offer has been sent already
                                 $('.open_offer_form').hide();
@@ -1311,320 +1647,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                                     <p>Splits</p>
                                                     <h4>${offerbox.splits}%</h4>
                                                 </div>
-                                                <button>View Full Specification</button>
-                                            </div>
-                                            <!---->
-                                            <div class="message-item">
-                                                <div class="accept_decline_checkbox">${accept_decline_checkbox}</div> 
-                                                <div class="message-time">${timeInAmPm}</div>  
-                                            </div>
-                                        </div>
-                                    </div> 
-                                `;
-                            }else{
-                                themessageandType = `
-                                    <div class="chat-content ${chatboxClass}">
-                                        <div class="message-item">
-                                            <div class="bubble">${row[x].message}</div>    
-                                            <div class="message-time">${timeInAmPm}</div>   
-                                            <div class="message-date d-none">${myDate}</div>  
-                                        </div>
-                                    </div>
-                                `;
-                            }
-
-                            
-                            chatGroupContent += `
-                                ${themessageandType}
-                            `;
-
-
-                        }
-                        
-                        let refactoredChatGroupContent = JSON.stringify(chatGroupContent);
-                        refactoredChatGroupContent = refactoredChatGroupContent.replace(undefined,'<hr/>');
-                        refactoredChatGroupContent = JSON.parse(refactoredChatGroupContent);
-
-
-                        // console.log(refactoredChatGroupContent, " chatGroupContent bbbbbbbbbbbbbbbbbbbb");
-                        var date = new Date();
-                        var dateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
-                        let themomentcode = moment(grouped_date, "YYYY-MM-DD").isSame(dateString, "YYYY-MM-DD");
-                        let themoment;
-                        if(themomentcode === true){
-                            themoment = "Today";
-                        }else if(moment(grouped_date, "YYYY-MM-DD").calendar().split(" ")[0].toLowerCase() == "yesterday"){
-                            themoment = "Yesterday";
-                        }else{
-                            themoment = moment(grouped_date, "YYYY-MM-DD").fromNow();
-                        }
-
-
-
-                        let thegroupeddate = `
-                            <div class="thegroupeddate text-center mt-4" style="text-transform:uppercase;"><span>${themoment} - ${grouped_date}</span></div>
-                        `;
-
-                        let groupDateANDthemesssageType = thegroupeddate+refactoredChatGroupContent;
-
-
-                        rowContent += `
-                            ${groupDateANDthemesssageType}
-                        `;
-
-                        
-                        
-                    }
-                    $('#thechatside').html(rowContent);
-                    // console.log(rowContent, " rowContent");
-                    // console.log(thedata, "the data");
-                  
-                    setTimeout(()=>{
-                        var ChatDiv = $('#thechatside');
-                        var height = ChatDiv[0].scrollHeight;
-                        ChatDiv.scrollTop(height);
-                        console.log(height, "Chartbox Height");
-                    },500)
-                    
-                    $('[data-toggle="tooltip"]').tooltip('toggle');
-                    setTimeout(()=>{
-                        $('[data-toggle="tooltip"]').tooltip('hide');
-                    },10000)
-                    setInterval(()=>{
-                        $('[data-toggle="tooltip"]').tooltip('show');
-                        setTimeout(()=>{
-                            $('[data-toggle="tooltip"]').tooltip('hide');
-                        },5000)
-                    },10000)  
-                    
-                    
-                }else{
-                    $('#thechatside').html("No conversation yet");
-                }
-                    
-            }
-        },
-        error: function(xmlhttprequest, textstatus, message) {
-            EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out \nCheck your internet connection");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus+"<br/>This session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            }
-        }
-    });
-}
-
-
-
-const populateUserandFarmOwnerNegotiationMessages2 =()=>{
-
-    let singleproductID = localStorage.getItem('singleproductID');
-
-    let user = localStorage.getItem('zowaselUser');
-    user = JSON.parse(user);
-    let userid = user.user.id;
-    let usertype = user.user.type;
-
-    $.ajax({
-        url: `${liveMobileUrl}/crop/`+singleproductID+`/negotiation/getbyuserid/`+userid,
-        type: "GET",
-        "timeout": 25000,
-        "headers": {
-            "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
-        },
-        success: function(response) { 
-            // alert("efe");
-            setTimeout(()=>{
-                EndPageLoader();
-            },1500)
-            
-            // $('.loader').hide();
-            // console.log(response, "The negotiation response");
-            if(response.error == true){
-                console.log(response.message);
-                // responsemodal("erroricon.png", "Error", response.message);
-            }else{
-                // alert(response.message);
-                let thedatafetched = response.data;
-                // console.log(thedatafetched, "The negotiation message data");
-
-                // Now the data coming from response is not arranged.
-                // The Object.values method returns an array of object's values (which are your messages) 
-                // and then you sort them by message id in ascending order using sort function.
-                let thedata = Object.entries(thedatafetched)
-                .map(([key, val]) => ({id: key, ...val}))
-                .sort((a, b) => a.id - b.id);
-
-                // console.log(thedata, "the data");
-
-                let finalObj = {}
-                thedata.forEach((theresult) => {
-
-                    const date = theresult.created_at.split(" ")[0];
-                    if (finalObj[date]) {
-                        finalObj[date].push(theresult);
-                    } else {
-                        finalObj[date] = [theresult];
-                    }
-                })
-                console.log(finalObj, "final Obj")
-
-                let finalObjcount = Object.keys(finalObj).length;
-                // console.log(finalObjcount);
-
-
-                let rowContent = "";
-                let index;
-
-                if(finalObjcount > 0){
-                    $('.chat-image').hide();
-                    $('.thechatside').show();
-
-
-                    for (let i = 0; i < finalObjcount; i++) {
-                      console.log('Hello World', + i);
-                        let grouped_date = Object.keys(finalObj)[i];
-                        let therow = finalObj[Object.keys(finalObj)[i]];
-                        console.log(therow.length);
-                        
-                        // The row is coming out as an array with many objects. Loop through the array
-                    
-                        let row = therow;
-                        console.log(row, "The row rf");
-
-                        let themessageandType;
-                        let chatGroupContent;
-                        for (let x = 0; x < row.length; x++) {
-                            // index= x+1;
-
-                            let negotiationpage_type = localStorage.getItem('negotiationpage_type');
-                            let chatboxClass, accept_decline_checkbox;
-                            if(usertype == "merchant"){
-                                if(row[x].type == "merchant"){
-                                    chatboxClass = `user`;
-                                }else if(row[x].type == "admin"){
-                                    chatboxClass = `admin`;
-                                }else{
-                                    chatboxClass = ``;
-                                }
-
-                                if(row[x].status == "accepted"){
-                                    accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
-                                }else if(row[x].status == "declined"){
-                                    accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
-                                }else if(negotiationpage_type=="offer"){
-                                    accept_decline_checkbox = `
-                                        <form>
-                                            <div class="d-flex justify-content-between">
-                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
-                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
-                                            </div>
-                                        </form>
-                                    `;
-                                }
-
-                            }else if(usertype == "corporate"){
-                                if(row[x].type == "corporate"){
-                                    chatboxClass = `user`;
-                                }else if(row[x].type == "admin"){
-                                    chatboxClass = `admin`;
-                                }else{
-                                    chatboxClass = ``;
-                                }
-
-                                if(row[x].status == "accepted"){
-                                    accept_decline_checkbox = `Offer accepted. <span style="color:#30BD6E;" class="fw-bolder" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">Proceed to payment.</span>`;
-                                }else if(row[x].status == "declined"){
-                                    accept_decline_checkbox = `<span class="text-danger">Offer declined.</span>`;
-                                }else if(negotiationpage_type=="cropwanted"){
-                                    accept_decline_checkbox = `
-                                        <form>
-                                            <div class="d-flex justify-content-between">
-                                                <span class="text-success">Accept <input type="checkbox" onclick="acceptoffer(${row[x].id})" /> </span>
-                                                <span class="text-danger">Decline <input type="checkbox" onclick="declineoffer(${row[x].id})" /> </span>
-                                            </div>
-                                        </form>
-                                    `;
-                                }else if(negotiationpage_type=="offer"){
-                                    accept_decline_checkbox = `We will let you know when merchant accepts/declines offer.`;
-                                }
-                            }
-
-                            let time = row[x].created_at;
-                            // console.log(time);
-                            
-                            let myTime = time.split(" ")[1];
-                            let myDate = time.split(" ")[0];
-                            var hour = parseInt(myTime.split(":")[0]) % 12;
-                            // console.log(hour, "The hour");
-                            var timeInAmPm = (hour == 0 ? "12": hour ) + ":" + myTime.split(":")[1] + " " + (parseInt(parseInt(myTime.split(":")[0]) / 12) < 1 ? "AM" : "PM");
-                            // console.log(timeInAmPm, "timeInAmPm");
-
-                            let themessagetype = row[x].messagetype;
-                            if(themessagetype == "offer"){
-                                // Hide Send offer button if an offer has been sent already
-                                $('.open_offer_form').hide();
-                                // Hide Send offer button if an offer has been sent already
-                            }
-                            // let themessageandType;
-                            if(themessagetype == "text"){
-                                themessageandType = `
-                                    <div class="chat-content ${chatboxClass}">
-                                        <div class="message-item">
-                                            <div class="bubble">${row[x].message}</div>    
-                                            <div class="message-time">${timeInAmPm}</div>   
-                                        </div>
-                                    </div>
-                                `;
-                            }else if(themessagetype == "offer"){
-                                let offerbox = JSON.parse(row[x].message);
-                                themessageandType = `
-                                    <div class="offer-right mb-2 mt-1">
-                                        <div class="offered">
-                                            <!---->
-                                            <div class="colored">
-                                                <h3>Offer</h3>
-                                                <hr />
-                                                <div class="white-line"></div>
-                                                <div class="each-item">
-                                                    <p>Required Item</p>
-                                                    <h4>${offerbox.qty}${offerbox.test_weight}</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Offer Price</p>
-                                                    <h4>₦${offerbox.price}</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Oil content</p>
-                                                    <h4>${offerbox.oil_content}%</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Foreign matter</p>
-                                                    <h4>${offerbox.foreign_matter}%</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Infestation</p>
-                                                    <h4>${offerbox.infestation}%</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Moisture</p>
-                                                    <h4>${offerbox.moisture}%</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Weevil</p>
-                                                    <h4>${offerbox.weevil}%</h4>
-                                                </div>
-                                                <div class="each-item">
-                                                    <p>Splits</p>
-                                                    <h4>${offerbox.splits}%</h4>
-                                                </div>
-                                                <button>View Full Specification</button>
+                                                <button class="d-none">View Full Specification</button>
                                             </div>
                                             <!---->
                                             <div class="message-item">
@@ -1698,6 +1721,8 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                     //     ChatDiv.scrollTop(height);
                     //     console.log(height, "Chartbox Height");
                     // },500)
+
+                    // The Negotiation notification popup has been transferred up. It should show even if no conversations has been made
                     
                 }else{
                     $('#thechatside').html("No conversation yet");
@@ -1711,10 +1736,10 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                 basicmodal("", "Service timed out \nCheck your internet connection");
             } else {
                 // alert(textstatus);
-                // basicmodal("", textstatus+"<br/>This session has ended, Login again");
-                // setTimeout(()=>{
-                //     logout();
-                // },3000)
+                basicmodal("", textstatus+"<br/>This session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
             }
         }
     });
@@ -2913,30 +2938,30 @@ function fetchMerchantAddedInputs(){
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
-                EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
-                }
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
     });
 }
 // MERCHANT SIDE
