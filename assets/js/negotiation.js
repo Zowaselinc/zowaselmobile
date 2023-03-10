@@ -71,7 +71,8 @@ const fetchUserConversations =()=>{
             // console.log(response, "The get all category response");
             if(response.error == true){
                 // alert(response.message);
-                responsemodal("erroricon.png", "Error", response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+                $('#pConversationList').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>"+response.message+"</h3></td></tr>");
                 $('.loader').addClass('loader-hidden');
             }else{
                 // alert(response.message);
