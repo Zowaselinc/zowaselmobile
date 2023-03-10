@@ -771,6 +771,7 @@ function populateSingleMyPersonalProductDetails(){
                         <span>Crop Deactivated  &nbsp;</span>
                         <span class="cropstatus2 cropActive d-block bg-danger"></span>
                     </div>
+                    <button class="btn btn-success" onclick="activateCrop(${thedata.id})">Activate crop</button>
                     `;
                 }else if(parseInt(active)===1){
                     activecrop = `
@@ -872,16 +873,16 @@ function populateSingleMyPersonalProductDetails(){
 }
 
 
-function deactivateCrop(crop_id){
+function activateCrop(crop_id){
     // alert(crop_id);
-    mcxDialog.confirm("I accept to deactivate this crop", {
+    mcxDialog.confirm("I accept to activate this crop", {
         sureBtnClick: function(){
           // callback
           //   alert("Ewo");
           startPageLoader();
 
             $.ajax({
-                url: `${liveMobileUrl}/crop//deactivate`,
+                url: `${liveMobileUrl}/crop/${crop_id}/activate`,
                 type: "POST",
                 "timeout": 25000,
                 "headers": {
@@ -889,7 +890,7 @@ function deactivateCrop(crop_id){
                     "authorization": localStorage.getItem('authToken')
                 },
                 "data": JSON.stringify({
-                    "id": negotiation_id
+                    "id": crop_id
                 }),
                 success: function(response) { 
                     EndPageLoader();
@@ -899,19 +900,99 @@ function deactivateCrop(crop_id){
                     }else{
                         // alert(response.message);
                         responsemodal("successicon.png", "Success", response.message);
-                        // populateUserandFarmOwnerNegotiationMessages();
-                        // setTimeout(()=>{
-                        //     $('#offer-form').hide();
-                        // },2000)      
+                        populateSingleMyPersonalProductDetails();
+                        setTimeout(()=>{
+                            $('.mymodal').hide();
+                        },3000)
                     }
                 },
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
-                    if(textstatus==="timeout") {
-                        basicmodal("", "Service timed out");
-                    } else {
-                        // alert(textstatus);
-                        basicmodal("", textstatus);
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout" || textstatus=="error") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.log('ajax.statusCode: 200');
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }
+            });
+        }
+
+    });
+}
+
+function deactivateCrop(crop_id){
+    // alert(crop_id);
+    mcxDialog.confirm("I accept to deactivate this crop", {
+        sureBtnClick: function(){
+          // callback
+          //   alert("Ewo");
+          startPageLoader();
+
+            $.ajax({
+                url: `${liveMobileUrl}/crop/${crop_id}/deactivate`,
+                type: "POST",
+                "timeout": 25000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                "data": JSON.stringify({
+                    "id": crop_id
+                }),
+                success: function(response) { 
+                    EndPageLoader();
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        responsemodal("successicon.png", "Success", response.message);
+                        populateSingleMyPersonalProductDetails();   
+                        setTimeout(()=>{
+                            $('.mymodal').hide();
+                        },3000)  
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout" || textstatus=="error") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.log('ajax.statusCode: 200');
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
                     }
                 }
             });
@@ -1061,11 +1142,27 @@ function populateSingleProductDetails(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout" || textstatus=="error") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     })
@@ -2535,7 +2632,7 @@ $('#formpage3').submit(function(e){
     formData.append("delivery_method", "Delivery");
     // formData.append("delivery_date", "2023/02/12");
     // formData.append("delivery_window", windowFrom+" - "+windowTo);
-    formData.append("warehouse_address", "warehouse_address_value");
+    formData.append("warehouse_address", warehouse_address_value);
     formData.append("moisture_content", moisturecontent.value);
 
     // formData.append("file", fileInput.files[0], "cornproduct_resize.jpg");

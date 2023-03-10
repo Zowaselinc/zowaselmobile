@@ -143,7 +143,7 @@ function truncate(str, length) {
                     $('#p_notification').html(rowContent);        
           
                 }else{
-                    $('#p_notification').html("No conversation found");
+                    $('#p_notification').html("No notification found");
                 }
                     
             }
@@ -298,7 +298,7 @@ function updateGeneralNotificationAsSeen(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
@@ -312,6 +312,9 @@ function updateGeneralNotificationAsSeen(){
                 setTimeout(()=>{
                     logout();
                 },3000)
+            },
+            400: function(response) {
+                console.log(response.responseJSON.message,' ajax.statusCode: 400');
             },
             404: function(response) {
                 console.log('ajax.statusCode: 404');
