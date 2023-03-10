@@ -17,6 +17,11 @@ const userType =(userType)=>{
  ************************************************************************************/
 const RegisterScreen =()=>{
 
+    let userType = localStorage.getItem('userType');
+    if(!userType){
+        location.assign('welcome.html');
+    }
+
     const form = document.getElementById('form');
     const firstname = document.getElementById('firstname');
     const lastname = document.getElementById('lastname');
@@ -185,9 +190,9 @@ const RegisterScreen =()=>{
                 registerData['email'] = email.value;
                 registerData['phone'] = phonenumber.value;
                 registerData['account_type'] = account_type.value;
-                if(account_type.value=="company"){
-                    // 
-                }
+                // if(account_type.value=="company"){
+                //     // 
+                // }
                 
                 
                 console.log(registerData) // Expected result -> {"first_name":"**","last_name":"**","email":"**","phone":"**"}
