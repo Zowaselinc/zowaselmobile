@@ -538,8 +538,8 @@ function truncate(str, length) {
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
@@ -1104,7 +1104,7 @@ const orderPaymentPage=()=>{
                         alert("Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         // responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         setTimeout(()=>{
-                            verifyTransaction(`'${transaction_id}'`, transaction_reference);
+                            verifyTransaction(`${transaction_id}`, transaction_reference);
                             alert("Anya mo Anya mo");
                         },2000)
                     }
