@@ -131,57 +131,42 @@
                                 -->
                                 <!-- SNAP -->
                                 <style>
-                                    #camera, #camera--view, #camera--sensor, #camera--output{
-    position: fixed;
-    height: 30em;
-    width: 50em;
-    object-fit: cover;
-}
-#camera--view, #camera--sensor, #camera--output{
-    transform: scaleX(-1);
-    filter: FlipH;
-}
-#camera--trigger{
-    color: #fff;
-    background-color: #2c3e50;
-    border-color: #2c3e50;
-	display: inline-block;
-    font-weight: 600;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    border: 1px solid transparent;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    text-align: center;
-    position: fixed;
-    bottom: 2em;
-    left: calc(50% - 100px);
-}
-.taken{
-    height: 300px!important;
-    width: 500px!important;
-    transition: all 0.5s ease-in;
-    border: solid 3px white;
-    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.2);
-    top: 20px;
-    right: 20px;
-    z-index: 2;
-}
+                                    video  {
+                                    width: 192px;
+                                    height: 192px;
+                                    background: rgba(0,0,0,0.2);
+                                    -webkit-transform: scaleX(-1); /* mirror effect while using front cam */
+                                    transform: scaleX(-1);         /* mirror effect while using front cam */
+                                    }
+
+                                    #canvas  {
+                                    width: 192px;
+                                    height: 192px;
+                                    -webkit-transform: scaleX(-1); /* mirror effect while using front cam */
+                                    transform: scaleX(-1);         /* mirror effect while using front cam */
+                                    }
                                 </style>
-                                <main id="camera">
-                                    <canvas id="camera--sensor"></canvas>
-                                    <video id="camera--view" autoplay playsinline></video>
-                                    <img src="//:0" alt="" id="camera--output">
-                                    <button id="camera--trigger">Take a picture</button>
-                                </main>
+                                <!-- Camera -->
+                                <div class="container p-5">
+                                    <div class="">
+                                      <b>Your Cam:</b><br>
+                                      <video id="camera-stream" class="border border-5 border-danger"></video>
+                                    </div>
+                                    <div class="">
+                                      <button disabled id="flip-btn" class="btn btn-sm btn-warning">
+                                        Flip Camera
+                                      </button>
+                                      <button id="capture-camera" class="btn btn-sm btn-primary">
+                                        Take photo
+                                      </button>
+                                    </div>
+                                    <div class="mt-3">
+                                      <b>Output:</b>
+                                      <br>
+                                      <canvas id="canvas" class="bg-light shadow border border-5 border-success">
+                                      </canvas>
+                                    </div>
+                                  </div>
                                 <!-- SNAP -->
 
 
@@ -250,31 +235,70 @@
 
 <script>
     $(document).ready(()=>{
-        var constraints = { video: { facingMode: "environment" }, audio: false };
-var track = null;
-const cameraView = document.querySelector("#camera--view"),
-    cameraOutput = document.querySelector("#camera--output"),
-    cameraSensor = document.querySelector("#camera--sensor"),
-    cameraTrigger = document.querySelector("#camera--trigger");
-function cameraStart() {
-    navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function(stream) {
-            track = stream.getTracks()[0];
-            cameraView.srcObject = stream;
-        })
-        .catch(function(error) {
-            console.error("Oops. Something is broken.", error);
-        });
-}
-cameraTrigger.onclick = function() {
-    cameraSensor.width = cameraView.videoWidth;
-    cameraSensor.height = cameraView.videoHeight;
-    cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
-    cameraOutput.src = cameraSensor.toDataURL("image/webp");
-    cameraOutput.classList.add("taken");
-};
-window.addEventListener("load", cameraStart, false);
+       
+        // camera stream video element
+  let on_stream_video = document.querySelector('#camera-stream');
+  // flip button element
+  let flipBtn = document.querySelector('#flip-btn');
+
+  // default user media options
+  let constraints = { audio: false, video: true }
+  let shouldFaceUser = true;
+
+  // check whether we can use facingMode
+  let supports = navigator.mediaDevices.getSupportedConstraints();
+  if( supports['facingMode'] === true ) {
+    flipBtn.disabled = false;
+  }
+
+  let stream = null;
+
+  function capture() {
+    constraints.video = {
+        width: {
+        min: 192,
+        ideal: 192,
+        max: 192,
+      },
+      height: {
+        min: 192,
+        ideal: 192,
+        max: 192
+      },
+      facingMode: shouldFaceUser ? 'user' : 'environment'
+    }
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then(function(mediaStream) {
+        stream  = mediaStream;
+        on_stream_video.srcObject = stream;
+        on_stream_video.play();
+      })
+      .catch(function(err) {
+        console.log(err)
+      });
+  }
+
+  flipBtn.addEventListener('click', function(){
+    if( stream == null ) return
+    // we need to flip, stop everything
+    stream.getTracks().forEach(t => {
+      t.stop();
+    });
+    // toggle / flip
+    shouldFaceUser = !shouldFaceUser;
+    capture();
+  })
+
+  capture();
+
+  document.getElementById("capture-camera").addEventListener("click", function() {
+    // Elements for taking the snapshot
+      const video = document.querySelector('video');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+  });
+
     })
 </script>
 
