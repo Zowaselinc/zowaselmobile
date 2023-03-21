@@ -165,6 +165,7 @@
                                       <br>
                                       <canvas id="canvas" class="bg-light shadow border border-5 border-success">
                                       </canvas>
+                                      <img id="photo" alt="The screen capture will appear in this box."> 
                                     </div>
                                   </div>
                                 <!-- SNAP -->
@@ -237,67 +238,88 @@
     $(document).ready(()=>{
        
         // camera stream video element
-  let on_stream_video = document.querySelector('#camera-stream');
-  // flip button element
-  let flipBtn = document.querySelector('#flip-btn');
+        let on_stream_video = document.querySelector('#camera-stream');
+        // flip button element
+        let flipBtn = document.querySelector('#flip-btn');
 
-  // default user media options
-  let constraints = { audio: false, video: true }
-  let shouldFaceUser = true;
+        // default user media options
+        let constraints = { audio: false, video: true }
+        let shouldFaceUser = true;
 
-  // check whether we can use facingMode
-  let supports = navigator.mediaDevices.getSupportedConstraints();
-  if( supports['facingMode'] === true ) {
-    flipBtn.disabled = false;
-  }
+        // check whether we can use facingMode
+        let supports = navigator.mediaDevices.getSupportedConstraints();
+        if( supports['facingMode'] === true ) {
+            flipBtn.disabled = false;
+        }
 
-  let stream = null;
+        let stream = null;
 
-  function capture() {
-    constraints.video = {
-        width: {
-        min: 192,
-        ideal: 192,
-        max: 192,
-      },
-      height: {
-        min: 192,
-        ideal: 192,
-        max: 192
-      },
-      facingMode: shouldFaceUser ? 'user' : 'environment'
-    }
-    navigator.mediaDevices.getUserMedia(constraints)
-      .then(function(mediaStream) {
-        stream  = mediaStream;
-        on_stream_video.srcObject = stream;
-        on_stream_video.play();
-      })
-      .catch(function(err) {
-        console.log(err)
-      });
-  }
+        function capture() {
+            constraints.video = {
+                width: {
+                min: 192,
+                ideal: 192,
+                max: 192,
+            },
+            height: {
+                min: 192,
+                ideal: 192,
+                max: 192
+            },
+            facingMode: shouldFaceUser ? 'user' : 'environment'
+            }
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(mediaStream) {
+                stream  = mediaStream;
+                on_stream_video.srcObject = stream;
+                on_stream_video.play();
+            })
+            .catch(function(err) {
+                console.log(err)
+            });
+        }
 
-  flipBtn.addEventListener('click', function(){
-    if( stream == null ) return
-    // we need to flip, stop everything
-    stream.getTracks().forEach(t => {
-      t.stop();
-    });
-    // toggle / flip
-    shouldFaceUser = !shouldFaceUser;
-    capture();
-  })
+        flipBtn.addEventListener('click', function(){
+            if( stream == null ) return
+            // we need to flip, stop everything
+            stream.getTracks().forEach(t => {
+            t.stop();
+            });
+            // toggle / flip
+            shouldFaceUser = !shouldFaceUser;
+            capture();
+        })
 
-  capture();
+        capture();
 
-  document.getElementById("capture-camera").addEventListener("click", function() {
-    // Elements for taking the snapshot
-      const video = document.querySelector('video');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.getContext('2d').drawImage(video, 0, 0);
-  });
+        document.getElementById("capture-camera").addEventListener("click", function() {
+            // Elements for taking the snapshot
+            const video = document.querySelector('video');
+            // canvas.width = video.videoWidth;
+            // canvas.height = video.videoHeight;
+            // canvas.getContext('2d').drawImage(video, 0, 0);
+
+
+            let canvas = document.getElementById('canvas');
+            let photo = document.getElementById('photo');  
+            let context = canvas.getContext('2d');
+            
+            const height = video.videoHeight;
+            const width = video.videoWidth;
+            
+            if (width && height) {    
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);    
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+            } else {
+                clearphoto();
+            }
+        });
+
+
+
 
     })
 </script>
