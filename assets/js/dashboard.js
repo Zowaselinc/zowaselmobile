@@ -17,6 +17,30 @@ PullToRefresh.init({
 /* ---------------------------- PULL TO REFERESH ---------------------------- */
 
 
+
+
+/* ------------------------------ LAZY LOADING ------------------------------ */
+function lazyLoading(){
+    $('.lazy').hide();
+    $('.lazy').each(function(index,value) {
+        console.log(index, "frelkferk");
+        if(index < 11 ) {
+        $(this).show();
+        }
+    });
+
+    console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+
+    if($('.lazy:hidden').length) {
+        $('#more').show();
+    }
+    if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+    }
+}
+/* ------------------------------ LAZY LOADING ------------------------------ */
+
+
 function truncate(str, length) {
     if (str.length > length) {
         return str.slice(0, length) + '...';
@@ -124,11 +148,16 @@ const sidemenu =(page)=>{
 // }
 
 
-const buttommenu =()=>{
-    $.get( "components/buttommenu.html", function( data ) {
-          $( "#buttommenu" ).html( data );
-        //   console.log(data,"grgr");
-    })
+const buttommenu =(page)=>{
+    if(page){
+        $.get( "../components/buttommenu.html", function( data ) {
+            $( "#buttommenu" ).html( data );
+        })
+    }else{
+        $.get( "components/buttommenu.html", function( data ) {
+            $( "#buttommenu" ).html( data );
+        })
+    }
 
 }
 
@@ -522,7 +551,7 @@ function fetchWantedCrops(){
                                     </div>
                                 </div>
                                 <div class="item-media d-flex flex-column align-item-center justify-content-center" style="flex:1;">
-                                    <h6 class="me-3 text-success">NGN ${theprice} / ${thetest_weight}</h6>
+                                    <h6 class="me-3 text-success">NGN ${truncate(theprice,4)} / ${thetest_weight}</h6>
 
                                     <div class="d-flex">
                                         <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
@@ -534,12 +563,12 @@ function fetchWantedCrops(){
                         `;   
                     }
                     $('#wantedcrops').html(rowContent);
-        
-        
-          
+                    
                 }else{
                     $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop wanted yet</h5></td></tr>");
                 }
+
+                lazyLoading();
                     
             }
         },
@@ -698,13 +727,12 @@ function fetchAllCropsForSale(){
                         `;   
                     }
                     $('#p_allcropsforsale').html(rowContent);
-        
-        
-          
+
                 }else{
                     $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop for sale yet</h5></td></tr>");
                 }
-                    
+                
+                lazyLoading();
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
@@ -784,6 +812,39 @@ function populateSingleMyPersonalProductDetails(){
                 }
                 $('.cropActiveStatus-v').html(activecrop);
                 // Active and nonActive crop
+
+                // AUCTION CROP
+                let auction_details;
+                if(thedata.auction){
+                    let auction = thedata.auction;
+                    auction_details = `
+                        <h5>Auction Details</h5>
+                        <div class="row col-12">
+                            <div class="col-6">
+                                <h6>Start Date:</h6>
+                                <span>${auction.start_date}</span>
+                            </div>
+                            <div class="col-6">
+                                <h6>End Date:</h6>
+                                <span>${auction.end_date}</span>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 mt-4 mb-5">
+                            <div class="col-6">
+                                <h6>Minimum Bid:</h6>
+                                <span>${auction.minimum_bid}</span>
+                            </div>
+                            <div class="col-6">
+                                <h6>Created Date:</h6>
+                                <span>${auction.created_at.split(" ")[0]}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    $('.auction_details').html(auction_details);
+                }
+                // AUCTION CROP
 
                 let videoLink;
                 if(!thedata.video){
@@ -2907,13 +2968,13 @@ function fetchInputs(){
                         let therow = JSON.stringify(row);
 
                         rowContent += `
-                        <li onclick="goToInputDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
+                        <li class="lazy" onclick="goToInputDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
                             <div class="item-inner w-100">
                                 <div class="item-title-row mb-0">
                                     <h6 class="item-title"><a>${row.product_type}</a></h6>
-                                    <div class="item-subtitle text-truncate">${row.description}</div>
+                                    <div class="item-subtitle text-truncate">${truncate(row.description, 70)}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
@@ -2932,12 +2993,12 @@ function fetchInputs(){
                         `;   
                     }
                     $('#inputs').html(rowContent);
-        
-        
-          
+
                 }else{
                     $('#inputs').html("No Input yet");
                 }
+
+                lazyLoading();
                     
             }
         },
@@ -3560,7 +3621,7 @@ function fetchUserCropsforSaleByUserID(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         rowContent += `
-                        <li onclick="goToMyPersonalCropDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
+                        <li onclick="lazy goToMyPersonalCropDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
                             <div class="item-inner w-100">
@@ -3589,12 +3650,12 @@ function fetchUserCropsforSaleByUserID(){
                         `;   
                     }
                     $('#p_cropsByUserID').html(rowContent);
-        
-        
-          
+
                 }else{
                     $('#p_cropsByUserID').html("No Crop for sale yet");
                 }
+
+                lazyLoading();
                     
             }
         },
@@ -3698,7 +3759,7 @@ function fetchCropsforAuction(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         rowContent += `
-                        <li onclick="localStorage.setItem('singleproductID',${row.id}); 
+                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); 
                         location.assign('${gotoProductdetails}')" style="background:whitesmoke;padding: 13px 15px 0px;">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                         <div class="item-content">
@@ -3733,9 +3794,7 @@ function fetchCropsforAuction(){
                     }else if(usertype == "merchant"){
                         $('#p_cropAuctionByUserID').html(rowContent);
                     }
-        
-        
-          
+
                 }else{
                     if(usertype == "corporate"){
                         $('#p_allCropAuction').html("No Crop yet");
@@ -3743,6 +3802,8 @@ function fetchCropsforAuction(){
                         $('#p_cropAuctionByUserID').html("No Crop yet");
                     }
                 }
+                
+                lazyLoading();
                     
             }
         },

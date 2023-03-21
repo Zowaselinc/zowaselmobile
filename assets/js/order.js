@@ -41,7 +41,26 @@ window.addEventListener('load', ()=>{
 
 
 
+/* ------------------------------ LAZY LOADING ------------------------------ */
+function lazyLoading(){
+    $('.lazy').hide();
+    $('.lazy').each(function(index,value) {
+        console.log(index, "frelkferk");
+        if(index < 11 ) {
+        $(this).show();
+        }
+    });
 
+    console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+
+    if($('.lazy:hidden').length) {
+        $('#more').show();
+    }
+    if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+    }
+}
+/* ------------------------------ LAZY LOADING ------------------------------ */
 
 
 const today = new Date().toISOString().split("T")[0];
@@ -966,7 +985,7 @@ function fetchUserOrdersByUserID(){
                         }
 
                         rowContent += `
-                        <tr>
+                        <tr class="lazy">
                             <td id='' style="display:none;">${JSON.stringify(row)}</td>
                             <th scope="row">${row.created_at.split(' ')[0]}</th>
                             <td>${truncate(row.order_hash, 6)}</td>
@@ -982,7 +1001,8 @@ function fetchUserOrdersByUserID(){
                     }else if(tbodySelector == "p_Sales"){
                         $('#p_Sales').append(rowContent);
                     }
-                            
+
+                    
                 }else{
                     if(tbodySelector == "p_orders"){
                         $('#p_orders').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No sales found</h5></td></tr>");
@@ -990,6 +1010,7 @@ function fetchUserOrdersByUserID(){
                         $('#p_Sales').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No sales found</h5></td></tr>");
                     }
                 }
+                lazyLoading();
                     
             }
         },
@@ -1105,7 +1126,7 @@ const orderPaymentPage=()=>{
                         // responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         setTimeout(()=>{
                             verifyTransaction(`${transaction_id}`, transaction_reference);
-                            alert("Anya mo Anya mo");
+                            alert("Crediting the enduser");
                         },2000)
                     }
                     

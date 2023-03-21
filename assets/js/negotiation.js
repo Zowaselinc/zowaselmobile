@@ -39,6 +39,26 @@ window.addEventListener('load', ()=>{
 
 
 
+/* ------------------------------ LAZY LOADING ------------------------------ */
+function lazyLoading(){
+    $('.lazy').hide();
+    $('.lazy').each(function(index,value) {
+        console.log(index, "frelkferk");
+        if(index < 11 ) {
+        $(this).show();
+        }
+    });
+
+    console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+
+    if($('.lazy:hidden').length) {
+        $('#more').show();
+    }
+    if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+    }
+}
+/* ------------------------------ LAZY LOADING ------------------------------ */
 
 
 
@@ -68,8 +88,8 @@ const fetchUserConversations =()=>{
             // alert("efe");
             EndPageLoader();
             $('.loader').addClass('loader-hidden');
-            // console.log(response, "The get all category response");
-            if(response.error == true){
+            // console.log(response, "The get all negotiation response");
+            if(response.error === true){
                 // alert(response.message);
                 // responsemodal("erroricon.png", "Error", response.message);
                 $('#pConversationList').html("<tr><td colspan='9' class='text-center'><h6 class='pt-2'>"+response.message+"</h6></td></tr>");
@@ -133,6 +153,7 @@ const fetchUserConversations =()=>{
                 }
                     
             }
+            lazyLoading();
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();

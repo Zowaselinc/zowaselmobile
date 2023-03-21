@@ -38,6 +38,26 @@ const logout =()=>{
 /* -------------------------------- // LOGOUT ------------------------------- */
 
 
+/* ------------------------------ LAZY LOADING ------------------------------ */
+function lazyLoading(){
+    $('.lazy').hide();
+    $('.lazy').each(function(index,value) {
+        console.log(index, "frelkferk");
+        if(index < 11 ) {
+        $(this).show();
+        }
+    });
+
+    console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+
+    if($('.lazy:hidden').length) {
+        $('#more').show();
+    }
+    if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+    }
+}
+/* ------------------------------ LAZY LOADING ------------------------------ */
 
 
 
@@ -145,6 +165,8 @@ function truncate(str, length) {
                 }else{
                     $('#p_notification').html("No notification found");
                 }
+
+                lazyLoading();
                     
             }
         },

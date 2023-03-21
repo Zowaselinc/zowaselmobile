@@ -157,6 +157,13 @@
     <!-- Page Content End-->
 
 
+    <!-- Menubar -->
+	<div class="menubar-area" id="buttommenu">
+		
+	</div>
+	<!-- Menubar -->
+
+
 
 
     <!-- ------------------------------- LOADER -------------------------------- -->
@@ -187,8 +194,8 @@
 <script src="../../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
-<script src="../../assets/js/env.js"></script> 
-<script src="../../assets/js/dashboard.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
 
 
 
@@ -200,33 +207,34 @@
     sidemenu();
     populateUserDetails();
     fetchWantedCrops();
+    buttommenu();
 </script>
 
 <script>
-    $(document).ready(function() {
-        $('.lazy').hide();
-        $('.lazy').each(function(index,value) {
-            console.log(index, "frelkferk");
-            if(index < 2 ) {
-            $(this).show();
-            }
-        });
+    // $(document).ready(function() {
+    //     $('.lazy').hide();
+    //     $('.lazy').each(function(index,value) {
+    //         console.log(index, "frelkferk");
+    //         if(index < 2 ) {
+    //         $(this).show();
+    //         }
+    //     });
 
-        console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+    //     console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
 
-        if($('.lazy:hidden').length) {
-            $('#more').show();
-        }
-        if(!$('.lazy:hidden').length) {
-            $('#more').hide();
-        }
+    //     if($('.lazy:hidden').length) {
+    //         $('#more').show();
+    //     }
+    //     if(!$('.lazy:hidden').length) {
+    //         $('#more').hide();
+    //     }
     
-    });
+    // });
 
 
     $('#more').on('click', function() {
         $('.lazy:hidden').each(function(index, value) {
-        if(index < 3) {
+        if(index < 12) {
             $(this).show();
         }
         });

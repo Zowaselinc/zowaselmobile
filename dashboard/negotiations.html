@@ -122,6 +122,13 @@
                 </li> -->
             </ul>
             <!-- <a href="javascript:void(0);" class="btn scrollTop btn-primary btn-rounded px-3 chat-btn"><i class="fa-solid fa-plus me-2"></i> New Chat</a> -->
+        
+            <div class="saprater"></div>  
+
+            <!-- LOAD MORE -->
+            <div id="more" class="text-center">Load More</div>
+            <!-- LOAD MORE -->
+        
         </div>
     </div>
     <!-- Page Content End-->
@@ -182,6 +189,18 @@
     buttommenu();
     populateUserDetails();
     fetchUserConversations();
+</script>
+<script>
+        $('#more').on('click', function() {
+        $('.lazy:hidden').each(function(index, value) {
+        if(index < 12) {
+            $(this).show();
+        }
+        });
+        if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+        }
+    });
 </script>
 </body>
 </html>

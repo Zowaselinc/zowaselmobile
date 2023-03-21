@@ -190,6 +190,31 @@
 
             <!-- Content Section 2 -->
             <div class="container">
+                <div class="auction_details">
+                    <!-- <h5>Auction Details</h5>
+                    <div class="row col-12">
+                        <div class="col-6">
+                            <h6>Start Date:</h6>
+                            <span>2023-03-10</span>
+                        </div>
+                        <div class="col-6">
+                            <h6>End Date:</h6>
+                            <span>2023-03-10</span>
+                        </div>
+                    </div>
+
+                    <div class="row col-12 mt-4 mb-5">
+                        <div class="col-6">
+                            <h6>Minimum Bid:</h6>
+                            <span>5</span>
+                        </div>
+                        <div class="col-6">
+                            <h6>Created Date:</h6>
+                            <span>2023-03-10</span>
+                        </div>
+                    </div> -->
+                </div>
+
                 <div class="company-detail">
                     <div class="detail-content">
                         <div class="flex-1">
@@ -345,26 +370,26 @@
     //     $('.loader').hide();
     // });
 
-    $(document).ready(function() {
-        $('.lazy').hide();
-        $('.lazy').each(function(index,value) {
-            if(index < 10) {
-            $(this).show();
-            }
-        });
-        if($('.lazy:hidden').length) {
-            $('#more').show();
-        }
-        if(!$('.lazy:hidden').length) {
-            $('#more').hide();
-        }
+    // $(document).ready(function() {
+    //     $('.lazy').hide();
+    //     $('.lazy').each(function(index,value) {
+    //         if(index < 10) {
+    //         $(this).show();
+    //         }
+    //     });
+    //     if($('.lazy:hidden').length) {
+    //         $('#more').show();
+    //     }
+    //     if(!$('.lazy:hidden').length) {
+    //         $('#more').hide();
+    //     }
     
-    });
+    // });
 
 
     $('#more').on('click', function() {
         $('.lazy:hidden').each(function(index, value) {
-        if(index < 3) {
+        if(index < 12) {
             $(this).show();
         }
         });

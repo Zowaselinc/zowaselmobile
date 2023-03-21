@@ -139,6 +139,12 @@
     </div>
     <!-- Page Content End-->
 
+    <!-- Menubar -->
+	<div class="menubar-area" id="buttommenu">
+		
+	</div>
+	<!-- Menubar -->
+
 
 
 
@@ -184,33 +190,34 @@
     sidemenu('orderpage');
     populateUserDetails();
     fetchUserOrdersByUserID();
+    buttommenu('orderpage');
 </script>
 
 <script>
-    $(document).ready(function() {
-        $('.lazy').hide();
-        $('.lazy').each(function(index,value) {
-            console.log(index, "frelkferk");
-            if(index < 2 ) {
-            $(this).show();
-            }
-        });
+    // $(document).ready(function() {
+    //     $('.lazy').hide();
+    //     $('.lazy').each(function(index,value) {
+    //         console.log(index, "frelkferk");
+    //         if(index < 2 ) {
+    //         $(this).show();
+    //         }
+    //     });
 
-        console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+    //     console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
 
-        if($('.lazy:hidden').length) {
-            $('#more').show();
-        }
-        if(!$('.lazy:hidden').length) {
-            $('#more').hide();
-        }
+    //     if($('.lazy:hidden').length) {
+    //         $('#more').show();
+    //     }
+    //     if(!$('.lazy:hidden').length) {
+    //         $('#more').hide();
+    //     }
     
-    });
+    // });
 
 
     $('#more').on('click', function() {
         $('.lazy:hidden').each(function(index, value) {
-        if(index < 3) {
+        if(index < 12) {
             $(this).show();
         }
         });

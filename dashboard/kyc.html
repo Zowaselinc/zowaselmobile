@@ -36,16 +36,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
 
-    <style>
-        .loader {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            background: #fff url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif) no-repeat center center;
-        }
-    </style>
-
 </head>   
 <body class="bg-white">
 <div class="page-wraper">
@@ -56,16 +46,17 @@
             <div class="container">
                 <div class="header-content">
                     <div class="left-content">
-                        <a href="javascript:void(0);" class="back-btn">
+                        <a href="wallet.html">
                             <svg width="18" height="18" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M9.03033 0.46967C9.2966 0.735936 9.3208 1.1526 9.10295 1.44621L9.03033 1.53033L2.561 8L9.03033 14.4697C9.2966 14.7359 9.3208 15.1526 9.10295 15.4462L9.03033 15.5303C8.76406 15.7966 8.3474 15.8208 8.05379 15.6029L7.96967 15.5303L0.96967 8.53033C0.703403 8.26406 0.679197 7.8474 0.897052 7.55379L0.96967 7.46967L7.96967 0.46967C8.26256 0.176777 8.73744 0.176777 9.03033 0.46967Z" fill="#a19fa8"/>
 							</svg>
                         </a>
-                        <h5 class="mb-0 ms-2">Notifications</h5>
+                        <h5 class="mb-0 ms-2">Kyc Verification</h5>
                     </div>
                     <div class="mid-content">
                     </div>
                     <div class="right-content">
+                        <button class="btn verificationStatus">Unverified</button>
                     </div>
                 </div>
             </div>
@@ -97,58 +88,70 @@
 
     
     <!-- Page Content -->
-    <div id="main" class="page-content bottom-content">
-        <!-- Notification List -->
-        <div class="container" id="p_notification">
-            <!-- <a href="profile.html" class="notification bg-success">
-                <div class="notification-content item-list">
-                    <div class="item-content">
-                        <div class="item-inner">
-                            <h6 class="title">Lily MacDonald</h6>
-                            <p class="mb-0">Lorem ipsum dolor sit ameet..</p>
-                        </div>
-                        <div class="ms-auto font-10 text-white d-flex align-items-center">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11Z" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M6 3V6L8 7" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                            12 min ago
-                        </div>
+    <div id="main" class="page-content bottom-content" style="background: #f7f7f7;height:93vh;">
+        <div class="container">
+
+            <!-- row -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="kyccard">
+                        <div class="card-body">
+							<form id="payForm">
+                                <label style="color:#2c2646d1;font-weight:700;">Type</label>
+								<div class="mb-3 input-group">
+									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
+									<select required id="" class="form-control">
+                                        <option value="">Select ID Type</option>
+                                        <option value="driverlicence">Drivers Licence</option>
+                                    </select>
+								</div>
+
+                                <label style="color:#2c2646d1;font-weight:700;">Id Number</label>
+								<div class="mb-3 input-group">
+									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
+									<input required id="" class="form-control" />
+								</div>
+								<div class="text-center">
+                                    <button type="submit" class="btn btn-dark mt-3 ">Next</button>
+                                </div>
+							</form>
+						</div>
                     </div>
-                </div>
-            </a>
-    
-            <a href="profile.html" class="notification">
-                <div class="notification-content item-list">
-                    <div class="item-content">
-                        <div class="item-inner">
-                            <h6 class="title">Lily MacDonald</h6>
-                            <p class="mb-0">Lorem ipsum dolor sit ameet..</p>
-                        </div>
-                        <div class="ms-auto font-10 text-dark d-flex align-items-center">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11Z" stroke="#787878" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M6 3V6L8 7" stroke="#787878" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                            12 min ago
-                        </div>
+
+                    <div class="kyccard">
+                        <div class="card-body">
+							<form id="payForm">
+                                <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">Id front</label>
+                                <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please snap the front of your Selected id</span>
+								
+                                <!--
+                                    Ideally these elements aren't created until it's confirmed that the 
+                                    client supports video/camera, but for the sake of illustrating the 
+                                    elements involved, they are created with markup (not JavaScript)
+                                -->
+                                <!-- SNAP -->
+                                <video id="video" width="640" height="480" autoplay></video>
+                                <button id="snap">Snap Photo</button>
+                                <canvas id="canvas" width="640" height="480"></canvas>
+                                <!-- SNAP -->
+
+
+								<div class="text-center">
+                                    <button type="submit" class="btn btn-dark mt-3 ">Next</button>
+                                </div>
+							</form>
+						</div>
                     </div>
+
+
                 </div>
-            </a> -->
+            </div>
+            <!-- row -->
 
-            <div class="saprater"></div>  
+        </div>
 
-            <!-- LOAD MORE -->
-            <div id="more" class="text-center">Load More</div>
-            <!-- LOAD MORE -->
-
-        </div>            
-        <!-- Notification List -->
     </div>
     <!-- Page Content End-->
-
-
-
 
 
 
@@ -165,6 +168,7 @@
     </div>
     <!-- ------------------------------- MODAL -------------------------------- -->
 
+
 	
 </div>  
 <!--**********************************
@@ -177,11 +181,11 @@
 <script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../assets/js/settings.js"></script>
 <script src="../assets/js/custom.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="../assets/js/modal.js"></script>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
 <script src="../assets/js/env.js"></script> 
-<script src="../assets/js/Anotification.js"></script>
+<script src="../assets/js/dashboard.js"></script>
 
 
 
@@ -192,44 +196,42 @@
 <script>
     // sidemenu();
     // populateUserDetails();
-    setTimeout(()=>{
-        fetchUserNotificationsByUserTypeandID2();
-    },500)
-    updateGeneralNotificationAsSeen();
+    fundWalletPage();
 </script>
 
 <script>
-    // $(document).ready(function(){
-    //     $('.loader').hide();
-    // });
+    $(document).ready(()=>{
+        // Grab elements, create settings, etc.
+        var video = document.getElementById('video');
 
-    // $(document).ready(function() {
-    //     $('.lazy').hide();
-    //     $('.lazy').each(function(index,value) {
-    //         if(index < 10) {
-    //         $(this).show();
-    //         }
-    //     });
-    //     if($('.lazy:hidden').length) {
-    //         $('#more').show();
-    //     }
-    //     if(!$('.lazy:hidden').length) {
-    //         $('#more').hide();
-    //     }
-    
-    // });
-
-
-    $('#more').on('click', function() {
-        $('.lazy:hidden').each(function(index, value) {
-        if(index < 12) {
-            $(this).show();
+        // Get access to the camera!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Not adding `{ audio: true }` since we only want video now
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                //video.src = window.URL.createObjectURL(stream);
+                video.srcObject = stream;
+                video.play();
+            });
         }
-        });
-        if(!$('.lazy:hidden').length) {
-        $('#more').hide();
-        }
-    });
+        /* Legacy code below: getUserMedia */
+else if(navigator.getUserMedia) { // Standard
+    navigator.getUserMedia({ video: true }, function(stream) {
+        video.src = stream;
+        video.play();
+    }, errBack);
+} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+    navigator.webkitGetUserMedia({ video: true }, function(stream){
+        video.src = window.webkitURL.createObjectURL(stream);
+        video.play();
+    }, errBack);
+} else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
+    navigator.mozGetUserMedia({ video: true }, function(stream){
+        video.srcObject = stream;
+        video.play();
+    }, errBack);
+}
+
+    })
 </script>
 
 </body>
