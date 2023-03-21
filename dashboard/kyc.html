@@ -120,7 +120,7 @@
 
                     <div class="kyccard">
                         <div class="card-body">
-							<form id="payForm">
+							<div id="payForm">
                                 <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">Id front</label>
                                 <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please snap the front of your Selected id</span>
 								
@@ -130,16 +130,65 @@
                                     elements involved, they are created with markup (not JavaScript)
                                 -->
                                 <!-- SNAP -->
-                                <video id="video" width="640" height="480" autoplay></video>
-                                <button id="snap">Snap Photo</button>
-                                <canvas id="canvas" width="640" height="480"></canvas>
+                                <style>
+                                    #camera, #camera--view, #camera--sensor, #camera--output{
+    position: fixed;
+    height: 30em;
+    width: 50em;
+    object-fit: cover;
+}
+#camera--view, #camera--sensor, #camera--output{
+    transform: scaleX(-1);
+    filter: FlipH;
+}
+#camera--trigger{
+    color: #fff;
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+	display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    text-align: center;
+    position: fixed;
+    bottom: 2em;
+    left: calc(50% - 100px);
+}
+.taken{
+    height: 300px!important;
+    width: 500px!important;
+    transition: all 0.5s ease-in;
+    border: solid 3px white;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.2);
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+}
+                                </style>
+                                <main id="camera">
+                                    <canvas id="camera--sensor"></canvas>
+                                    <video id="camera--view" autoplay playsinline></video>
+                                    <img src="//:0" alt="" id="camera--output">
+                                    <button id="camera--trigger">Take a picture</button>
+                                </main>
                                 <!-- SNAP -->
 
 
 								<div class="text-center">
                                     <button type="submit" class="btn btn-dark mt-3 ">Next</button>
                                 </div>
-							</form>
+							</div>
 						</div>
                     </div>
 
@@ -201,36 +250,31 @@
 
 <script>
     $(document).ready(()=>{
-        // Grab elements, create settings, etc.
-        var video = document.getElementById('video');
-
-        // Get access to the camera!
-        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            // Not adding `{ audio: true }` since we only want video now
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                //video.src = window.URL.createObjectURL(stream);
-                video.srcObject = stream;
-                video.play();
-            });
-        }
-        /* Legacy code below: getUserMedia */
-else if(navigator.getUserMedia) { // Standard
-    navigator.getUserMedia({ video: true }, function(stream) {
-        video.src = stream;
-        video.play();
-    }, errBack);
-} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-    navigator.webkitGetUserMedia({ video: true }, function(stream){
-        video.src = window.webkitURL.createObjectURL(stream);
-        video.play();
-    }, errBack);
-} else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
-    navigator.mozGetUserMedia({ video: true }, function(stream){
-        video.srcObject = stream;
-        video.play();
-    }, errBack);
+        var constraints = { video: { facingMode: "environment" }, audio: false };
+var track = null;
+const cameraView = document.querySelector("#camera--view"),
+    cameraOutput = document.querySelector("#camera--output"),
+    cameraSensor = document.querySelector("#camera--sensor"),
+    cameraTrigger = document.querySelector("#camera--trigger");
+function cameraStart() {
+    navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function(stream) {
+            track = stream.getTracks()[0];
+            cameraView.srcObject = stream;
+        })
+        .catch(function(error) {
+            console.error("Oops. Something is broken.", error);
+        });
 }
-
+cameraTrigger.onclick = function() {
+    cameraSensor.width = cameraView.videoWidth;
+    cameraSensor.height = cameraView.videoHeight;
+    cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+    cameraOutput.src = cameraSensor.toDataURL("image/webp");
+    cameraOutput.classList.add("taken");
+};
+window.addEventListener("load", cameraStart, false);
     })
 </script>
 
