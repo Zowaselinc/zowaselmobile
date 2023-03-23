@@ -241,13 +241,13 @@
                                 <label style="color:#2c2646d1;font-weight:700;">Type</label>
 								<div class="mb-3 input-group">
 									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
-									<input type="text" required id="driverlicence-v" class="form-control">
+									<input type="text" readonly required id="driverlicence-v" class="form-control">
 								</div>
 
                                 <label style="color:#2c2646d1;font-weight:700;">Id Number</label>
 								<div class="mb-3 input-group">
 									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
-									<input required id="idnumber-v" class="form-control" />
+									<input required readonly id="idnumber-v" class="form-control" />
 								</div>
 
                                 <!-- ID FRONT -->
@@ -255,12 +255,12 @@
                                 <img id="photo-IDFront-v" class="captureBorder w-100" alt="The screen capture will appear in this box.">
 
                                 <!-- ID BACK -->
-                                <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">ID Back</label>
+                                <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block mt-2">ID Back</label>
                                 <img id="photo-IDBack-v" class="captureBorder w-100" alt="The screen capture will appear in this box.">
 
 								<div class="text-center">
-                                    <button type="button" class="btn btn-dark mt-3" onclick="gobacktoSection(`frontIDSection`)">Prev</button>
-                                    <button type="button" id="backIDNextBtn" class="btn btn-dark mt-3 ">Next</button>
+                                    <button type="button" class="btn border border-dark mt-3" onclick="gobacktoSection(`idTypeandNumberSection`)">Edit</button>
+                                    <button type="button" id="backIDNextBtn" class="btn btn-dark mt-3 ">Submit</button>
                                 </div>
 							</div>
 						</div>
@@ -513,8 +513,12 @@
         })
         $('#backIDNextBtn').on('click',function(e){
             e.preventDefault();
+            let driverlicence = document.getElementById('driverlicence').value;
+            let idnumber = document.getElementById('idnumber').value;
+            $('#driverlicence-v').val(driverlicence);
+            $('#idnumber-v').val(idnumber);
             $('#backIDSection').hide();
-            // $('#backIDSection').show();
+            $('#idPreviewSection').show();
         })
         // SWITCH PAGE SECTIONS
     })
