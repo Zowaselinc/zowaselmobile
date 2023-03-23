@@ -169,9 +169,9 @@
                                       <video id="camera-stream-IDFront" autoplay muted playsinline class="cameraBorder w-100">Not available</video>
                                     </div>
                                     <div class="text-center">
-                                      <button disabled id="flip-btn-IDFront" class="btn btn-sm btn-warning">
+                                      <!-- <button disabled id="flip-btn-IDFront" class="btn btn-sm btn-warning">
                                         Flip Camera
-                                      </button>
+                                      </button> -->
                                       <button id="capture-camera-IDFront" class="btn btn-sm btn-primary">
                                         Take photo
                                       </button>
@@ -208,9 +208,9 @@
                                       <video id="camera-stream-IDBack" autoplay muted playsinline class="cameraBorder w-100">Not available</video>
                                     </div>
                                     <div class="text-center">
-                                      <button disabled id="flip-btn-IDBack" class="btn btn-sm btn-warning">
+                                      <!-- <button disabled id="flip-btn-IDBack" class="btn btn-sm btn-warning">
                                         Flip Camera
-                                      </button>
+                                      </button> -->
                                       <button id="capture-camera-IDBack" class="btn btn-sm btn-primary">
                                         Take photo
                                       </button>
@@ -340,8 +340,8 @@
         // check whether we can use facingMode
         let supports = navigator.mediaDevices.getSupportedConstraints();
         if( supports['facingMode'] === true ) {
-            flipBtn.disabled = false;
-            flipBtn2.disabled = false;
+            // flipBtn.disabled = false;
+            // flipBtn2.disabled = false;
         }
 
         let stream = null;
@@ -423,29 +423,29 @@
         //     capture1();
         //     on_stream_video.play();
         // })
-        
+
         capture1();
 
         // <!-- ----------------------------- flip Btn 2 ------------------------------ -->
-        flipBtn2.addEventListener('click', function(){
-            if( stream2 == null ) return
-            // we need to flip, stop everything
-            stream2.getTracks().forEach(t => {
-            t.stop();
-            });
-            // toggle / flip
-            shouldFaceUser2 = !shouldFaceUser2;
-            capture1();
-            on_stream_video2.play();
-        })
+        // flipBtn2.addEventListener('click', function(){
+        //     if( stream2 == null ) return
+        //     // we need to flip, stop everything
+        //     stream2.getTracks().forEach(t => {
+        //     t.stop();
+        //     });
+        //     // toggle / flip
+        //     shouldFaceUser2 = !shouldFaceUser2;
+        //     capture1();
+        //     on_stream_video2.play();
+        // })
         
 
         document.getElementById("capture-camera-IDFront").addEventListener("click", function() {
             // Elements for taking the snapshot
             const video = document.querySelectorAll('video')[0];
-            // canvas.width = video.videoWidth;
-            // canvas.height = video.videoHeight;
-            // canvas.getContext('2d').drawImage(video, 0, 0);
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
             // alert("Yes");
 
             let canvas = document.getElementById('canvas-IDFront');
@@ -457,9 +457,9 @@
             const width = video.videoWidth;
             
             if (width && height) {    
-                canvas.width = width;
-                canvas.height = height;
-                context.drawImage(video, 0, 0, width, height);    
+                // canvas.width = width;
+                // canvas.height = height;
+                // context.drawImage(video, 0, 0, width, height);    
                 var data = canvas.toDataURL('image/png');
                 photo.setAttribute('src', data);
                 photo_v.setAttribute('src', data);
