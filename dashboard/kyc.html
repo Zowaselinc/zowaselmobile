@@ -334,8 +334,8 @@
 
         // default user media options
         let constraints = { audio: false, video: true }
-        let shouldFaceUser = true;
-        let shouldFaceUser2 = true;
+        let shouldFaceUser = false;
+        let shouldFaceUser2 = false;
 
         // check whether we can use facingMode
         let supports = navigator.mediaDevices.getSupportedConstraints();
@@ -359,7 +359,7 @@
                     ideal: 192,
                     max: 192
                 },
-                facingMode: shouldFaceUser ? 'user' : 'environment'
+                facingMode: 'environment'
             }
             navigator.mediaDevices.getUserMedia(constraints)
             .then(function(mediaStream) {
@@ -422,10 +422,10 @@
             });
             // toggle / flip
             shouldFaceUser2 = !shouldFaceUser2;
-            capture2();
+            capture1();
             on_stream_video2.play();
         })
-        capture2();
+        
 
         document.getElementById("capture-camera-IDFront").addEventListener("click", function() {
             // Elements for taking the snapshot
