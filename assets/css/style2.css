@@ -1300,4 +1300,16 @@
   border-radius: 18px;  
   padding: 20px 10px;
 }
+.idUploadBackArrow{
+  font-weight: 700;
+  color: #4c4454;
+  font-size: 44px;
+  /* position: relative; */
+  margin-left: 42px;
+  /* top: ; */
+}
+.idUploadFormHolder{
+  /* position: relative;
+  top: -60px; */
+}
 /* -------------------------------- KYC PAGE -------------------------------- */
