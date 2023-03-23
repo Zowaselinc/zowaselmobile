@@ -335,7 +335,7 @@
         // default user media options
         let constraints = { audio: false, video: true }
         let shouldFaceUser = false;
-        let shouldFaceUser2 = false;
+        // let shouldFaceUser2 = false;
 
         // check whether we can use facingMode
         let supports = navigator.mediaDevices.getSupportedConstraints();
@@ -359,7 +359,7 @@
                     ideal: 192,
                     max: 192
                 },
-                facingMode: 'environment'
+                facingMode: shouldFaceUser ? 'environment' : 'environment'
             }
             navigator.mediaDevices.getUserMedia(constraints)
             .then(function(mediaStream) {
@@ -371,25 +371,10 @@
             .catch(function(err) {
                 console.log(err)
             });
-        }
 
-        function capture2() {
-            constraints.video = {
-                width: {
-                    min: 192,
-                    ideal: 192,
-                    max: 192,
-                },
-                height: {
-                    min: 192,
-                    ideal: 192,
-                    max: 192
-                },
-                facingMode: shouldFaceUser2 ? 'user' : 'environment'
-            }
             navigator.mediaDevices.getUserMedia(constraints)
             .then(function(mediaStream) {
-                console.log(mediaStream, "mediaStream");
+                console.log(mediaStream, "mediaStream2");
                 
                 stream2  = mediaStream;
                 on_stream_video2.srcObject = stream2;
@@ -400,17 +385,44 @@
             });
         }
 
-        flipBtn.addEventListener('click', function(){
-            if( stream == null ) return
-            // we need to flip, stop everything
-            stream.getTracks().forEach(t => {
-            t.stop();
-            });
-            // toggle / flip
-            shouldFaceUser = !shouldFaceUser;
-            capture1();
-            on_stream_video.play();
-        })
+        // function capture2() {
+        //     constraints.video = {
+        //         width: {
+        //             min: 192,
+        //             ideal: 192,
+        //             max: 192,
+        //         },
+        //         height: {
+        //             min: 192,
+        //             ideal: 192,
+        //             max: 192
+        //         },
+        //         facingMode: shouldFaceUser ? 'environment' : 'environment'
+        //     }
+        //     navigator.mediaDevices.getUserMedia(constraints)
+        //     .then(function(mediaStream) {
+        //         console.log(mediaStream, "mediaStream");
+                
+        //         stream2  = mediaStream;
+        //         on_stream_video2.srcObject = stream2;
+        //         on_stream_video2.play();
+        //     })
+        //     .catch(function(err) {
+        //         console.log(err)
+        //     });
+        // }
+
+        // flipBtn.addEventListener('click', function(){
+        //     if( stream == null ) return
+        //     // we need to flip, stop everything
+        //     stream.getTracks().forEach(t => {
+        //     t.stop();
+        //     });
+        //     // toggle / flip
+        //     shouldFaceUser = !shouldFaceUser;
+        //     capture1();
+        //     on_stream_video.play();
+        // })
         capture1();
 
         // <!-- ----------------------------- flip Btn 2 ------------------------------ -->
