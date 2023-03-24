@@ -469,6 +469,7 @@
                 photo_v.setAttribute('src', data);
 
                 $('.idFrontOutput').show();
+                $('.idFrontError').html("");
                 // on_stream_video.pause();
                 on_stream_video.play();
             } else {
@@ -504,6 +505,7 @@
                 photo_v.setAttribute('src', data);
 
                 $('.idBackOutput').show();
+                $('.idBackError').html("");
                 // on_stream_video2.pause();
                 on_stream_video2.play();
             } else {
@@ -530,6 +532,7 @@
             if(!photo_IDFrontSrc){
                 $('.idFrontError').html("&#9888; Snap front ID");
             }else{
+                $('.idFrontError').html("");
                 $('#frontIDSection').hide();
                 $('#backIDSection').show();
             }
@@ -539,18 +542,16 @@
 
             var photo_IDBackSrc  = document.getElementById("photo-IDBack").src;
             if(!photo_IDBackSrc){
-                $('.idBackError').html("&#9888; Snap front ID");
+                $('.idBackError').html("&#9888; Snap back ID");
             }else{
+                $('.idBackError').html("");
+                let driverlicence = document.getElementById('driverlicence').value;
+                let idnumber = document.getElementById('idnumber').value;
+                $('#driverlicence-v').val(driverlicence);
+                $('#idnumber-v').val(idnumber);
                 $('#backIDSection').hide();
-                $('#frontIDSection').show();
+                $('#idPreviewSection').show();
             }
-
-            let driverlicence = document.getElementById('driverlicence').value;
-            let idnumber = document.getElementById('idnumber').value;
-            $('#driverlicence-v').val(driverlicence);
-            $('#idnumber-v').val(idnumber);
-            $('#backIDSection').hide();
-            $('#idPreviewSection').show();
         })
         // SWITCH PAGE SECTIONS
     })

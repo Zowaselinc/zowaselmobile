@@ -90,6 +90,8 @@
                 location.assign('cropswanted.html');
             }else if(prevPage == "viewusercropsforsale.html"){
                 location.assign('viewusercropsforsale.html');
+            }else{
+                history.go(-1);
             }
         }
     </script>
@@ -355,7 +357,7 @@
 
 
 
-<script src="index.js" defer></script>
+<script src="../index.js" defer></script>
 <script>
     $(".stepper").TouchSpin();
 </script>

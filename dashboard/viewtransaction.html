@@ -93,41 +93,41 @@
 
             <div class="listed-detail mt-3">
                 <div class="icon-wrapper">
-                    <div class="iconbox">
-                        <i class="fas fa-arrow-right"></i>
+                    <div class="iconbox paymentArrow">
+                        <!-- <i class="fas fa-arrow-right"></i> -->
                     </div>
                 </div>
-                <h3 class="text-center mt-2">Payment Sent</h3>
+                <h3 class="text-center mt-2 paymentType"><!--Payment Sent--></h3>
             </div>
 
             <ul class="listview flush transparent simple-listview no-space mt-3">
                 <li>
                     <strong>Status</strong>
-                    <span class="text-success">Success</span>
+                    <span class="text-success paymentStatus"><!--Success--></span>
                 </li>
                 <li>
-                    <strong>To</strong>
-                    <span>Jordi Santiago</span>
+                    <strong><!--To--><span class="paymentFrom_To"></span></strong>
+                    <span class="paymentFrom_To_Name"><!--Jordi Santiago--></span>
                 </li>
                 <li>
-                    <strong>Bank Name</strong>
-                    <span>Envato Bank</span>
+                    <strong>Transaction ID</strong>
+                    <span class="paymentTransID"></span>
                 </li>
                 <li>
                     <strong>Transaction Category</strong>
-                    <span>Shopping</span>
+                    <span class="transType"><!--Shopping--></span>
                 </li>
-                <li>
+                <!-- <li>
                     <strong>Receipt</strong>
                     <span>Yes</span>
-                </li>
+                </li> -->
                 <li>
                     <strong>Date</strong>
-                    <span>Sep 25, 2020 10:45 AM</span>
+                    <span class="transDate"><!--Sep 25, 2020 10:45 AM--></span>
                 </li>
                 <li>
                     <strong>Amount</strong>
-                    <h3 class="m-0">$ 24</h3>
+                    <h3 class="m-0 transAmount"><!--₦ 24--></h3>
                 </li>
             </ul>
 
@@ -135,6 +135,21 @@
         </div>
     </div>
     <!-- Page Content End-->
+
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
 
 
 	
@@ -149,19 +164,22 @@
 <script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../assets/js/settings.js"></script>
 <script src="../assets/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../assets/js/modal.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
-<script src="../../assets/js/env.js"></script> 
-<script src="../../assets/js/dashboard.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
 
 
 
-<script src="index.js" defer></script>
+<script src="../index.js" defer></script>
 <script>
     $(".stepper").TouchSpin();
 </script>
 <script>
     sidemenu();
     populateUserDetails();
+    grabSingleTransaction();
 </script>
 </body>
 </html>

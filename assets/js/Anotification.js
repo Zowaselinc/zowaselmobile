@@ -173,7 +173,7 @@ function truncate(str, length) {
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },

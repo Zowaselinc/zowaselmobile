@@ -365,9 +365,22 @@ const populateWalletDetails=()=>{
 
 /* ------------------------ FETCH RECENT TRANSACTIONS ----------------------- */
 const fetchRecentTransactions=()=>{
+
+    let pathname = window.location.pathname;
+    console.log(pathname);
+    let theURL;
+    if(pathname.includes("wallet")){
+        theURL = `${liveMobileUrl}/wallet/transactions/recent`;
+    }else if(pathname.includes("alltransactions")){
+        theURL = `${liveMobileUrl}/wallet/transactions/allrecent`;
+    }
+
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/wallet/transactions/recent`,
+        url: `${theURL}`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -387,36 +400,48 @@ const fetchRecentTransactions=()=>{
                 let thedata = response.data;
                 let rowContent = "";
                 let index;
-                console.log(thedata, "10 recent transactions");
+                console.log(thedata, "All Recent transactions");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
 
+                        let date = row.created_at;
+                        let dateFormat = moment(date, "YYYY-MM-DD h:mm:ss").fromNow();
+
+                        let priceClass, priceFlow;
+                        if(parseInt(row.recipient_id)===user.user.id){
+                            priceClass = "text-success";
+                            priceFlow = "+";
+                        }else{
+                            priceClass = "text-danger";
+                            priceFlow = "-";
+                        }
+
                         rowContent += `
-                        <a href="viewtransaction.html" class="item">
+                        <a href="viewtransaction.html?transaction_id=${row.transaction_id}" class="item">
                             <div class="detail">
                                 <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
                                 <div>
-                                    <strong>Apple</strong>
-                                    <p>54R9399XXXXX</p>
-                                    <p>Nov 15, 2022 12:60:88</p>
+                                    <strong>${row.type[0].toUpperCase()+row.type.substring(1)}</strong>
+                                    <p>${row.transaction_id}</p>
+                                    <p>${date}</p>
                                 </div>
                             </div>
                             <div class="right">
-                                <div class="price text-danger"> - ₦150000</div>
+                                <div class="price ${priceClass}"> ${priceFlow} ₦${toCommas(row.amount_paid)}</div>
                             </div>
                         </a>
                         `;   
                     }
                     $('#recentTransactions').html(rowContent);
-        
-        
           
                 }else{
                     $('#recentTransactions').html("<h5 class='text-center'>No transacton found.</h5>");
                 }
+
+                lazyLoading();
                     
             }
         },
@@ -448,6 +473,95 @@ const fetchRecentTransactions=()=>{
     });
 }
 /* ------------------------ FETCH RECENT TRANSACTIONS ----------------------- */
+
+
+/* ------------------------- GRAB SINGLE TRANSACTION ------------------------ */
+function grabSingleTransaction(){
+    let pathname = window.location.search;
+    let queryString = new URLSearchParams(pathname);
+    let transaction_id = queryString.get("transaction_id");
+    // console.log(transaction_id, "transaction_id");
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/wallet/transactions/${transaction_id}`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            console.log(response, "The single transaction response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                let row = response.data;
+
+                let priceClass, priceFlow, paymentType, paymentArrow, paymentFrom_To, paymentFrom_To_Name;
+                if(parseInt(row[0].recipient_id)===user.user.id){
+                    priceClass = "text-success";
+                    priceFlow = "+";
+                    paymentType = "Payment Received";
+                    paymentArrow = "left";
+                    paymentFrom_To = "From";
+                    paymentFrom_To_Name = row[0].seller.first_name+" "+row[0].seller.last_name;
+                }else{
+                    priceClass = "text-danger";
+                    priceFlow = "-";
+                    paymentType = "Payment Sent";
+                    paymentArrow = "right";
+                    paymentFrom_To = "To";
+                    paymentFrom_To_Name = row[0].recipient.first_name+" "+row[0].recipient.last_name;
+                }
+
+                $('.paymentArrow').html(`<i class="fas fa-arrow-${paymentArrow}"></i>`);
+                $('.paymentType').html(paymentType);
+                $('.paymentStatus').html(row[0].status[0].toUpperCase()+row[0].status.substring(1));
+                $('.paymentTransID').html(row[0].transaction_id);
+                $('.paymentFrom_To').html(paymentFrom_To);
+                $('.paymentFrom_To_Name').html(paymentFrom_To_Name);
+                $('.transType').html(row[0].type[0].toUpperCase()+row[0].type.substring(1));
+                $('.transDate').html(row[0].created_at);
+                $('.transAmount').html("₦"+toCommas(row[0].amount_paid));
+                $('.trans_status').html(row[0].status);
+                // $('.trans_status').text(toCommas(row[0].balance));
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+                basicmodal("", "An error occured when retriving this transaction details.");
+            }
+        }    
+    });
+}
+/* ------------------------- GRAB SINGLE TRANSACTION ------------------------ */
 
 
 
@@ -2955,7 +3069,7 @@ function fetchInputs(){
                 responsemodal("erroricon.png", "Error", response.message);
             }else{
                 // alert(response.message);
-                let thedata = response.data;
+                let thedata = response.data.reverse();
                 let rowContent = "";
                 let index;
                 console.log(thedata, "erfrefre");
@@ -2973,7 +3087,7 @@ function fetchInputs(){
                         <div class="item-content">
                             <div class="item-inner w-100">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.product_type}</a></h6>
+                                    <h6 class="item-title"><a>${row.subcategory.name}</a></h6>
                                     <div class="item-subtitle text-truncate">${truncate(row.description, 70)}</div>
                                 </div>
                                 <div class="item-footer">
@@ -3004,13 +3118,29 @@ function fetchInputs(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }    
     });
 }
 
@@ -3170,7 +3300,7 @@ function populateSingleInputDetails(){
         $('.cropfocus').html(input.crop_focus);
         $('.stock').html(input.stock);
     }else if(previouspage == "inputs.html"){
-        $('.productName').html(input.product_type);
+        $('.productName').html(input.subcategory.name);
         $('.productAmount').html(input.price);
         $('.productDescription').html(input.description);
         $('.usageinstruction').html(input.usage_instruction);
@@ -3802,7 +3932,7 @@ function fetchCropsforAuction(){
                         $('#p_cropAuctionByUserID').html("No Crop yet");
                     }
                 }
-                
+
                 lazyLoading();
                     
             }
