@@ -137,9 +137,11 @@
                                 <label style="color:#2c2646d1;font-weight:700;">Type</label>
 								<div class="mb-3 input-group">
 									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
-									<select required id="driverlicence" class="form-control">
+									<select required id="idType" class="form-control">
                                         <option value="">Select ID Type</option>
-                                        <option value="driverlicence">Drivers Licence</option>
+                                        <option value="driving_licence">Driver's Licence</option>
+                                        <option value="voter_id">Voter's Card</option>
+                                        <option value="passport">Password</option>
                                     </select>
 								</div>
 
@@ -148,6 +150,55 @@
 									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
 									<input required id="idnumber" class="form-control" />
 								</div>
+
+                                <div class="w-100 mb-3">
+                                    <label for="exampleInputEmail1" class="form-label mb-0">Country <span class="required">*</span></label>
+                                    <select class="form-select" id="countryList" aria-label="Default select example" required="">
+                                        
+                                    </select>
+                                </div>
+                                <div class="w-100 mb-3">
+                                    <label for="exampleInputEmail1" class="form-label mb-0">State <span class="required">*</span></label>
+                                    <select class="form-select" id="stateList" aria-label="Default select example" required="">
+                                        <option value="">- Select state -</option>
+                                        
+                                    </select>
+                                </div>
+
+                                <label style="color:#2c2646d1;font-weight:700;">City</label>
+								<div class="mb-3 input-group">
+									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
+									<input required id="city" class="form-control" />
+								</div>
+
+                                <label style="color:#2c2646d1;font-weight:700;">Address</label>
+								<div class="mb-3 input-group">
+									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
+									<input required id="address" class="form-control" />
+								</div>
+
+                                <label style="color:#2c2646d1;font-weight:700;">Date of Birth</label>
+								<div class="mb-3 input-group">
+									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
+									<input type="date" required id="dob" class="form-control" />
+								</div>
+
+                                <label style="color:#2c2646d1;font-weight:700;">Gender</label>
+								<div class="mb-3 input-group">
+									<select class="form-select" id="gender" aria-label="Default select example" required="">
+                                        <option value="">- Select gender -</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+								</div>
+
+                                <label style="color:#2c2646d1;font-weight:700;">BVN</label>
+								<div class="mb-3 input-group">
+									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
+									<input required id="bvn" class="form-control" />
+								</div>
+
+
 								<div class="text-center">
                                     <button type="submit" class="btn btn-dark mt-3 ">Next</button>
                                 </div>
@@ -245,7 +296,7 @@
                                 <label style="color:#2c2646d1;font-weight:700;">Type</label>
 								<div class="mb-3 input-group">
 									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
-									<input type="text" readonly required id="driverlicence-v" class="form-control">
+									<input type="text" readonly required id="idType-v" class="form-control">
 								</div>
 
                                 <label style="color:#2c2646d1;font-weight:700;">Id Number</label>
@@ -264,7 +315,7 @@
 
 								<div class="text-center">
                                     <button type="button" class="btn border border-dark mt-3" onclick="gobacktoSection(`idTypeandNumberSection`)">Edit</button>
-                                    <button type="button" id="backIDNextBtn" class="btn btn-dark mt-3 ">Submit</button>
+                                    <button type="button" id="SubmitIDVerification" class="btn btn-dark mt-3 ">Submit</button>
                                 </div>
 							</div>
 						</div>
@@ -309,6 +360,8 @@
 <script src="../assets/js/settings.js"></script>
 <script src="../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
+<script src="../assets/js/plugins/country-state-array.js"></script>
+<script src="../assets/js/countrylist.js"></script>
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
 <script src="../assets/js/env.js"></script> 
@@ -324,6 +377,7 @@
     // sidemenu();
     // populateUserDetails();
     fundWalletPage();
+    populateCountryList();
 </script>
 
 <script>
@@ -443,6 +497,42 @@
         //     on_stream_video2.play();
         // })
         
+        let blobFile_Front, blobFile_Back;
+
+        function DataURIToBlob(dataURI) {
+            const splitDataURI = dataURI.split(',')
+            const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+            const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+            const ia = new Uint8Array(byteString.length)
+            for (let i = 0; i < byteString.length; i++)
+                ia[i] = byteString.charCodeAt(i)
+
+            return new Blob([ia], { type: mimeString })
+        }
+
+        function urlToFile(url){
+            let arr = url.split(",");
+            // console.log(arr);
+            let mime = arr[0].match(/:(.*?);/)[1];
+            let data = arr[1]; //encoded in base64
+
+            let dataStr = atob(data); //decode the base64
+            let n = dataStr.length;
+            let dataArr = new Uint8Array(n);
+
+            while(n--){
+                dataArr[n] = dataStr.charCodeAt(n);
+            }
+            // console.log(dataArr); //This is what we need to create a file
+
+            let file = new File([dataArr], 'File.jpg', {type: mime});
+            // console.log(file);
+            return file;
+
+            // console.log("mime",mime);
+            // console.log("data",data);
+        }
 
         document.getElementById("capture-camera-IDFront").addEventListener("click", function() {
             // Elements for taking the snapshot
@@ -472,12 +562,24 @@
                 $('.idFrontError').html("");
                 // on_stream_video.pause();
                 on_stream_video.play();
+
+                blobFile_Front = urlToFile(data)
+                console.log(blobFile_Front, "File Front");
+                // sessionStorage.setItem("blobFile_Front",JSON.parse(blobFile_Front));
+
+                //Store form Data
+                // var formData = new FormData();
+                // formData.append("uploadfront", file, "filename");
+
+                // console.log(formData);
+
+
             } else {
                 clearphoto();
             }
         });
 
-
+        
 
         // BackOutput
         document.getElementById("capture-camera-IDBack").addEventListener("click", function() {
@@ -508,14 +610,15 @@
                 $('.idBackError').html("");
                 // on_stream_video2.pause();
                 on_stream_video2.play();
+
+                blobFile_Back = urlToFile(data)
+                console.log(blobFile_Back, "File Back");
+                // sessionStorage.setItem("blobFile_Back",blobFile_Back);
+
             } else {
                 clearphoto();
             }
         });
-
-
-
-
 
 
 
@@ -545,15 +648,98 @@
                 $('.idBackError').html("&#9888; Snap back ID");
             }else{
                 $('.idBackError').html("");
-                let driverlicence = document.getElementById('driverlicence').value;
+                let idType = document.getElementById('idType').value;
                 let idnumber = document.getElementById('idnumber').value;
-                $('#driverlicence-v').val(driverlicence);
+                $('#idType-v').val(idType);
                 $('#idnumber-v').val(idnumber);
                 $('#backIDSection').hide();
                 $('#idPreviewSection').show();
             }
         })
         // SWITCH PAGE SECTIONS
+
+
+
+
+        $('#SubmitIDVerification').click(function(){
+
+            var id_type = $('#idType-v').val();
+            var id_number = $('#idnumber-v').val();
+            var country = $('#countryList').val();
+            var state = $('#stateList').val();
+            var city = $('#city').val();
+            var address = $('#address').val();
+            var dob = $('#dob').val();
+            var gender = $('#gender').val();
+            var bvn = $('#bvn').val();
+
+            let user = localStorage.getItem('zowaselUser');
+            user = JSON.parse(user);
+            let userid = user.user.id;
+            let usertype = user.user.type;
+            let firstname = user.user.first_name;
+            let lastname = user.user.last_name;
+            let phone = user.user.phone;
+
+            
+            console.log(blobFile_Front, "blobFile_Front");
+            console.log(blobFile_Back, "blobFile_Back");
+
+            //Store form Data
+            var formData = new FormData();
+
+            formData.append("id_type", id_type);
+            formData.append("id_number", id_number);
+            formData.append("first_name", firstname);
+            formData.append("last_name", lastname);
+            formData.append("phone_number", phone);
+            formData.append("country", country);
+            formData.append("state", state);
+            formData.append("city", city);
+            formData.append("address", address);
+            formData.append("dob", dob);
+            formData.append("gender", gender);
+            formData.append("bvn", bvn);
+            formData.append("front", blobFile_Front, `idfrontcard${userid}.${blobFile_Front.type.split("/")[1]}`);
+            // // form.append("front", fileInput.files[0], "idcard.png");
+            formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
+
+            // console.log(formData, "formData");
+            startPageLoader();
+            var settings = {
+                "url": `${liveMobileUrl}/users/account/kyc`,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    // "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": formData
+            };
+
+            $.ajax(settings).done(function (data) {
+                // console.log(data);
+                let response = JSON.parse(data);
+                EndPageLoader();
+                if(response.error == true){
+                    // alert(response.message);
+                    responsemodal("erroricon.png", "Error", response.message);
+                }else{
+                    responsemodal("successicon.png", "Success", response.message);
+                    setTimeout(()=>{
+                        // $("#addInputForm")[0].reset();
+                        
+                    },2000)
+                    
+                }
+            });
+        })
+
+
+
     })
 
     // GO BACK TO PREVIOUS SECTION
@@ -563,6 +749,12 @@
         $(`#${n}`).show();
     }
     // GO BACK TO PREVIOUS SECTION
+
+
+
+    
+
+
 </script>
 
 </body>

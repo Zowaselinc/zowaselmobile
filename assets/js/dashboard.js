@@ -3439,9 +3439,9 @@ function fetchUserInputCart(){
 
                                 </div>
                                 <div class="item-inner">
-                                    <div class="item-title-row mb-0">
-                                        <h6 class="item-title"><a href="order-list.html">Input</a></h6>
-                                        <div class="item-subtitle">Naziri's Farm</div>
+                                    <div class="item-title-row mb-0 mt-3">
+                                        <h6 class="item-title"><a href="order-list.html">${row.input.subcategory.name}</a></h6>
+                                        <div class="item-subtitle">${row.input.user.first_name+" "+row.input.user.last_name}</div>
                                     </div>
                                     <div class="item-footer mb-0">
                                         <div class="d-flex align-items-center">
@@ -3454,7 +3454,7 @@ function fetchUserInputCart(){
                                                     <span class="input-group-btn input-group-prepend">
                                                         <button class="btn btn-primary bootstrap-touchspin-down" onclick="decrement(${row.id},${row.price})" type="button">-</button>
                                                     </span>
-                                                    <input class="stepper form-control" type="text" id="quantity${row.id}" value="${row.quantity}" name="demo3" />
+                                                    <input class="stepper form-control" type="text" id="quantity${row.id}" value="${row.quantity}" min="1" name="demo3" />
                                                     <span class="input-group-btn input-group-append">
                                                         <button class="btn btn-primary bootstrap-touchspin-up" onclick="increment(${row.id},${row.price})" type="button">+</button>
                                                     </span>
@@ -3493,7 +3493,7 @@ function fetchUserInputCart(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
