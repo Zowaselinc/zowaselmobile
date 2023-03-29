@@ -85,7 +85,7 @@ const populateUserDetails =()=>{
     
     if(!(user.user.country)){ $('.country').text("Null"); }else{ 
         $('.country').text(user.user.country); 
-        $('.country').input(user.user.country); 
+        $('.country').val(user.user.country); 
     }
     
     if(!(user.user.state)){ $('.state').text("Null"); }else{ 
@@ -117,11 +117,92 @@ const populateUserDetails =()=>{
         $('.user_type').val(user.user.type); 
     }
 
-
-  
-
-
 }
+
+
+/* --------------------------- UPDATE USER ACCOUNT -------------------------- */
+function updateUserAccount(){
+    let firstname = document.getElementById('firstname');
+    let lastname = document.getElementById('lastname');
+    let phonenumber = document.getElementById('phonenumber');
+    let primary_address = document.getElementById('primary_address');
+    let countryList = document.getElementById('countryList');
+    let stateList = document.getElementById('stateList');
+    let city = document.getElementById('city');
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/users/account`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "first_name": firstname.value,
+            "last_name": lastname.value,
+            "phone": phonenumber.value,
+            "country": countryList.value,
+            "state": stateList.value,
+            "city": city.value,
+            "address": primary_address.value
+        }),
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    $('.loader').addClass('loader-hidden');
+                },3000)
+                setTimeout(()=>{
+                    basicmodal("Redirecting to login", "Please login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },3500)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+    
+}
+/* --------------------------- UPDATE USER ACCOUNT -------------------------- */
 
 
 const sidemenu =(page)=>{
@@ -4110,7 +4191,7 @@ $('#startBid').submit((e)=>{
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
                 // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
+                if(textstatus==="timeout") {
                     basicmodal("", "Service timed out <br/>Check your internet connection");
                 }
             },

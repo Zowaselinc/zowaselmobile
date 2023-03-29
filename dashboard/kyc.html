@@ -22,7 +22,10 @@
 	<title>Zowasel Mobile</title>
 	
 	<!-- PWA Version -->
-	<link rel="manifest" href="manifest.json">
+	<!-- <link rel="manifest" href="manifest.json"> -->
+
+    <link rel="stylesheet" href="dist/css/dialog-mobile.css">
+    <script src="dist/mcx-dialog.js"></script>  
     
     <!-- Stylesheets -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
@@ -728,9 +731,16 @@
                     // alert(response.message);
                     responsemodal("erroricon.png", "Error", response.message);
                 }else{
-                    responsemodal("successicon.png", "Success", response.message);
+                    responsemodal("successicon.png", "Success", response.message+"<br/>Verification is in progress");
                     setTimeout(()=>{
                         // $("#addInputForm")[0].reset();
+                        mcxDialog.confirm("Continue with Kyb", {
+                            sureBtnClick: function(){
+                                // callback
+                                location.assign('kyb.html');                                
+                            }
+
+                        });
                         
                     },2000)
                     

@@ -16,7 +16,7 @@ const populateCountryList =()=>{
 
 $('#countryList').on('change', ()=>{
     var countryvalue = $('#countryList').val();
-    // alert(countryvalue);
+    alert(countryvalue);
 
     var listItems = '';
     var emptylistItems = '<option value="">- Select state -</option>';

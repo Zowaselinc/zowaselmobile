@@ -10856,15 +10856,15 @@ textarea {
 /* .input-group > :not(:first-child){
     padding: 10px 18px;
 } */
-.show-pass {
+.show-pass, .show-pass-method2 {
   cursor: pointer; }
-  .show-pass .fa-eye {
+  .show-pass .fa-eye, .show-pass-method2 .fa-eye {
     display: none; }
 
-.show-pass.active .fa-eye-slash {
+.show-pass.active .fa-eye-slash, .show-pass-method2.active .fa-eye-slash {
   display: none; }
 
-.show-pass.active .fa-eye {
+.show-pass.active .fa-eye, .show-pass-method2.active .fa-eye {
   display: inline-block; }
 
 select {

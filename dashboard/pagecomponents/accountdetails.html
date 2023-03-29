@@ -1,0 +1,184 @@
+<!-- --------------------------- ACCOUNT DETAILS --------------------------- -->
+<h5 class="mt-4">Account details</h5>
+
+<form class="input-style" id="updateUserAccount">
+    <label>First Name</label>
+    <div class="input-group input-mini mb-3">
+        <span class="input-group-text"><i class="fa fa-user"></i></span>
+        <input required id="firstname" type="text" class="form-control first_name" placeholder="-">
+        <small class="input_response">Error Message</small>
+    </div>
+    <label>Last Name</label>
+    <div class="input-group input-mini mb-3">
+        <span class="input-group-text"><i class="fa fa-user"></i></span>
+        <input required id="lastname" type="text" class="form-control last_name" placeholder="-">
+        <small class="input_response">Error Message</small>
+    </div>
+    <label>Phone Number</label>
+    <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+        <input required id="phonenumber" maxlength="11" minlength="11" type="tel" class="form-control phonenumber" placeholder="-">
+        <small class="input_response">Error Message</small>
+    </div>
+    <label>Address</label>
+    <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+        <input required id="primary_address" type="text" class="form-control primary_address" placeholder="-">
+        <small class="input_response">Error Message</small>
+    </div>
+    <!-- <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+        <input required id="secondary_address" type="text" class="form-control secondary_address" placeholder="Secondary Address">
+        <small class="input_response">Error Message</small>
+    </div> -->
+    <label>Country</label>
+    <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+        <select required id="countryList" type="text" class="form-control countryname">
+
+        </select>
+        <small class="input_response">Error Message</small>
+    </div>
+    <label>State</label>
+    <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+        <input required id="stateList" type="text" class="form-control state" placeholder="-" />
+        <small class="input_response">Error Message</small>
+    </div>
+    <label>City</label>
+    <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+        <input required id="city" type="text" class="form-control city" placeholder="-">
+        <small class="input_response">Error Message</small>
+    </div>
+
+
+    
+    <!--sss-->
+    <div class="input-group">
+        <button type="submit" class="btn mt-2 btn-success w-100 btn-square">Update Account Details</button>
+    </div>
+</form>
+
+
+<!-- --------------------------- CHANGE PASSWORD --------------------------- -->
+<h5 class="mt-5">Change Password</h5>
+
+<form class="input-style" id="updateUserPassword">
+    <label>Current password</label>
+    <div class="input-group input-mini mb-3">
+        <span class="input-group-text"><i class="fa fa-key"></i></span>
+        <input required id="currentpassword" type="password" class="form-control dz-password" placeholder="****">
+        <small class="input_response">Error Message</small>
+        <span class="input-group-text show-pass-method2" id="eye_currentpassword"> 
+            <i class="fa fa-eye-slash"></i>
+            <i class="fa fa-eye"></i>
+        </span>
+    </div>
+    <label>New password</label>
+    <div class="input-group input-mini mb-3">
+        <span class="input-group-text"><i class="fa fa-key"></i></span>
+        <input required id="password" type="password" class="form-control" placeholder="****">
+        <small class="input_response">Error Message</small>
+        <span class="input-group-text show-pass-method2" id="eye_password"> 
+            <i class="fa fa-eye-slash"></i>
+            <i class="fa fa-eye"></i>
+        </span>
+    </div>
+    <label>Confirm password</label>
+    <div class="mb-3 input-group input-mini">
+        <span class="input-group-text"><i class="fa fa-key"></i></span>
+        <input required id="confirmpassword" type="password" class="form-control dz-password" placeholder="****">
+        <small class="input_response">Error Message</small>
+        <span class="input-group-text show-pass-method2" id="p"> 
+            <i class="fa fa-eye-slash"></i>
+            <i class="fa fa-eye"></i>
+        </span>
+    </div>
+
+    <p class="incorrectMsg">Passwords do not match!</p>
+
+    <!--  -->
+    <div class="pswd_info">
+        <h4 class="pswd_reqs">Password must meet the following requirements:</h4>
+        <ul>
+          <li id='letter' class='invalid'>Contains <strong>a lowercase letter</strong></li>
+    
+          <li id='capital' class='invalid'>Contains <strong>a capital letter</strong></li>
+    
+          <li id='number' class='invalid'>Contains <strong>a number</strong></li>
+    
+          <li id='special' class='invalid'>Contains <strong>a special character</strong></li>
+    
+          <li id='length' class='invalid'>Contains <strong>8 characters</strong></li>
+        </ul>
+      </div>
+    <!--  -->
+    
+
+    <!--sss-->
+    <div class="input-group">
+        <button type="submit" class="btn mt-2 btn-success w-100 btn-square">Update Password</button>
+    </div>
+</form>
+
+
+<script src="../../assets/js/onboarding.js"></script> 
+<script>
+    populateCountryList();
+    createpasswordPage();
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let country = user.user.country;
+    $('.countryname').val(country);
+    setTimeout(()=>{
+        populateUserDetails();   
+    },500)
+
+
+    $('#updateUserAccount').submit((e)=>{
+        e.preventDefault();
+        updateUserAccount();
+    })
+
+    $('#updateUserPassword').submit((e)=>{
+        e.preventDefault();
+        let password = document.getElementById('password');
+        let password2 = document.getElementById('confirmpassword');
+        if(password.value !== password2.value) {
+            $('.incorrectMsg').show();
+            $('#confirmpassword').addClass('shake invalidPass');
+            password2.blur(function() {
+            // (triggers whenever the password field is unselected)
+                $('#confirmpassword').trigger('reset');
+                $('.incorrectMsg').hide();
+                $('#confirmpassword').removeClass('shake').removeClass('invalidPass');
+            });
+        } else {
+            $('#confirmPassword').trigger('reset');
+            $('.incorrectMsg').hide();
+            $('#confirmPassword').removeClass('shake').removeClass('invalidPass');
+
+            var pswd = password.value;
+            if(pswd.length >= 8 && pswd.match(/[a-z]/) && pswd.match(/[A-Z]/) && pswd.match(/\d/) && pswd.match(/[$&+,:;=?@#|'<>.^*()%!-]/) ) {
+                // alert("Good to go");
+                $('.incorrectMsg').hide();
+                $('.incorrectMsg').html('Passwords do not match!');
+
+
+                /********* DB CONNECTION **********/
+                updateUserPassword();
+                /********* DB CONNECTION **********/
+
+            }else{
+                $('.incorrectMsg').show();
+                $('.incorrectMsg').html('Invalid password');
+                $('.pswd_info').fadeIn('slow');
+            }
+
+        }
+
+        // updateUserAccount();
+    })
+    
+</script>

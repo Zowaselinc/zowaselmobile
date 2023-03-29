@@ -1,8 +1,10 @@
 :root{
-    --succes-color: #2ecc71;;
+    --succes-color: #05B050;;
     --error-color: #e74c3c;
     --card-black: #4a4754;
+    --border-black: #ced4da;
     --card-green: #05b050;
+    --white-color: #fff;
 }
 
 .overflowauto{
@@ -215,6 +217,22 @@
   .cardcolor-black{
     color: var(--card-black);
   }
+
+
+
+
+
+
+  /* ------------------------------- HEADER TABS ------------------------------ */
+  .settingsTabs ul li{
+    border: 1px solid var(--border-black);
+    border-radius: 25px;
+  }
+  .settingsTabs ul li.active{
+    background-color: var(--succes-color);
+    color: var(--white-color);
+  }
+  /* ------------------------------- HEADER TABS ------------------------------ */
 
 
 
