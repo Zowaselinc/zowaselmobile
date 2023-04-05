@@ -8,10 +8,10 @@ let imageUploadUrl = "https://filesapi.growsel.com/upload.php";
 
 
 
-let liveGlobalBaseUrl = localBaseUrl;
-let liveBaseUrl = localBaseUrl;
+let liveGlobalBaseUrl = productionBaseUrl;
+let liveBaseUrl = productionBaseUrl;
 
-let liveMobileUrl = localBaseUrl;
+let liveMobileUrl = productionBaseUrl;
 
 let FLW_PUBLIC_KEY="FLWPUBK_TEST-a1b8a6d0b897f10b7332e3af9f902c70-X";
 let FLW_SECRET_KEY="FLWSECK_TEST-0d5cef8e6035065ec995c21244481e32-X";
