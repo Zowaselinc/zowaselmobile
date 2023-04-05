@@ -24,44 +24,44 @@ var Foodia = function(){
     
 	// Show Pass
     var handleShowPass = function(){
-		// jQuery('.show-pass').on('click',function(){
-		// 	jQuery(this).toggleClass('active');
-		// 	if(jQuery('#dz-password, .dz-password').attr('type') == 'password'){
-		// 		jQuery('#dz-password, .dz-password').attr('type','text');
-		// 	}else if(jQuery('#dz-password, .dz-password').attr('type') == 'text'){
-		// 		jQuery('#dz-password, .dz-password').attr('type','password');
-		// 	}
-		// });
-
-		jQuery('.show-pass-method2').on('click',function(){
+		jQuery('.show-pass').on('click',function(){
 			jQuery(this).toggleClass('active');
-
-			// console.log(this.id, "current id");
-			if(this.id=="eye_currentpassword"){
-				if(jQuery("#currentpassword").attr('type') == 'password'){
-					jQuery("#currentpassword").attr('type','text');
-				}else if(jQuery("#currentpassword").attr('type') == 'text'){
-					jQuery("#currentpassword").attr('type','password');
-				}
-			}else if(this.id=="eye_password"){
-				if(jQuery("#password").attr('type') == 'password'){
-					jQuery("#password").attr('type','text');
-				}else if(jQuery("#password").attr('type') == 'text'){
-					jQuery("#password").attr('type','password');
-				}
-			}else if(this.id=="eye_confirmpassword"){
-				if(jQuery("#confirmPassword").attr('type') == 'password'){
-					jQuery("#confirmPassword").attr('type','text');
-				}else if(jQuery("#confirmPassword").attr('type') == 'text'){
-					jQuery("#confirmPassword").attr('type','password');
-				}
-			}
-			if(jQuery(this).closest("input").attr('type') == 'password'){
-				jQuery(this).closest("input").attr('type','text');
-			}else if(jQuery(this).closest("#currentpassword").attr('type') == 'text'){
-				jQuery(this).closest("#currentpassword").attr('type','password');
+			if(jQuery('#dz-password, .dz-password').attr('type') == 'password'){
+				jQuery('#dz-password, .dz-password').attr('type','text');
+			}else if(jQuery('#dz-password, .dz-password').attr('type') == 'text'){
+				jQuery('#dz-password, .dz-password').attr('type','password');
 			}
 		});
+
+		// jQuery('.show-pass-method2').on('click',function(){
+		// 	jQuery(this).toggleClass('active');
+
+		// 	// console.log(this.id, "current id");
+		// 	if(this.id=="eye_currentpassword"){
+		// 		if(jQuery("#currentpassword").attr('type') == 'password'){
+		// 			jQuery("#currentpassword").attr('type','text');
+		// 		}else if(jQuery("#currentpassword").attr('type') == 'text'){
+		// 			jQuery("#currentpassword").attr('type','password');
+		// 		}
+		// 	}else if(this.id=="eye_password"){
+		// 		if(jQuery("#password").attr('type') == 'password'){
+		// 			jQuery("#password").attr('type','text');
+		// 		}else if(jQuery("#password").attr('type') == 'text'){
+		// 			jQuery("#password").attr('type','password');
+		// 		}
+		// 	}else if(this.id=="eye_confirmpassword"){
+		// 		if(jQuery("#confirmPassword").attr('type') == 'password'){
+		// 			jQuery("#confirmPassword").attr('type','text');
+		// 		}else if(jQuery("#confirmPassword").attr('type') == 'text'){
+		// 			jQuery("#confirmPassword").attr('type','password');
+		// 		}
+		// 	}
+		// 	if(jQuery(this).closest("input").attr('type') == 'password'){
+		// 		jQuery(this).closest("input").attr('type','text');
+		// 	}else if(jQuery(this).closest("#currentpassword").attr('type') == 'text'){
+		// 		jQuery(this).closest("#currentpassword").attr('type','password');
+		// 	}
+		// });
 	}
 	
 	// Sticky Header

@@ -60,67 +60,153 @@
     </div>
 </form>
 
+<style>
+    .accordion-toggle:after {
+    font-family: 'FontAwesome';
+    content: "\f078";    
+    float: right;
+}
+.accordion-opened .accordion-toggle:after {    
+    content: "\f054";    
+}
+</style>
 
 <!-- --------------------------- CHANGE PASSWORD --------------------------- -->
-<h5 class="mt-5">Change Password</h5>
+<div class="gray-section-divider" style="margin-top: 65px;"></div>
+    <h5 class="mt-4">Change Password</h5>
 
-<form class="input-style" id="updateUserPassword">
-    <label>Current password</label>
-    <div class="input-group input-mini mb-3">
-        <span class="input-group-text"><i class="fa fa-key"></i></span>
-        <input required id="currentpassword" type="password" class="form-control dz-password" placeholder="****">
-        <small class="input_response">Error Message</small>
-        <span class="input-group-text show-pass-method2" id="eye_currentpassword"> 
-            <i class="fa fa-eye-slash"></i>
-            <i class="fa fa-eye"></i>
-        </span>
-    </div>
-    <label>New password</label>
-    <div class="input-group input-mini mb-3">
-        <span class="input-group-text"><i class="fa fa-key"></i></span>
-        <input required id="password" type="password" class="form-control" placeholder="****">
-        <small class="input_response">Error Message</small>
-        <span class="input-group-text show-pass-method2" id="eye_password"> 
-            <i class="fa fa-eye-slash"></i>
-            <i class="fa fa-eye"></i>
-        </span>
-    </div>
-    <label>Confirm password</label>
-    <div class="mb-3 input-group input-mini">
-        <span class="input-group-text"><i class="fa fa-key"></i></span>
-        <input required id="confirmpassword" type="password" class="form-control dz-password" placeholder="****">
-        <small class="input_response">Error Message</small>
-        <span class="input-group-text show-pass-method2" id="p"> 
-            <i class="fa fa-eye-slash"></i>
-            <i class="fa fa-eye"></i>
-        </span>
-    </div>
+    <form class="input-style" id="updateUserPassword">
+        <label>Current password</label>
+        <div class="input-group input-mini mb-3">
+            <span class="input-group-text"><i class="fa fa-key"></i></span>
+            <input required id="currentpassword" type="password" class="form-control dz-password" placeholder="****">
+            <small class="input_response">Error Message</small>
+            <span class="input-group-text show-pass-method2" id="eye_currentpassword"> 
+                <i class="fa fa-eye-slash"></i>
+                <i class="fa fa-eye"></i>
+            </span>
+        </div>
+        <label>New password</label>
+        <div class="input-group input-mini mb-3">
+            <span class="input-group-text"><i class="fa fa-key"></i></span>
+            <input required id="password" type="password" class="form-control" placeholder="****">
+            <small class="input_response">Error Message</small>
+            <span class="input-group-text show-pass-method2" id="eye_password"> 
+                <i class="fa fa-eye-slash"></i>
+                <i class="fa fa-eye"></i>
+            </span>
+        </div>
+        <label>Confirm password</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-key"></i></span>
+            <input required id="confirmpassword" type="password" class="form-control" placeholder="****">
+            <small class="input_response">Error Message</small>
+            <span class="input-group-text show-pass-method2" id="eye_confirmpassword"> 
+                <i class="fa fa-eye-slash"></i>
+                <i class="fa fa-eye"></i>
+            </span>
+        </div>
 
-    <p class="incorrectMsg">Passwords do not match!</p>
 
-    <!--  -->
-    <div class="pswd_info">
-        <h4 class="pswd_reqs">Password must meet the following requirements:</h4>
-        <ul>
-          <li id='letter' class='invalid'>Contains <strong>a lowercase letter</strong></li>
-    
-          <li id='capital' class='invalid'>Contains <strong>a capital letter</strong></li>
-    
-          <li id='number' class='invalid'>Contains <strong>a number</strong></li>
-    
-          <li id='special' class='invalid'>Contains <strong>a special character</strong></li>
-    
-          <li id='length' class='invalid'>Contains <strong>8 characters</strong></li>
-        </ul>
-      </div>
-    <!--  -->
-    
+        
 
-    <!--sss-->
-    <div class="input-group">
-        <button type="submit" class="btn mt-2 btn-success w-100 btn-square">Update Password</button>
-    </div>
-</form>
+        <p class="incorrectMsg">Passwords do not match!</p>
+
+        <!--  -->
+        <div class="pswd_info">
+            <h4 class="pswd_reqs">Password must meet the following requirements:</h4>
+            <ul>
+            <li id='letter' class='invalid'>Contains <strong>a lowercase letter</strong></li>
+        
+            <li id='capital' class='invalid'>Contains <strong>a capital letter</strong></li>
+        
+            <li id='number' class='invalid'>Contains <strong>a number</strong></li>
+        
+            <li id='special' class='invalid'>Contains <strong>a special character</strong></li>
+        
+            <li id='length' class='invalid'>Contains <strong>8 characters</strong></li>
+            </ul>
+        </div>
+        <!--  -->
+        
+
+        <!--sss-->
+        <div class="input-group">
+            <button type="submit" class="btn mt-2 btn-success w-100 btn-square">Update Password</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- --------------------------- COMPANY DETAILS --------------------------- -->
+<div class="gray-section-divider company_exist" style="margin-top: 65px;display: none;">
+    <h5 class="mt-4">Company details</h5>
+
+    <form class="input-style" id="updateCompanyAccount">
+        <label>Company Name</label>
+        <div class="input-group input-mini mb-3">
+            <span class="input-group-text"><i class="fa fa-building"></i></span>
+            <input required id="company_name" min="1" type="text" class="form-control company_name" placeholder="-">
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>Country</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+            <select required disabled id="company_country" type="text" class="form-control p_countryList company_country">
+            </select>
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>State</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+            <input required id="company_state" min="2" type="text" class="form-control company_state" placeholder="-" />
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>Address</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+            <input required id="company_address" min="2" type="text" class="form-control company_address" placeholder="-" />
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>Company Email</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            <input required id="company_email" min="6" type="email" class="form-control company_email" placeholder="-">
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>Company Website (Optional)</label>
+        <div class="input-group input-mini mb-3">
+            <span class="input-group-text"><i class="fa fa-globe"></i></span>
+            <input id="company_website" min="4" type="text" class="form-control company_website" placeholder="-">
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>RC Number</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-registered"></i></span>
+            <input required disabled id="rc_number" min="5" type="text" class="form-control rc_number" placeholder="-">
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>Contact Name</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
+            <input required id="contact_person" min="3" type="text" class="form-control contact_person" placeholder="-">
+            <small class="input_response">Error Message</small>
+        </div>
+        <label>Company Phone</label>
+        <div class="mb-3 input-group input-mini">
+            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+            <input required id="company_phone" min="5" type="number" class="form-control company_phone" placeholder="-">
+            <small class="input_response">Error Message</small>
+        </div>
+
+        
+        <!--sss-->
+        <div class="input-group">
+            <button type="submit" class="btn mt-2 btn-success w-100 btn-square">Update Company Details</button>
+        </div>
+    </form>
+</div>
+
 
 
 <script src="../../assets/js/onboarding.js"></script> 
@@ -130,10 +216,49 @@
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let country = user.user.country;
+    let companycountry = user.user.company.country;
     $('.countryname').val(country);
+    $('.company_country').val(companycountry);
     setTimeout(()=>{
         populateUserDetails();   
     },500)
+
+    // CHECK FOR INDIVIDUAL OR COMPANY USER
+    let companyexist = user.user.company;
+    if(companyexist.id){
+        $('.company_exist').show();
+    }else{
+        $('.company_exist').hide();
+    }
+
+
+
+    // PASSWORD
+    jQuery('.show-pass-method2').on('click',function(){
+        jQuery(this).toggleClass('active');
+
+        // console.log(this.id, "current id");
+        if(this.id=="eye_currentpassword"){
+            if(jQuery("#currentpassword").attr('type') == 'password'){
+                jQuery("#currentpassword").attr('type','text');
+            }else if(jQuery("#currentpassword").attr('type') == 'text'){
+                jQuery("#currentpassword").attr('type','password');
+            }
+        }else if(this.id=="eye_password"){
+            if(jQuery("#password").attr('type') == 'password'){
+                jQuery("#password").attr('type','text');
+            }else if(jQuery("#password").attr('type') == 'text'){
+                jQuery("#password").attr('type','password');
+            }
+        }else if(this.id=="eye_confirmpassword"){
+            if(jQuery("#confirmpassword").attr('type') == 'password'){
+                jQuery("#confirmpassword").attr('type','text');
+            }else if(jQuery("#confirmpassword").attr('type') == 'text'){
+                jQuery("#confirmpassword").attr('type','password');
+            }
+        }
+    });
+    // PASSWORD
 
 
     $('#updateUserAccount').submit((e)=>{
@@ -181,4 +306,8 @@
         // updateUserAccount();
     })
     
+    $('#updateCompanyAccount').submit((e)=>{
+        e.preventDefault();
+        updateCompanyAccount();
+    })
 </script>

@@ -23,6 +23,9 @@
 	
 	<!-- PWA Version -->
 	<!-- <link rel="manifest" href="manifest.json"> -->
+
+    <link rel="stylesheet" href="dist/css/dialog-mobile.css">
+    <script src="dist/mcx-dialog.js"></script> 
     
     <!-- Stylesheets -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
@@ -92,238 +95,76 @@
        <div class="account-box">
            <div class="container">
                <div class="account-area">
-
-                   <!-- <script src="../../assets/js/jquery.js"></script>
-                   <script>
-                       
-                           
-
-                           $('#formimage').submit(function(e){
-                          
-                               e.preventDefault();
-                               console.log(filesToUpload," console.log(filesToUpload);");
-                               //Store form Data
-                               var formData = new FormData();
-                               //Loop through array of file and append form Data
-                               for (var i = 0; i < filesToUpload.length; i++) {
-                                   var file = filesToUpload[i];
-                                   var filename = filesToUpload[i].name;
-                                   formData.append("image"+i, file, filename);
-                               }
-
-                               // console.log(formData, " formData");
-
-                           })
-                   </script> -->
     
                    <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
-                   <form class="form" id="formpage">
+                   <form class="form" id="uploadkybForm">
 
                        <p aria-hidden="true" id="required-description">
                            <span class="required"><strong>*</strong></span> Required field
                        </p>
 
                        <!-- FORM 1 -->
+                       <div class="kybSlide1">
+                            <label style="color:#2c2646d1;font-weight:700;">Tax ID</label>
+                            <div class="mb-3 input-group">
+                                <!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
+                                <input type="text" required min="5" max="6" id="tax_id" class="form-control" />
+                            </div>
+                       </div>
+                       <!-- FORM 1 -->
+
+                       <!-- FORM 2 -->
                        <div class="form">
                            <div class="upload__box">
                                <div class="w-100 mb-3">
-                                   <label for="exampleInputEmail1" class="form-label mb-0">Product image (maximum of 4) <span class="required">*</span></label>
+                                   <label for="exampleInputEmail1" class="form-label mb-0">Upload CAC<span class="required">*</span></label>
                                    <div class="upload__btn-box">
                                    <label class="upload__btn">
-                                       <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p>
-                                       <input type="file" multiple="" id="cropimages" data-max_length="3" class="upload__inputfile" required accept="image/png, image/jpg, image/jpeg">
+                                       <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload image</p>
+                                       <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile_CAC" accept="image/png, image/jpg, image/jpeg">
                                    </label>
                                    </div>
-                                   <div class="upload__img-wrap"></div>
+                                   <div class="upload__img-wrap preview-CAC"></div>
                                </div>
                            </div>
-                           <div class="w-100 mb-3">
-                               <label for="formGroupExampleInput" class="form-label mb-0">Enter video URL <span>(Optional)</span></label>
-                               <input type="text" id="videourl" class="form-control" placeholder="https://www.videolink.com" />
-                           </div>
-                           <div class="w-100 mb-3">
-                               <label for="exampleInputEmail1" class="form-label mb-0">Zip code/postal <span>(Optional)</span></label>
-                               <input type="number" id="zipcode" class="form-control" placeholder="Type your answer" />
-                           </div>
-                           <!-- <div class="w-100 mb-3">
-                               <label for="formGroupExampleInput" class="form-label mb-0">Delivery Address <span class="required">*</span></label>
-                               <input type="text" id="deliveryaddress" class="form-control" placeholder="" />
-                           </div> -->
+
+                           <div class="upload__box">
+                                <div class="w-100 mb-3">
+                                    <label for="exampleInputEmail1" class="form-label mb-0">Upload Financial Statement<span class="required">*</span></label>
+                                    <div class="upload__btn-box">
+                                    <label class="upload__btn">
+                                        <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload image</p>
+                                        <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile_financialStatement" accept="image/png, image/jpg, image/jpeg">
+                                    </label>
+                                    </div>
+                                    <div class="upload__img-wrap preview-financialStatement"></div>
+                                </div>
+                            </div>
+
+                            <div class="upload__box">
+                                <div class="w-100 mb-3">
+                                    <label for="exampleInputEmail1" class="form-label mb-0">Upload MOU<span class="required">*</span></label>
+                                    <div class="upload__btn-box">
+                                    <label class="upload__btn">
+                                        <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload image</p>
+                                        <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile_MOU" accept="image/png, image/jpg, image/jpeg">
+                                    </label>
+                                    </div>
+                                    <div class="upload__img-wrap preview-MOU"></div>
+                                </div>
+                            </div>
+                           
                        </div>
                        
                        <div id="form_slide2_response"></div>
                        
                        <div class="input-group d-flex justify-content-between">
-                           <button type="button" class="btn mt-2 w-50 btn-rounded" style="background:#f3f3f3;" onclick="gotoFormSlide1()">Prev</button>
-                           <button type="submit" class="btn mt-2 btn-success w-50 btn-rounded">Next</button>
+                           <button type="submit" class="btn mt-2 btn-success w-100 btn-rounded">Submit</button>
                        </div>
 
                    </form>
-                   <!-- ---------------------------- FORM SLIDE 2 ----------------------------- -->
+                   <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
 
-
-
-                   <!-- ---------------------------- FORM SLIDE 3 ----------------------------- -->
-                   <form class="form" id="formpage3" style="display:none;">
-
-                       <p aria-hidden="true" id="required-description">
-                           <span class="required"><strong>*</strong></span> Required field
-                       </p>
-
-                       <!-- FORM 3A -->
-                       <div class="crop_details mb-3 mt-2">Crop Specification</div>
-                       <div class="w-100 mb-3">
-                           <label for="formGroupExampleInput" class="form-label mb-0">Broken grains <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="brokengrains" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="formGroupExampleInput" class="form-label mb-0">Weevil <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="weevil" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="formGroupExampleInput" class="form-label mb-0">Hardness <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="hardness" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Oil Content <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="oilcontent" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Grain Size <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="grainsize" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Ash Content <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="ashcontent" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Volatile <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="volatile" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Drying Process <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="dryingprocess" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Curcumin Content <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="curcumincontent" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Total defects <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="total_defects" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Dockage <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="dockage" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Moisture <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="moisture" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Rotten/Shriveled <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="rotten_shriveled" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Damaged kernel(DK) <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="damagedkernel" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Splits <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="splits" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Infestation <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="infestation" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Hectolter Teat Weight <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="hectolter_teat_weight" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Acid Insoluable Ash <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="acid_insoluable_ash" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Mold % By Weight <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="moldbyweight" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Whole Dead Insects <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="wholedeadinsects" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Insect Defiled/Infested, By Weight <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="insect_defiled_infested" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Extraneous, % By Weight <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="extaneous" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <div class="w-100 mb-3">
-                           <label for="exampleInputEmail1" class="form-label mb-0">Mammalian <span class="required">*</span></label>
-                           <select class="form-select ponetohundredpercent" id="mammalian" aria-label="Default select example" required="">
-                               
-                           </select>
-                       </div>
-                       <!-- FORM 3A -->
-
-                       
-                       
-                       <div id="form_slide3_response"></div>
-                       
-                       <div class="input-group d-flex justify-content-between">
-                           <button type="button" class="btn mt-2 w-50 btn-rounded" style="background:#f3f3f3;" onclick="gotoFormSlide2()">Back</button>
-                           <button type="submit" class="btn mt-2 btn-success w-50 btn-rounded">Save</button>
-                           <!-- <button type="submit" class="btn mt-2 btn-success w-50 btn-rounded" onclick="submitAddCropForm()">Save</button> -->
-                       </div>
-
-                   </form>
-                   <!-- ---------------------------- FORM SLIDE 3 ----------------------------- -->
 
 
                </div>
@@ -377,233 +218,317 @@
 <script>
     // sidemenu();
     // populateUserDetails();
-    fundWalletPage();
     populateCountryList();
 </script>
 
 <script>
     $(document).ready(()=>{
-       
-        
+        $('#uploadkybForm').submit(function(e){
+            e.preventDefault();
+            submitKYBVerification();
+        })
+        ImgUpload();
+    })
 
-        document.getElementById("capture-camera-IDFront").addEventListener("click", function() {
-            // Elements for taking the snapshot
-            const video = document.querySelectorAll('video')[0];
-            // canvas.width = video.videoWidth;
-            // canvas.height = video.videoHeight;
-            // canvas.getContext('2d').drawImage(video, 0, 0);
-            // alert("Yes");
-
-            let canvas = document.getElementById('canvas-IDFront');
-            let photo = document.getElementById('photo-IDFront');  
-            let photo_v = document.getElementById('photo-IDFront-v');  
-            let context = canvas.getContext('2d');
-            
-            const height = video.videoHeight;
-            const width = video.videoWidth;
-            
-            if (width && height) {    
-                canvas.width = width;
-                canvas.height = height;
-                context.drawImage(video, 0, 0, width, height);    
-                var data = canvas.toDataURL('image/png');
-                photo.setAttribute('src', data);
-                photo_v.setAttribute('src', data);
-
-                $('.idFrontOutput').show();
-                $('.idFrontError').html("");
-                // on_stream_video.pause();
-                on_stream_video.play();
-
-                blobFile_Front = urlToFile(data)
-                console.log(blobFile_Front, "File Front");
-                // sessionStorage.setItem("blobFile_Front",JSON.parse(blobFile_Front));
-
-                //Store form Data
-                // var formData = new FormData();
-                // formData.append("uploadfront", file, "filename");
-
-                // console.log(formData);
+   
 
 
-            } else {
-                clearphoto();
-            }
+    // <!-- ---------------------------- IMAGE UPLOAD ----------------------------- -->
+    let cacFile, financialStatementFile, mouFile;
+    let cacIDLink;
+    function ImgUpload() {
+        var imgWrap1 = "";
+        var imgArray1 = [];
+
+        var imgWrap2 = "";
+        var imgArray2 = [];
+
+        var imgWrap3 = "";
+        var imgArray3 = [];
+
+        // Onclick input of CAC
+        $('.upload__inputfile_CAC').each(function () {
+            $(this).on('change', function (e) {
+                imgWrap1 = $(this).closest('.upload__box').find('.preview-CAC');
+                var maxLength = $(this).attr('data-max_length');
+
+                var files = e.target.files;
+                var filesArr = Array.prototype.slice.call(files);
+                var iterator = 0;
+                filesArr.forEach(function (f, index) {
+
+                    if (!f.type.match('image.*')) {
+                        return;
+                    }
+
+                    if (imgArray1.length > maxLength) {
+                        return false
+                    } else {
+                        var len = 0;
+                        for (var i = 0; i < imgArray1.length; i++) {
+                            if (imgArray1[i] !== undefined) {
+                            len++;
+                            }
+                        }
+                        if (len > maxLength) {
+                            return false;
+                        } else {
+                            imgArray1.push(f);
+
+                            console.log(imgArray1, " image Array");
+                            cacFile = imgArray1;
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close1").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close1'></div></div></div>";
+                            imgWrap1.append(html);
+                            iterator++;
+                            }
+                            reader.readAsDataURL(f);
+                        }
+                    }
+                });
+            });
         });
 
-        
+        // Onclick input of Financial Statement
+        $('.upload__inputfile_financialStatement').each(function () {
+            $(this).on('change', function (e) {
+                imgWrap2 = $(this).closest('.upload__box').find('.preview-financialStatement');
+                var maxLength = $(this).attr('data-max_length');
 
-        // BackOutput
-        document.getElementById("capture-camera-IDBack").addEventListener("click", function() {
-            // Elements for taking the snapshot
-            const video = document.querySelectorAll('video')[1];
-            // canvas.width = video.videoWidth;
-            // canvas.height = video.videoHeight;
-            // canvas.getContext('2d').drawImage(video, 0, 0);
-            // alert("Big boy");
+                var files = e.target.files;
+                var filesArr = Array.prototype.slice.call(files);
+                var iterator = 0;
+                filesArr.forEach(function (f, index) {
 
-            let canvas = document.getElementById('canvas-IDBack');
-            let photo = document.getElementById('photo-IDBack');  
-            let photo_v = document.getElementById('photo-IDBack-v');  
-            let context = canvas.getContext('2d');
-            
-            const height = video.videoHeight;
-            const width = video.videoWidth;
-            
-            if (width && height) {    
-                canvas.width = width;
-                canvas.height = height;
-                context.drawImage(video, 0, 0, width, height);    
-                var data = canvas.toDataURL('image/png');
-                photo.setAttribute('src', data);
-                photo_v.setAttribute('src', data);
+                    if (!f.type.match('image.*')) {
+                        return;
+                    }
 
-                $('.idBackOutput').show();
-                $('.idBackError').html("");
-                // on_stream_video2.pause();
-                on_stream_video2.play();
+                    if (imgArray2.length > maxLength) {
+                        return false
+                    } else {
+                        var len = 0;
+                        for (var i = 0; i < imgArray2.length; i++) {
+                            if (imgArray2[i] !== undefined) {
+                            len++;
+                            }
+                        }
+                        if (len > maxLength) {
+                            return false;
+                        } else {
+                            imgArray2.push(f);
 
-                blobFile_Back = urlToFile(data)
-                console.log(blobFile_Back, "File Back");
-                // sessionStorage.setItem("blobFile_Back",blobFile_Back);
+                            console.log(imgArray2, " image Array 2");
+                            financialStatementFile = imgArray2;
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close2").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close2'></div></div></div>";
+                            imgWrap2.append(html);
+                            iterator++;
+                            }
+                            reader.readAsDataURL(f);
+                        }
+                    }
+                });
+            });
+        });
 
-            } else {
-                clearphoto();
-            }
+        // Onclick input of MOU
+        $('.upload__inputfile_MOU').each(function () {
+            $(this).on('change', function (e) {
+                imgWrap3 = $(this).closest('.upload__box').find('.preview-MOU');
+                var maxLength = $(this).attr('data-max_length');
+
+                var files = e.target.files;
+                var filesArr = Array.prototype.slice.call(files);
+                var iterator = 0;
+                filesArr.forEach(function (f, index) {
+
+                    if (!f.type.match('image.*')) {
+                        return;
+                    }
+
+                    if (imgArray3.length > maxLength) {
+                        return false
+                    } else {
+                        var len = 0;
+                        for (var i = 0; i < imgArray3.length; i++) {
+                            if (imgArray3[i] !== undefined) {
+                            len++;
+                            }
+                        }
+                        if (len > maxLength) {
+                            return false;
+                        } else {
+                            imgArray3.push(f);
+
+                            console.log(imgArray3, " image Array 3");
+                            mouFile = imgArray3;
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close3").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close3'></div></div></div>";
+                            imgWrap3.append(html);
+                            iterator++;
+                            }
+                            reader.readAsDataURL(f);
+                        }
+                    }
+                });
+            });
         });
 
 
 
-        // SWITCH PAGE SECTIONS 
-        $('#idTypeandNumber').submit(function(e){
-            e.preventDefault();
-            $('#idTypeandNumberSection').hide();
-            $('#frontIDSection').show();
-        })
-        $('#frontIDNextBtn').on('click',function(e){
-            e.preventDefault();
-            
-            var photo_IDFrontSrc  = document.getElementById("photo-IDFront").src;
-            if(!photo_IDFrontSrc){
-                $('.idFrontError').html("&#9888; Snap front ID");
-            }else{
-                $('.idFrontError').html("");
-                $('#frontIDSection').hide();
-                $('#backIDSection').show();
+
+
+        $('body').on('click', ".upload__img-close1", function (e) {
+            var file = $(this).parent().data("file");
+            for (var i = 0; i < imgArray1.length; i++) {
+                if (imgArray1[i].name === file) {
+                    imgArray1.splice(i, 1);
+                    break;
+                }
             }
-        })
-        $('#backIDNextBtn').on('click',function(e){
-            e.preventDefault();
+            console.log(imgArray1, " image Array After Delete");
+            $(this).parent().parent().remove();
+        });
 
-            var photo_IDBackSrc  = document.getElementById("photo-IDBack").src;
-            if(!photo_IDBackSrc){
-                $('.idBackError').html("&#9888; Snap back ID");
-            }else{
-                $('.idBackError').html("");
-                let idType = document.getElementById('idType').value;
-                let idnumber = document.getElementById('idnumber').value;
-                $('#idType-v').val(idType);
-                $('#idnumber-v').val(idnumber);
-                $('#backIDSection').hide();
-                $('#idPreviewSection').show();
+        $('body').on('click', ".upload__img-close2", function (e) {
+            var file = $(this).parent().data("file");
+            for (var i = 0; i < imgArray2.length; i++) {
+                if (imgArray2[i].name === file) {
+                    imgArray2.splice(i, 1);
+                    break;
+                }
             }
-        })
-        // SWITCH PAGE SECTIONS
+            console.log(imgArray2, " image Array After Delete");
+            $(this).parent().parent().remove();
+        });
+
+        $('body').on('click', ".upload__img-close3", function (e) {
+            var file = $(this).parent().data("file");
+            for (var i = 0; i < imgArray3.length; i++) {
+                if (imgArray3[i].name === file) {
+                    imgArray3.splice(i, 1);
+                    break;
+                }
+            }
+            console.log(imgArray3, " image Array After Delete");
+            $(this).parent().parent().remove();
+        });
+        
+    }
+    // <!-- ---------------------------- IMAGE UPLOAD ----------------------------- -->
 
 
 
+    // <!-- ----------------------- SUBMIT KYB VERIFICATION ----------------------- -->
+    function submitKYBVerification(){
+        let cac_has_image = document.getElementsByClassName('preview-CAC')[0];
+        let financialStatement_has_image = document.getElementsByClassName('preview-financialStatement')[0];
+        let mou_has_image = document.getElementsByClassName('preview-MOU')[0];
 
-        $('#SubmitIDVerification').click(function(){
+        if(!cac_has_image.innerHTML){
+            basicmodal("", "Upload CAC Document");
+        }else if(!financialStatement_has_image.innerHTML){
+            basicmodal("", "Upload Financial Statement Document");
+        }else if(!mou_has_image.innerHTML){
+            basicmodal("", "Upload MOU Document");
+        }else{
 
-            var id_type = $('#idType-v').val();
-            var id_number = $('#idnumber-v').val();
-            var country = $('#countryList').val();
-            var state = $('#stateList').val();
-            var city = $('#city').val();
-            var address = $('#address').val();
-            var dob = $('#dob').val();
-            var gender = $('#gender').val();
-            var bvn = $('#bvn').val();
+            // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
+            let tax_id = document.getElementById('tax_id');
 
             let user = localStorage.getItem('zowaselUser');
             user = JSON.parse(user);
             let userid = user.user.id;
-            let usertype = user.user.type;
-            let firstname = user.user.first_name;
-            let lastname = user.user.last_name;
-            let phone = user.user.phone;
+            let company = user.user.company;
 
-            
-            console.log(blobFile_Front, "blobFile_Front");
-            console.log(blobFile_Back, "blobFile_Back");
+            let name = company.company_name;
+            let address = company.address;
+            let state = company.state;
+            let country = company.country;
+            let contact_person = company.contact_person;
+            let phone = company.phone;
+            let website = company.website;
+            let email = company.email;
 
-            //Store form Data
-            var formData = new FormData();
+            if(!address){
+                mcxDialog.confirm("Update your company profile before proceeding \n Go to profile company details", {
+                    sureBtnClick: function(){
+                        // callback
+                        location.assign("editprofile.html");
+                    }
+                });
+            }else{
 
-            formData.append("id_type", id_type);
-            formData.append("id_number", id_number);
-            formData.append("first_name", firstname);
-            formData.append("last_name", lastname);
-            formData.append("phone_number", phone);
-            formData.append("country", country);
-            formData.append("state", state);
-            formData.append("city", city);
-            formData.append("address", address);
-            formData.append("dob", dob);
-            formData.append("gender", gender);
-            formData.append("bvn", bvn);
-            formData.append("front", blobFile_Front, `idfrontcard${userid}.${blobFile_Front.type.split("/")[1]}`);
-            // // form.append("front", fileInput.files[0], "idcard.png");
-            formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
+                console.log(cacFile, "cacFile");
+                console.log(financialStatementFile, "financialStatementFile");
+                console.log(mouFile, "mouFile");
 
-            // console.log(formData, "formData");
-            startPageLoader();
-            var settings = {
-                "url": `${liveMobileUrl}/users/account/kyc`,
-                "method": "POST",
-                "timeout": 0,
-                "headers": {
-                    // "Content-Type": "application/json",
-                    "authorization": localStorage.getItem('authToken')
-                },
-                "processData": false,
-                "mimeType": "multipart/form-data",
-                "contentType": false,
-                "data": formData
-            };
+                //Store form Data
+                var formData = new FormData();
 
-            $.ajax(settings).done(function (data) {
-                // console.log(data);
-                let response = JSON.parse(data);
-                EndPageLoader();
-                if(response.error == true){
-                    // alert(response.message);
-                    responsemodal("erroricon.png", "Error", response.message);
-                }else{
-                    responsemodal("successicon.png", "Success", response.message);
-                    setTimeout(()=>{
-                        // $("#addInputForm")[0].reset();
+                formData.append("tax_id", tax_id.value);
+                formData.append("name", name);
+                formData.append("address", address);
+                formData.append("state", state);
+                formData.append("country", country);
+                formData.append("contact_person", contact_person);
+                formData.append("phone", phone);
+                formData.append("website", website);
+                formData.append("email", email);
+
+                let cacFileType = cacFile[0].type;
+                let finFileType = financialStatementFile[0].type;
+                let mouFileType = mouFile[0].type;
+
+                formData.append("cac", cacFile[0], `cac${userid}.jpeg`);
+                formData.append("financial_statement", financialStatementFile[0], `financial_statement${userid}.jpeg`);
+                formData.append("mou", cacFile[0], `cac${userid}.jpeg`);
+
+                console.log(tax_id.value+name+address+state+country+contact_person+phone+website+email, "formData");
+                // startPageLoader();
+                // var settings = {
+                //     "url": `${liveMobileUrl}/account/kyb`,
+                //     "method": "POST",
+                //     "timeout": 0,
+                //     "headers": {
+                //         // "Content-Type": "application/json",
+                //         "authorization": localStorage.getItem('authToken')
+                //     },
+                //     "processData": false,
+                //     "mimeType": "multipart/form-data",
+                //     "contentType": false,
+                //     "data": formData
+                // };
+
+                // $.ajax(settings).done(function (data) {
+                //     // console.log(data);
+                //     let response = JSON.parse(data);
+                //     EndPageLoader();
+                //     if(response.error == true){
+                //         // alert(response.message);
+                //         responsemodal("erroricon.png", "Error", response.message);
+                //     }else{
+                //         responsemodal("successicon.png", "Success", response.message);
+                //         setTimeout(()=>{
+                //             // $("#addInputForm")[0].reset();
+
+                //             location.assign('editprofile.html?type=kyb');
+                //         },2000)
                         
-                    },2000)
-                    
-                }
-            });
-        })
+                //     }
+                // });
+
+            }
 
 
+        }
 
-    })
-
-    // GO BACK TO PREVIOUS SECTION
-    function gobacktoSection(n){
-        // alert(n);
-        $('.kyccard').hide();
-        $(`#${n}`).show();
     }
-    // GO BACK TO PREVIOUS SECTION
-
-
-
+    // <!-- ----------------------- SUBMIT KYB VERIFICATION ----------------------- -->
     
 
 

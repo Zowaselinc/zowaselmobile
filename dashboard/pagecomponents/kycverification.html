@@ -1,0 +1,240 @@
+<!-- --------------------------- KYC DETAILS --------------------------- -->
+<h5 class="mt-4">Preview KYC</h5>
+
+<div class="previewKYC-container" style="display: none;">
+    
+    <div class="row mt-2">
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Name</h4>
+                <p class="kyc_name"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Gender</h4>
+                <p class="kyc_gender"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Phone Number</h4>
+                <p class="kyc_phoneno"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Address</h4>
+                <p class="kyc_address"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Date of Birth</h4>
+                <p class="kyc_dob"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Country</h4>
+                <p class="kyc_country"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">State</h4>
+                <p class="kyc_state"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">City</h4>
+                <p class="kyc_city"> </p>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="mt-4">KYC Details</h5>
+    <div class="row mt-2">
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">ID Type</h4>
+                <p class="kyc_idtype"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">ID Number</h4>
+                <p class="kyc_idnumber"> </p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <h5 class="mt-4">Uploaded Image</h5>
+    <div class="recomended-list" style="width: 100%;height: auto;">
+        <div class="image-box">
+            <img src="" alt="Front image" id="frontImageSrc" style="height: auto;max-height: auto;">
+        </div>
+        <div class="text-content zowasel-bg">
+            <h6 class="title text-center">ID Front</h6>
+        </div>
+    </div>
+
+    <div class="recomended-list" style="width: 100%;height: auto;">
+        <div class="image-box">
+            <img src="" alt="Back image" id="backImageSrc" style="height: auto;max-height: auto;">
+        </div>
+        <div class="text-content zowasel-bg">
+            <h6 class="title text-center">ID Back</h6>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(()=>{
+       
+       
+       /* ------------------------ CHECK IF USER IS VERIFIED FOR KYC ----------------------- */
+        function checkifuser_hasDoneKYC(){
+            let user = localStorage.getItem('zowaselUser');
+            user = JSON.parse(user);
+            let user_id = user.user.id;
+            startPageLoader();
+            $.ajax({
+                url: `${liveMobileUrl}/users/account/kycstatus`,
+                type: "GET",
+                "timeout": 35000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                success: function(response) { 
+                    // alert("efe");
+                    EndPageLoader();
+                    // $('.loader').hide();
+                    console.log(response, "The user details");
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        let data = response.data;
+                        // let verification_status = row.user.is_verified;
+                        // console.log(verification_status, "verification Status");
+                        if(data.status.toLowerCase()=="unverified"){
+                            location.assign('kyc.html');
+                            $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus">Unverified</button>');
+                        }else if(data.status.toLowerCase()!=="unverified"){
+                            // location.assign('editprofile.html?type=kyc');
+                            // localStorage.setItem('KycVerificationResult', JSON.stringify(data));
+                            // setTimeout(()=>{
+                            //     $('.load-settings-page').load('pagecomponents/kycverification.html');
+                            // },1500)
+                            
+                            let statusClass;
+
+                            $('.previewKYC-container').show();
+
+                            if(data.status.toLowerCase()=="pending verification"){
+                                statusClass = "text-warning"
+                            }else{
+                                statusClass = "";
+                            }
+                            $('.kycSectionVerificationStatus').html(`<button class="btn verificationStatus ${statusClass}">${data.status}</button>`);
+
+                            let phoneNumber;
+
+                            let applicant = data.applicant;
+                            let iddetail = data.applicant.idNumbers[0];
+                            let documents = data.documents;
+                            $('.kyc_name').html(applicant.firstName+" "+applicant.lastName);
+                            $('.kyc_gender').html(`<span style="text-transform:capitalize;">${user.user.gender}</span>`);
+                            $('.kyc_phoneno').html(applicant.phoneNumber);
+                            $('.kyc_address').html(applicant.address);
+                            $('.kyc_dob').html(applicant.dob);
+                            $('.kyc_country').html(`<span style="text-transform:capitalize;">${user.user.country}</span>`);
+                            $('.kyc_phoneno').html(`<span style="text-transform:capitalize;">${user.user.phone}</span>`);
+                            $('.kyc_address').html(`<span style="text-transform:capitalize;">${user.user.primary_address}</span>`);
+                            $('.kyc_state').html(`<span style="text-transform:capitalize;">${user.user.state}</span>`);
+                            $('.kyc_city').html(`<span style="text-transform:capitalize;">${user.user.city}</span>`);
+                            $('.kyc_idtype').html(iddetail.type);
+                            $('.kyc_idnumber').html(iddetail.value);
+
+                            $('#frontImageSrc').attr('src', documents[0].base64);
+                            $('#backImageSrc').attr('src', documents[1].base64);
+
+                        }
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout" || textstatus=="error") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.log('ajax.statusCode: 200');
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }    
+            });
+        }
+        checkifuser_hasDoneKYC();
+        /* ------------------------ CHECK IF USER IS VERIFIED FOR KYC ----------------------- */
+       
+       
+       
+       
+       
+       
+        // console.log("vfvfrv");
+        
+        // let statusClass;
+        
+        // if(!localStorage.getItem('KycVerificationResult')){
+        //     $('.previewKYC-container').hide();
+        // }else{
+        //     $('.previewKYC-container').show();
+        //     let data = JSON.parse(localStorage.getItem('KycVerificationResult'));
+
+        //     if(data.status.toLowerCase()=="pending verification"){
+        //         statusClass = "text-warning"
+        //     }else{
+        //         statusClass = "";
+        //     }
+        //     $('.kycSectionVerificationStatus').html(`<button class="btn verificationStatus ${statusClass}">${data.status}</button>`);
+
+        //     let phoneNumber;
+
+        //     let applicant = data.applicant;
+        //     let iddetail = data.applicant.idNumbers;
+        //     let documents = data.documents;
+        //     $('.kyc_name').html(applicant.firstName+" "+applicant.lastName);
+        //     // $('.kyc_gender').html(applicant.);
+        //     $('.kyc_phoneno').html(applicant.phoneNumber);
+        //     $('.kyc_address').html(applicant.address);
+        //     $('.kyc_dob').html(applicant.dob);
+        //     // $('.kyc_country').html(applicant.);
+        //     $('.kyc_phoneno').html(applicant.phoneNumber);
+        //     $('.kyc_address').html(applicant.address);
+        //     // $('.kyc_state').html(applicant.);
+        //     // $('.kyc_city').html(applicant.);
+        //     $('.kyc_idtype').html(iddetail.type);
+        //     $('.kyc_idnumber').html(iddetail.value);
+
+        //     $('#frontImageSrc').attr('src', documents[0].base64);
+        //     $('#backImageSrc').attr('src', documents[1].base64);
+        // }
+    })
+</script>

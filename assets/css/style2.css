@@ -4,7 +4,23 @@
     --card-black: #4a4754;
     --border-black: #ced4da;
     --card-green: #05b050;
+    --zowasel-green: #05b050;
+    --zowasel-red: #c0392bd9;
     --white-color: #fff;
+    --zowasel-darkblue: #272840;
+}
+
+.zowasel-bg{
+  background-color: var(--zowasel-green);
+}
+.zowasel-color{
+  color: var(--zowasel-green);
+}
+.zowasel-red-bg{
+  background-color: var(--zowasel-red);
+}
+.zowasel-darkblue-bg{
+  background-color: var(--zowasel-darkblue);
 }
 
 .overflowauto{
@@ -41,6 +57,12 @@
 }
 
 
+
+/* ------------------------------ LINE DIVIDER ------------------------------ */
+.gray-section-divider{
+  border-top: 5px solid var(--border-black);
+}
+/* ------------------------------ LINE DIVIDER ------------------------------ */
 
 
 /* ---------------------------- PULL TO REFERESH ---------------------------- */
@@ -835,7 +857,7 @@
   .upload__box {
     margin-bottom: 10px;
   }
-  .upload__inputfile {
+  .upload__inputfile, .upload__inputfile_CAC, .upload__inputfile_financialStatement, .upload__inputfile_MOU {
     width: .1px;
     height: .1px;
     opacity: 0;
@@ -884,6 +906,12 @@
     padding: 0 10px;
     margin-bottom: 12px;
   }
+  .kyb_upload__img-box {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    margin-bottom: 12px;
+  }
       
   .upload__img .upload-close {
     width: 24px;
@@ -904,7 +932,7 @@
     color: white;
   }
 
-  .upload__img-close{
+  .upload__img-close1, .upload__img-close2, .upload__img-close3{
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -918,7 +946,7 @@
     cursor: pointer;
     margin: 10px;
   }
-  .upload__img-close:after {
+  .upload__img-close1:after, .upload__img-close2:after, .upload__img-close3:after {
     content: '\2716';
     font-size: 14px;
     color: white;

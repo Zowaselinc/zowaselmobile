@@ -557,7 +557,7 @@ function truncate(str, length) {
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
-            console.log(xmlhttprequest, "Error code");
+            // console.log(xmlhttprequest, "Error code");
             if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
@@ -565,6 +565,11 @@ function truncate(str, length) {
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');
@@ -760,9 +765,21 @@ const waybillDetailsPage =()=>{
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');
@@ -870,13 +887,18 @@ const waybillDetailsPage =()=>{
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');
@@ -1017,13 +1039,18 @@ function fetchUserOrdersByUserID(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');

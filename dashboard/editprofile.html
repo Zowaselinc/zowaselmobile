@@ -55,7 +55,7 @@
                     </div>
                     <div class="mid-content">
                     </div>
-                    <div class="right-content">
+                    <div class="right-content kycSectionVerificationStatus">
                     </div>
                 </div>
             </div>
@@ -92,11 +92,11 @@
         <div class="container pt-0">
             <div class="settingsTabs">
                 <ul class="m-0 mt-2 p-0 d-block">
-                    <li class="p-1 px-3 fw-bold active">My Profile</li>
+                    <li class="p-1 px-3 fw-bold profileLink" onclick="location.assign('editprofile.html?type=profile')">My Profile</li>
                 </ul>
                 <ul class="m-0 my-2 p-0 d-flex align-items-center justify-content-between">
-                    <li class="p-1 px-3 fw-bold">KYC Verification</li>
-                    <li class="p-1 px-3 fw-bold">KYB Verification</li>
+                    <li class="p-1 px-3 fw-bold kycLink" onclick="location.assign('editprofile.html?type=kyc')">KYC Verification</li>
+                    <li class="p-1 px-3 fw-bold kybLink" onclick="location.assign('editprofile.html?type=kyb')">KYB Verification</li>
                 </ul>
             </div>
 
@@ -135,6 +135,7 @@
 <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
 <script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
 <script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="https://cdn.jsdelivr.net/npm/onfido@4.3.0/src/index.min.js"></script>
 <script src="../assets/js/settings.js"></script>
 <script src="../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
@@ -155,13 +156,28 @@
     populateUserDetails();
 </script>
 <script>
-    let pathname = window.location.search;
-    let queryString = new URLSearchParams(pathname);
-    console.log(queryString);
-    // let transaction_id = queryString.get("transaction_id");
-    if(queryString=="" || queryString===null){
+    let searchname = window.location.search;
+    let queryString = new URLSearchParams(searchname);
+    let settingsType = queryString.get("type");
+    console.log(settingsType);
+    $('.profileLink, .kycLink, .kybLink').removeClass('active');
+    if(settingsType=="" || settingsType===null || settingsType=="profile"){
         $('.load-settings-page').load('pagecomponents/accountdetails.html');
+        $('.profileLink').addClass('active');
+    }else if(settingsType=="kyc"){
+        $('.load-settings-page').load('pagecomponents/kycverification.html');
+        $('.kycLink').addClass('active');
+        // $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus">Unverified</button>');
+
+        // checkifuser_hasDoneKYC();
+
+
+    }else if(settingsType=="kyb"){
+        $('.load-settings-page').load('pagecomponents/kybverification.html');
+        $('.kybLink').addClass('active');
     }
+
+    
 </script>
 </body>
 </html>

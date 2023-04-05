@@ -53,158 +53,6 @@ function toCommas(value) {
 
 
 
-
-const populateUserDetails =()=>{
-    let user = localStorage.getItem('zowaselUser');
-    user = JSON.parse(user);
-    // console.log(user.user, "rgrgrg");
-    // alert(user.first_name);
-    
-    $('.first_name').text(user.user.first_name);
-    $('.first_name').val(user.user.first_name);
-
-    $('.last_name').text(user.user.last_name);
-    $('.last_name').val(user.user.last_name);
-
-    $('.phonenumber').text(user.user.phone);
-    $('.phonenumber').val(user.user.phone);
-
-    $('.email').text(user.user.email);
-
-    // $('.wallet_balance').text()
-
-    if(!(user.user.primary_address)){ $('.primary_address').text("Null"); }else{ 
-        $('.primary_address').text(user.user.primary_address); 
-        $('.primary_address').val(user.user.primary_address); 
-    }
-
-    if(!(user.user.secondary_address)){ $('.secondary_address').text("Null"); }else{ 
-        $('.secondary_address').text(user.user.secondary_address); 
-        $('.secondary_address').val(user.user.secondary_address); 
-    }
-    
-    if(!(user.user.country)){ $('.country').text("Null"); }else{ 
-        $('.country').text(user.user.country); 
-        $('.country').val(user.user.country); 
-    }
-    
-    if(!(user.user.state)){ $('.state').text("Null"); }else{ 
-        $('.state').text(user.user.state); 
-        $('.state').val(user.user.state); 
-    }
-    
-    if(!(user.user.city)){ $('.city').text("Null"); }else{ 
-        $('.city').text(user.user.city); 
-        $('.city').val(user.user.city); 
-    }
-    
-    if(!(user.user.is_verified)){ 
-        $('#is_verified_icon').attr('src', '../logos/unavailable.png');
-        $('.is_verified').text("Unverified"); 
-    }else{ 
-        $('#is_verified_icon').attr('src', '../logos/Vector.png');
-        $('.is_verified').text("Verified"); 
-    }
-
-    // Account
-    if(!(user.user.account_type)){ $('.account_type').text("Null"); }else{ 
-        $('.account_type').text(user.user.account_type.charAt(0).toUpperCase() + user.user.account_type.slice(1)); 
-        $('.account_type').val(user.user.account_type); 
-    }
-
-    if(!(user.user.type)){ $('.user_type').text("Null"); }else{ 
-        $('.user_type').text(user.user.type.charAt(0).toUpperCase() + user.user.type.slice(1)); 
-        $('.user_type').val(user.user.type); 
-    }
-
-}
-
-
-/* --------------------------- UPDATE USER ACCOUNT -------------------------- */
-function updateUserAccount(){
-    let firstname = document.getElementById('firstname');
-    let lastname = document.getElementById('lastname');
-    let phonenumber = document.getElementById('phonenumber');
-    let primary_address = document.getElementById('primary_address');
-    let countryList = document.getElementById('countryList');
-    let stateList = document.getElementById('stateList');
-    let city = document.getElementById('city');
-
-    startPageLoader();
-    $.ajax({
-        url: `${liveMobileUrl}/users/account`,
-        type: "POST",
-        "timeout": 25000,
-        "headers": {
-            "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
-        },
-        "data": JSON.stringify({
-            "first_name": firstname.value,
-            "last_name": lastname.value,
-            "phone": phonenumber.value,
-            "country": countryList.value,
-            "state": stateList.value,
-            "city": city.value,
-            "address": primary_address.value
-        }),
-        success: function(response) { 
-            // alert("efe");
-            EndPageLoader();
-            // $('.loader').hide();
-            if(response.error == true){
-                // alert(response.message);
-                responsemodal("erroricon.png", "Error", response.message);
-            }else{
-                // alert(response.message);
-                responsemodal("successicon.png", "Success", response.message);
-                setTimeout(()=>{
-                    $('.loader').addClass('loader-hidden');
-                },3000)
-                setTimeout(()=>{
-                    basicmodal("Redirecting to login", "Please login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },3500)
-            }
-        },
-        error: function(xmlhttprequest, textstatus, message) {
-            EndPageLoader();
-            // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
-            }
-        },
-        statusCode: {
-            200: function(response) {
-                console.log('ajax.statusCode: 200');
-            },
-            400: function(response) {
-                console.log('ajax.statusCode: 400');
-                // console.log(response);
-                responsemodal("erroricon.png", "Error", response.responseJSON.message);
-            },
-            403: function(response) {
-                console.log('ajax.statusCode: 403');
-                basicmodal("", "Session has ended, Login again");
-                setTimeout(()=>{
-                    logout();
-                },3000)
-            },
-            404: function(response) {
-                console.log('ajax.statusCode: 404');
-            },
-            500: function(response) {
-                console.log('ajax.statusCode: 500');
-            }
-        }
-    });
-    
-}
-/* --------------------------- UPDATE USER ACCOUNT -------------------------- */
-
-
 const sidemenu =(page)=>{
     if(page){
         $.get( "../components/sidemenu.html", function( data ) {
@@ -310,6 +158,341 @@ function daysDifferenceday(d1, d2){
     return Difference_In_Days;
 }
 /* ---------------- CALCULATE TIME DIFFERENCE BETWEEN 2 DATES --------------- */
+
+
+
+const populateUserDetails =()=>{
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    // console.log(user.user, "rgrgrg");
+    // alert(user.first_name);
+    
+    $('.first_name').text(user.user.first_name);
+    $('.first_name').val(user.user.first_name);
+
+    $('.last_name').text(user.user.last_name);
+    $('.last_name').val(user.user.last_name);
+
+    $('.phonenumber').text(user.user.phone);
+    $('.phonenumber').val(user.user.phone);
+
+    $('.email').text(user.user.email);
+
+    // $('.wallet_balance').text()
+
+    if(!(user.user.primary_address)){ $('.primary_address').text("Null"); }else{ 
+        $('.primary_address').text(user.user.primary_address); 
+        $('.primary_address').val(user.user.primary_address); 
+    }
+
+    if(!(user.user.secondary_address)){ $('.secondary_address').text("Null"); }else{ 
+        $('.secondary_address').text(user.user.secondary_address); 
+        $('.secondary_address').val(user.user.secondary_address); 
+    }
+    
+    if(!(user.user.country)){ $('.country').text("Null"); }else{ 
+        $('.country').text(user.user.country); 
+        $('.country').val(user.user.country); 
+    }
+    
+    if(!(user.user.state)){ $('.state').text("Null"); }else{ 
+        $('.state').text(user.user.state); 
+        $('.state').val(user.user.state); 
+    }
+    
+    if(!(user.user.city)){ $('.city').text("Null"); }else{ 
+        $('.city').text(user.user.city); 
+        $('.city').val(user.user.city); 
+    }
+    
+    if(!(user.user.is_verified)){ 
+        $('#is_verified_icon').attr('src', '../logos/unavailable.png');
+        $('.is_verified').text("Unverified"); 
+    }else{ 
+        $('#is_verified_icon').attr('src', '../logos/Vector.png');
+        $('.is_verified').text("Verified"); 
+    }
+
+    // Account
+    if(!(user.user.account_type)){ $('.account_type').text("Null"); }else{ 
+        $('.account_type').text(user.user.account_type.charAt(0).toUpperCase() + user.user.account_type.slice(1)); 
+        $('.account_type').val(user.user.account_type); 
+    }
+
+    if(!(user.user.type)){ $('.user_type').text("Null"); }else{ 
+        $('.user_type').text(user.user.type.charAt(0).toUpperCase() + user.user.type.slice(1)); 
+        $('.user_type').val(user.user.type); 
+    }
+
+    // COMPANY
+    let company = user.user.company;
+    if(company){
+        // alert(company.company_name);
+        $('.company_name').val(company.company_name);
+        $('.company_website').val(company.company_website);
+        $('.company_state').val(company.state);
+        $('.rc_number').val(company.rc_number);
+        $('.company_email').val(company.company_email);
+        $('.contact_person').val(company.contact_person);
+        $('.company_phone').val(company.company_phone);
+        $('.company_address').val(company.company_address);
+    }
+
+}
+
+
+/* --------------------------- UPDATE USER ACCOUNT -------------------------- */
+function updateUserAccount(){
+    let firstname = document.getElementById('firstname');
+    let lastname = document.getElementById('lastname');
+    let phonenumber = document.getElementById('phonenumber');
+    let primary_address = document.getElementById('primary_address');
+    let countryList = document.getElementById('countryList');
+    let stateList = document.getElementById('stateList');
+    let city = document.getElementById('city');
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/users/account`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "first_name": firstname.value,
+            "last_name": lastname.value,
+            "phone": phonenumber.value,
+            "country": countryList.value,
+            "state": stateList.value,
+            "city": city.value,
+            "address": primary_address.value
+        }),
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    $('.loader').addClass('loader-hidden');
+                },3000)
+                setTimeout(()=>{
+                    basicmodal("Redirecting to login", "Please login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },3500)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+    
+}
+/* --------------------------- UPDATE USER ACCOUNT -------------------------- */
+
+/* --------------------------- UPDATE USER PASSWORD -------------------------- */
+function updateUserPassword(){
+    let currentpassword = document.getElementById('currentpassword');
+    let password = document.getElementById('password');
+    let confirmpassword = document.getElementById('confirmpassword');
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/users/account/password`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "current_password": currentpassword.value,
+            "new_password": password.value,
+            "confirm_password": confirmpassword.value,
+        }),
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    $('.loader').addClass('loader-hidden');
+                },3000)
+                setTimeout(()=>{
+                    basicmodal("Redirecting to login", "Please login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },3500)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+    
+}
+/* --------------------------- UPDATE USER PASSWORD -------------------------- */
+
+/* ------------------------- UPDATE COMPANY ACCOUNT ------------------------- */
+function updateCompanyAccount(){
+    let company_name = document.getElementById('company_name');
+    // let company_country = document.getElementById('company_country');
+    let state = document.getElementById('company_state');
+    let company_address = document.getElementById('company_address');
+    let email = document.getElementById('company_email');
+    let contact_person = document.getElementById('contact_person');
+    let phone = document.getElementById('company_phone');
+    let company_website = document.getElementById('company_website');
+    let website;
+    if(company_website.value==""||company_website.value===null){
+        website = null;
+    }else{
+        website  = company_website.value;
+    }
+    // let rc_number = document.getElementById('rc_number');
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/users/account/company`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "company_name": company_name.value,
+            "state": state.value,
+            "company_address": company_address.value,
+            "email": email.value,
+            "contact_person": contact_person.value,
+            "phone": phone.value,
+            "company_website": website
+        }),
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{
+                    $('.loader').addClass('loader-hidden');
+                },3000)
+                setTimeout(()=>{
+                    basicmodal("Redirecting to login", "Please login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },3500)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+}
+/* ------------------------- UPDATE COMPANY ACCOUNT ------------------------- */
+
+
 
 
 
@@ -3570,6 +3753,7 @@ function fetchUserInputCart(){
             console.log(total_price_count);
             $('.total_items_inCart').html(total_items_inCart);
             $('.total_price_count').html(total_price_count);
+            $('#total_price').val(total_price_count);
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
@@ -4021,13 +4205,18 @@ function fetchCropsforAuction(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');
@@ -4111,13 +4300,18 @@ function acceptOfferDirectly(){
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
                 // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout" || textstatus=="error") {
+                if(textstatus==="timeout") {
                     basicmodal("", "Service timed out <br/>Check your internet connection");
                 }
             },
             statusCode: {
                 200: function(response) {
                     console.log('ajax.statusCode: 200');
+                },
+                400: function(response) {
+                    console.log('ajax.statusCode: 400');
+                    // console.log(response);
+                    responsemodal("erroricon.png", "Error", response.responseJSON.message);
                 },
                 403: function(response) {
                     console.log('ajax.statusCode: 403');

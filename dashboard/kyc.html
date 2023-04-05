@@ -86,7 +86,7 @@
             <div class="container">
                 <div class="header-content">
                     <div class="left-content">
-                        <a href="wallet.html">
+                        <a href="editprofile.html">
                             <svg width="18" height="18" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M9.03033 0.46967C9.2966 0.735936 9.3208 1.1526 9.10295 1.44621L9.03033 1.53033L2.561 8L9.03033 14.4697C9.2966 14.7359 9.3208 15.1526 9.10295 15.4462L9.03033 15.5303C8.76406 15.7966 8.3474 15.8208 8.05379 15.6029L7.96967 15.5303L0.96967 8.53033C0.703403 8.26406 0.679197 7.8474 0.897052 7.55379L0.96967 7.46967L7.96967 0.46967C8.26256 0.176777 8.73744 0.176777 9.03033 0.46967Z" fill="#a19fa8"/>
 							</svg>
@@ -142,6 +142,7 @@
 									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
 									<select required id="idType" class="form-control">
                                         <option value="">Select ID Type</option>
+                                        <option value="identity_card">Identity Card</option>
                                         <option value="driving_licence">Driver's Licence</option>
                                         <option value="voter_id">Voter's Card</option>
                                         <option value="passport">Password</option>
@@ -151,34 +152,32 @@
                                 <label style="color:#2c2646d1;font-weight:700;">Id Number</label>
 								<div class="mb-3 input-group">
 									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
-									<input required id="idnumber" class="form-control" />
+									<input required min="5" id="idnumber" class="form-control" />
 								</div>
 
-                                <div class="w-100 mb-3">
+                                <!-- <div class="w-100 mb-3">
                                     <label for="exampleInputEmail1" class="form-label mb-0">Country <span class="required">*</span></label>
                                     <select class="form-select" id="countryList" aria-label="Default select example" required="">
                                         
                                     </select>
-                                </div>
-                                <div class="w-100 mb-3">
+                                </div> -->
+                                <!-- <div class="w-100 mb-3">
                                     <label for="exampleInputEmail1" class="form-label mb-0">State <span class="required">*</span></label>
                                     <select class="form-select" id="stateList" aria-label="Default select example" required="">
                                         <option value="">- Select state -</option>
                                         
                                     </select>
-                                </div>
+                                </div> -->
 
-                                <label style="color:#2c2646d1;font-weight:700;">City</label>
+                                <!-- <label style="color:#2c2646d1;font-weight:700;">City</label>
 								<div class="mb-3 input-group">
-									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
 									<input required id="city" class="form-control" />
-								</div>
+								</div> -->
 
-                                <label style="color:#2c2646d1;font-weight:700;">Address</label>
+                                <!-- <label style="color:#2c2646d1;font-weight:700;">Address</label>
 								<div class="mb-3 input-group">
-									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
 									<input required id="address" class="form-control" />
-								</div>
+								</div> -->
 
                                 <label style="color:#2c2646d1;font-weight:700;">Date of Birth</label>
 								<div class="mb-3 input-group">
@@ -296,17 +295,67 @@
 
                         <div class="card-body">
 							<div id="payForm">
-                                <label style="color:#2c2646d1;font-weight:700;">Type</label>
-								<div class="mb-3 input-group">
-									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
-									<input type="text" readonly required id="idType-v" class="form-control">
-								</div>
+                                <!-- ---------------------- PREVIEW SUBMITTED DETAILS ----------------------- -->
+                                <div class="row">
+                                    <div class="row col-12">
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">ID Type</h4>
+                                            <p class="idType-v"> </p>
+                                        </div>
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">ID Number</h4>
+                                            <p class="idnumber-v"> </p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <label style="color:#2c2646d1;font-weight:700;">Id Number</label>
-								<div class="mb-3 input-group">
-									<!-- <span class="input-group-text"><i class="fas fa-hashtag"></i></span> -->
-									<input required readonly id="idnumber-v" class="form-control" />
-								</div>
+                                <div class="row mt-2">
+                                    <div class="row col-12">
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">Name</h4>
+                                            <p class="kyc_name-v"> </p>
+                                        </div>
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">Gender</h4>
+                                            <p class="kyc_gender-v"> </p>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="row col-12">
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">Phone Number</h4>
+                                            <p class="kyc_phoneno-v"> </p>
+                                        </div>
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">Address</h4>
+                                            <p class="kyc_address-v"> </p>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="row col-12">
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">Date of Birth</h4>
+                                            <p class="kyc_dob-v"> </p>
+                                        </div>
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">Country</h4>
+                                            <p class="kyc_country-v"> </p>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="row col-12">
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">State</h4>
+                                            <p class="kyc_state-v"> </p>
+                                        </div>
+                                        <div class="col-6 each-detail">
+                                            <h4 class="font-16">City</h4>
+                                            <p class="kyc_city-v"> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ---------------------- PREVIEW SUBMITTED DETAILS ---------------------- -->
+
 
                                 <!-- ID FRONT -->
                                 <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">ID Front</label>
@@ -385,6 +434,14 @@
 
 <script>
     $(document).ready(()=>{
+
+        // $('#dob').attr('max', new Date().toISOString().split('T')[0]);
+        //  To get yesterday's date
+        var date = new Date();
+        let yesterday = date.setDate(date.getDate() - 1);
+        $('#dob').attr('max', date.toISOString().split('T')[0]);
+
+
        
         // camera stream video element
         let on_stream_video = document.querySelector('#camera-stream-IDFront');
@@ -584,7 +641,7 @@
 
         
 
-        // BackOutput
+        // BackOutput (THIS IS WHERE I PING THE IMAGE UPLOAD)
         document.getElementById("capture-camera-IDBack").addEventListener("click", function() {
             // Elements for taking the snapshot
             const video = document.querySelectorAll('video')[1];
@@ -626,6 +683,7 @@
 
 
         // SWITCH PAGE SECTIONS 
+        let frontIDLink, backIDLink;
         $('#idTypeandNumber').submit(function(e){
             e.preventDefault();
             $('#idTypeandNumberSection').hide();
@@ -639,10 +697,57 @@
                 $('.idFrontError').html("&#9888; Snap front ID");
             }else{
                 $('.idFrontError').html("");
+                $('.dialogbox').addClass('d-none');
+                $('.dialogbox').removeClass('d-block');
                 $('#frontIDSection').hide();
                 $('#backIDSection').show();
+
+                // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
+                // let user = localStorage.getItem('zowaselUser');
+                // user = JSON.parse(user);
+                // let userid = user.user.id;
+                // //Store form Data
+                // var formData = new FormData();
+                // console.log(blobFile_Front, "The id");
+                // formData.append("image", blobFile_Front, `idfrontcard${userid}.${blobFile_Front.type.split("/")[1]}`);
+                // // // form.append("front", fileInput.files[0], "idcard.png");
+                // startPageLoader();
+                // var settings = {
+                //     "url": `${imageUploadUrl}`,
+                //     "method": "POST",
+                //     "timeout": 0,
+                //     "headers": {
+                //         // "Content-Type": "application/json",
+                //         "authorization": localStorage.getItem('authToken')
+                //     },
+                //     "processData": false,
+                //     "mimeType": "multipart/form-data",
+                //     "contentType": false,
+                //     "data": formData
+                // };
+
+                // $.ajax(settings).done(function (data) {
+                //     // console.log(data);
+                //     let response = JSON.parse(data);
+                //     EndPageLoader();
+                //     if(response.error == true){
+                //         // alert(response.message);
+                //         responsemodal("erroricon.png", "Error", response.message);
+                //     }else{
+                //         responsemodal("successicon.png", "Success", "Front ID Sent");
+                //         frontIDLink = response.data.imageLink;
+                //         setTimeout(()=>{
+                //             $('.dialogbox').addClass('d-none');
+                //             $('.dialogbox').removeClass('d-block');
+                //             $('#frontIDSection').hide();
+                //             $('#backIDSection').show();
+                //         },2000)
+                //     }
+                // });
+
             }
         })
+
         $('#backIDNextBtn').on('click',function(e){
             e.preventDefault();
 
@@ -651,12 +756,88 @@
                 $('.idBackError').html("&#9888; Snap back ID");
             }else{
                 $('.idBackError').html("");
+                $('.dialogbox').addClass('d-none');
+                $('.dialogbox').removeClass('d-block');
                 let idType = document.getElementById('idType').value;
                 let idnumber = document.getElementById('idnumber').value;
-                $('#idType-v').val(idType);
-                $('#idnumber-v').val(idnumber);
+                $('.idType-v').html(idType);
+                $('.idnumber-v').html(idnumber);
+
+                let user = localStorage.getItem('zowaselUser');
+                user = JSON.parse(user);
+                let userid = user.user.id;
+                let usertype = user.user.type;
+                let firstname = user.user.first_name;
+                let lastname = user.user.last_name;
+                let gender = user.user.gender;
+                let phone = user.user.phone;
+                let dob = user.user.dob;
+                let country = user.user.country;
+                let state = user.user.state;
+                let city = user.user.city;
+                let address = user.user.primary_address;
+                let company = user.user.company;
+
+                $('.kyc_name-v').html(firstname+" "+lastname);
+                $('.kyc_gender-v').html(gender);
+                $('.kyc_phoneno-v').html(phone);
+                $('.kyc_address-v').html(address);
+                $('.kyc_dob-v').html(dob);
+                $('.kyc_country-v').html(country);
+                $('.kyc_state-v').html(state);
+                $('.kyc_city-v').html(city);
+
+
                 $('#backIDSection').hide();
                 $('#idPreviewSection').show();
+
+                // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
+                // let user = localStorage.getItem('zowaselUser');
+                // user = JSON.parse(user);
+                // let userid = user.user.id;
+                // //Store form Data
+                // var formData = new FormData();
+                // console.log(blobFile_Back, "The Back id");
+                // formData.append("image", blobFile_Back, `idbackcard${userid}.${blobFile_Back.type.split("/")[1]}`);
+                // // // form.append("front", fileInput.files[0], "idcard.png");
+                // startPageLoader();
+                // var settings = {
+                //     "url": `${imageUploadUrl}`,
+                //     "method": "POST",
+                //     "timeout": 0,
+                //     "headers": {
+                //         // "Content-Type": "application/json",
+                //         "authorization": localStorage.getItem('authToken')
+                //     },
+                //     "processData": false,
+                //     "mimeType": "multipart/form-data",
+                //     "contentType": false,
+                //     "data": formData
+                // };
+
+                // $.ajax(settings).done(function (data) {
+                //     // console.log(data);
+                //     let response = JSON.parse(data);
+                //     EndPageLoader();
+                //     if(response.error == true){
+                //         // alert(response.message);
+                //         responsemodal("erroricon.png", "Error", response.message);
+                //     }else{
+                //         responsemodal("successicon.png", "Success", "Back ID Sent");
+                //         backIDLink = response.data.imageLink;
+                //         setTimeout(()=>{
+                //             $('.dialogbox').addClass('d-none');
+                //             $('.dialogbox').removeClass('d-block');
+                //             let idType = document.getElementById('idType').value;
+                //             let idnumber = document.getElementById('idnumber').value;
+                //             $('#idType-v').val(idType);
+                //             $('#idnumber-v').val(idnumber);
+                //             $('#backIDSection').hide();
+                //             $('#idPreviewSection').show();
+                //         },2000)
+                //     }
+                // });
+
             }
         })
         // SWITCH PAGE SECTIONS
@@ -666,12 +847,12 @@
 
         $('#SubmitIDVerification').click(function(){
 
-            var id_type = $('#idType-v').val();
-            var id_number = $('#idnumber-v').val();
-            var country = $('#countryList').val();
-            var state = $('#stateList').val();
-            var city = $('#city').val();
-            var address = $('#address').val();
+            var id_type = $('#idType').val();
+            var id_number = $('#idnumber').val();
+            // var country = $('#countryList').val();
+            // var state = $('#stateList').val();
+            // var city = $('#city').val();
+            // var address = $('#address').val();
             var dob = $('#dob').val();
             var gender = $('#gender').val();
             var bvn = $('#bvn').val();
@@ -683,6 +864,11 @@
             let firstname = user.user.first_name;
             let lastname = user.user.last_name;
             let phone = user.user.phone;
+            let country = user.user.country;
+            let state = user.user.state;
+            let city = user.user.city;
+            let address = user.user.primary_address;
+            let company = user.user.company;
 
             
             console.log(blobFile_Front, "blobFile_Front");
@@ -707,7 +893,9 @@
             // // form.append("front", fileInput.files[0], "idcard.png");
             formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
 
-            // console.log(formData, "formData");
+            console.log(id_type+id_number+firstname+lastname+phone+country+state+city+address+dob+gender+bvn, "formData");
+            console.log(blobFile_Front, "formData");
+            console.log(blobFile_Back, "formData");
             startPageLoader();
             var settings = {
                 "url": `${liveMobileUrl}/users/account/kyc`,
@@ -734,13 +922,17 @@
                     responsemodal("successicon.png", "Success", response.message+"<br/>Verification is in progress");
                     setTimeout(()=>{
                         // $("#addInputForm")[0].reset();
-                        mcxDialog.confirm("Continue with Kyb", {
-                            sureBtnClick: function(){
-                                // callback
-                                location.assign('kyb.html');                                
-                            }
 
-                        });
+                        if(company.id){
+                            mcxDialog.confirm("Continue with Kyb", {
+                                sureBtnClick: function(){
+                                    // callback
+                                    location.assign('kyb.html');                                
+                                }
+                            });
+                        }else{
+                            location.assign('editprofile.html?type=kyc');
+                        }
                         
                     },2000)
                     

@@ -1,0 +1,263 @@
+<!-- --------------------------- KYB DETAILS --------------------------- -->
+<h5 class="mt-4">Preview KYB</h5>
+
+<div class="previewKYB-container" style="display: none;">
+    
+    <div class="row mt-2">
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Name</h4>
+                <p class="kyb_name"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Email</h4>
+                <p class="kyb_email"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Phone Number</h4>
+                <p class="kyb_phoneno"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Address</h4>
+                <p class="kyb_address"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">State</h4>
+                <p class="kyb_state"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Country</h4>
+                <p class="kyb_country"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Contact Person</h4>
+                <p class="kyb_contactperson"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">RC Number</h4>
+                <p class="kyb_rcnumber"> </p>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Company Website</h4>
+                <p class="kyb_website"> </p>
+            </div>
+            <div class="col-6 each-detail">
+                <h4 class="font-16">Tax ID</h4>
+                <p class="kyb_taxid"> </p>
+            </div>
+        </div>
+
+    </div>
+
+    <h5 class="mt-4">KYB Documents</h5>
+
+    <div class="recomended-list" style="width: 100%;height: auto;">
+        <div class="image-box">
+            <img src="" alt="CAC" id="cacImageSrc" style="height: auto;max-height: auto;">
+        </div>
+        <div class="text-content zowasel-bg">
+            <h6 class="title text-center">CAC Document</h6>
+        </div>
+    </div>
+
+    <div class="recomended-list" style="width: 100%;height: auto;">
+        <div class="image-box">
+            <img src="" alt="Financial Statement" id="financialStatementImageSrc" style="height: auto;max-height: auto;">
+        </div>
+        <div class="text-content zowasel-bg">
+            <h6 class="title text-center">Financial Statement Document</h6>
+        </div>
+    </div>
+
+    <div class="recomended-list" style="width: 100%;height: auto;">
+        <div class="image-box">
+            <img src="" alt="MOU" id="mouImageSrc" style="height: auto;max-height: auto;">
+        </div>
+        <div class="text-content zowasel-bg">
+            <h6 class="title text-center">MOU Document</h6>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(()=>{
+
+        /* ------------------------ CHECK IF USER IS VERIFIED FOR KYC ----------------------- */
+        function checkifuser_hasDoneKYB(){
+            let user = localStorage.getItem('zowaselUser');
+            user = JSON.parse(user);
+            let user_id = user.user.id;
+            startPageLoader();
+            $.ajax({
+                url: `${liveMobileUrl}/account/kybstatus`,
+                type: "GET",
+                "timeout": 35000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                success: function(response) { 
+                    // alert("efe");
+                    EndPageLoader();
+                    // $('.loader').hide();
+                    console.log(response, "The KYB response");
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        let data = response.data;
+                        // let verification_status = row.user.is_verified;
+                        // console.log(verification_status, "verification Status");
+                        if(data.status.toLowerCase()=="unverified"){
+                            location.assign('kyb.html');
+                            $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus">Unverified</button>');
+                        }else if(data.status.toLowerCase()!=="unverified"){
+                            // location.assign('editprofile.html?type=kyc');
+                            // localStorage.setItem('KycVerificationResult', JSON.stringify(data));
+                            // setTimeout(()=>{
+                            //     $('.load-settings-page').load('pagecomponents/kycverification.html');
+                            // },1500)
+                            
+                            let statusClass;
+
+                            $('.previewKYB-container').show();
+
+                            if(data.status.toLowerCase()=="pending verification"){
+                                statusClass = "text-warning"
+                            }else if(data.status.toLowerCase()=="verified"){
+                                statusClass = "text-success";
+                            }else{
+                                statusClass = "";
+                            }
+                            $('.kycSectionVerificationStatus').html(`<button class="btn verificationStatus ${statusClass}">${data.status}</button>`);
+
+                            getKYBDocuments();
+                        }
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout" || textstatus=="error") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.log('ajax.statusCode: 200');
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }    
+            });
+        }
+        checkifuser_hasDoneKYB();
+        /* ------------------------ CHECK IF USER IS VERIFIED FOR KYC ----------------------- */
+
+
+
+        // <!-- -------------------------- GET KYB DOCUMENTS -------------------------- -->
+        function getKYBDocuments(){
+            let user = localStorage.getItem('zowaselUser');
+            user = JSON.parse(user);
+            let user_id = user.user.id;
+            startPageLoader();
+            $.ajax({
+                url: `${liveMobileUrl}/account/kybdocument`,
+                type: "GET",
+                "timeout": 25000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                success: function(response) { 
+                    // alert("efe");
+                    EndPageLoader();
+                    // $('.loader').hide();
+                    console.log(response, "The KYB Document response");
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        let data = response.data;
+
+                        let company = data.company_details;
+                        let document = data.kybDataObj;
+
+                        $('.kyb_name').html(`<span style="text-transform:capitalize;">${company.company_name}</span>`);
+                        $('.kyb_email').html(`<span style="text-transform:capitalize;">${company.company_email}</span>`);
+                        $('.kyb_phoneno').html(company.company_phone);
+                        $('.kyb_address').html(company.company_address);
+                        $('.kyb_state').html(company.state);
+                        $('.kyb_country').html(`<span style="text-transform:capitalize;">${company.country}</span>`);
+                        $('.kyb_contactperson').html(`<span style="text-transform:capitalize;">${company.contact_person}</span>`);
+                        $('.kyb_rcnumber').html(`<span style="text-transform:capitalize;">${company.rc_number}</span>`);
+                        $('.kyb_website').html(`<span style="text-transform:capitalize;">${company.company_website}</span>`);
+                        $('.kyb_taxid').html(`<span style="text-transform:capitalize;">${data.tax_id}</span>`);
+
+                        $('#cacImageSrc').attr('src', document.cac);
+                        $('#financialStatementImageSrc').attr('src', document.financial_statement);
+                        $('#mouImageSrc').attr('src', document.mou);
+
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout" || textstatus=="error") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.l
+                        
+                        og('ajax.statusCode: 200');
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
+                }    
+            });
+        }
+        // <!-- -------------------------- GET KYB DOCUMENTS -------------------------- -->
+
+    })
+</script>

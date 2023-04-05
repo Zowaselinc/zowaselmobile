@@ -11,12 +11,13 @@ const populateCountryList =()=>{
     
     // add to DOM
     $('#countryList').append(listItems);
+    $('.p_countryList').append(listItems);    
 }
 
 
 $('#countryList').on('change', ()=>{
     var countryvalue = $('#countryList').val();
-    alert(countryvalue);
+    // alert(countryvalue);
 
     var listItems = '';
     var emptylistItems = '<option value="">- Select state -</option>';
