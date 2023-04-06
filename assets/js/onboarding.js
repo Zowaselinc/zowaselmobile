@@ -1,6 +1,6 @@
 // import { liveMobileUrl, liveGlobalBaseUrl } from './env.js';
-console.log(liveMobileUrl);
-console.log(liveGlobalBaseUrl);
+// console.log(liveMobileUrl);
+// console.log(liveGlobalBaseUrl);
 // alert(liveMobileUrl)
 // WELCOME.HTML
 const userType =(userType)=>{
@@ -230,7 +230,7 @@ const RegisterScreen =()=>{
                     error: function(xmlhttprequest, textstatus, message) {
                         EndPageLoader();
                         // console.log(xmlhttprequest, "Error code");
-                        if(textstatus==="timeout" || textstatus=="error") {
+                        if(textstatus==="timeout") {
                             basicmodal("", "Service timed out <br/>Check your internet connection");
                         }
                     },
@@ -238,9 +238,17 @@ const RegisterScreen =()=>{
                         200: function(response) {
                             console.log('ajax.statusCode: 200');
                         },
+                        400: function(response) {
+                            console.log('ajax.statusCode: 400');
+                            // console.log(response);
+                            responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                        },
                         403: function(response) {
                             console.log('ajax.statusCode: 403');
                             basicmodal("", "Session has ended, Login again");
+                            setTimeout(()=>{
+                                logout();
+                            },3000)
                         },
                         404: function(response) {
                             console.log('ajax.statusCode: 404');

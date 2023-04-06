@@ -27,7 +27,7 @@
     // console.log(urlString);
 
     let paramString = urlString.split('dashboard/')[1];
-    console.log(paramString);
+    // console.log(paramString);
 
     $('.nav-link').removeClass('active');
     if(paramString == "notification.html"){
@@ -80,7 +80,7 @@
                     let thedata = (response.data).reverse();
                     let rowContent = "";
                     let index;
-                    console.log(thedata, "Notification count data");
+                    // console.log(thedata, "Notification count data");
                     // console.log(JSON.parse(thedata[7].tracking_details).transit.length);
                     let total_newnotification;
                     if(thedata.length > 0){
@@ -104,7 +104,7 @@
             error: function(xmlhttprequest, textstatus, message) {
                 EndPageLoader();
                 if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out");
+                    // basicmodal("", "Service timed out");
                 } else {
                     // alert(textstatus);
                     // basicmodal("", textstatus);

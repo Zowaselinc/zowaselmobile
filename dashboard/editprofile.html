@@ -159,7 +159,7 @@
     let searchname = window.location.search;
     let queryString = new URLSearchParams(searchname);
     let settingsType = queryString.get("type");
-    console.log(settingsType);
+    // console.log(settingsType);
     $('.profileLink, .kycLink, .kybLink').removeClass('active');
     if(settingsType=="" || settingsType===null || settingsType=="profile"){
         $('.load-settings-page').load('pagecomponents/accountdetails.html');

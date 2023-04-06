@@ -145,7 +145,7 @@
                                         <option value="identity_card">Identity Card</option>
                                         <option value="driving_licence">Driver's Licence</option>
                                         <option value="voter_id">Voter's Card</option>
-                                        <option value="passport">Password</option>
+                                        <option value="passport">Passport</option>
                                     </select>
 								</div>
 
@@ -481,7 +481,7 @@
             }
             navigator.mediaDevices.getUserMedia(constraints)
             .then(function(mediaStream) {
-                console.log(mediaStream, "mediaStream");
+                // console.log(mediaStream, "mediaStream");
                 stream  = mediaStream;
                 on_stream_video.srcObject = stream;
                 on_stream_video.play();
@@ -492,7 +492,7 @@
 
             navigator.mediaDevices.getUserMedia(constraints)
             .then(function(mediaStream) {
-                console.log(mediaStream, "mediaStream2");
+                // console.log(mediaStream, "mediaStream2");
                 
                 stream2  = mediaStream;
                 on_stream_video2.srcObject = stream2;
@@ -624,15 +624,7 @@
                 on_stream_video.play();
 
                 blobFile_Front = urlToFile(data)
-                console.log(blobFile_Front, "File Front");
-                // sessionStorage.setItem("blobFile_Front",JSON.parse(blobFile_Front));
-
-                //Store form Data
-                // var formData = new FormData();
-                // formData.append("uploadfront", file, "filename");
-
-                // console.log(formData);
-
+                // console.log(blobFile_Front, "File Front");
 
             } else {
                 clearphoto();
@@ -672,7 +664,7 @@
                 on_stream_video2.play();
 
                 blobFile_Back = urlToFile(data)
-                console.log(blobFile_Back, "File Back");
+                // console.log(blobFile_Back, "File Back");
                 // sessionStorage.setItem("blobFile_Back",blobFile_Back);
 
             } else {

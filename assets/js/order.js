@@ -939,7 +939,7 @@ function fetchUserOrdersByUserID(){
 
     const urlString = window.location.pathname;
     let paramString = urlString.split('dashboard/')[1];
-    console.log(paramString);
+    // console.log(paramString);
 
     let routeType,tbodySelector;
     if(paramString == "order/orders.html"){

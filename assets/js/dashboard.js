@@ -1,6 +1,6 @@
 // import { localBaseUrl, liveMobileUrl } from './env.js';
-console.log(localBaseUrl);
-console.log(liveMobileUrl);
+// console.log(localBaseUrl);
+// console.log(liveMobileUrl);
 // alert(localBaseUrl)
 
 
@@ -29,7 +29,7 @@ function lazyLoading(){
         }
     });
 
-    console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
+    // console.log($('.lazy:hidden').length, "$Lazy:hidden.length");
 
     if($('.lazy:hidden').length) {
         $('#more').show();
@@ -588,7 +588,7 @@ const populateWalletDetails=()=>{
             // alert("efe");
             EndPageLoader();
             // $('.loader').hide();
-            console.log(response, "The wallet response");
+            // console.log(response, "The wallet response");
             if(response.error == true){
                 // alert(response.message);
                 responsemodal("erroricon.png", "Error", response.message);
@@ -601,13 +601,18 @@ const populateWalletDetails=()=>{
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
             200: function(response) {
-                console.log('ajax.statusCode: 200');
+                // console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');
@@ -622,7 +627,7 @@ const populateWalletDetails=()=>{
             500: function(response) {
                 console.log('ajax.statusCode: 500');
             }
-        }    
+        }
     });
 }
 /* --------------------------- GRAB WALLET DETAILS -------------------------- */
@@ -631,7 +636,7 @@ const populateWalletDetails=()=>{
 const fetchRecentTransactions=()=>{
 
     let pathname = window.location.pathname;
-    console.log(pathname);
+    // console.log(pathname);
     let theURL;
     if(pathname.includes("wallet")){
         theURL = `${liveMobileUrl}/wallet/transactions/recent`;
@@ -655,7 +660,7 @@ const fetchRecentTransactions=()=>{
             // alert("efe");
             EndPageLoader();
             // $('.loader').hide();
-            console.log(response, "The recent transactions response");
+            // console.log(response, "The recent transactions response");
             if(response.error == true){
                 // alert(response.message);
                 responsemodal("erroricon.png", "Error", response.message);
@@ -664,7 +669,7 @@ const fetchRecentTransactions=()=>{
                 let thedata = response.data;
                 let rowContent = "";
                 let index;
-                console.log(thedata, "All Recent transactions");
+                // console.log(thedata, "All Recent transactions");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -712,13 +717,18 @@ const fetchRecentTransactions=()=>{
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
             200: function(response) {
-                console.log('ajax.statusCode: 200');
+                // console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');
@@ -953,13 +963,18 @@ function fetchWantedCrops(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');

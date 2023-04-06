@@ -216,16 +216,18 @@
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let country = user.user.country;
-    let companycountry = user.user.company.country;
-    $('.countryname').val(country);
-    $('.company_country').val(companycountry);
+    if(country){
+        let companycountry = user.user.company.country;
+        $('.countryname').val(country);
+        $('.company_country').val(companycountry);
+    }
     setTimeout(()=>{
         populateUserDetails();   
     },500)
 
     // CHECK FOR INDIVIDUAL OR COMPANY USER
     let companyexist = user.user.company;
-    if(companyexist.id){
+    if(companyexist){
         $('.company_exist').show();
     }else{
         $('.company_exist').hide();

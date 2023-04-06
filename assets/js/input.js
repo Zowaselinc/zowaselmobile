@@ -174,7 +174,7 @@ function grabSingleOrderDetails(){
             },
             500: function(response) {
                 console.log('ajax.statusCode: 500');
-                basicmodal("", "An error occured when retriving this transaction details.");
+                basicmodal("", "An error occured when retriving this order details.");
             }
         }    
     });
