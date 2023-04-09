@@ -34,6 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 
 </head>   
 <body class="bg-white">
@@ -99,8 +100,8 @@
                         <h1>NGN <span class="wallet_balance"></span><!--4,879,496--></h1>
                         <div class="buttons-area mtb-4">
                             <a class="withdraw-btn" href="withdraw.html">Withdraw</a>
-                            <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                            <a class="fund-btn" href="fundwallet.html">Fund Wallet</a>
+                            <!-- <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                            <a class="fund-btn" href="fundwallet.html">Fund Wallet</a> -->
                         </div>
                     </div>
                 </div>
@@ -466,6 +467,7 @@
     populateWalletDetails();
     fetchRecentTransactions();
     buttommenu();
+    pageRestriction();
 </script>
 </body>
 </html>

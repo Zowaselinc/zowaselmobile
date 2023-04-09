@@ -87,15 +87,37 @@
 </div>
 
 
+
 <script>
+let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let user_id = user.user.id;
+const socket = io(`${socketURL}`);
+
+
+
+
+
+socket.emit('isconnected',"We are connected");
+const usersocketchannel="ZWSL"+user_id;
+socket.emit("kycperson",{"userid":user_id})
+socket.on(usersocketchannel,function(data){
+    console.log(data);
+})
+
+
     $(document).ready(()=>{
+
+
+
+
        
        
        /* ------------------------ CHECK IF USER IS VERIFIED FOR KYC ----------------------- */
         function checkifuser_hasDoneKYC(){
-            let user = localStorage.getItem('zowaselUser');
-            user = JSON.parse(user);
-            let user_id = user.user.id;
+            // let user = localStorage.getItem('zowaselUser');
+            // user = JSON.parse(user);
+            // let user_id = user.user.id;
             startPageLoader();
             $.ajax({
                 url: `${liveMobileUrl}/users/account/kycstatus`,

@@ -160,6 +160,82 @@ function daysDifferenceday(d1, d2){
 /* ---------------- CALCULATE TIME DIFFERENCE BETWEEN 2 DATES --------------- */
 
 
+function pageRestriction(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let user_id = user.user.id;
+
+    const socket = io(`${socketURL}`);
+
+    socket.emit('isconnected',"We are connected");
+    const usersocketchannel="ZWSL"+user_id;
+    socket.emit("kycperson",{"userid":user_id})
+    socket.on(usersocketchannel,function(data){
+
+        // console.log(data);
+
+        // COOKIES
+        // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
+        // setCookie(key,value,time);
+        let key = "userkycstatus";
+        let value = data.userskycstatus;
+        setCookie(key,value,0.5);
+        // COOKIES
+    })
+}
+
+function setCookie(key,value,time){
+    // Get the current time
+    let d = new Date();
+
+    d.setTime(d.getTime() + (time*24*60*60*1000));
+
+    let expires = "expires=" + d.toUTCString();
+
+    document.cookie = `${key}=${value};${expires};path='/'`;
+
+    // window.location.reload();
+}
+
+function getCookie(name){
+    const cDecoded = decodeURIComponent(document.cookie);
+    const cArray = cDecoded.split("; ");
+    // console.log(cArray);
+    let result = null;
+    cArray.forEach(element => {
+        if(element.indexOf(name)==0){
+            result = element.substring(name.length+1);
+        }
+    })
+    return result;
+}
+console.log(getCookie("userkycstatus"));
+
+function checkifKYCis_verified(){
+    let userkycstatus = getCookie("userkycstatus");
+    // alert(userkycstatus);
+    let pathname = window.location.pathname;
+    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
+
+    }else{
+        if(userkycstatus == 0){
+            // console.log(window.location)
+            location.assign(window.location.origin+'/dashboard/checkuserverification.html');
+        }
+    }
+    
+}
+checkifKYCis_verified();
+
+
+
+
+
+function deleteCookie(name){
+    setCookie(name, null, null);
+}
+
+
 
 const populateUserDetails =()=>{
     let user = localStorage.getItem('zowaselUser');
@@ -1206,6 +1282,16 @@ function populateSingleMyPersonalProductDetails(){
                 $('.cropActiveStatus-v').html(activecrop);
                 // Active and nonActive crop
 
+                /* ------------------------ CHECK IF AUCTION HAS BID ------------------------ */
+                let auction_viewbid_button;
+                if(thedata.bid.length){
+                    auction_viewbid_button = `
+                        <button class="btn zowasel-bg text-white mt-4" onclick="openallAuctionBids(${thedata.id})">View Bids</button>
+                    `;
+                }else{ auction_viewbid_button=``; }
+                $('.auction-viewbid-button').html(auction_viewbid_button);
+                /* ------------------------ CHECK IF AUCTION HAS BID ------------------------ */
+
                 // AUCTION CROP
                 let auction_details;
                 if(thedata.auction){
@@ -1324,6 +1410,75 @@ function populateSingleMyPersonalProductDetails(){
             }
         }
     })
+}
+
+
+function openallAuctionBids(crop_id){
+    startPageLoader();
+
+    $.ajax({
+        url: `${liveMobileUrl}/crop/${crop_id}/bid`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+        }),
+        success: function(response) { 
+            EndPageLoader();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // responsemodal("successicon.png", "Success", response.message);
+                $('.p_bid_table').show();
+                // console.log(response);
+                let thedata = response.data;
+                thedata.reverse();
+                let bid_data;
+                // console.log(thedata.length)
+                for(let i=0; i<thedata.length; i++){
+                    let user = thedata[i].user;
+                    bid_data +=`
+                    <tr>
+                        <td id="" style="display:none;">${thedata[i]}</td>
+                        <th scope="row">${thedata[i].created_at}</th>
+                        <td>${user.first_name+" "+user.last_name}</td>
+                        <td>${thedata[i].amount}</td>
+                    </tr>
+                    `;
+                }
+                $('#p_bids').html(bid_data);
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                // console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
 }
 
 
@@ -1487,10 +1642,10 @@ function populateSingleProductDetails(){
                         $('.cropActiveStatus-v').html('<span class="text-success">Active</span>');
                     }else{ $('.cropActiveStatus-v').html('<span class="text-danger">Inactive</span>'); }
                     $('.minimumBid').html(thedata.currency+" "+thedata.auction.minimum_bid);
-                    let daysRemaining = daysDifferenceday(thedata.auction.start_date, thedata.auction.end_date);
+                    let daysRemaining = daysDifferenceday(new Date(), thedata.auction.end_date);
                     let daysLeft;
                     if(daysRemaining === 0){
-                        $('.daysRemaining').html("<span class='text-primary'>Bid ends today</span>");
+                        $('.daysRemaining').html("<span class='text-primary'>1 day left, Bid ends today</span>");
                     }else if(daysRemaining < 0){
                         $('.daysRemaining').html("<span class='text-danger'>Bid duration has ended</span>");
                     }else{
@@ -4168,6 +4323,12 @@ function fetchCropsforAuction(){
                         if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
+                         // CHECK IF AUCTIONED CROP HAS ANY BID
+                         let crophasBid;
+                         if(row.bid.length){
+                            crophasBid = `<img src="../logos/bid.png" style="width:30px;" />`;
+                         }else{ crophasBid = ``; }
+
                         rowContent += `
                         <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); 
                         location.assign('${gotoProductdetails}')" style="background:whitesmoke;padding: 13px 15px 0px;">
@@ -4189,9 +4350,9 @@ function fetchCropsforAuction(){
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
                                     
                                 </a>
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <span class="cropstatus cropActive ${activeProductClass}"></span>
-                                    <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                                    ${crophasBid}
                                 </div>   
                             </div>
                         </div>
