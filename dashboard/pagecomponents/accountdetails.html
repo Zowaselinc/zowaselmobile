@@ -216,9 +216,14 @@
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let country = user.user.country;
+    let company = user.user.company;
     if(country){
-        let companycountry = user.user.company.country;
         $('.countryname').val(country);
+    }else{
+        $('.countryname').val('');
+    }
+    if(company){
+        let companycountry = user.user.company.country;
         $('.company_country').val(companycountry);
     }
     setTimeout(()=>{

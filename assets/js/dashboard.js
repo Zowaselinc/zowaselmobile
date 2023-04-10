@@ -172,11 +172,16 @@ function pageRestriction(){
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
 
-        // console.log(data);
+        // console.log(data, "KYC Socket data");
 
         // COOKIES
         // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
         // setCookie(key,value,time);
+        let key2 = "userdidkyc";
+        let value2 = data.userdidkyc;
+        setCookie(key2,value2,0.5);
+
+        
         let key = "userkycstatus";
         let value = data.userskycstatus;
         setCookie(key,value,0.5);
@@ -209,7 +214,8 @@ function getCookie(name){
     })
     return result;
 }
-console.log(getCookie("userkycstatus"));
+// console.log(getCookie("userdidkyc"), "userdidkyc");
+// console.log(getCookie("userkycstatus"), "userkycstatus");
 
 function checkifKYCis_verified(){
     let userkycstatus = getCookie("userkycstatus");

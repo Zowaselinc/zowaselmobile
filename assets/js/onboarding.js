@@ -16,7 +16,7 @@ const userType =(userType)=>{
  * /* ------------------------------- 1. SIGNUP PAGE ------------------------------ 
  ************************************************************************************/
 const RegisterScreen =()=>{
-
+    
     let userType = localStorage.getItem('userType');
     if(!userType){
         location.assign('welcome.html');
@@ -29,21 +29,8 @@ const RegisterScreen =()=>{
     const phonenumber = document.getElementById('phonenumber');
     const account_type = form.elements["account_type"];
     const privacy_policy = document.getElementById('privacy_policy');
-    // If user has company
-    let company_name,company_address,company_state,rc_number,company_email,company_phone;
-    if(account_type.value=="company"){
-        company_name = document.getElementById('company_name');
-        company_address = document.getElementById('company_address');
-        company_state = document.getElementById('company_state');
-        rc_number = document.getElementById('rc_number');
-        company_email = document.getElementById('company_email');
-        company_phone = document.getElementById('company_phone');
-    }
-    
-    
-
- 
-
+   
+  
     //Show input error messages
     function showError(input, message) {
         // const formControl = input.parentElement;
@@ -77,8 +64,8 @@ const RegisterScreen =()=>{
             showError(input,'Email is not invalid');
         }
     }
-
-
+    
+    
     //checkRequired fields
     let registerRequiredField = [];
     let registerLengthField = []; 
@@ -109,8 +96,8 @@ const RegisterScreen =()=>{
         });
     }
 
-
-
+    
+    
 
     //check input Length
     function checkLength(input, min ,max) {
@@ -125,7 +112,7 @@ const RegisterScreen =()=>{
         }else{
             fieldname = fieldnameInput;
         }
-
+        
         if(input.value.length < min) {
             // showError(input, `${getFieldName(input)} must be at least ${min} characters`);
             showError(input, `${fieldname} should be at least ${min} characters`);
@@ -147,26 +134,26 @@ const RegisterScreen =()=>{
     function getFieldName(input) {
         return input.id.charAt(0).toUpperCase() + input.id.slice(1);
     }
-
+    
     // check passwords match
     function checkPasswordMatch(input1, input2) {
         if(input1.value !== input2.value) {
             showError(input2, 'Passwords do not match');
         }
     }
-
-
+    
+    
     //Event Listeners
     form.addEventListener('submit',function(e) {
         e.preventDefault();
-
+        
         // Empty Field Array
         registerRequiredField = [];
         registerLengthField = [];
-
+        
         checkRequired([firstname, lastname, email, phonenumber]);
         // console.log(registerRequiredField);
-
+        
         // If there are no required fields
         if(!registerRequiredField.includes('requiredfield')){
             let a1 = checkLength(firstname,3,25);
@@ -182,7 +169,7 @@ const RegisterScreen =()=>{
                 // checkPasswordMatch(password, password2);
                 
                 // alert("Good to Go");
-
+                
                 let registerData = {} // make an empty object
                 /* --- Add Things To The Object --- */
                 registerData['first_name'] = firstname.value; // 'first_name' is the key, and 'key.value' is the value
@@ -190,9 +177,28 @@ const RegisterScreen =()=>{
                 registerData['email'] = email.value;
                 registerData['phone'] = phonenumber.value;
                 registerData['account_type'] = account_type.value;
-                // if(account_type.value=="company"){
-                //     // 
-                // }
+                if(account_type.value=="company"){
+                    console.log("company", "Account type");
+                    registerData['has_company'] = true;
+
+                    let company_name,company_address,company_state,rc_number,company_email,company_phone;
+                    // If user has company
+                    company_name = document.getElementById('company_name');
+                    company_address = document.getElementById('company_address');
+                    company_state = document.getElementById('company_state');
+                    rc_number = document.getElementById('rc_number');
+                    company_email = document.getElementById('company_email');
+                    company_phone = document.getElementById('company_phone');
+    
+                    registerData['company_name'] = company_name.value;
+                    registerData['company_address'] = company_address.value;
+                    registerData['company_state'] = company_state.value;
+                    registerData['rc_number'] = rc_number.value;
+                    registerData['company_email'] = company_email.value;
+                    registerData['company_phone'] = company_phone.value;
+                }else{
+                    console.log("individual", "Account type");
+                }
                 
                 
                 console.log(registerData) // Expected result -> {"first_name":"**","last_name":"**","email":"**","phone":"**"}
@@ -485,6 +491,9 @@ const resendotpcode =()=>{
         statusCode: {
             200: function(response) {
                 console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
             },
             403: function(response) {
                 console.log('ajax.statusCode: 403');

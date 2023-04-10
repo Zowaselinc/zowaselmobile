@@ -96,8 +96,10 @@
                     <li class="p-1 px-3 fw-bold profileLink" onclick="location.assign('editprofile.html?type=profile')">My Profile</li>
                 </ul>
                 <ul class="m-0 my-2 p-0 d-flex align-items-center justify-content-between">
-                    <li class="p-1 px-3 fw-bold kycLink" onclick="location.assign('editprofile.html?type=kyc')">KYC Verification</li>
-                    <li class="p-1 px-3 fw-bold kybLink" onclick="location.assign('editprofile.html?type=kyb')">KYB Verification</li>
+                    <!-- <li class="p-1 px-3 fw-bold kycLink" onclick="location.assign('editprofile.html?type=kyc')">KYC Verification</li> -->
+                    <li class="p-1 px-3 fw-bold kycLink" onclick="openKYCSection()">KYC Verification</li>
+                    <!-- <li class="p-1 px-3 fw-bold kybLink" onclick="location.assign('editprofile.html?type=kyb')">KYB Verification</li> -->
+                    <li class="p-1 px-3 fw-bold kybLink" style="display:none;" onclick="openKYBSection()">KYB Verification</li>
                 </ul>
             </div>
 
@@ -156,6 +158,17 @@
     populateUserDetails();
 </script>
 <script>
+    function checkAccountType(){
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        if(user.user.account_type=="company"){
+            $('.kybLink').show();
+        }else{
+            $('.kycLink').css({'width':'100%'})
+        }
+    }
+    checkAccountType();
+
     let searchname = window.location.search;
     let queryString = new URLSearchParams(searchname);
     let settingsType = queryString.get("type");
@@ -177,6 +190,48 @@
         $('.kybLink').addClass('active');
     }
 
+
+    function openKYCSection(){
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let first_name = user.user.first_name;
+        let last_name = user.user.last_name;
+        let phone = user.user.phone;
+        let primary_address = user.user.primary_address;
+        let country = user.user.country;
+        let state = user.user.state;
+        let city = user.user.city;
+        if(!first_name||!last_name||!phone||!primary_address||!country||!state||!city){
+            basicmodal("","Please update your account");
+        }else{
+            location.assign("editprofile.html?type=kyc");
+        }
+    }
+
+
+    function getCookie(name){
+        const cDecoded = decodeURIComponent(document.cookie);
+        const cArray = cDecoded.split("; ");
+        // console.log(cArray);
+        let result = null;
+        cArray.forEach(element => {
+            if(element.indexOf(name)==0){
+                result = element.substring(name.length+1);
+            }
+        })
+        return result;
+    }
+    // console.log(getCookie("userdidkyc"), "userdidkyc");
+    // console.log(getCookie("userkycstatus"), "userkycstatus");
+
+    function openKYBSection(){
+        let userdidkyc = getCookie("userdidkyc");
+        if(userdidkyc != 1){
+            basicmodal("","Please Complete your KYC");
+        }else{
+            location.assign('editprofile.html?type=kyb');
+        }
+    }
     
 </script>
 </body>
