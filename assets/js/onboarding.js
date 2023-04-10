@@ -627,6 +627,10 @@ function LoginScreen(){
             }),
             success: function(response) { 
                 EndPageLoader();
+                localStorage.removeItem('registerData');
+                localStorage.removeItem('account_type');
+                localStorage.removeItem('userType');
+                localStorage.removeItem('isEmailVerified');
                 if(response.error == true){
                     // alert(response.message);
                     responsemodal("erroricon.png", "Error", response.message);

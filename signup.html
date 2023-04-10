@@ -97,32 +97,32 @@
                         <!-- -------------- ADD COMPANY DETAILS IF YOU HAVE A COMPANY -------------- -->
                         <div class="row mb-3 companyForm" style="display: none;">
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text"><i class="fa fa-building"></i></span>
                                 <input id="company_name" type="text" class="form-control companyRequired" placeholder="Company name">
                                 <small class="input_response">Error Message</small>
                             </div>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
                                 <input id="company_address" type="text" class="form-control companyRequired" placeholder="Company address">
                                 <small class="input_response">Error Message</small>
                             </div>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
                                 <input id="company_state" type="text" class="form-control companyRequired" placeholder="Company state">
                                 <small class="input_response">Error Message</small>
                             </div>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
                                 <input id="rc_number" type="text" class="form-control companyRequired" placeholder="RC number">
                                 <small class="input_response">Error Message</small>
                             </div>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text"><i class="fa fa-at"></i></span>
                                 <input id="company_email" type="text" class="form-control companyRequired" placeholder="Company email">
                                 <small class="input_response">Error Message</small>
                             </div>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                 <input id="company_phone" type="text" class="form-control companyRequired" placeholder="Company phone">
                                 <small class="input_response">Error Message</small>
                             </div>
@@ -211,8 +211,9 @@
     $(document).ready(function() {
         $('.accounttype input[type="radio"]').click(function(){
             var inputValue = $(this).attr("value");
-            // console.log(inputValue, "Radio Input Value");
+            console.log(inputValue, "Radio Input Value");
             // $("." + inputValue).toggle();
+            localStorage.setItem('account_type', inputValue);
             if(inputValue=="company"){
                 $('.companyForm').show();
                 $('.companyRequired').attr("required","");
