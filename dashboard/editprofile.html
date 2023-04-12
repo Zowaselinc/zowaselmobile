@@ -225,7 +225,8 @@
     // console.log(getCookie("userkycstatus"), "userkycstatus");
 
     function openKYBSection(){
-        let userdidkyc = getCookie("userdidkyc");
+        // let userdidkyc = getCookie("userdidkyc");
+        let userdidkyc = localStorage.getItem("userdidkyc");
         if(userdidkyc != 1){
             basicmodal("","Please Complete your KYC");
         }else{

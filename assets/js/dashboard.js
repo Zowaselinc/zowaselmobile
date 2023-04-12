@@ -181,11 +181,13 @@ function pageRestriction(){
         let key2 = "userdidkyc";
         let value2 = data.userdidkyc;
         setCookie(key2,value2,0.5);
+        localStorage.setItem(key2,value2);
 
         
         let key = "userkycstatus";
         let value = data.userskycstatus;
         setCookie(key,value,0.5);
+        localStorage.setItem(key,value);
         // COOKIES
     })
 }
@@ -219,28 +221,33 @@ function getCookie(name){
 // console.log(getCookie("userkycstatus"), "userkycstatus");
 
 function checkifKYCis_verified(){
-    let userkycstatus = getCookie("userkycstatus");
+    // let userkycstatus = getCookie("userkycstatus");
+    let userkycstatusLocalStorage = localStorage.getItem("userkycstatus");
     // alert(userkycstatus);
     let pathname = window.location.pathname;
     if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
-
+        
     }else{
-        if(userkycstatus == 0){
+        // if(userkycstatus == 0){
+        if(userkycstatusLocalStorage == 0){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/checkuserverification.html');
         }
     }
+
     
 }
 checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
-    let userkycDoneStatus = getCookie("userdidkyc");
+    // let userkycDoneStatus = getCookie("userdidkyc");
+    let userkycDoneStatusLocalStorage = localStorage.getItem("userdidkyc");
     // alert(userkycDoneStatus);
     let pathname = window.location.pathname;
     if(pathname.includes('dashboard/kyc')||pathname.includes('dashboard/kyb')){
-        if(userkycDoneStatus == 1){
+        // if(userkycDoneStatus == 1){
+        if(userkycDoneStatusLocalStorage == 1){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/editprofile.html');
         }

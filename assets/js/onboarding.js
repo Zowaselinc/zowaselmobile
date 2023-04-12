@@ -216,10 +216,10 @@ const RegisterScreen =()=>{
 
                 /* ------------------------------ DB CONNECTION ----------------------------- */
                 if(account_type.value=="company" && document.getElementById('company_phone').value.length<11){
-                    $('.company_response').html("Phone number should not be less than 11");
+                    $('.company_response').html("Company phone number should not be less than 11 digits");
                     // alert("Less than");
                 }else if(account_type.value=="company" && document.getElementById('company_phone').value.length>11){
-                    $('.company_response').html("Phone number should not be more than 11");
+                    $('.company_response').html("Company phone number should not be more than 11 digits");
                     // alert("greater than");
                 }else{
                     $('.company_response').html('');
