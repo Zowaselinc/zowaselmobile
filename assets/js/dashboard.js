@@ -164,7 +164,7 @@ function pageRestriction(){
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
-
+    alert(`${socketURL}`);
     const socket = io(`${socketURL}`);
 
     socket.emit('isconnected',"We are connected");
@@ -173,6 +173,7 @@ function pageRestriction(){
     socket.on(usersocketchannel,function(data){
 
         // console.log(data, "KYC Socket data");
+        alert("SOcket entered")
 
         // COOKIES
         // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
@@ -231,7 +232,7 @@ function checkifKYCis_verified(){
     }
     
 }
-checkifKYCis_verified();
+// checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
@@ -247,7 +248,7 @@ function checkifKYCis_done(){
         
     }
 }
-checkifKYCis_done();
+// checkifKYCis_done();
 
 
 
