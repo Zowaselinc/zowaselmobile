@@ -761,9 +761,19 @@
                 let usertype = user.user.type;
                 let firstname = user.user.first_name;
                 let lastname = user.user.last_name;
-                let gender = user.user.gender;
+                let gender;
+                if(user.user.gender){
+                    gender = user.user.gender;
+                }else{
+                    gender = document.getElementById('gender').value;
+                }
                 let phone = user.user.phone;
-                let dob = user.user.dob;
+                let dob;
+                if(user.user.dob){
+                    dob = user.user.dob;
+                }else{
+                    dob = document.getElementById('dob').value;
+                }
                 let country = user.user.country;
                 let state = user.user.state;
                 let city = user.user.city;

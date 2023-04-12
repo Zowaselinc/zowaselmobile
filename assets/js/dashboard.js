@@ -234,6 +234,22 @@ function checkifKYCis_verified(){
 checkifKYCis_verified();
 
 
+function checkifKYCis_done(){
+    let userkycDoneStatus = getCookie("userdidkyc");
+    // alert(userkycDoneStatus);
+    let pathname = window.location.pathname;
+    if(pathname.includes('dashboard/kyc')||pathname.includes('dashboard/kyb')){
+        if(userkycDoneStatus == 1){
+            // console.log(window.location)
+            location.assign(window.location.origin+'/dashboard/editprofile.html');
+        }
+    }else{
+        
+    }
+}
+checkifKYCis_done();
+
+
 
 
 
