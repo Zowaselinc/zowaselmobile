@@ -161,7 +161,7 @@ function daysDifferenceday(d1, d2){
 
 
 function pageRestriction(){
-    alert("refre");
+    // alert("refre");
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
