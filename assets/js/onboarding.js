@@ -59,7 +59,8 @@ const RegisterScreen =()=>{
     function checkEmail(input) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(re.test(input.value.trim())) {
-            showSucces(input)
+            showSucces(input);
+            showError(input,'');
         }else {
             showError(input,'Email is not invalid');
         }
@@ -90,6 +91,7 @@ const RegisterScreen =()=>{
                 registerRequiredField.push("requiredfield");
             }else {
                 showSucces(input);
+                showError(input,``);
                 registerRequiredField.pop("requiredfield");
             }
             console.log(`${getFieldName} is required`);
@@ -124,6 +126,7 @@ const RegisterScreen =()=>{
             return true;
         }else {
             showSucces(input);
+            showError(input, ``);
             registerLengthField.pop("lengtherror");
             return false;
         }
@@ -139,7 +142,7 @@ const RegisterScreen =()=>{
     function checkPasswordMatch(input1, input2) {
         if(input1.value !== input2.value) {
             showError(input2, 'Passwords do not match');
-        }
+        }else { showError(input2, ''); }
     }
     
     
@@ -163,7 +166,9 @@ const RegisterScreen =()=>{
 
             console.log(a1, "checkLength");
             
+            $('.company_response').html('');
             if(a1===true||a2===true||a3===true||a4===true){
+                $('.company_response').html("Please check your inputs. You have an invalid input");
             }else{
                 // checkEmail(email);
                 // checkPasswordMatch(password, password2);
@@ -211,12 +216,13 @@ const RegisterScreen =()=>{
 
                 /* ------------------------------ DB CONNECTION ----------------------------- */
                 if(account_type.value=="company" && document.getElementById('company_phone').value.length<11){
-                    $('.company_response').show();
                     $('.company_response').html("Phone number should not be less than 11");
+                    // alert("Less than");
                 }else if(account_type.value=="company" && document.getElementById('company_phone').value.length>11){
-                    $('.company_response').show();
                     $('.company_response').html("Phone number should not be more than 11");
+                    // alert("greater than");
                 }else{
+                    $('.company_response').html('');
                     startPageLoader();
 
                     $.ajax({
