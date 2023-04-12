@@ -161,6 +161,7 @@ function daysDifferenceday(d1, d2){
 
 
 function pageRestriction(){
+    alert("erf");
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
@@ -172,7 +173,7 @@ function pageRestriction(){
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
 
-        // console.log(data, "KYC Socket data");
+        console.log(data, "KYC Socket data");
 
         // COOKIES
         // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
@@ -196,8 +197,9 @@ function pageRestriction(){
 
         
         let key = "userkycstatus";
-        let value = data.userskycstatus;
-        setCookie(key,value,0.5);
+        let value1 = data.userskycstatus;
+        setCookie(key,value1,0.5);
+        alert(value1, value2);
 
         if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
         }else{
@@ -252,7 +254,7 @@ function checkifKYCis_verified(){
     }
     
 }
-checkifKYCis_verified();
+// checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
@@ -268,7 +270,7 @@ function checkifKYCis_done(){
         
     }
 }
-checkifKYCis_done();
+// checkifKYCis_done();
 
 
 
