@@ -200,6 +200,7 @@ function pageRestriction(){
         let value1 = data.userskycstatus;
         setCookie(key,value1,0.5);
         alert("userkycstatus"+value1, "donekyc"+value2);
+        alert("socket");
 
         if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
         }else{
