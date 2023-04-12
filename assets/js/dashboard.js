@@ -224,6 +224,7 @@ function checkifKYCis_verified(){
     // let userkycstatus = getCookie("userkycstatus");
     let userkycstatusLocalStorage = localStorage.getItem("userkycstatus");
     // alert(userkycstatus);
+    alert(userkycstatusLocalStorage);
     let pathname = window.location.pathname;
     if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
         
