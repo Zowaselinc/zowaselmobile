@@ -161,7 +161,6 @@ function daysDifferenceday(d1, d2){
 
 
 function pageRestriction(){
-    // alert("refre");
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
@@ -173,7 +172,7 @@ function pageRestriction(){
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
 
-        console.log(data, "KYC Socket data");
+        // console.log(data, "KYC Socket data");
 
         // COOKIES
         // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
@@ -181,13 +180,32 @@ function pageRestriction(){
         let key2 = "userdidkyc";
         let value2 = data.userdidkyc;
         setCookie(key2,value2,0.5);
-        localStorage.setItem(key2,value2);
+
+        let pathname = window.location.pathname;
+        if(pathname.includes('dashboard/kyc')||pathname.includes('dashboard/kyb')){
+            if(data.userdidkyc == 1){
+                // console.log(window.location)
+                location.assign(window.location.origin+'/dashboard/editprofile.html');
+            }
+        }else{
+            
+        }
+
+
+        /* ------------------------------------ . ----------------------------------- */
 
         
         let key = "userkycstatus";
         let value = data.userskycstatus;
         setCookie(key,value,0.5);
-        localStorage.setItem(key,value);
+
+        if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
+        }else{
+            if(data.userskycstatus == 0){
+                // console.log(window.location)
+                location.assign(window.location.origin+'/dashboard/checkuserverification.html');
+            }
+        }
         // COOKIES
     })
 }
@@ -221,34 +239,28 @@ function getCookie(name){
 // console.log(getCookie("userkycstatus"), "userkycstatus");
 
 function checkifKYCis_verified(){
-    // let userkycstatus = getCookie("userkycstatus");
-    let userkycstatusLocalStorage = localStorage.getItem("userkycstatus");
+    let userkycstatus = getCookie("userkycstatus");
     // alert(userkycstatus);
-    alert(userkycstatusLocalStorage);
     let pathname = window.location.pathname;
     if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
-        
+
     }else{
-        // if(userkycstatus == 0){
-        if(userkycstatusLocalStorage == 0){
+        if(userkycstatus == 0){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/checkuserverification.html');
         }
     }
-
     
 }
 checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
-    // let userkycDoneStatus = getCookie("userdidkyc");
-    let userkycDoneStatusLocalStorage = localStorage.getItem("userdidkyc");
+    let userkycDoneStatus = getCookie("userdidkyc");
     // alert(userkycDoneStatus);
     let pathname = window.location.pathname;
     if(pathname.includes('dashboard/kyc')||pathname.includes('dashboard/kyb')){
-        // if(userkycDoneStatus == 1){
-        if(userkycDoneStatusLocalStorage == 1){
+        if(userkycDoneStatus == 1){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/editprofile.html');
         }
