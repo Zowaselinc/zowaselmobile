@@ -173,7 +173,7 @@ function pageRestriction(){
     socket.on(usersocketchannel,function(data){
 
         // console.log(data, "KYC Socket data");
-        alert("SOcket entered")
+        // alert("SOcket entered")
 
         // COOKIES
         // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
@@ -232,7 +232,7 @@ function checkifKYCis_verified(){
     }
     
 }
-// checkifKYCis_verified();
+checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
@@ -248,7 +248,7 @@ function checkifKYCis_done(){
         
     }
 }
-// checkifKYCis_done();
+checkifKYCis_done();
 
 
 
