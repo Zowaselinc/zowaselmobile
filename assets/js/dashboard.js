@@ -161,7 +161,7 @@ function daysDifferenceday(d1, d2){
 
 
 function pageRestriction(){
-    alert("erf");
+    alert("Test Page Restriction");
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
@@ -172,7 +172,7 @@ function pageRestriction(){
     const usersocketchannel="ZWSL"+user_id;
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
-
+alert("inside socket");
         console.log(data, "KYC Socket data");
 
         // COOKIES
