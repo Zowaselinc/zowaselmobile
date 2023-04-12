@@ -161,7 +161,6 @@ function daysDifferenceday(d1, d2){
 
 
 function pageRestriction(){
-    alert("Test Page Restriction");
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
@@ -172,8 +171,8 @@ function pageRestriction(){
     const usersocketchannel="ZWSL"+user_id;
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
-alert("inside socket");
-        console.log(data, "KYC Socket data");
+
+        // console.log(data, "KYC Socket data");
 
         // COOKIES
         // document.cookie = `userkycstatus=${data.userskycstatus};path=/`;
@@ -182,33 +181,10 @@ alert("inside socket");
         let value2 = data.userdidkyc;
         setCookie(key2,value2,0.5);
 
-        let pathname = window.location.pathname;
-        if(pathname.includes('dashboard/kyc')||pathname.includes('dashboard/kyb')){
-            if(data.userdidkyc == 1){
-                // console.log(window.location)
-                location.assign(window.location.origin+'/dashboard/editprofile.html');
-            }
-        }else{
-            
-        }
-
-
-        /* ------------------------------------ . ----------------------------------- */
-
         
         let key = "userkycstatus";
-        let value1 = data.userskycstatus;
-        setCookie(key,value1,0.5);
-        alert("userkycstatus"+value1, "donekyc"+value2);
-        alert("socket");
-
-        if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
-        }else{
-            if(data.userskycstatus == 0){
-                // console.log(window.location)
-                location.assign(window.location.origin+'/dashboard/checkuserverification.html');
-            }
-        }
+        let value = data.userskycstatus;
+        setCookie(key,value,0.5);
         // COOKIES
     })
 }
@@ -255,7 +231,7 @@ function checkifKYCis_verified(){
     }
     
 }
-// checkifKYCis_verified();
+checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
@@ -271,7 +247,7 @@ function checkifKYCis_done(){
         
     }
 }
-// checkifKYCis_done();
+checkifKYCis_done();
 
 
 

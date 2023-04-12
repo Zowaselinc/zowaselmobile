@@ -3,12 +3,13 @@ let chrisxBaseUrl = "https://isscunseci.us-east-1.awsapprunner.com/api";
 let developmentBaseUrl = "https://hjh83ppbwi.us-east-1.awsapprunner.com/api";
 let productionBaseUrl = "https://mobileapi.growsel.com/api";
 let imageUploadUrl = "https://filesapi.growsel.com/upload.php";
-let socketURL = "http://localhost:3000";
+let socketLocalURL = "http://localhost:3000";
+let socketProductionURL = "https://mobileapi.growsel.com";
 // https://mobileapi.growsel.com/api
 // https://isscunseci.us-east-1.awsapprunner.com/api
 
 
-
+let socketURL = socketProductionURL;
 let liveGlobalBaseUrl = productionBaseUrl;
 let liveBaseUrl = productionBaseUrl;
 
