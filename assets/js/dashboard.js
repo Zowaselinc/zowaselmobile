@@ -164,7 +164,7 @@ function pageRestriction(){
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
-    alert(`${socketURL}`);
+    // alert(`${socketURL}`);
     const socket = io(`${socketURL}`);
 
     socket.emit('isconnected',"We are connected");
