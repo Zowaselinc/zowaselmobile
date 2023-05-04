@@ -3003,12 +3003,27 @@ function fetchCropColors(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }   
     });
 }
 /* ------------------------- FETCH PRODUCT COLORS ------------------------- */
@@ -3063,12 +3078,27 @@ function fetchCropCategories(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                basicmodal("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }   
     });
 }
 /* ------------------------- FETCH PRODUCT CATEGORY ------------------------- */

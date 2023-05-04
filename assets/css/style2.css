@@ -982,7 +982,7 @@
     color: white;
   }
 
-  .upload__img-close1, .upload__img-close2, .upload__img-close3{
+  .upload__img-close, .upload__img-close1, .upload__img-close2, .upload__img-close3{
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -996,7 +996,7 @@
     cursor: pointer;
     margin: 10px;
   }
-  .upload__img-close1:after, .upload__img-close2:after, .upload__img-close3:after {
+  .upload__img-close:after, .upload__img-close1:after, .upload__img-close2:after, .upload__img-close3:after {
     content: '\2716';
     font-size: 14px;
     color: white;

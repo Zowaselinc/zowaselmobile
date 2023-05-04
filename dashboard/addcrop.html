@@ -25,8 +25,8 @@
 	<!-- <link rel="manifest" href="manifest.json"> -->
     
     <!-- Stylesheets -->
-	<link rel="stylesheet" href="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
-    <link rel="stylesheet" href="../../assets/vendor/swiper/swiper-bundle.min.css">
+	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="../bypass.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
@@ -130,7 +130,7 @@
             <div class="container">
                 <div class="account-area">
 
-                    <!-- <script src="../../assets/js/jquery.js"></script>
+                    <!-- <script src="../assets/js/jquery.js"></script>
                     <script>
                         
                             
@@ -322,7 +322,7 @@
                                     <div class="upload__btn-box">
                                     <label class="upload__btn">
                                         <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p>
-                                        <input type="file" multiple="" id="cropimages" data-max_length="3" class="upload__inputfile" required accept="image/png, image/jpg, image/jpeg">
+                                        <input type="file" multiple="" id="cropimages" data-max_length="4" class="upload__inputfile" required accept="image/png, image/jpg, image/jpeg">
                                     </label>
                                     </div>
                                     <div class="upload__img-wrap"></div>
@@ -545,21 +545,21 @@
 <!--**********************************
     Scripts
 ***********************************-->
-<script src="../../assets/js/jquery.js"></script>
-<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
-<script src="../../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
 <!-- <script src="assets/vendor/imageuplodify/imageuploadify.min.js"></script> -->
-<script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
-<script src="../../assets/js/settings.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
 <script src="../assets/js/plugins/country-state-array.js"></script>
 <script src="../assets/js/countrylist.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
-<script src="../../assets/js/env.js"></script> 
-<script src="../../assets/js/dashboard.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
 
 
 
@@ -653,49 +653,53 @@
 
         $('.upload__inputfile').each(function () {
             $(this).on('change', function (e) {
-                alert("vr");
+                // alert("vr");
                 imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
-            var maxLength = $(this).attr('data-max_length');
+                var maxLength = $(this).attr('data-max_length');
 
-            var files = e.target.files;
-            var filesArr = Array.prototype.slice.call(files);
-            var iterator = 0;
-            filesArr.forEach(function (f, index) {
+                var files = e.target.files;
+                var filesArr = Array.prototype.slice.call(files);
+                console.log("filesArr", filesArr);
+                var iterator = 0;
+                filesArr.forEach(function (f, index) {
 
-                if (!f.type.match('image.*')) {
-                    return;
-                }
-
-                if (imgArray.length > maxLength) {
-                    return false
-                } else {
-                    var len = 0;
-                    for (var i = 0; i < imgArray.length; i++) {
-                        if (imgArray[i] !== undefined) {
-                        len++;
-                        }
+                    if (!f.type.match('image.*')) {
+                        return;
                     }
-                    if (len > maxLength) {
-                        return false;
+                    // console.log("imgArray.length",imgArray.length);
+                    // console.log("maxLength",maxLength);
+                    if (imgArray.length > maxLength) {
+                        return false
                     } else {
-                        imgArray.push(f);
-
-                        console.log(imgArray, " image Array");
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                        var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
-                        imgWrap.append(html);
-                        iterator++;
+                        var len = 0;
+                        for (var i = 0; i < imgArray.length; i++) {
+                            if (imgArray[i] !== undefined) {
+                            len++;
+                            }
                         }
-                        reader.readAsDataURL(f);
+                        if (len > maxLength) {
+                            return false;
+                        } else {
+                            imgArray.push(f);
+
+                            console.log(imgArray, " image Array");
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                            var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+                            imgWrap.append(html);
+                            iterator++;
+                            }
+                            reader.readAsDataURL(f);
+                        }
                     }
-                }
-            });
+                });
             });
         });
 
         $('body').on('click', ".upload__img-close", function (e) {
+            // alert("gtrgtrg");
             var file = $(this).parent().data("file");
+            console.log("the file to be deleted", file);
             for (var i = 0; i < imgArray.length; i++) {
                 if (imgArray[i].name === file) {
                     imgArray.splice(i, 1);
