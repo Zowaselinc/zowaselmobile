@@ -61,8 +61,11 @@ input[type="radio"] {
 .status_paid{
     color: #05B050;
 }
-.status_unpaid{
+.status_partiallypaid{
     color: #dd4040;
+}
+.status_unpaid{
+    color: #FAB900
 }
 
 
@@ -190,6 +193,10 @@ table tbody td{
 }
 .modal-input {
     width: 100%;
+    background-color: #EFEFEF;
+    border-radius: 8px; 
+    border: 0px !important;
+    outline: none;
 }
 /* input {
     padding: 10px 15px !important;

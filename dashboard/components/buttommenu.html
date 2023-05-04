@@ -2,22 +2,30 @@
     <!-- <a href="notification.html" class="nav-link notificationLink">
         <i class="fas fa-bell"></i>
     </a> -->
-    <a href="index.html" class="nav-link homeLink">
-        <i class="fas fa-home"></i>
+    <a href="/dashboard/index.html" class="nav-link homeLink">
+        <!-- <i class="fas fa-home"></i> -->
+        <img src="../../assets/icons/home.png" />
+        <span class="d-block f-12 zowasel-gray-color fontFamily1">Home</span>
     </a>
-    <a href="negotiations.html" class="nav-link messageLink">
-        <i class="fa-solid fa-message"></i>
+    <a href="/dashboard/marketplace.html" class="nav-link marketplaceLink">
+        <!-- <i class="fa-solid fa-message"></i> -->
+        <img src="../../assets/icons/truckgray.png" />
+        <span class="d-block f-12 zowasel-gray-color fontFamily1">Markets</span>
     </a>
-    <!-- <a href="profile.html" class="nav-link profileLink">
-        <i class="fas fa-user-tie"></i>
-    </a> -->
-    <a href="wallet.html" class="nav-link walletLink">
-        <i class="fas fa-wallet"></i>
+    <a href="/dashboard/negotiations.html" class="nav-link conversationsLink">
+        <!-- <i class="fas fa-wallet"></i> -->
+        <img src="../../assets/icons/chatgray.png" />
+        <span class="d-block f-12 zowasel-gray-color fontFamily1">Chats</span>
     </a>
-    <a href="/dashboard/notification.html" class="nav-link notificationLink position-relative">
+    <a href="settings.html" class="nav-link settingsLink">
+        <!-- <i class="fas fa-wallet"></i> -->
+        <img src="../../assets/icons/settingsgray.png" />
+        <span class="d-block f-12 zowasel-gray-color fontFamily1">Settings</span>
+    </a>
+    <!-- <a href="/dashboard/notification.html" class="nav-link notificationLink position-relative">
         <i class="fa fa-bell"></i>
-        <span class="notification-count" style="display: none;"><!--3--></span>
-    </a>
+        <span class="notification-count" style="display: none;"> </span>
+    </a> -->
 </div>
 
 
@@ -36,14 +44,17 @@
     if(paramString == "index.html"){
         $('.homeLink').addClass('active');
     }
-    if(paramString == "negotiations.html"){
-        $('.messageLink').addClass('active');
+    if(paramString == "marketplace.html"){
+        $('.marketplaceLink').addClass('active');
     }
     if(paramString == "wallet.html"){
         $('.walletLink').addClass('active');
     }
-    if(paramString == "profile.html"){
-        $('.profileLink').addClass('active');
+    if(paramString == "settings.html"){
+        $('.settingsLink').addClass('active');
+    }
+    if(paramString == "negotiations.html"){
+        $('.conversationsLink').addClass('active');
     }
 </script>
 

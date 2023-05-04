@@ -133,9 +133,9 @@ const fetchUserConversations =()=>{
                                 <a onclick="gotoMessageDetails(${row.crop_id}, '${thecroptype}', ${index})">
                                     <div class="media-content" style="margin-left:0px !important;">
                                         <div>
-                                            <h5 class="name">${fullname}</h5>
+                                            <h5 class="name f-15 zowasel-darkblue-color fontFamily2">${fullname}</h5>
                                             <div class="d-none" id="productOwnerDetails${index}">${productOwnerDetails}</div>
-                                            <h6>${thecrop}</h6>
+                                            <h6 class="fontFamily2">${thecrop}</h6>
                                             <p class="my-1">
                                                 ${row.created_at}
                                             </p>
@@ -158,7 +158,7 @@ const fetchUserConversations =()=>{
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },

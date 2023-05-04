@@ -94,6 +94,7 @@
   --body-color: #7D8FAB;
   --dark: #272e3d;
   --bg-white: #FFF;
+  --box-bg-white: #FFF;
   --box-shadow: 0px 12px 30px 0px rgba(48, 48, 48, 0.14);
   --title: #4a4754; }
 
@@ -153,7 +154,10 @@
   --bs-body-font-weight: 500;
   --bs-body-line-height: 1.6;
   --bs-body-color: #7D8FAB;
-  --bs-body-bg: #f7f7f7; }
+  --bs-body-bg: #f7f7f7; 
+  /* --bs-body-bg: #000106;  */
+
+}
 
 *,
 *::before,
@@ -8070,7 +8074,7 @@ strong,
 
 .content-inner {
   padding-top: 40px;
-  padding-bottom: 20px; }
+  padding-bottom: 40px; }
 
 .content-inner-1 {
   padding-top: 100px;
@@ -9711,7 +9715,7 @@ section {
   --headheight: 55px; }
 
 .header {
-  background-color: var(--bg-white);
+  background-color: var(--zowasel-darkblue);
   min-height: var(--headheight);
   z-index: 2;
   border-bottom: 1px solid var(--border-color); }
@@ -9808,11 +9812,14 @@ section {
   .header .back-btn {
     display: flex;
     line-height: 1;
-    font-size: 16px;
-    width: 35px;
+    color: white;
+    /* width: 35px; */
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
     height: 35px;
     align-items: center;
-    justify-content: center; }
+    justify-content: left; }
   .header .menu-toggler {
     font-size: 20px;
     color: var(--title);
@@ -9829,7 +9836,7 @@ section {
     z-index: 99999;
     left: 0;
     box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.1);
-    background: var(--bg-white);
+    background-color: var(--zowasel-darkblue);
     transition: all 0.5s;
     width: 100%; }
   .header .header-content {
@@ -9844,7 +9851,11 @@ section {
       align-items: center; }
     .header .header-content .mid-content {
       flex: 1;
-      text-align: center; }
+      text-align: left; }
+      .header .header-content .mid-content h5{
+        color: white;
+        font-weight: 700;
+        font-size: 20px; }
     .header .header-content .right-content .form-check.checkmark {
       padding: 0; }
       .header .header-content .right-content .form-check.checkmark .form-check-label {
@@ -10175,9 +10186,10 @@ section {
   left: 0;
   width: 100%;
   background-color: var(--bg-white);
-  padding: 20px;
+  padding: 16px 16px 0px;
   z-index: 999;
-  box-shadow: 0 12px 26px 0 rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 12px 26px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 16px 16px 0px 0px; }
   .menubar-area .toolbar-inner {
     padding-left: 0;
     padding-right: 0;
@@ -10409,8 +10421,19 @@ section {
   color: rgba(255, 255, 255, 0.7);
   --border-color: rgba(255, 255, 255, 0.2);
   --bg-white: #2c3f6d;
+  --box-bg-white: #272840;
   --title: rgba(255, 255, 255, 0.7);
-  --dark: var(--primary); }
+  --dark: var(--primary); 
+}
+
+.theme-dark .zowasel-darkblue-color{
+  color: #fff;
+}
+
+.theme-dark .form-label{
+  color: #fff !important;
+}
+  
   .theme-dark .text-primary,
   .theme-dark .text-dark {
     color: #fff !important; }
@@ -10436,8 +10459,17 @@ section {
   .theme-dark .input-group .form-control {
     border-color: var(--border-color); }
   .theme-dark .form-control {
-    background: #2c3f6d;
-    border-color: var(--border-color); }
+    background: #EEEEEE;
+    border-color: var(--border-color); 
+    color: #000;
+    padding: 10px 20px 10px 10px;
+  }
+  .theme-dark .form-select {
+    background: #EEEEEE;
+    border-color: var(--border-color); 
+    color: #000;
+    padding: 10px 20px 10px 10px;
+  }
     .theme-dark .form-control.style-1 {
       border-color: var(--border-color); }
     .theme-dark .form-control:focus, .theme-dark .form-control:active {
@@ -14311,7 +14343,7 @@ svg.text-primary g path {
     list-style: unset; }
 
 .fb {
-  padding-bottom: 80px;
+  padding-bottom: 40px;
   overflow: hidden; }
 
 .title {
@@ -15017,14 +15049,14 @@ ul.list-check {
     }    
 } */
 .account-box {
-  border-radius: 20px 20px 0 0;
+  border-radius: 20px 20px;
   box-shadow: 0 -8px 20px -7px rgba(179, 179, 179, 0.21);
-  background-color: var(--bg-white);
+  background-color: var(--box-bg-white);
   position: relative;
   z-index: 2; }
 
 .account-area {
-  min-height: calc(100vh - 190px);
+  /* min-height: calc(100vh - 190px); */
   display: flex;
   flex-direction: column;
   justify-content: space-between;

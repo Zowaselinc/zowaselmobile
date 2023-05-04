@@ -19,7 +19,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon.png" />
     
     <!-- Title -->
-	<title>Zowasel Mobile</title>
+	<title>Zowasel Mobile Web</title>
 	
 	<!-- PWA Version -->
 	<!-- <link rel="manifest" href="manifest.json"> -->
@@ -27,8 +27,11 @@
     <!-- Stylesheets -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
     <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,10 +86,10 @@
 			
             <div class="d-grid col-12 mt-4">
                 <h4 class="text-center mt-4"> For access to our fantastic services, kindly complete your KYC. </h4>
-                <button class="btn btn-lg zowasel-bg text-white my-3" onclick="location.assign('/dashboard/index.html')">
+                <button class="btn btn-lg zowasel-bg text-white py-2 my-3" onclick="location.assign('/dashboard/index.html')">
                     <i class="fa fa-home mb-1"></i> &nbsp;&nbsp;Go to Dashboard
                 </button>
-                <button class="btn btn-lg zowasel-bg text-white my-2" onclick="location.assign('/dashboard/editprofile.html')">
+                <button class="btn btn-lg zowasel-bg text-white py-2 my-2" onclick="location.assign('/dashboard/kycverification.html')">
                     <i class="fa fa-user mb-1"></i> &nbsp;&nbsp;Proceed to KYC
                 </button>
             </div>
@@ -163,6 +166,7 @@
     populateWalletDetails();
     fetchRecentTransactions();
     buttommenu();
+    pageRestriction();
 </script>
 </body>
 </html>

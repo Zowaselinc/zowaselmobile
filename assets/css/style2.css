@@ -1,14 +1,39 @@
 :root{
+    /* Colors */
     --succes-color: #05B050;;
     --error-color: #e74c3c;
     --card-black: #4a4754;
     --border-black: #ced4da;
     --card-green: #05b050;
-    --zowasel-green: #05b050;
+    --zowasel-green: #05B050;
+    --zowasel-text-green: #1BAF5C;
     --zowasel-red: #c0392bd9;
     --white-color: #fff;
-    --zowasel-darkblue: #272840;
+    --zowasel-darkblue: #262C3F;
+    --zowasel-lightdark: rgba(6, 15, 39, 0.63);
+    --zowasel-white: #fff;
+    --zowasel-gray: #B2B7C7;
+    --zowasel-lightgray: #FCFCFD;
+
+    /* Box Shadow */
+    --header-box-shadow: 0px 4px 12px 4px rgba(0, 0, 0, 0.14);
+    --card-box-shadow: 0px 25px 40px -10px rgba(0, 0, 0, 0.06);
+
+    /* Card Color */
+    --card-color: rgba(6, 15, 39, 0.71);
+
+    /* Height */
+    --bigheadheight: 150px;
+    --smallheadheight: 60px;
+
+    /* Border Radius */
+    --wallet-box-radius: 16px;
+    --card-box-radius: 12px;
 }
+
+.border-radius-12{ border-radius: 12px; }
+.border-radius-13{ border-radius: 13px; }
+.border-radius-14{ border-radius: 14px; }
 
 .zowasel-bg{
   background-color: var(--zowasel-green);
@@ -22,9 +47,30 @@
 .zowasel-darkblue-bg{
   background-color: var(--zowasel-darkblue);
 }
-
+.zowasel-darkblue-color{
+  color: var(--zowasel-darkblue);
+}
+.theme-dark .zowasel-darkblue-color{
+  color: var(--zowasel-darkblue);
+}
+.theme-dark .account-area.zowasel-darkblue-color{
+  color: var(--zowasel-white);
+}
+.zowasel-white-color{
+  color: var(--zowasel-white);
+}
+.zowasel-white-bg{
+  background-color: var(--zowasel-white);
+}
+.zowasel-gray-color{
+  color: var(--zowasel-gray);
+}
 .overflowauto{
     overflow: auto;
+}
+
+.w-auto{
+  width: auto !important;
 }
 
 .input_response{
@@ -816,6 +862,10 @@
 
 
   /* ------------------------------ ADD NEW CROPS ----------------------------- */
+  .input-iconholder{
+    background-color:#EFEFEF !important;
+  }
+
   .dashboard-banner-wrapper {
     /* padding: 40px 0 40px; */
     margin-bottom: -20px;
@@ -1359,3 +1409,45 @@
   top: -60px; */
 }
 /* -------------------------------- KYC PAGE -------------------------------- */
+
+
+
+/* ----------------------- SLIDE TOGGLE SWITCH BUTTON ----------------------- */
+.switch {
+  position: relative;
+}
+
+.switch label {
+  width: 55px;
+  height: 23px;
+  background-color: #999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50px;
+}
+
+.switch input[type="checkbox"] {
+  visibility: hidden;
+}
+
+.switch label:after {
+  content: '';
+  width: 21px;
+  height: 21px;
+  border-radius: 50px;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: 100ms;
+  background-color: white;
+}
+
+.switch .look:checked + label:after {
+  left: 32px;
+}
+
+.switch .look:checked + label {
+  background-color: var(--zowasel-green);
+}
+/* ----------------------- SLIDE TOGGLE SWITCH BUTTON ----------------------- */

@@ -160,6 +160,23 @@ function daysDifferenceday(d1, d2){
 /* ---------------- CALCULATE TIME DIFFERENCE BETWEEN 2 DATES --------------- */
 
 
+/* ---------------------- CAPITALIZE EVERY FIRST LETTER --------------------- */
+function capitalizeFirstLetter(text){
+    let alltoLowerCase = text.toLowerCase();
+    const words = alltoLowerCase.split(" ");
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+    let result = words.join(" ");
+    return result;
+
+    // words.map((word) => { 
+    //     return word[0].toUpperCase() + word.substring(1); 
+    // }).join(" ");
+}
+/* ---------------------- CAPITALIZE EVERY FIRST LETTER --------------------- */
+
+
 function pageRestriction(){
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -222,7 +239,10 @@ function checkifKYCis_verified(){
     let userkycstatus = getCookie("userkycstatus");
     // alert(userkycstatus);
     let pathname = window.location.pathname;
-    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')){
+    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
+    ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
+    ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')){
 
     }else{
         if(userkycstatus == 0){
@@ -232,20 +252,33 @@ function checkifKYCis_verified(){
     }
     
 }
-checkifKYCis_verified();
+// checkifKYCis_verified();
 
 
 function checkifKYCis_done(){
     let userkycDoneStatus = getCookie("userdidkyc");
     // alert(userkycDoneStatus);
     let pathname = window.location.pathname;
-    if(pathname.includes('dashboard/kyc')||pathname.includes('dashboard/kyb')){
+    if(pathname.includes('dashboard/kyc.html')){
         if(userkycDoneStatus == 1){
             // console.log(window.location)
-            location.assign(window.location.origin+'/dashboard/editprofile.html');
+            location.assign(window.location.origin+'/dashboard/kycverification.html');
         }
     }else{
         
+    }
+
+    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
+    ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
+    ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
+    ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
+
+    }else{
+        if(userkycDoneStatus == 0){
+            // console.log(window.location)
+            location.assign(window.location.origin+'/dashboard/checkuserverification.html');
+        }
     }
 }
 checkifKYCis_done();
@@ -279,27 +312,29 @@ const populateUserDetails =()=>{
 
     // $('.wallet_balance').text()
 
-    if(!(user.user.primary_address)){ $('.primary_address').text("Null"); }else{ 
+    if(!(user.user.primary_address)){ $('.primary_address').text("---"); }else{ 
         $('.primary_address').text(user.user.primary_address); 
         $('.primary_address').val(user.user.primary_address); 
     }
 
-    if(!(user.user.secondary_address)){ $('.secondary_address').text("Null"); }else{ 
+    if(!(user.user.secondary_address)){ $('.secondary_address').text("---"); }else{ 
         $('.secondary_address').text(user.user.secondary_address); 
         $('.secondary_address').val(user.user.secondary_address); 
     }
     
-    if(!(user.user.country)){ $('.country').text("Null"); }else{ 
+    if(!(user.user.country)){ $('.country').text("---"); }else{ 
         $('.country').text(user.user.country); 
         $('.country').val(user.user.country); 
     }
     
-    if(!(user.user.state)){ $('.state').text("Null"); }else{ 
+    if(!(user.user.state)){ $('.state').text("---"); }else{ 
         $('.state').text(user.user.state); 
-        $('.state').val(user.user.state); 
+        setTimeout(()=>{
+            $('.state').val(user.user.state); 
+        },2000)
     }
     
-    if(!(user.user.city)){ $('.city').text("Null"); }else{ 
+    if(!(user.user.city)){ $('.city').text("---"); }else{ 
         $('.city').text(user.user.city); 
         $('.city').val(user.user.city); 
     }
@@ -326,6 +361,7 @@ const populateUserDetails =()=>{
     // COMPANY
     let company = user.user.company;
     if(company){
+        $('.company-account-details').show();
         // alert(company.company_name);
         $('.company_name').val(company.company_name);
         $('.company_website').val(company.company_website);
@@ -335,6 +371,20 @@ const populateUserDetails =()=>{
         $('.contact_person').val(company.contact_person);
         $('.company_phone').val(company.company_phone);
         $('.company_address').val(company.company_address);
+
+        $('.company_name').html(company.company_name);
+        if(company.company_website == null || company.company_website=="null"){
+            $('.company_website').html("---");
+        }else if(company.company_website){
+            $('.company_website').html(company.company_website);
+        }else{ $('.company_website').html("---"); }
+        $('.company_country').html(company.country);
+        $('.company_state').html(company.state);
+        $('.rc_number').html(company.rc_number);
+        $('.company_email').html(company.company_email);
+        $('.contact_person').html(company.contact_person);
+        $('.company_phone').html(company.company_phone);
+        $('.company_address').html(company.company_address);
     }
 
 }
@@ -673,6 +723,7 @@ const fundWalletPage=()=>{
 /* ----------------------------- // FUND WALLET ----------------------------- */
 
 /* --------------------------- GRAB WALLET DETAILS -------------------------- */
+let globalWalletBalance;
 const populateWalletDetails=()=>{
     startPageLoader();
     $.ajax({
@@ -694,7 +745,24 @@ const populateWalletDetails=()=>{
             }else{
                 // alert(response.message);
                 let row = response.data;
-                $('.wallet_balance').text(toCommas(row[0].balance));
+                // $('.wallet_balance').text(toCommas(row[0].balance));
+                globalWalletBalance = toCommas(row[0].balance);
+                
+                // Save balance
+                setCookie("walletbalance",globalWalletBalance,31);
+
+                let showbalance =  getCookie("showbalance");
+                if(showbalance==null||showbalance=="null"){ // not saved in cookies or false
+                    $('.show-balance').html(`₦<span class='wallet_balance mx-2 mt-2'>${globalWalletBalance}</span>`);
+                }
+                if(showbalance==true||showbalance=="true"){
+                    $('.show-balance').html(`₦<span class='wallet_balance mx-2 mt-2'>${globalWalletBalance}</span>`);
+                }
+                if(showbalance==false||showbalance=="false"){
+                    $('.show-balance').html(`<span class="mt-3 me-2">**********</span>`);
+                }
+
+                
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
@@ -730,6 +798,28 @@ const populateWalletDetails=()=>{
     });
 }
 /* --------------------------- GRAB WALLET DETAILS -------------------------- */
+
+/* -------------------------- TOGGLE WALLET BALANCE ------------------------- */
+const togglebalance=()=>{
+    let showbalance =  getCookie("showbalance");
+    let key = "showbalance";
+    let value = true;
+    // alert(showbalance);
+    if(showbalance==null||showbalance=="null"){ // not saved in cookies or false
+        $('.show-balance').html(`<span class="mt-3 me-2">**********</span>`);
+        setCookie(key,value,0.5);
+    }
+    if(showbalance==true||showbalance=="true"){
+        $('.show-balance').html(`<span class="mt-3 me-2">**********</span>`);
+        setCookie(key,false,0.5);
+    }
+    if(showbalance==false||showbalance=="false"){
+        $('.show-balance').html(`₦<span class='wallet_balance mx-2 mt-2'>${globalWalletBalance}</span>`);
+        setCookie(key,true,365);
+    }
+    
+}
+/* -------------------------- TOGGLE WALLET BALANCE ------------------------- */
 
 /* ------------------------ FETCH RECENT TRANSACTIONS ----------------------- */
 const fetchRecentTransactions=()=>{
@@ -788,19 +878,16 @@ const fetchRecentTransactions=()=>{
                         }
 
                         rowContent += `
-                        <a href="viewtransaction.html?transaction_id=${row.transaction_id}" class="item">
-                            <div class="detail">
-                                <img src="../logos/cashin.png" alt="img" class="image-block imaged w48">
-                                <div>
-                                    <strong>${row.type[0].toUpperCase()+row.type.substring(1)}</strong>
-                                    <p>${row.transaction_id}</p>
-                                    <p>${date}</p>
-                                </div>
+                        <div class="row col-12 my-3 f-14">
+                            <div class="col-7">
+                                <span>${row.type[0].toUpperCase()+row.type.substring(1)}</span>
+                                <span>${row.transaction_id}</span>
+                                <span class="d-block f-10">${date}</span>
                             </div>
-                            <div class="right">
-                                <div class="price ${priceClass}"> ${priceFlow} ₦${toCommas(row.amount_paid)}</div>
+                            <div class="col-5 px-0" style="text-align:right;">
+                                <span class="zowasel-darkblue-color fw-bold price ${priceClass}"> ${priceFlow} ₦${toCommas(row.amount_paid)}</span>
                             </div>
-                        </a>
+                        </div>
                         `;   
                     }
                     $('#recentTransactions').html(rowContent);
@@ -1022,28 +1109,34 @@ function fetchWantedCrops(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         rowContent += `
-                        <li class="lazy" onclick="checkifActiveB4GoingtoSinglePage(${parseInt(row.id)}, ${parseInt(row.active)}, '${gotoProductdetails}')">
+                        <li class="lazy cardholder p-3 fontFamily1">
       
-                        <div class="item-content" style="background:whitesmoke;padding-left:8px;">
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} ${thecolor}</a></h6>
-                                        <div class="item-subtitle">${row.category.name}</div>
+                            <div class="row">
+                                <div class="item-inner col-6">
+                                    <div class="item-title-row mb-0">
+                                        <h6 class="item-title zowasel-darkblue-color f-18"><a href="javascript:void(0)">${row.subcategory.name} ${thecolor}</a></h6>
+                                        <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
                                     </div>
                                     <div class="item-footer">
-                                        <div class="">
-                                            
-                                            <h6>${row.user.first_name}</h6>
+                                        <div class="">  
+                                            <h6 class="me-3 mb-0"><i class="fa fa-user f-13 me-1"></i> ${row.user.first_name}</h6>
+                                            <h6 class="me-3 mb-0">${truncate(row.description,20)}</h6>
                                         </div>    
                                     </div>
                                 </div>
-                                <div class="item-media d-flex flex-column align-item-center justify-content-center" style="flex:1;">
-                                    <h6 class="me-3 text-success">NGN ${truncate(theprice,4)} / ${thetest_weight}</h6>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
+                                        <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)} / ${thetest_weight}</h6>
+                                    </a>
 
-                                    <div class="d-flex">
+                                    <div class="d-flex mt-2">
                                         <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
                                         <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
                                     </div>
+
+                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="checkifActiveB4GoingtoSinglePage(${parseInt(row.id)}, ${parseInt(row.active)}, '${gotoProductdetails}')">
+                                        View
+                                    </button>
                                 </div>
                             </div>
                         </li>
@@ -1190,29 +1283,35 @@ function fetchAllCropsForSale(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         rowContent += `
-                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
-                        location.assign('${gotoProductdetails}')">
-                            <div class="item-content" style="background:whitesmoke;padding-left:8px;">
-                                <div class="item-inner"> 
-                                    <div class="item-title-row">
-                                        <h6 class="item-title"><a href="${gotoProductdetails}">${row.subcategory.name} ${thecolor}</a></h6>
-                                        <div class="item-subtitle">${row.category.name}</div>
+                        <li class="lazy cardholder p-3 fontFamily1">
+                            <div class="row">
+                                <div class="item-inner col-6"> 
+                                    <div class="item-title-row  mb-0">
+                                        <h6 class="item-title zowasel-darkblue-color f-18"><a href="javascript:void(0)">${row.subcategory.name} ${thecolor}</a></h6>
+                                        <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
                                     </div>
                                     <div class="item-footer">
                                         <div class="">
-                                            
-                                            <h6>${row.user.first_name}</h6>
+                                            <h6 class="me-3 mb-0 f-12"><i class="fa fa-user f-12 me-1"></i> ${row.user.first_name}</h6>
+                                            <h6 class="me-3 mb-0 f-12">${truncate(row.description,20)}</h6>
                                         </div>    
                                     </div>
                                 </div>
 
-                                <div class="item-media d-flex flex-column align-item-center justify-content-center" style="flex:1;">
-                                    <h6 class="me-3 text-success">NGN ${theprice} / ${thetest_weight}</h6>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
+                                        <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)} / ${thetest_weight}</h6>
+                                    </a>
 
-                                    <div class="d-flex">
+                                    <div class="d-flex mt-3">
                                         <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
                                         <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
                                     </div>
+
+                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                                    location.assign('${gotoProductdetails}')">
+                                        View
+                                    </button>
                                 </div>
                             </div>
                         </li>
@@ -1272,13 +1371,14 @@ function populateSingleMyPersonalProductDetails(){
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
                 $('#productSaleType').html(thedata.type);
+                $('.p_quantity').html(thedata.specification.qty);
 
                 let isverified;
-                if(thedata.user.is_verified === 0){
-                    isverified = `<img src="../logos/unavailable.png" width="22px" alt="">&nbsp; Unverified`;
-                }else{
-                    isverified = `<img src="../logos/verified.svg" width="22px" alt="">&nbsp; Verified`;
-                }
+                // if(thedata.user.is_verified === 0){
+                //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
+                // }else{
+                    isverified = `Verified &nbsp;<img src="../logos/verified.svg" width="22px" alt="">`;
+                // }
                 $('.isVerified').html(isverified);
 
                 let activecrop;
@@ -1657,6 +1757,7 @@ function populateSingleProductDetails(){
                 console.log(response.message, "populateSingleProductDetails");
                 let thedata = response.data;
                 if(thedata.type.toLowerCase()=="auction"){
+                    $('.auctionOnly').show();
                     // $('.productName').html(thedata.subcategory.name+" - <span style='color:"+thedata.specification.color.toLowerCase()+";'>"+thedata.specification.color+"</span>");
                     $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                     $('.bidStartDate').html(thedata.auction.start_date);
@@ -1679,6 +1780,7 @@ function populateSingleProductDetails(){
                     $('#inputDaysRemaining').val(daysRemaining);
                     $('#inputCropActive').val(thedata.active);
                     $('#inputMinimumBid').val(thedata.auction.minimum_bid);
+
                 }else{
                     $('.productName').html(thedata.subcategory.name+" - "+thedata.specification.color);
                 }
@@ -1687,6 +1789,53 @@ function populateSingleProductDetails(){
                 $('.productDescription').html(thedata.description);
                 $('.productOwnerFarmName').html(thedata.user.first_name+" "+thedata.user.last_name);
                 $('#productSaleType').html(thedata.type);
+
+                /* -------------------------------- CAROUSEL -------------------------------- */
+                let imagesLink = thedata.images;
+                console.log("ImagesLink", imagesLink);
+                if(imagesLink){
+                    if(imagesLink.includes('/data/products')){
+
+                    }else{
+                        var parsedImagesLink = JSON.parse(imagesLink);
+                        console.log("parsedImagesLink",parsedImagesLink.length);
+
+                        let carousel="";
+                        let carouselcontents;
+                        if(parsedImagesLink.length < 1){
+                            $(".swiper-btn-center-lr").hide();
+                        }else{
+                            for(let i=0; i<parsedImagesLink.length; i++){
+                                carousel +=`
+                                <div class="accordion_li">
+                                    <a href="#">
+                                        <div class="bg-image">
+                                        <img src="${parsedImagesLink[i]}" class="accordion_img" alt="img">
+                                        </div>
+                                    </a>
+                                </div>
+                                `;
+                            }
+                            let swiperBtn = `
+                                <div class="swiper-btn">
+                                    <div class="swiper-pagination style-2 flex-1"></div>
+                                </div>
+                            `;
+
+                        carouselcontents = `
+                                ${carousel}
+                            `;
+                            
+                            
+
+                            // setTimeout(()=>{
+                                $('.owl-carousel').html(carouselcontents);
+                                // $('.swiper-container').append(swiperBtn);
+                            // },500)
+                        }
+                    }
+                }
+                /* -------------------------------- CAROUSEL -------------------------------- */
 
                 let videoLink;
                 if(!thedata.video){
@@ -1711,11 +1860,11 @@ function populateSingleProductDetails(){
                 }
 
                 let isverified;
-                if(thedata.user.is_verified === 0){
-                    isverified = `<img src="../logos/unavailable.png" width="22px" alt="">&nbsp; Unverified`;
-                }else{
-                    isverified = `<img src="../logos/verified.svg" width="22px" alt="">&nbsp; Verified`;
-                }
+                // if(thedata.user.is_verified === 0){
+                //     isverified = `<img src="../logos/unavailable.png" width="22px" alt="">&nbsp; Unverified`;
+                // }else{
+                    isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="12px" alt="">`;
+                // }
                 $('.isVerified').html(isverified);
 
                 if(thedata.type == "auction"){
@@ -3538,29 +3687,39 @@ function fetchInputs(){
 
                         let therow = JSON.stringify(row);
 
+                        let theprice;
+                        if(row.price){ theprice = row.price; }else{ theprice = ""; }
+
+                        let activeProductClass;
+                        if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+
                         rowContent += `
-                        <li class="lazy" onclick="goToInputDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
-                        <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="item-content">
-                            <div class="item-inner w-100">
-                                <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.subcategory.name}</a></h6>
-                                    <div class="item-subtitle text-truncate">${truncate(row.description, 70)}</div>
+                        <li class="cardholder p-3 fontFamily1 lazy">
+                            <div class="d-none" id="rowdetails${row.id}">${therow}</div>
+                            <div class="row">
+                                <div class="item-inner col-7">
+                                    <div class="item-title-row mb-0">
+                                        <h6 class="item-title zowasel-darkblue-color f-18"><a>${truncate(row.subcategory.name,30)}</a></h6>
+                                        <div class="item-subtitle zowasel-color fw-bold f-18">${truncate(row.category.name,20) }</div>
+                                    </div>
+                                    <div class="item-footer">
+                                        <h6 class="me-3 mb-0"><i class="fa fa-user f-13 me-1"></i> ${row.user.first_name}</h6>
+                                        <h6 class="me-3 mb-0 text-truncate">${row.description}</h6>
+                                    </div>
                                 </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${toCommas(row.price)}</h6>
-                                    </div>    
-                                    
+                                <div class="col-5">
+                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
+                                        <h6 class="mb-0 zowasel-color f-18">₦ ${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</h6>
+                                    </a>
+                                    <div class="d-flex mt-2">
+                                        <div class="cropstatus cropActive ${activeProductClass}"></div>
+                                    </div>
+                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="goToInputDetails1(${row.id})">
+                                        View
+                                    </button>
                                 </div>
                             </div>
-                            <div class="item-media media media-90">
-                                <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    
-                                </a>    
-                            </div>
-                        </div>
-                    </li>
+                        </li>
                         `;   
                     }
                     $('#inputs').html(rowContent);
@@ -3763,6 +3922,23 @@ function populateSingleInputDetails(){
         $('.usageinstruction').html(input.usage_instruction);
         $('.cropfocus').html(input.crop_focus);
         $('.stock').html(input.stock);
+        $('.productOwnerFarmName').html(input.user.first_name+" "+input.user.last_name);
+        let isverified;
+        // if(thedata.user.is_verified === 0){
+        //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
+        // }else{
+            isverified = `Verified &nbsp;<img src="../logos/verified.svg" width="22px" alt="">`;
+        // }
+        $('.isVerified').html(isverified);
+        $('.testWeight').html(input.packaging);
+        $('.productQuantity').html(input.stock);
+        $('.product_type').html(input.product_type);
+        $('.manufacture_country').html(input.manufacture_country);
+        $('.manufacture_name').html(capitalizeFirstLetter(input.manufacture_name));
+        $('.manufacture_date').html(input.manufacture_date);
+        $('.expiry_date').html(input.expiry_date);
+        $('.kilograms').html(input.kilograms);
+        $('.packaging').html(input.packaging);
     }
 
     
@@ -4209,29 +4385,31 @@ function fetchUserCropsforSaleByUserID(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         rowContent += `
-                        <li onclick="lazy goToMyPersonalCropDetails1(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
+                        <li class="cardholder p-3 fontFamily1 lazy">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="item-content">
-                            <div class="item-inner w-100">
+                        <div class="row">
+                            <div class="item-inner col-6">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.subcategory.name} - ${thecolor}</a></h6>
-                                    <div class="item-subtitle text-truncate">${row.description}</div>
+                                    <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} - ${thecolor}</a></h6>
+                                    <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${theprice}</h6>
+                                        <h6 class="me-3 mb-0">${truncate(row.description,20)}</h6>
                                     </div>    
-                                    
                                 </div>
                             </div>
-                            <div class="item-media media media-90">
+                            <div class="col-6">
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    
+                                    <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)}</h6>
                                 </a>    
-                                <div class="d-flex justify-content-between">
-                                    <span class="cropstatus cropActive ${activeProductClass}"></span>
-                                    <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                                <div class="d-flex mt-2">
+                                    <div class="cropstatus cropActive ${activeProductClass}"></div>
+                                    <div class="cropstatus cropNegotiable ${negotiationProductClass}"></div>
                                 </div>
+                                <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="goToMyPersonalCropDetails1(${row.id})">
+                                    View
+                                </button>
                             </div>
                         </div>
                     </li>
@@ -4349,34 +4527,48 @@ function fetchCropsforAuction(){
                          // CHECK IF AUCTIONED CROP HAS ANY BID
                          let crophasBid;
                          if(row.bid.length){
-                            crophasBid = `<img src="../logos/bid.png" style="width:30px;" />`;
+                            crophasBid = `<img src="../assets/icons/bid.png" style="width:22px;" />`;
                          }else{ crophasBid = ``; }
 
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = "- "+ row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+
+
                         rowContent += `
-                        <li class="lazy" onclick="localStorage.setItem('singleproductID',${row.id}); 
-                        location.assign('${gotoProductdetails}')" style="background:whitesmoke;padding: 13px 15px 0px;">
+                        <li class="lazy cardholder p-3 fontFamily1">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="item-content">
-                            <div class="item-inner w-100">
+                        <div class="row">
+                            <div class="item-inner col-6">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title"><a>${row.subcategory.name} - ${row.specification.color}</a></h6>
-                                    <div class="item-subtitle text-truncate">${row.description}</div>
+                                    <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} ${thecolor}</a></h6>
+                                    <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${row.specification.price}</h6>
+                                        <h6 class="me-3 mb-0">${truncate(row.description,20)}</h6>
                                     </div>    
-                                    
                                 </div>
                             </div>
-                            <div class="item-media media media-90">
+                            <div class="col-6">
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    
+                                    <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)}/${thetest_weight}</h6>
                                 </a>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center my-2">
                                     <span class="cropstatus cropActive ${activeProductClass}"></span>
                                     ${crophasBid}
-                                </div>   
+                                </div>
+                                <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="localStorage.setItem('singleproductID',${row.id}); 
+                                location.assign('${gotoProductdetails}')">
+                                    View
+                                </button> 
                             </div>
                         </div>
                     </li>
@@ -4722,3 +4914,190 @@ function gotoViewBids(){
     }
 }
 /* ---------------------- GO TO SEE ALL BIDS BY USER ID --------------------- */
+
+
+
+
+
+/* --------------------------- TOGGLE SLIDE BUTTON -------------------------- */
+function toggleDarkMode(){
+    let toggle = document.getElementById("darkmodeCheckbox");
+    // alert(toggle.value);
+    let showdarkmode =  getCookie("showdarkmode");
+    // alert(showdarkmode);
+    let key = "showdarkmode";
+    let value = true;
+    if(showdarkmode==null||showdarkmode=="null"){ // not saved in cookies or false
+        toggle.value = true;
+        setCookie(key,value,365);
+        document.body.classList.add("theme-dark");
+    }
+    if(showdarkmode==true||showdarkmode=="true"){
+        toggle.value = false;
+        setCookie(key,false,365);
+        document.body.classList.remove("theme-dark");
+    }
+    if(showdarkmode==false||showdarkmode=="false"){
+        toggle.value = true;
+        setCookie(key,true,365);
+        document.body.classList.add("theme-dark");
+    }
+    setTimeout(()=>{
+        populateDarkMode();
+    },500)
+}
+
+function populateDarkMode(){
+    let showdarkmode =  getCookie("showdarkmode");
+    // alert(showdarkmode);
+    let toggle = document.getElementById("darkmodeCheckbox");
+    if(showdarkmode==null||showdarkmode=="null"){ // not saved in cookies or false
+        toggle.checked = false;
+        document.body.classList.remove("theme-dark");
+    }
+    if(showdarkmode==true||showdarkmode=="true"){
+        toggle.checked = true;
+        document.body.classList.add("theme-dark");
+    }
+    if(showdarkmode==false||showdarkmode=="false"){
+        toggle.checked = false;
+        document.body.classList.remove("theme-dark");
+    }
+}
+
+
+
+function toggleNotificationMode(){
+    let toggle = document.getElementById("notificationCheckbox");
+    // alert(toggle.value);
+    let showNotification =  getCookie("showNotification");
+    // alert(showNotification);
+    let key = "showNotification";
+    let value = true;
+    if(showNotification==null||showNotification=="null"){ // not saved in cookies or false
+        toggle.value = true;
+        setCookie(key,value,365);
+    }
+    if(showNotification==true||showNotification=="true"){
+        toggle.value = false;
+        setCookie(key,false,365);
+    }
+    if(showNotification==false||showNotification=="false"){
+        toggle.value = true;
+        setCookie(key,true,365);
+    }
+    setTimeout(()=>{
+        populateNotificationMode();
+    },500)
+}
+
+function populateNotificationMode(){
+    let showNotification =  getCookie("showNotification");
+    // alert(showNotification);
+    let toggle = document.getElementById("notificationCheckbox");
+    if(showNotification==null||showNotification=="null"){ // not saved in cookies or false
+        toggle.checked = false;
+    }
+    if(showNotification==true||showNotification=="true"){
+        toggle.checked = true;
+    }
+    if(showNotification==false||showNotification=="false"){
+        toggle.checked = false;
+    }
+}
+/* --------------------------- TOGGLE SLIDE BUTTON -------------------------- */
+
+
+
+
+
+/* ------------------------------ OWL CAROUSEL ------------------------------ */
+function owlcarouselSettings(){
+    if ($(window).width() > 1200) {
+        function itemSize() {
+            var OwlSlideItem = $(".carousel-accordion .accordion_li"),
+            OwlSlideItemmargin = 10,
+            // itemsLength = 5,
+            owlFullScrnWidth = $(".carousel-accordion").width(),
+            normItemWidth = owlFullScrnWidth / itemsLength - 9;
+
+            OwlSlideItem.stop().animate({ width: normItemWidth + "px" }, 500);
+        }
+        itemSize();
+    }
+
+    function itemExpanded() {
+    var OwlSlidemactive = $(".carousel-accordion .owl-item.active"),
+        // OwlSlideItemmargin = $('.carousel-accordion .owl-item').css('marginRight').replace(/[A-Za-z]/g, ""),
+        itemsLength = 5,
+        owlFullScrnWidth = $(".carousel-accordion").width() - itemsLength,
+        normItemWidth = owlFullScrnWidth / itemsLength - 10,
+        lgItemWidth = normItemWidth * 2 + 20,
+        smItemWidth = (normItemWidth * 3) / 4 - 3;
+
+    OwlSlidemactive.hover(
+        function () {
+        var $this = $(this);
+        $this
+            .addClass("expanded")
+            .removeClass("active")
+            .find(".accordion_li")
+            .stop()
+            .animate({ width: lgItemWidth + "px" }, 500);
+        $(".carousel-accordion .active")
+            .find(".accordion_li")
+            .stop()
+            .animate({ width: smItemWidth + "px" }, 500);
+        },
+        function () {
+        var $this = $(this);
+        $this.removeClass("expanded").addClass("active");
+        $(".carousel-accordion .active")
+            .find(".accordion_li")
+            .stop()
+            .animate({ width: normItemWidth + "px" }, 500);
+        }
+    );
+    }
+    setTimeout(()=>{
+        initialize_owl($(".carousel-accordion"));
+    },2000)
+
+    function initialize_owl(el) {
+        el.owlCarousel({
+            loop: true,
+            margin: 10,
+            // navText: ["<i class='angle-left'></i>", "<i class='angle-right'></i>"],
+            navText: "",
+            dots: false,
+            autoPlay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            nav: true,
+            responsiveClass: true,
+            responsive: {
+            0: {
+                items: 1.25
+            },
+            460: {
+                items: 1.75
+            },
+            768: {
+                items: 2.5
+            },
+            900: {
+                items: 3.5
+            },
+            1200: {
+                margin: 0,
+                onInitialized: itemExpanded,
+                onRefresh: itemExpanded,
+                autoWidth: true,
+                mouseDrag: false,
+                items: 5
+            }
+            }
+        });
+    }
+}
+/* ------------------------------ OWL CAROUSEL ------------------------------ */

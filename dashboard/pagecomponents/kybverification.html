@@ -123,6 +123,7 @@
                         let data = response.data;
                         // let verification_status = row.user.is_verified;
                         // console.log(verification_status, "verification Status");
+                        alert(data.status);
                         if(data.status.toLowerCase()=="unverified"){
                             location.assign('kyb.html');
                             $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus">Unverified</button>');
@@ -231,15 +232,13 @@
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
                     // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
+                    if(textstatus==="timeout") {
                         basicmodal("", "Service timed out <br/>Check your internet connection");
                     }
                 },
                 statusCode: {
                     200: function(response) {
-                        console.l
-                        
-                        og('ajax.statusCode: 200');
+                        console.log('ajax.statusCode: 200');
                     },
                     403: function(response) {
                         console.log('ajax.statusCode: 403');

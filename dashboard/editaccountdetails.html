@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <script type="text/javascript"  src="../assets/js/accessauthentication_dashboard.js"></script>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="../logos/zowaselICO512by512.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile Web</title>
+	
+	<!-- PWA Version -->
+	<!-- <link rel="manifest" href="manifest.json"> -->
+    
+    <!-- Stylesheets -->
+	<link rel="stylesheet" href="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        .form-select {
+            background-color: #EFEFEF;
+            border-radius: 8px;
+            border: 1px solid #EAE9F0;
+            color: #000;
+        }
+        .form-control{
+            background-color: #EFEFEF;
+            border-radius: 8px;
+            border: 1px solid #EAE9F0;
+        }
+    </style>
+</head>   
+<body class="">
+<script src="../assets/js/darkmode.js"></script>
+<div class="page-wraper">
+    
+    <!-- Fixd Header -->
+    <div class="fixedheader">
+        <!-- Header -->
+        <header class="header header-type2">
+            <div class="main-bar5">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="left-content  w-auto">
+                            <a href="javascript:void(0);" class="d-block d-flex align-items-center">
+                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
+                                <span class="fw-bold mx-3">Account Details</span>
+                            </a>
+                            <br/><br/>
+                        </div>
+                        <div class="mid-content">
+                        </div>
+                        <div class="right-content">
+                            <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header End -->
+        
+        <!-- Preloader -->
+        <!-- <div id="preloader">
+            <div class="spinner"></div>
+        </div> -->
+        <!-- Preloader end-->
+    </div>
+    <!-- Fixd Header -->
+
+
+    
+    <!-- Preloader -->
+	<!-- <div id="preloader">
+		<div class="spinner"></div>
+	</div> -->
+    <!-- Preloader end-->
+    
+	<!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+		
+    </div>
+    <!-- Sidebar End -->
+    
+    <!-- Banner -->
+	<div class="author-notification">
+		<div class="container inner-wrapper">
+			
+				
+		</div>
+	</div>
+    <!-- Banner End -->
+
+    
+    <!-- Page Content -->
+    <div id="main" class="container page-content bottom-content ">
+         <!-- Banner -->
+         <!-- <div class="dashboard-banner-wrapper">
+            <div class="circle-1"></div>
+            <div class="container inner-wrapper">
+                <div class="dz-title">       
+                    <img src="../logos/vegees.svg" width="100px" class="brand-title text-white mt-2"/>
+                    <h4 class="title text-white mb-3">Add Crop for Sale</h4>
+                </div>
+              
+            </div>
+        </div> -->
+        <!-- Banner End -->
+        
+        <!-- INDIVIDUAL DETAILS -->
+        <div class="account-box">
+            <div class="container">
+                <div class="account-area">
+					
+                    <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
+                    <form class="form" id="updateUserAccount">
+                        <p aria-hidden="true" id="required-description">
+                            <span class="required"><strong>*</strong></span> Required field
+                        </p>
+
+                        <!-- Form 1A -->
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">First Name <span class="required">*</span></label>
+                            <input name="first_name" type="text" required class="form-control first_name" id="firstname" style="border:1px solid #ced4da;" />
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Last name <span class="required">*</span></label>
+                            <input name="last_name" type="text" required class="form-control last_name" id="lastname" style="border:1px solid #ced4da;" />
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Phone Number <span class="required">*</span> </label>
+                            <input name="phonenumber" type="number" required class="form-control phonenumber" id="phonenumber" style="border:1px solid #ced4da;" />
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Address <span class="required">*</span> </label>
+                            <input name="primary_address" type="text" required class="form-control primary_address" id="primary_address" style="border:1px solid #ced4da;" />
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Country <span class="required">*</span></label>
+                            <select class="form-select countryname" id="countryList" aria-label="Default select example" required="">
+                                
+                            </select>
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label mb-0">State <span class="required">*</span></label>
+                            <select class="form-select" id="stateList" aria-label="Default select example" required="">
+                                <option value="">- Select state -</option>
+                                
+                            </select>
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">City <span class="required">*</span> </label>
+                            <input name="city" type="text" required class="form-control city" id="city" style="border:1px solid #ced4da;" />
+                        </div>
+
+                        <div class="input-group w-100">
+                            <button type="submit" class="btn mt-2 zowasel-bg text-white border-radius-13 m-auto" style="padding:15px 50px;">Update Details</button>
+                        </div>
+                        <!-- FORM 1A -->  
+                    </form>
+                    <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
+
+                </div>
+            </div>
+        </div>
+        <!-- INDIVIDUAL DETAILS -->
+
+
+
+        <!-- --------------------------- COMPANY DETAILS --------------------------- -->
+        <div class="account-box company_exist" style="margin-top: 65px;display: block;">
+            <div class="container">
+                <div class="account-area">
+                    <h5 class="text-center mb-4 mt-0">Company details</h5>
+
+                    <form class="input-style" id="updateCompanyAccount">
+                        <label>Company Name</label>
+                        <div class="input-group input-mini mb-3">
+                            <span class="input-group-text"><i class="fa fa-building"></i></span>
+                            <input required id="company_name" min="1" type="text" class="form-control company_name" placeholder="-">
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>Country</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+                            <select required id="company_country" class="form-control p_countryList company_country">
+                            </select>
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>State</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+                            <input required id="company_state" min="2" type="text" class="form-control company_state" placeholder="-" />
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>Address</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
+                            <input required id="company_address" min="2" type="text" class="form-control company_address" placeholder="-" />
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>Company Email</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            <input required id="company_email" min="6" type="email" class="form-control company_email" placeholder="-">
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>Company Website (Optional)</label>
+                        <div class="input-group input-mini mb-3">
+                            <span class="input-group-text"><i class="fa fa-globe"></i></span>
+                            <input id="company_website" min="4" type="text" class="form-control company_website" placeholder="-">
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>RC Number</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-registered"></i></span>
+                            <input required disabled id="rc_number" min="5" type="text" class="form-control rc_number" placeholder="-">
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>Contact Name</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            <input required id="contact_person" min="3" type="text" class="form-control contact_person" placeholder="-">
+                            <small class="input_response">Error Message</small>
+                        </div>
+                        <label>Company Phone</label>
+                        <div class="mb-3 input-group input-mini">
+                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                            <input required id="company_phone" min="5" type="number" class="form-control company_phone" placeholder="-">
+                            <small class="input_response">Error Message</small>
+                        </div>
+
+                        
+                        <!--sss-->
+                        <div class="input-group w-100">
+                            <button type="submit" class="btn mt-2 zowasel-bg text-white border-radius-13 m-auto" style="padding:15px 50px;">Update Company Details</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- COMPANY DETAILS -->
+
+
+    </div>
+    <!-- Page Content End-->
+
+
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+
+
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<!-- <script src="assets/vendor/imageuplodify/imageuploadify.min.js"></script> -->
+<script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/custom.js"></script>
+<script src="../assets/js/modal.js"></script>
+<script src="../assets/js/plugins/country-state-array.js"></script>
+<script src="../assets/js/countrylist.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+<script src="../assets/lib/pulltorefresh.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
+
+
+
+
+<script src="../index.js" defer></script>
+<script>
+    $(".stepper").TouchSpin();
+</script>
+<script>
+    // sidemenu();
+    populateUserDetails();
+    populateCountryList();
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let country = user.user.country;
+    let state = user.user.state;
+    let company = user.user.company;
+    if(country){
+        $('.countryname').val(country);
+        $(document).ready(()=>{
+            var countryvalue = country;
+            // alert(countryvalue);
+
+            var listItems = '';
+            var emptylistItems = '<option value="">- Select state -</option>';
+
+            /* --------------------- CHECK INDEX OF OBJECT IN ARRAY --------------------- */
+            if(countryvalue){
+                let indexofCountry = countrylist.findIndex(item => { return item.country == countryvalue});
+                // console.log(indexofCountry);
+                let stateList = countrylist[indexofCountry].states;
+                // console.log(stateList);
+                console.log(stateList.length);
+                for (var i=0;i<stateList.length;i++){
+                    // console.log(stateList[i]);;      
+                    listItems+=`<option value='${stateList[i]}'>${stateList[i]}</option>`;     
+                }
+                // console.log(listItems);
+            
+                // add to DOM
+                $('#stateList').html(emptylistItems+listItems);
+            }
+            /* --------------------- CHECK INDEX OF OBJECT IN ARRAY --------------------- */
+        },500)
+        
+        $(document).ready(()=>{
+            $('#stateList').val(state);
+            // alert(state);
+        },1000)
+    }else{
+        $('.countryname').val('');
+    }
+    if(company){
+        let company = user.user.company;
+        let companycountry = company.country;
+        let companystate = company.state;
+        setTimeout(()=>{
+            $('.company_country').val(companycountry);
+        },500)
+        
+        $(document).ready(()=>{
+            $('#company_state').val(companystate);
+            // alert(companystate);
+        },1000)
+        
+    }
+    setTimeout(()=>{
+        populateUserDetails();   
+    },500)
+
+    $('#updateUserAccount').submit((e)=>{
+        e.preventDefault();
+        updateUserAccount();
+    })
+
+    // CHECK FOR INDIVIDUAL OR COMPANY USER
+    let companyexist = user.user.company;
+    if(companyexist){
+        $('.company_exist').show();
+    }else{
+        $('.company_exist').hide();
+    }
+
+    $('#updateCompanyAccount').submit((e)=>{
+        e.preventDefault();
+        updateCompanyAccount();
+    })
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <script type="text/javascript"  src="../assets/js/accessauthentication_dashboard.js"></script>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile Web</title>
+	
+	<!-- PWA Version -->
+	<!-- <link rel="manifest" href="manifest.json"> -->
+    
+    <!-- Stylesheets -->
+	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+    <style>
+        /* .loader {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            background: #fff url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif) no-repeat center center;
+        } */
+    </style>
+
+</head>   
+<body class="">
+<script src="../assets/js/darkmode.js"></script>
+<div class="page-wraper">
+    
+    <!-- Fixd Header -->
+    <div class="fixedheader">
+        <!-- Header -->
+        <header class="header header-type2">
+            <div class="main-bar5">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="left-content  w-auto">
+                            <a href="javascript:void(0);" class="d-block d-flex align-items-center">
+                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
+                                <span class="fw-bold mx-3">Market Place</span>
+                            </a>
+                            <br/><br/>
+                        </div>
+                        <div class="mid-content">
+                        </div>
+                        <div class="right-content">
+                            <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header End -->
+        
+        <!-- Preloader -->
+        <!-- <div id="preloader">
+            <div class="spinner"></div>
+        </div> -->
+        <!-- Preloader end-->
+    </div>
+    <!-- Fixd Header -->
+    
+    <!-- Preloader -->
+	<!-- <div id="preloader">
+		<div class="spinner"></div>
+	</div> -->
+    <!-- Preloader end-->
+    
+	<!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+		
+    </div>
+    <!-- Sidebar End -->
+    
+   
+    <!-- Banner -->
+	<!-- <div class="author-notification">
+		<div class="container inner-wrapper">
+			
+				
+		</div>
+	</div> -->
+    <!-- Banner End -->
+
+    
+    <!-- Page Content -->
+    <div id="main" class="page-content after-a-fixed2-header">
+        <!-- Market Place Tabs List -->
+        <div class="pt-2">
+			<div class="fb">
+            
+                
+                <!-- Dashboard Area -->
+                <div class="dashboard-area">
+                    
+                    <div class="container">
+                        <div class="row col-12 mb-4 m-auto">
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/leaf.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">Crops For Sale</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/bid.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">Crop Auction</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 mb-4 m-auto">
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/input.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">Inputs</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/add.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">Create Crop wanted</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 mb-4 m-auto">
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/add.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">Sell Input</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/cropwanted.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">My Crops Wanted</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 mb-4 m-auto">
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/telephone.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">My Sales</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/tractor.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">My Inputs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+				</div>
+			</div>    
+		</div>           
+        <!-- Market Place Tabs List -->
+    </div>
+    <!-- Page Content End-->
+
+
+    <!-- Menubar -->
+	<div class="menubar-area" id="buttommenu">
+		
+	</div>
+	<!-- Menubar -->
+
+
+
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../assets/js/modal.js"></script>
+<script src="../assets/lib/pulltorefresh.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
+
+
+
+<script src="../index.js" defer></script>
+<script>
+    $(".stepper").TouchSpin();
+</script>
+<script>
+    // sidemenu();
+    buttommenu();
+    // populateUserDetails();
+    setTimeout(()=>{
+        fetchUserNotificationsByUserTypeandID2();
+    },500)
+    updateGeneralNotificationAsSeen();
+</script>
+
+<script>
+    // $(document).ready(function(){
+    //     $('.loader').hide();
+    // });
+
+    // $(document).ready(function() {
+    //     $('.lazy').hide();
+    //     $('.lazy').each(function(index,value) {
+    //         if(index < 10) {
+    //         $(this).show();
+    //         }
+    //     });
+    //     if($('.lazy:hidden').length) {
+    //         $('#more').show();
+    //     }
+    //     if(!$('.lazy:hidden').length) {
+    //         $('#more').hide();
+    //     }
+    
+    // });
+
+
+    $('#more').on('click', function() {
+        $('.lazy:hidden').each(function(index, value) {
+        if(index < 12) {
+            $(this).show();
+        }
+        });
+        if(!$('.lazy:hidden').length) {
+        $('#more').hide();
+        }
+    });
+</script>
+
+</body>
+</html>

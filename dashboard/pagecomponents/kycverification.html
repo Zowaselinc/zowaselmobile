@@ -1,5 +1,9 @@
 <!-- --------------------------- KYC DETAILS --------------------------- -->
-<h5 class="mt-4">Preview KYC</h5>
+<h5 class="mt-4 text-center">Preview KYC</h5>
+
+<div class="refreshText text-center" style="display: none;">
+    <button class="btn zowasel-gray-color mt-4">Pull down to refresh &dArr;</button>
+</div>
 
 <div class="previewKYC-container" style="display: none;">
     
@@ -88,6 +92,7 @@
 
 
 
+
 <script>
 let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -156,6 +161,8 @@ socket.on(usersocketchannel,function(data){
 
                             if(data.status.toLowerCase()=="pending verification"){
                                 statusClass = "text-warning"
+                            }else if(data.status.toLowerCase()=="verified"){
+                                statusClass = "text-success"
                             }else{
                                 statusClass = "";
                             }
@@ -188,12 +195,17 @@ socket.on(usersocketchannel,function(data){
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
                     // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
+                    if(textstatus==="timeout") {
                         basicmodal("", "Service timed out <br/>Check your internet connection");
+                        $('.refreshText').show();
+                        $('.refreshText').html(`<div class="refreshText text-center">
+                            <button class="btn zowasel-gray-color mt-4">Pull down to refresh &dArr;</button>
+                        </div>`);
                     }
                 },
                 statusCode: {
                     200: function(response) {
+                        $('.refreshText').hide();
                         console.log('ajax.statusCode: 200');
                     },
                     403: function(response) {

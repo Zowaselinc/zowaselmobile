@@ -118,348 +118,368 @@ function truncate(str, length) {
                 // console.log(JSON.parse(thedata.negotiation.message));
                 console.log(JSON.parse(thedata.products), "Products");
 
-
-                // PRICING DETAILS
-                if(thedata.negotiation){
-                    $('.accepted_price').html("NGN "+JSON.parse(thedata.negotiation.message).price);
-                    $('.confirmed_quantity').html(JSON.parse(thedata.negotiation.message).qty);
-                    $('.total_price').html("NGN "+thedata.total);   
-                    $('#total_price').val(thedata.total);   
-                }else{
-                    let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
-                    let totalprice = parseInt(thedata.total);
-                    let quantity =  totalprice/acceptedprice;
-
-                    $('.accepted_price').html("NGN "+acceptedprice);
-                    $('.confirmed_quantity').html(quantity);
-                    $('.total_price').html("NGN "+totalprice);
-                    $('#total_price').val(totalprice); 
+                // PAGE TITLE EITHER SALES SUMMARY OR ORDER SUMMARY
+                if(thedata.seller_id == userid){
+                    $('#pageTitle').html("Sale");
                 }
 
-                if(userPaymentType=="red-hot"){
-                    $('.redHot').show();
-                    $('input:radio[name="payment_option"]').filter('[value="Full payment"]').attr('checked', true);
-                }else{
-                    $('.redHot, .notRedHot').show();
-                    $('input:radio[name="payment_option"]').filter('[value="Full payment"]').attr('checked', true);
-                }
-
-
-                // FULL SPECIFICATION
-                $('.F_color').html(JSON.parse(thedata.products)[0].specification.color);
-                $('.F_moisture').html(JSON.parse(thedata.products)[0].specification.moisture);
-                $('.F_foreign_matters').html(JSON.parse(thedata.products)[0].specification.foreign_matter);
-                $('.F_brokenGrain').html(JSON.parse(thedata.products)[0].specification.broken_grains);
-                $('.F_weevil').html(JSON.parse(thedata.products)[0].specification.weevil);
-                if(JSON.parse(thedata.products)[0].specification.damaged_kernel){
-                    $('.F_damaged_kernel').html(JSON.parse(thedata.products)[0].specification.damaged_kernel+"%");
-                }else{ $('.F_damaged_kernel').html("-"); }
-                $('.F_rotten').html(JSON.parse(thedata.products)[0].specification.rotten_shriveled);
-                $('.F_test_weight').html(JSON.parse(thedata.products)[0].specification.test_weight);
-                $('.F_hardness').html(JSON.parse(thedata.products)[0].specification.hardness);
-                $('.F_splits').html(JSON.parse(thedata.products)[0].specification.splits);
-                $('.F_oil_content').html(JSON.parse(thedata.products)[0].specification.oil_content);
-                $('.F_infestation').html(JSON.parse(thedata.products)[0].specification.infestation);
-                if(JSON.parse(thedata.products)[0].specification.grain_size){
-                    $('.F_grain_size').html(JSON.parse(thedata.products)[0].specification.grain_size);
-                }else{ $('.F_grain_size').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.hectoliter_weight){
-                    $('.F_hectoliter_weight').html(JSON.parse(thedata.products)[0].specification.hectoliter_weight+"%");
-                }else{ $('.F_hectoliter_weight').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.total_defects){
-                    $('.F_total_defects').html(JSON.parse(thedata.products)[0].specification.total_defects);
-                }else{ $('.F_total_defects').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.dockage){
-                    $('.F_dockage').html(JSON.parse(thedata.products)[0].specification.dockage);
-                }else{ $('.F_dockage').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.ash_content){
-                    $('.F_ash_content').html(JSON.parse(thedata.products)[0].specification.ash_content);
-                }else{ $('.F_ash_content').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.volatile){
-                    $('.F_volatile').html(JSON.parse(thedata.products)[0].specification.volatile);
-                }else{ $('.F_volatile').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.mold){
-                    $('.F_mold').html(JSON.parse(thedata.products)[0].specification.mold);
-                }else{ $('.F_mold').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.drying_process){
-                    $('.F_drying_process').html(JSON.parse(thedata.products)[0].specification.drying_process);
-                }else{ $('.F_drying_process').html("-"); }
+                let InputProduct = JSON.parse(thedata.products)[0].input;
                 
-                
-                
-                // PURCHASE ORDER
-                if(thedata.negotiation){
-
-                    $('.color').html(JSON.parse(thedata.negotiation.message).color);
-                    $('.moisture').html(JSON.parse(thedata.negotiation.message).moisture);
-                    $('.foreign_matters').html(JSON.parse(thedata.negotiation.message).foreign_matter);
-                    $('.brokenGrain').html(JSON.parse(thedata.negotiation.message).broken_grains);
-                    $('.weevil').html(JSON.parse(thedata.negotiation.message).weevil);
-                    if(JSON.parse(thedata.negotiation.message).damaged_kernel){
-                        $('.damaged_kernel').html(JSON.parse(thedata.negotiation.message).damaged_kernel+"%");
-                    }else{ $('.damaged_kernel').html("-"); }
-                    $('.rotten').html(JSON.parse(thedata.negotiation.message).rotten_shriveled);
-                    $('.test_weight').html(JSON.parse(thedata.negotiation.message).test_weight);
-                    $('.hardness').html(JSON.parse(thedata.negotiation.message).hardness);
-                    $('.splits').html(JSON.parse(thedata.negotiation.message).splits);
-                    $('.oil_content').html(JSON.parse(thedata.negotiation.message).oil_content);
-                    $('.infestation').html(JSON.parse(thedata.negotiation.message).infestation);
-                    if(JSON.parse(thedata.negotiation.message).grain_size){
-                        $('.grain_size').html(JSON.parse(thedata.negotiation.message).grain_size);
-                    }else{ $('.grain_size').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).hectoliter_weight){
-                        $('.hectoliter_weight').html(JSON.parse(thedata.negotiation.message).hectoliter_weight+"%");
-                    }else{ $('.hectoliter_weight').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).total_defects){
-                        $('.total_defects').html(JSON.parse(thedata.negotiation.message).total_defects);
-                    }else{ $('.total_defects').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).dockage){
-                        $('.dockage').html(JSON.parse(thedata.negotiation.message).dockage);
-                    }else{ $('.dockage').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).ash_content){
-                        $('.ash_content').html(JSON.parse(thedata.negotiation.message).ash_content);
-                    }else{ $('.ash_content').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).volatile){
-                        $('.volatile').html(JSON.parse(thedata.negotiation.message).volatile);
-                    }else{ $('.volatile').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).mold){
-                        $('.mold').html(JSON.parse(thedata.negotiation.message).mold);
-                    }else{ $('.mold').html("-"); }
-                    if(JSON.parse(thedata.negotiation.message).drying_process){
-                        $('.drying_process').html(JSON.parse(thedata.negotiation.message).drying_process);
-                    }else{ $('.drying_process').html("-"); }
+                // START OF **IF IT IS AN INPUT
+                if(InputProduct){
 
                 }else{
+                    // START OF **IF IT IS NOT AN INPUT
 
-                    $('.color').html(JSON.parse(thedata.products)[0].specification.color);
-                    $('.moisture').html(JSON.parse(thedata.products)[0].specification.moisture);
-                    $('.foreign_matters').html(JSON.parse(thedata.products)[0].specification.foreign_matter);
-                    $('.brokenGrain').html(JSON.parse(thedata.products)[0].specification.broken_grains);
-                    $('.weevil').html(JSON.parse(thedata.products)[0].specification.weevil);
-                    if(JSON.parse(thedata.products)[0].specification.damaged_kernel){
-                        $('.damaged_kernel').html(JSON.parse(thedata.products)[0].specification.damaged_kernel+"%");
-                    }else{ $('.damaged_kernel').html("-"); }
-                    $('.rotten').html(JSON.parse(thedata.products)[0].specification.rotten_shriveled);
-                    $('.test_weight').html(JSON.parse(thedata.products)[0].specification.test_weight);
-                    $('.hardness').html(JSON.parse(thedata.products)[0].specification.hardness);
-                    $('.splits').html(JSON.parse(thedata.products)[0].specification.splits);
-                    $('.oil_content').html(JSON.parse(thedata.products)[0].specification.oil_content);
-                    $('.infestation').html(JSON.parse(thedata.products)[0].specification.infestation);
-                    if(JSON.parse(thedata.products)[0].specification.grain_size){
-                        $('.grain_size').html(JSON.parse(thedata.products)[0].specification.grain_size);
-                    }else{ $('.grain_size').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.hectoliter_weight){
-                        $('.hectoliter_weight').html(JSON.parse(thedata.products)[0].specification.hectoliter_weight+"%");
-                    }else{ $('.hectoliter_weight').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.total_defects){
-                        $('.total_defects').html(JSON.parse(thedata.products)[0].specification.total_defects);
-                    }else{ $('.total_defects').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.dockage){
-                        $('.dockage').html(JSON.parse(thedata.products)[0].specification.dockage);
-                    }else{ $('.dockage').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.ash_content){
-                        $('.ash_content').html(JSON.parse(thedata.products)[0].specification.ash_content);
-                    }else{ $('.ash_content').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.volatile){
-                        $('.volatile').html(JSON.parse(thedata.products)[0].specification.volatile);
-                    }else{ $('.volatile').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.mold){
-                        $('.mold').html(JSON.parse(thedata.products)[0].specification.mold);
-                    }else{ $('.mold').html("-"); }
-                    if(JSON.parse(thedata.products)[0].specification.drying_process){
-                        $('.drying_process').html(JSON.parse(thedata.products)[0].specification.drying_process);
-                    }else{ $('.drying_process').html("-"); }
+                    // PRICING DETAILS
+                    if(thedata.negotiation){
+                        $('.accepted_price').html("NGN "+JSON.parse(thedata.negotiation.message).price);
+                        $('.confirmed_quantity').html(JSON.parse(thedata.negotiation.message).qty);
+                        $('.total_price').html("NGN "+thedata.total);   
+                        $('#total_price').val(thedata.total);   
+                    }else{
+                        // If Order was an Input
+                        if(InputProduct){
 
-                }
-
-
-                // Others
-                if(JSON.parse(thedata.products)[0].subcategory.name){
-                    $('.crop_type').html(JSON.parse(thedata.products)[0].subcategory.name+" "+JSON.parse(thedata.products)[0].specification.color);
-                }else{ $('.crop_type').html("-"); }
-                if(JSON.parse(thedata.products)[0].specification.model_type){
-                    $('.offer_type').html(JSON.parse(thedata.products)[0].specification.model_type);
-                }else{ $('.offer_type').html("-"); }
-
-                if(thedata.negotiation){
-                    if(JSON.parse(thedata.negotiation.message).qty){
-                        $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
-                    }else{ $('.crop_quantity').html("-"); }
-                }else{
-                    let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
-                    let totalprice = parseInt(thedata.total);
-                    let quantity =  totalprice/acceptedprice;
-                    if(quantity){
-                        $('.crop_quantity').html(quantity);
-                    }else{ $('.crop_quantity').html("-"); }
-                }
-                
-                if(croprequest){
-                    if(croprequest.delivery_window){
-                        $('.delivery_window').html(croprequest.delivery_window);
-                    }else{ $('.delivery_window').html("-"); }
-                }else{
-                    function addWeeks(date, weeks) {
-                        date.setDate(date.getDate() + 7 * weeks);
-                        return date;
-                    }
-
-                    const date = new Date(thedata.created_at);
-                    const newDate = addWeeks(date, 2);
-                    // alert(date.toISOString()); // 2022-05-27T00:00:00.000Z
-                    let startdate = thedata.created_at.split(' ')[0];
-                    let enddate = newDate.toISOString().split('T')[0];
-                    if(JSON.parse(thedata.products)[0].type=="offer"){
-                        $('.delivery_window').html(startdate+" <i>to</i> "+enddate);
-                    } 
-                    
-                }
-                
-                if(thedata.buyer.first_name){
-                    $('.buyer_details').html(thedata.buyer.first_name+" "+thedata.buyer.last_name);
-                }else{ $('.buyer_details').html("-"); }
-
-                if(thedata.negotiation){
-                    if(thedata.negotiation.updated_at){
-                        $('.accepted_date').html(thedata.negotiation.updated_at);
-                    }else{ $('.accepted_date').html("-"); }
-                }else{
-                    if(thedata.updated_at){
-                        $('.accepted_date').html(thedata.updated_at);
-                    }else{ $('.accepted_date').html("-"); }
-                }
-
-                if(thedata.seller.first_name){
-                    $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
-                }else{ $('.seller_details').html("-"); }
-
-                // First Check if Corporate has made any payment tracking details has be updated to this order
-                // THEN Check if tracking details has be updated to this order
-                if(usertype == "corporate"){
-                    $('.corporateOrderPaymentBtn_Section').show();
-                    if(!thedata.waybill_details){
-                        $('.corporateNo_waybillInfo').show();
-                    }else {
-                        $('.corporateNo_waybillInfo').hide();
-
-                        if(!thedata.amount_paid){
-                            $('.corporateOrderPayment_button').show();
-                        }else if(thedata.tracking_details){
-                            $('.ordertracking_button').show();
                         }else{
-                            $('.waybilldetails_button').show();
+                            let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
+                            let totalprice = parseInt(thedata.total);
+                            let quantity =  totalprice/acceptedprice;
+
+                            $('.accepted_price').html("NGN "+acceptedprice);
+                            $('.confirmed_quantity').html(quantity);
+                            $('.total_price').html("NGN "+totalprice);
+                            $('#total_price').val(totalprice); 
                         }
                     }
 
-                }else{
+                    if(userPaymentType=="red-hot"){
+                        $('.redHot').show();
+                        $('input:radio[name="payment_option"]').filter('[value="Full payment"]').attr('checked', true);
+                    }else{
+                        $('.redHot, .notRedHot').show();
+                        $('input:radio[name="payment_option"]').filter('[value="Full payment"]').attr('checked', true);
+                    }
+
+
+                    // FULL SPECIFICATION
+                    $('.F_color').html(JSON.parse(thedata.products)[0].specification.color);
+                    $('.F_moisture').html(JSON.parse(thedata.products)[0].specification.moisture);
+                    $('.F_foreign_matters').html(JSON.parse(thedata.products)[0].specification.foreign_matter);
+                    $('.F_brokenGrain').html(JSON.parse(thedata.products)[0].specification.broken_grains);
+                    $('.F_weevil').html(JSON.parse(thedata.products)[0].specification.weevil);
+                    if(JSON.parse(thedata.products)[0].specification.damaged_kernel){
+                        $('.F_damaged_kernel').html(JSON.parse(thedata.products)[0].specification.damaged_kernel+"%");
+                    }else{ $('.F_damaged_kernel').html("-"); }
+                    $('.F_rotten').html(JSON.parse(thedata.products)[0].specification.rotten_shriveled);
+                    $('.F_test_weight').html(JSON.parse(thedata.products)[0].specification.test_weight);
+                    $('.F_hardness').html(JSON.parse(thedata.products)[0].specification.hardness);
+                    $('.F_splits').html(JSON.parse(thedata.products)[0].specification.splits);
+                    $('.F_oil_content').html(JSON.parse(thedata.products)[0].specification.oil_content);
+                    $('.F_infestation').html(JSON.parse(thedata.products)[0].specification.infestation);
+                    if(JSON.parse(thedata.products)[0].specification.grain_size){
+                        $('.F_grain_size').html(JSON.parse(thedata.products)[0].specification.grain_size);
+                    }else{ $('.F_grain_size').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.hectoliter_weight){
+                        $('.F_hectoliter_weight').html(JSON.parse(thedata.products)[0].specification.hectoliter_weight+"%");
+                    }else{ $('.F_hectoliter_weight').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.total_defects){
+                        $('.F_total_defects').html(JSON.parse(thedata.products)[0].specification.total_defects);
+                    }else{ $('.F_total_defects').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.dockage){
+                        $('.F_dockage').html(JSON.parse(thedata.products)[0].specification.dockage);
+                    }else{ $('.F_dockage').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.ash_content){
+                        $('.F_ash_content').html(JSON.parse(thedata.products)[0].specification.ash_content);
+                    }else{ $('.F_ash_content').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.volatile){
+                        $('.F_volatile').html(JSON.parse(thedata.products)[0].specification.volatile);
+                    }else{ $('.F_volatile').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.mold){
+                        $('.F_mold').html(JSON.parse(thedata.products)[0].specification.mold);
+                    }else{ $('.F_mold').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.drying_process){
+                        $('.F_drying_process').html(JSON.parse(thedata.products)[0].specification.drying_process);
+                    }else{ $('.F_drying_process').html("-"); }
+                    
+                    
+                    
+                    // PURCHASE ORDER
+                    if(thedata.negotiation){
+
+                        $('.color').html(JSON.parse(thedata.negotiation.message).color);
+                        $('.moisture').html(JSON.parse(thedata.negotiation.message).moisture);
+                        $('.foreign_matters').html(JSON.parse(thedata.negotiation.message).foreign_matter);
+                        $('.brokenGrain').html(JSON.parse(thedata.negotiation.message).broken_grains);
+                        $('.weevil').html(JSON.parse(thedata.negotiation.message).weevil);
+                        if(JSON.parse(thedata.negotiation.message).damaged_kernel){
+                            $('.damaged_kernel').html(JSON.parse(thedata.negotiation.message).damaged_kernel+"%");
+                        }else{ $('.damaged_kernel').html("-"); }
+                        $('.rotten').html(JSON.parse(thedata.negotiation.message).rotten_shriveled);
+                        $('.test_weight').html(JSON.parse(thedata.negotiation.message).test_weight);
+                        $('.hardness').html(JSON.parse(thedata.negotiation.message).hardness);
+                        $('.splits').html(JSON.parse(thedata.negotiation.message).splits);
+                        $('.oil_content').html(JSON.parse(thedata.negotiation.message).oil_content);
+                        $('.infestation').html(JSON.parse(thedata.negotiation.message).infestation);
+                        if(JSON.parse(thedata.negotiation.message).grain_size){
+                            $('.grain_size').html(JSON.parse(thedata.negotiation.message).grain_size);
+                        }else{ $('.grain_size').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).hectoliter_weight){
+                            $('.hectoliter_weight').html(JSON.parse(thedata.negotiation.message).hectoliter_weight+"%");
+                        }else{ $('.hectoliter_weight').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).total_defects){
+                            $('.total_defects').html(JSON.parse(thedata.negotiation.message).total_defects);
+                        }else{ $('.total_defects').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).dockage){
+                            $('.dockage').html(JSON.parse(thedata.negotiation.message).dockage);
+                        }else{ $('.dockage').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).ash_content){
+                            $('.ash_content').html(JSON.parse(thedata.negotiation.message).ash_content);
+                        }else{ $('.ash_content').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).volatile){
+                            $('.volatile').html(JSON.parse(thedata.negotiation.message).volatile);
+                        }else{ $('.volatile').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).mold){
+                            $('.mold').html(JSON.parse(thedata.negotiation.message).mold);
+                        }else{ $('.mold').html("-"); }
+                        if(JSON.parse(thedata.negotiation.message).drying_process){
+                            $('.drying_process').html(JSON.parse(thedata.negotiation.message).drying_process);
+                        }else{ $('.drying_process').html("-"); }
+
+                    }else{
+
+                        $('.color').html(JSON.parse(thedata.products)[0].specification.color);
+                        $('.moisture').html(JSON.parse(thedata.products)[0].specification.moisture);
+                        $('.foreign_matters').html(JSON.parse(thedata.products)[0].specification.foreign_matter);
+                        $('.brokenGrain').html(JSON.parse(thedata.products)[0].specification.broken_grains);
+                        $('.weevil').html(JSON.parse(thedata.products)[0].specification.weevil);
+                        if(JSON.parse(thedata.products)[0].specification.damaged_kernel){
+                            $('.damaged_kernel').html(JSON.parse(thedata.products)[0].specification.damaged_kernel+"%");
+                        }else{ $('.damaged_kernel').html("-"); }
+                        $('.rotten').html(JSON.parse(thedata.products)[0].specification.rotten_shriveled);
+                        $('.test_weight').html(JSON.parse(thedata.products)[0].specification.test_weight);
+                        $('.hardness').html(JSON.parse(thedata.products)[0].specification.hardness);
+                        $('.splits').html(JSON.parse(thedata.products)[0].specification.splits);
+                        $('.oil_content').html(JSON.parse(thedata.products)[0].specification.oil_content);
+                        $('.infestation').html(JSON.parse(thedata.products)[0].specification.infestation);
+                        if(JSON.parse(thedata.products)[0].specification.grain_size){
+                            $('.grain_size').html(JSON.parse(thedata.products)[0].specification.grain_size);
+                        }else{ $('.grain_size').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.hectoliter_weight){
+                            $('.hectoliter_weight').html(JSON.parse(thedata.products)[0].specification.hectoliter_weight+"%");
+                        }else{ $('.hectoliter_weight').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.total_defects){
+                            $('.total_defects').html(JSON.parse(thedata.products)[0].specification.total_defects);
+                        }else{ $('.total_defects').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.dockage){
+                            $('.dockage').html(JSON.parse(thedata.products)[0].specification.dockage);
+                        }else{ $('.dockage').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.ash_content){
+                            $('.ash_content').html(JSON.parse(thedata.products)[0].specification.ash_content);
+                        }else{ $('.ash_content').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.volatile){
+                            $('.volatile').html(JSON.parse(thedata.products)[0].specification.volatile);
+                        }else{ $('.volatile').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.mold){
+                            $('.mold').html(JSON.parse(thedata.products)[0].specification.mold);
+                        }else{ $('.mold').html("-"); }
+                        if(JSON.parse(thedata.products)[0].specification.drying_process){
+                            $('.drying_process').html(JSON.parse(thedata.products)[0].specification.drying_process);
+                        }else{ $('.drying_process').html("-"); }
+
+                    }
+
+
+                    // Others
+                    if(JSON.parse(thedata.products)[0].subcategory.name){
+                        $('.crop_type').html(JSON.parse(thedata.products)[0].subcategory.name+" "+JSON.parse(thedata.products)[0].specification.color);
+                    }else{ $('.crop_type').html("-"); }
+                    if(JSON.parse(thedata.products)[0].specification.model_type){
+                        $('.offer_type').html(JSON.parse(thedata.products)[0].specification.model_type);
+                    }else{ $('.offer_type').html("-"); }
+
+                    if(thedata.negotiation){
+                        if(JSON.parse(thedata.negotiation.message).qty){
+                            $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
+                        }else{ $('.crop_quantity').html("-"); }
+                    }else{
+                        let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
+                        let totalprice = parseInt(thedata.total);
+                        let quantity =  totalprice/acceptedprice;
+                        if(quantity){
+                            $('.crop_quantity').html(quantity);
+                        }else{ $('.crop_quantity').html("-"); }
+                    }
+                    
+                    if(croprequest){
+                        if(croprequest.delivery_window){
+                            $('.delivery_window').html(croprequest.delivery_window);
+                        }else{ $('.delivery_window').html("-"); }
+                    }else{
+                        function addWeeks(date, weeks) {
+                            date.setDate(date.getDate() + 7 * weeks);
+                            return date;
+                        }
+
+                        const date = new Date(thedata.created_at);
+                        const newDate = addWeeks(date, 2);
+                        // alert(date.toISOString()); // 2022-05-27T00:00:00.000Z
+                        let startdate = thedata.created_at.split(' ')[0];
+                        let enddate = newDate.toISOString().split('T')[0];
+                        if(JSON.parse(thedata.products)[0].type=="offer"){
+                            $('.delivery_window').html(startdate+" <i>to</i> "+enddate);
+                        } 
+                        
+                    }
+                    
+                    if(thedata.buyer.first_name){
+                        $('.buyer_details').html(thedata.buyer.first_name+" "+thedata.buyer.last_name);
+                    }else{ $('.buyer_details').html("-"); }
+
+                    if(thedata.negotiation){
+                        if(thedata.negotiation.updated_at){
+                            $('.accepted_date').html(thedata.negotiation.updated_at);
+                        }else{ $('.accepted_date').html("-"); }
+                    }else{
+                        if(thedata.updated_at){
+                            $('.accepted_date').html(thedata.updated_at);
+                        }else{ $('.accepted_date').html("-"); }
+                    }
+
+                    if(thedata.seller.first_name){
+                        $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
+                    }else{ $('.seller_details').html("-"); }
+
+                    // First Check if Corporate has made any payment tracking details has be updated to this order
+                    // THEN Check if tracking details has be updated to this order
+                    if(usertype == "corporate"){
+                        $('.corporateOrderPaymentBtn_Section').show();
+                        if(!thedata.waybill_details){
+                            $('.corporateNo_waybillInfo').show();
+                        }else {
+                            $('.corporateNo_waybillInfo').hide();
+
+                            if(!thedata.amount_paid){
+                                $('.corporateOrderPayment_button').show();
+                            }else if(thedata.tracking_details){
+                                $('.ordertracking_button').show();
+                            }else{
+                                $('.waybilldetails_button').show();
+                            }
+                        }
+
+                    }else{
+                        if(thedata.tracking_details){
+                            $('.ordertracking_button').show();
+                        }
+
+                        if(!thedata.waybill_details){
+                            $('.waybilldetails_button').show();
+                            $('.ordertracking_button').hide();
+                        }
+                    }
+
+
+
+
+                    /********************************
+                     * FOR WAYBILLDETAILS.HTML PAGE *
+                     ********************************/
+                    $('#seller_details').val(thedata.seller.first_name+" "+thedata.seller.last_name);
+                    $('#buyer_details').val(thedata.buyer.first_name+" "+thedata.buyer.last_name);
+                    // JSON.parse(thedata.products)[0].specification.color
+
+                    // Pick up the last item in the product array BCOS the last one is the one agreed on
+                    let parsedProduct = JSON.parse(thedata.products);
+                    let thelastproduct = parsedProduct.at(-1);
+                    // console.log(thelastproduct, "thelastproduct");
+
+                    $('#product_description').val(thelastproduct.description);
+                    $('#product_quantity').val(thelastproduct.specification.qty);
+                    $('#product_details').val(thedata.products);
+                    /********************************
+                     * FOR WAYBILLDETAILS.HTML PAGE *
+                     ********************************/
+                    
+
+                    /**********************************
+                     * FOR ORDERPAYMENTPAGE.HTML PAGE *
+                     **********************************/
+                    $('#order_details').val(JSON.stringify(thedata));
+                    $('#order_hash').val(thedata.order_hash);
+                    if(thedata.negotiation_id){
+                        $('#order_type').val("negotiation");
+                        $('#order_type_id').val(thedata.negotiation_id);
+                    }else{ 
+                        $('#order_type').val("order"); 
+                        $('#order_type_id').val(thedata.order_hash); 
+                    }
+                    $('#order_details_negotiationID').val(JSON.stringify(thedata));
+                    $('#order_details').val(JSON.stringify(thedata));
+                    /**********************************
+                     * FOR ORDERPAYMENTPAGE.HTML PAGE *
+                     **********************************/
+
+
+
+                    /********************************
+                     * FOR ORDERTRACKING.HTML PAGE *
+                     ********************************/
+                    let paymentStatus;
+                    if(thedata.payment_status.toLowerCase() == "paid"){
+                        paymentStatus = "Paid";
+                    }else if(thedata.payment_status.toLowerCase() == "unpaid"){
+                        paymentStatus = "Pending";
+                    }else{
+                        paymentStatus = "NILL";
+                    }
+                    $('.order_payment_status').html(paymentStatus);
+                    // console.log(JSON.parse(thedata.tracking_details), "tracking details");
                     if(thedata.tracking_details){
-                        $('.ordertracking_button').show();
+                        $('.tracking_pickup_location').html(JSON.parse(thedata.tracking_details).pickup_location);
+                        $('.tracking_delivered_location').html(JSON.parse(thedata.tracking_details).delivery_location);
+                        $('.order_hash').html(localStorage.getItem('orderHash'));
                     }
 
-                    if(!thedata.waybill_details){
-                        $('.waybilldetails_button').show();
-                        $('.ordertracking_button').hide();
-                    }
-                }
 
-
-
-
-                /********************************
-                 * FOR WAYBILLDETAILS.HTML PAGE *
-                 ********************************/
-                $('#seller_details').val(thedata.seller.first_name+" "+thedata.seller.last_name);
-                $('#buyer_details').val(thedata.buyer.first_name+" "+thedata.buyer.last_name);
-                // JSON.parse(thedata.products)[0].specification.color
-
-                // Pick up the last item in the product array BCOS the last one is the one agreed on
-                let parsedProduct = JSON.parse(thedata.products);
-                let thelastproduct = parsedProduct.at(-1);
-                // console.log(thelastproduct, "thelastproduct");
-
-                $('#product_description').val(thelastproduct.description);
-                $('#product_quantity').val(thelastproduct.specification.qty);
-                $('#product_details').val(thedata.products);
-                /********************************
-                 * FOR WAYBILLDETAILS.HTML PAGE *
-                 ********************************/
-                
-
-                /**********************************
-                 * FOR ORDERPAYMENTPAGE.HTML PAGE *
-                 **********************************/
-                $('#order_details').val(JSON.stringify(thedata));
-                $('#order_hash').val(thedata.order_hash);
-                if(thedata.negotiation_id){
-                    $('#order_type').val("negotiation");
-                    $('#order_type_id').val(thedata.negotiation_id);
-                }else{ 
-                    $('#order_type').val("order"); 
-                    $('#order_type_id').val(thedata.order_hash); 
-                }
-                $('#order_details_negotiationID').val(JSON.stringify(thedata));
-                $('#order_details').val(JSON.stringify(thedata));
-                /**********************************
-                 * FOR ORDERPAYMENTPAGE.HTML PAGE *
-                 **********************************/
-
-
-
-                /********************************
-                 * FOR ORDERTRACKING.HTML PAGE *
-                 ********************************/
-                let paymentStatus;
-                if(thedata.payment_status.toLowerCase() == "paid"){
-                    paymentStatus = "Paid";
-                }else if(thedata.payment_status.toLowerCase() == "unpaid"){
-                    paymentStatus = "Pending";
-                }else{
-                    paymentStatus = "NILL";
-                }
-                $('.order_payment_status').html(paymentStatus);
-                // console.log(JSON.parse(thedata.tracking_details), "tracking details");
-                if(thedata.tracking_details){
-                    $('.tracking_pickup_location').html(JSON.parse(thedata.tracking_details).pickup_location);
-                    $('.tracking_delivered_location').html(JSON.parse(thedata.tracking_details).delivery_location);
-                    $('.order_hash').html(localStorage.getItem('orderHash'));
-                }
-
-
-                let waybill_details = JSON.parse(thedata.waybill_details);
-                // console.log("Waybill_Details", waybill_details);
-                if(waybill_details){
-                    $('.w_from').html(waybill_details.dispatch_section.from);
-                    $('.w_to').html(waybill_details.dispatch_section.to);
-                    $('.w_date').html(waybill_details.dispatch_section.date);
-                    $('.w_cosignee').html(waybill_details.dispatch_section.cosignee);
-                    $('.w_truckno').html(waybill_details.dispatch_section.truck_number);
-                } 
-                // 
-                if(thelastproduct.specification.color){
-                    $('.w_crop1').html(thelastproduct.subcategory.name+" - "+thelastproduct.specification.color);
-                }else{
-                    $('.w_crop1').html(thelastproduct.subcategory.name);
-                }
-                $('.w_crop1qty').html(thelastproduct.specification.qty);
-                // 
-                if(waybill_details){
-                    $('.w_remark').html(waybill_details.dispatch_section.remarks);
-                    $('.w_drivername').html(waybill_details.dispatch_section.drivers_data.drivers_name);
-                    $('.w_drivingicense').html("#"+waybill_details.dispatch_section.drivers_data.driving_license);
-                    $('.w_sellerRepname').html(waybill_details.dispatch_section.sellers_data.sellers_representative);
-                    $('.w_sellertitle').html(waybill_details.dispatch_section.sellers_data.title);
-                    $('.w_todaydate').html(new Date().toJSON().split('T')[0]);
+                    let waybill_details = JSON.parse(thedata.waybill_details);
+                    // console.log("Waybill_Details", waybill_details);
+                    if(waybill_details){
+                        $('.w_from').html(waybill_details.dispatch_section.from);
+                        $('.w_to').html(waybill_details.dispatch_section.to);
+                        $('.w_date').html(waybill_details.dispatch_section.date);
+                        $('.w_cosignee').html(waybill_details.dispatch_section.cosignee);
+                        $('.w_truckno').html(waybill_details.dispatch_section.truck_number);
+                    } 
                     // 
-                    $('.w_receiptremark').html(waybill_details.receipt_section.remarks);
-                    $('.w_receipt_sellerRep').html(waybill_details.receipt_section.sellers_data.sellers_representative);
-                    $('.w_receipt_receiveBy').html(waybill_details.receipt_section.recipient_data.received_by);
-                    $('.w_receipt_sellerTitle').html(waybill_details.receipt_section.sellers_data.title);
-                    $('.w_receipt_receiverTitle').html(waybill_details.receipt_section.recipient_data.title);
+                    if(thelastproduct.specification.color){
+                        $('.w_crop1').html(thelastproduct.subcategory.name+" - "+thelastproduct.specification.color);
+                    }else{
+                        $('.w_crop1').html(thelastproduct.subcategory.name);
+                    }
+                    $('.w_crop1qty').html(thelastproduct.specification.qty);
+                    // 
+                    if(waybill_details){
+                        $('.w_remark').html(waybill_details.dispatch_section.remarks);
+                        $('.w_drivername').html(waybill_details.dispatch_section.drivers_data.drivers_name);
+                        $('.w_drivingicense').html("#"+waybill_details.dispatch_section.drivers_data.driving_license);
+                        $('.w_sellerRepname').html(waybill_details.dispatch_section.sellers_data.sellers_representative);
+                        $('.w_sellertitle').html(waybill_details.dispatch_section.sellers_data.title);
+                        $('.w_todaydate').html(new Date().toJSON().split('T')[0]);
+                        // 
+                        $('.w_receiptremark').html(waybill_details.receipt_section.remarks);
+                        $('.w_receipt_sellerRep').html(waybill_details.receipt_section.sellers_data.sellers_representative);
+                        $('.w_receipt_receiveBy').html(waybill_details.receipt_section.recipient_data.received_by);
+                        $('.w_receipt_sellerTitle').html(waybill_details.receipt_section.sellers_data.title);
+                        $('.w_receipt_receiverTitle').html(waybill_details.receipt_section.recipient_data.title);
+                    }
+                    // 
+                    /********************************
+                     * FOR ORDERTRACKING.HTML PAGE *
+                     ********************************/
+
                 }
-                // 
-                /********************************
-                 * FOR ORDERTRACKING.HTML PAGE *
-                 ********************************/
+                // END OF **IF IT IS NOT AN INPUT
 
 
 
@@ -990,13 +1010,11 @@ function fetchUserOrdersByUserID(){
                             let lasttracking_status = lasttracking_details.status;
                             // let lasttracking_status = JSON.stringify(lasttracking_details.status);
                             shippingstatus = `
-                                <span style="background:#edbd71;border-radius:7px;padding:4px 10px;font-weight:700;font-size:14px;display:block">
-                                    ${lasttracking_status}
-                                </span>
+                                ${lasttracking_status}
                             `;
 
                         }else{
-                            shippingstatus = "---";
+                            shippingstatus = "&nbsp;";
                         }
 
                         let negotiationstatus;
@@ -1006,16 +1024,48 @@ function fetchUserOrdersByUserID(){
                             negotiationstatus = "no";
                         }
 
+                        let paymentStatus, paymentStatusCSS;
+                        if(row.payment_status.toLowerCase()=="paid"){
+                            paymentStatus = "Paid";
+                            paymentStatusCSS = "paid";
+                        }else if(row.payment_status.toLowerCase()=="partially_paid"){
+                            paymentStatus = "Partially paid";
+                            paymentStatusCSS = "partiallypaid";
+                        }else if(row.payment_status.toLowerCase()=="unpaid"){
+                            paymentStatus = "Payment Pending";
+                            paymentStatusCSS = "unpaid";
+                        }
+
+
                         rowContent += `
-                        <tr class="lazy">
-                            <td id='' style="display:none;">${JSON.stringify(row)}</td>
-                            <th scope="row">${row.created_at.split(' ')[0]}</th>
-                            <td>${truncate(row.order_hash, 6)}</td>
-                            <td>${row.total}</td>
-                            <td class="status_${row.payment_status.toLowerCase()}">${row.payment_status}</td>
-                            <td class="text-center">${shippingstatus}</td>
-                            <td><button class="view" onclick="viewSingleOrder('${row.order_hash}', '${negotiationstatus}')">View</button></td>
-                        </tr>
+                        
+                        <li class="lazy cardholder p-3 fontFamily1">
+                            <div class="d-none" id="rowdetails${row.id}">${row}</div>
+                            <div class="row">
+                                <div class="item-inner col-7">
+                                    <div class="item-title-row mb-0">
+                                        <h6 class="item-title zowasel-darkblue-color f-10"><a class="fontFamily1">#${truncate(row.order_hash, 20)}</a></h6>
+                                    </div>
+                                    <div class="item-footer">
+                                        <div class="mt-3">
+                                            <div class="f-18 fw-500 status_${paymentStatusCSS.toLowerCase()}">${capitalizeFirstLetter(paymentStatus)}</div>
+                                        </div>    
+                                        <div class="mb-0 mt-2 zowasel-darkblue-color f-700 f-23">₦ ${toCommas(row.total)}</div>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <a href="javascript:void(0);" class="item-bookmark icon-2 fontFamily1">
+                                        <h6 class="mb-0 zowasel-darkblue-color f-10">${row.created_at.split(' ')[0]}</h6>
+                                    </a>    
+                                    <div class="d-flex mt-3">
+                                        <div class="fw-500 f-18 zowasel-color">${shippingstatus}</div>
+                                    </div>
+                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="viewSingleOrder('${row.order_hash}', '${negotiationstatus}')">
+                                        View
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
                         `;   
                     }
                     if(tbodySelector == "p_orders"){

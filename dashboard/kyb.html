@@ -19,7 +19,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon.png" />
     
     <!-- Title -->
-	<title>Zowasel Mobile</title>
+	<title>Zowasel Mobile Web</title>
 	
 	<!-- PWA Version -->
 	<!-- <link rel="manifest" href="manifest.json"> -->
@@ -39,7 +39,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
 </head>   
-<body class="bg-white">
+<!-- <body class="bg-white"> -->
+<body class="">
 <div class="page-wraper">
     
     <!-- Header -->
@@ -53,7 +54,7 @@
 								<path d="M9.03033 0.46967C9.2966 0.735936 9.3208 1.1526 9.10295 1.44621L9.03033 1.53033L2.561 8L9.03033 14.4697C9.2966 14.7359 9.3208 15.1526 9.10295 15.4462L9.03033 15.5303C8.76406 15.7966 8.3474 15.8208 8.05379 15.6029L7.96967 15.5303L0.96967 8.53033C0.703403 8.26406 0.679197 7.8474 0.897052 7.55379L0.96967 7.46967L7.96967 0.46967C8.26256 0.176777 8.73744 0.176777 9.03033 0.46967Z" fill="#a19fa8"/>
 							</svg>
                         </a>
-                        <h5 class="mb-0 ms-2">Kyb Verification</h5>
+                        <h5 class="mb-0 ms-2 text-white">Kyb Verification</h5>
                     </div>
                     <div class="mid-content">
                     </div>
@@ -446,15 +447,15 @@
             let company = user.user.company;
 
             let name = company.company_name;
-            let address = company.address;
+            let address = company.company_address;
             let state = company.state;
             let country = company.country;
             let contact_person = company.contact_person;
-            let phone = company.phone;
-            let website = company.website;
-            let email = company.email;
+            let phone = company.company_phone;
+            let website = company.company_website;
+            let email = company.company_email;
 
-            if(!address){
+            if(!name || !address || !state || !country|| !contact_person || !phone || !email){
                 mcxDialog.confirm("Update your company profile before proceeding \n Go to profile company details", {
                     sureBtnClick: function(){
                         // callback
@@ -489,38 +490,38 @@
                 formData.append("mou", cacFile[0], `cac${userid}.jpeg`);
 
                 console.log(tax_id.value+name+address+state+country+contact_person+phone+website+email, "formData");
-                // startPageLoader();
-                // var settings = {
-                //     "url": `${liveMobileUrl}/account/kyb`,
-                //     "method": "POST",
-                //     "timeout": 0,
-                //     "headers": {
-                //         // "Content-Type": "application/json",
-                //         "authorization": localStorage.getItem('authToken')
-                //     },
-                //     "processData": false,
-                //     "mimeType": "multipart/form-data",
-                //     "contentType": false,
-                //     "data": formData
-                // };
+                startPageLoader();
+                var settings = {
+                    "url": `${liveMobileUrl}/account/kyb`,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        // "Content-Type": "application/json",
+                        "authorization": localStorage.getItem('authToken')
+                    },
+                    "processData": false,
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": formData
+                };
 
-                // $.ajax(settings).done(function (data) {
-                //     // console.log(data);
-                //     let response = JSON.parse(data);
-                //     EndPageLoader();
-                //     if(response.error == true){
-                //         // alert(response.message);
-                //         responsemodal("erroricon.png", "Error", response.message);
-                //     }else{
-                //         responsemodal("successicon.png", "Success", response.message);
-                //         setTimeout(()=>{
-                //             // $("#addInputForm")[0].reset();
+                $.ajax(settings).done(function (data) {
+                    // console.log(data);
+                    let response = JSON.parse(data);
+                    EndPageLoader();
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        responsemodal("successicon.png", "Success", response.message);
+                        setTimeout(()=>{
+                            // $("#addInputForm")[0].reset();
 
-                //             location.assign('editprofile.html?type=kyb');
-                //         },2000)
+                            location.assign('editprofile.html?type=kyb');
+                        },2000)
                         
-                //     }
-                // });
+                    }
+                });
 
             }
 
