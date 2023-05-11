@@ -40,9 +40,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="../assets/owlcarousel/owlcarousel.min.css">
-    <link rel="stylesheet" href="../assets/owlcarousel/owltheme.default.min.css">  
-
     <!-- <script src="../assets/js/plugins/push.min.js"></script>
     <script src="../assets/js/plugins/serviceworker.min.js"></script> -->
 
@@ -143,78 +140,40 @@
                 <!-- Dashboard Area -->
                 <div class="dashboard-area">
                     
-                    <div class="container py-0">
-                        <!-- CROPS FOR SALE -->
-                        <div class="d-flex align-items-center justify-content-between f-16 fw-700 my-2">
-                            <div class="zowasel-darkblue-color"><span id="pronoun_crop_offer"></span>Crops For Sale</div>
-                            <div class="zowasel-color" onclick="viewmoreProducts('cropsforsale')">More</div>
+                    <div class="container">
+                        <div class="row col-12 mb-4 m-auto">
+                            <div class="col-6" role="button" onclick="location.assign('/dashboard/order/orders.html')">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/truck.png" />
+                                    <span class="d-block mt-2 card-title">My Orders</span>
+                                </div>
+                            </div>
+                            <div class="col-6" role="button" onclick="location.assign('/dashboard/negotiations.html')">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/handshake.png" />
+                                    <span class="d-block mt-2 card-title">Negotiations</span>
+                                </div>
+                            </div>
                         </div>
-                        <!-- ------------------------------ CAROUSEL ------------------------------- -->
-                        <div class="carousel-accordion owl-carousel mb-4" id="p_carouselcropsforsale">
-                        <!-- <div class="carousel-accordion owl-carousel mb-4"> -->
-                            <!--   if you add more than 5 slides, then they active carousel navigations -->
-                            
-                            <!-- <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                                <a href="#">
-                                    <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">Ginger - Yellow</div>
-                                    <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">Spices</div>
-                                    <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">Hugo</div>
-                                    <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦5,000/MT</div>
-                                </a>
-                            </div> -->
-                            
+
+                        <div class="row col-12 mb-4 m-auto">
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/transaction.png" />
+                                    <span class="d-block mt-2 card-title">Transactions</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="cardholder text-center">
+                                    <img src="../assets/icons/card.png" />
+                                    <span class="d-block mt-2 card-title">Verification</span>
+                                </div>
+                            </div>
                         </div>
-                        <!-- ------------------------------ CAROUSEL ------------------------------- -->
-
-
-                        <!-- CROPS FOR AUCTION -->
-                        <div class="d-flex align-items-center justify-content-between f-16 fw-700 my-2">
-                            <div class="zowasel-darkblue-color">Crops For Auction</div>
-                            <div class="zowasel-color" onclick="viewmoreProducts('cropsforauction')">More</div>
-                        </div>
-                        <!-- ------------------------------ CAROUSEL ------------------------------- -->
-                        <div class="carousel-accordion owl-carousel mb-4" id="p_carouselcropsforauction">
-                            <!--   if you add more than 5 slides, then they active carousel navigations -->
-                        
-                            <!-- <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                                <a href="#">
-                                    <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">Ginger - Yellow</div>
-                                    <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">Spices</div>
-                                    <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">Hugo</div>
-                                    <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦5,000/MT</div>
-                                </a>
-                            </div> -->
-                            
-                        </div>
-                        <!-- ------------------------------ CAROUSEL ------------------------------- -->
-
-
-
-                        <!-- INPUTS FOR SALE -->
-                        <div class="d-flex align-items-center justify-content-between f-16 fw-700 my-2">
-                            <div class="zowasel-darkblue-color">Inputs For Sale</div>
-                            <div class="zowasel-color" onclick="viewmoreProducts('inputsforsale')">More</div>
-                        </div>
-                        <!-- ------------------------------ CAROUSEL ------------------------------- -->
-                        <div class="carousel-accordion owl-carousel mb-4" id="p_carouselinputsforsale">
-                            <!--   if you add more than 5 slides, then they active carousel navigations -->
-                        
-                            <!-- <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                                <a href="#">
-                                    <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">Ginger - Yellow</div>
-                                    <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">Spices</div>
-                                    <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">Hugo</div>
-                                    <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦5,000/MT</div>
-                                </a>
-                            </div> -->
-                            
-                        </div>
-                        <!-- ------------------------------ CAROUSEL ------------------------------- -->
-
                     </div>
 
                     <!-- Account Overview -->
-                    <!-- <div class="account-overview col-12 m-auto fontFamily1">
+                    <div class="account-overview col-12 m-auto fontFamily1">
                         <div class="container row">
                             <h1>Account Overview</h1>
                         </div>
@@ -247,7 +206,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- Account Overview -->
 
 				</div>
@@ -291,7 +250,6 @@
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
-<script src="../assets/owlcarousel/owl.carousel.min.js"></script>
 <script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
 <script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../assets/js/settings.js"></script>
@@ -314,59 +272,6 @@
     sidemenu();
     buttommenu();
     pageRestriction();
-    
-    fetchCropsforAuction();
-    fetchInputs();
 </script>
-
-<script>
-    $(document).ready(()=>{
-        // $(".owl-carousel").owlCarousel({
-            //     navigation : true
-            // });
-            
-        owlcarouselSettingsForAllProducts();
-    })
-</script>
-
-<script>
-    function userSpecificFunction(){
-        let user = localStorage.getItem('zowaselUser');
-        user = JSON.parse(user);
-        let usertype = user.user.type;
-        if(usertype == "merchant"){
-            $('#pronoun_crop_offer').html('My ');
-            fetchUserCropsforSaleByUserID();
-        }else if(usertype == "corporate"){
-            fetchAllCropsForSale();
-        }
-    }
-    userSpecificFunction();
-    
-
-    const viewmoreProducts=(n)=>{
-        let user = localStorage.getItem('zowaselUser');
-        user = JSON.parse(user);
-        let usertype = user.user.type;
-
-        let theURL, gotoProductdetails, viewmoreProduts, currentPage;
-        if(usertype == "corporate"){
-            // Corporate should see all crops for sale
-            if(n=="cropsforsale"){ location.assign('/dashboard/allcropsforsale.html');
-            }else{ location.assign('/dashboard/cropsforsale.html'); }
-        }else if(usertype == "merchant"){
-            // Merchant should see only hos crops for sale
-            if(n=="cropsforsale"){ location.assign('/dashboard/viewusercropsforsale.html');
-            }else{ location.assign('/dashboard/allcropsforsale.html'); }
-
-            if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html');
-            }else{  }
-
-            if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html');
-            }else{  }
-        }
-    }
-</script>
-
 </body>
 </html>

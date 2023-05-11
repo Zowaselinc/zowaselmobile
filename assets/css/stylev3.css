@@ -185,8 +185,8 @@
   }
   
   .carousel-accordion.owl-carousel {
-    padding-left: 20px;
-    padding-right: 20px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
   }
   
   .carousel-accordion .owl-item a {
@@ -291,4 +291,11 @@
   
   .owl-carousel .owl-nav button.owl-next:focus {
     outline: 0;
+  }
+
+
+  .singleproduct-crousel-holder{
+    background: #FFFFFF;
+    border-radius: 6px;
+    min-height: 142px;
   }

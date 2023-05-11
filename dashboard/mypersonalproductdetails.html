@@ -40,6 +40,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../assets/owlcarousel/owlcarousel.min.css">
+    <link rel="stylesheet" href="../assets/owlcarousel/owltheme.default.min.css">   
 
     <style>
         /* .loader {
@@ -92,13 +95,13 @@
 
                     <ul class="item-inner">
                         <li class="borderBottom pb-2">
-                            <div class="reviews-info d-flex align-items-center">
+                            <div class="reviews-info d-flex  align-items-center">
                                 <h6 class="mt-1 fontFamily1" style="margin-left:0px;">
                                     <span class="productOwnerFarmName zowasel-white-color fw-normal"><!--Naziri's--> </span>&nbsp;&nbsp;
                                     <!-- <span>Farm</h6> -->
                                 </h6>
 
-                                <span class="isVerified d-flex align-items-center btn btn-success btn-sm py-0 text-white">
+                                <span class="isVerified d-flex align-items-center btn btn-success btn-sm py-1 text-white">
 
                                 </span>
                             </div>
@@ -188,6 +191,8 @@
                     </div>
                 </div>
             </div> -->
+
+
             <!-- Content Section 1 -->
             <div class="container py-0">
                 
@@ -207,6 +212,24 @@
                         </div>
                         <button class="btn btn-danger">Deactivate crop</button> -->
                     </div>
+
+                    <!-- ------------------------------ CAROUSEL ------------------------------- -->
+                    <div class="carousel-accordion owl-carousel owl-carousel-singleproduct-page mt-4">
+                        <!--   if you add more than 5 slides, then they active carousel navigations -->
+                      
+                        <!-- <div class="accordion_li">
+                          <a href="#">
+                            <div class="bg-image">
+                              <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" class="accordion_img" alt="img">
+                            </div> -->
+                            <!-- <div class="pv-content">
+                              <p>Lorem ipsum dolor sit .</p>
+                            </div> -->
+                          <!-- </a>
+                        </div> -->
+                    </div>
+                    <!-- ------------------------------ CAROUSEL ------------------------------- -->
+
 
                     <div class="auction-viewbid-button d-grid col-12">
                         <!-- <button class="btn zowasel-bg text-white mt-4">View Bids</button> -->
@@ -411,10 +434,12 @@
     Scripts
 ***********************************-->
 <script src="../../assets/js/jquery.js"></script>
-<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
-<script src="../../assets/js/dz.carousel.js"></script><!-- Swiper -->
-<script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../assets/owlcarousel/owl.carousel.min.js"></script>
+<script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
 <script src="../../assets/js/settings.js"></script>
 <script src="../../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
@@ -466,6 +491,16 @@
         $('#more').hide();
         }
     });
+</script>
+
+<script>
+    $(document).ready(()=>{
+        // $(".owl-carousel").owlCarousel({
+        //     navigation : true
+        // });
+
+        owlcarouselSettings();
+    })
 </script>
 
 </body>

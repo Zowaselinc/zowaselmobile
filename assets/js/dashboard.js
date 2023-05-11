@@ -205,6 +205,11 @@ function pageRestriction(){
         setCookie(key,value,0.5);
         // COOKIES
     })
+
+    socket.on("flw",function(data){
+        // console.log(data, "KYC Socket data");
+        // alert("SOcket entered")
+    })
 }
 
 function setCookie(key,value,time){
@@ -1111,8 +1116,8 @@ function fetchWantedCrops(){
                         rowContent += `
                         <li class="lazy cardholder p-3 fontFamily1">
       
-                            <div class="row">
-                                <div class="item-inner col-6">
+                            <div class="d-flex justify-content-between">
+                                <div class="item-inner">
                                     <div class="item-title-row mb-0">
                                         <h6 class="item-title zowasel-darkblue-color f-18"><a href="javascript:void(0)">${row.subcategory.name} ${thecolor}</a></h6>
                                         <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
@@ -1124,9 +1129,9 @@ function fetchWantedCrops(){
                                         </div>    
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="item-inner">
                                     <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)} / ${thetest_weight}</h6>
+                                        <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)} / ${thetest_weight}</h6>
                                     </a>
 
                                     <div class="d-flex mt-2">
@@ -1215,14 +1220,16 @@ function fetchAllCropsForSale(){
     let userid = user.user.id;
     let usertype = user.user.type;
 
-    let theURL, gotoProductdetails, currentPage;
+    let theURL, gotoProductdetails, viewmoreProduts, currentPage;
     if(usertype == "corporate"){
         theURL = `crop/getbycropoffer`;
+        viewmoreProduts = `/dashboard/allcropsforsale.html`;
         gotoProductdetails = `productdetails.html`;
         currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
     }else{
         theURL = `crop/getbycropwanted`;
-        // gotoProductdetails = `mypersonalproductdetails.html`;
+        viewmoreProduts = `/dashboard/cropsforsale.html`;
+        gotoProductdetails = `mypersonalproductdetails.html`;
         // currentPage = ``;
     }
 
@@ -1247,8 +1254,9 @@ function fetchAllCropsForSale(){
                 // alert(response.message);
                 let thedata = response.data.rows;
                 let rowContent = "";
+                let carouselrowContent = "";
                 let index;
-                console.log(thedata, "erfrefre");
+                console.log(theURL, thedata, "the Product URL type");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -1284,8 +1292,8 @@ function fetchAllCropsForSale(){
 
                         rowContent += `
                         <li class="lazy cardholder p-3 fontFamily1">
-                            <div class="row">
-                                <div class="item-inner col-6"> 
+                            <div class="d-flex justify-content-between">
+                                <div class="item-inner"> 
                                     <div class="item-title-row  mb-0">
                                         <h6 class="item-title zowasel-darkblue-color f-18"><a href="javascript:void(0)">${row.subcategory.name} ${thecolor}</a></h6>
                                         <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
@@ -1298,9 +1306,9 @@ function fetchAllCropsForSale(){
                                     </div>
                                 </div>
 
-                                <div class="col-6">
+                                <div class="item-inner">
                                     <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)} / ${thetest_weight}</h6>
+                                        <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)} / ${thetest_weight}</h6>
                                     </a>
 
                                     <div class="d-flex mt-3">
@@ -1317,10 +1325,55 @@ function fetchAllCropsForSale(){
                         </li>
                         `;   
                     }
+
+                    for (let i = 0; i < 2; i++) {
+                        // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+                        console.log("row",row);
+
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = "- "+row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+  
+                        let activeProductClass, negotiationProductClass;
+                        if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
+                        carouselrowContent += `
+                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                        location.assign('${gotoProductdetails}')">
+                            <a href="#">
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${row.category.name}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,18)}</div>
+                                <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${toCommas(theprice)} / ${thetest_weight}</div>
+                            </a>
+                        </div>
+                        `; 
+                    }
+
+                    let emptycell = `
+                    <div class="text-center p-2 py-3">
+                        <a href="#">Click "More" to see others</a>
+                    </div>
+                    <div class="text-center p-2 py-3">
+                    </div>
+                    `;
                     $('#p_allcropsforsale').html(rowContent);
+                    $('#p_carouselcropsforsale').html(carouselrowContent + emptycell);
+                    // console.log("carouselrowContent + emptycell", carouselrowContent + emptycell);
 
                 }else{
                     $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop for sale yet</h5></td></tr>");
+                    $('#p_carouselcropsforsale').html("<tr><td colspan='9' class='text-center'><span class='pt-2'>No crop yet</span></td></tr>");
                 }
                 
                 lazyLoading();
@@ -1329,10 +1382,25 @@ function fetchAllCropsForSale(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                // console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     });
@@ -1377,7 +1445,7 @@ function populateSingleMyPersonalProductDetails(){
                 // if(thedata.user.is_verified === 0){
                 //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
                 // }else{
-                    isverified = `Verified &nbsp;<img src="../logos/verified.svg" width="22px" alt="">`;
+                    isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="12px" alt="">`;
                 // }
                 $('.isVerified').html(isverified);
 
@@ -1448,6 +1516,53 @@ function populateSingleMyPersonalProductDetails(){
                 }
                 // AUCTION CROP
 
+                /* -------------------------------- CAROUSEL -------------------------------- */
+                let imagesLink = thedata.images;
+                console.log("ImagesLink", imagesLink);
+                if(imagesLink){
+                    if(imagesLink.includes('/data/products')){
+
+                    }else{
+                        var parsedImagesLink = JSON.parse(imagesLink);
+                        console.log("parsedImagesLink",parsedImagesLink.length);
+
+                        let carousel="";
+                        let carouselcontents;
+                        if(parsedImagesLink.length < 1){
+                            $(".swiper-btn-center-lr").hide();
+                        }else{
+                            for(let i=0; i<parsedImagesLink.length; i++){
+                                carousel +=`
+                                <div class="accordion_li">
+                                    <a href="#">
+                                        <div class="bg-image">
+                                        <img src="${parsedImagesLink[i]}" class="accordion_img" alt="img">
+                                        </div>
+                                    </a>
+                                </div>
+                                `;
+                            }
+                            let swiperBtn = `
+                                <div class="swiper-btn">
+                                    <div class="swiper-pagination style-2 flex-1"></div>
+                                </div>
+                            `;
+
+                        carouselcontents = `
+                                ${carousel}
+                            `;
+                            
+                            
+
+                            // setTimeout(()=>{
+                                $('.owl-carousel-singleproduct-page').html(carouselcontents);
+                                // $('.swiper-container').append(swiperBtn);
+                            // },500)
+                        }
+                    }
+                }
+                /* -------------------------------- CAROUSEL -------------------------------- */
+
                 let videoLink;
                 if(!thedata.video){
                     $('.videoLinkContainer').hide();
@@ -1460,8 +1575,15 @@ function populateSingleMyPersonalProductDetails(){
                     if(embedLink){
                         $('#videoLink').attr('src', thevideoLink);
                     }else if(watchLink){
+                        let watchExtension_formated;
                         let watchExtension = thedata.video.split('watch?v=')[1];
-                        videoLink = "https://www.youtube.com/embed/"+watchExtension;
+                        let thelink = watchExtension.includes("&");
+                        if(thelink){
+                            watchExtension_formated = watchExtension.split('&')[0];
+                        }else{
+                            watchExtension_formated = watchExtension;
+                        }
+                        videoLink = "https://www.youtube.com/embed/"+watchExtension_formated;
                         $('#videoLink').attr('src', videoLink);
                     }else if(mp4Link){
                         $('#videoLinkTagArea').html(`<video src="${thevideoLink}" width="100%" height="315" controls></video>`);
@@ -1526,10 +1648,25 @@ function populateSingleMyPersonalProductDetails(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                // console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
             }
         }
     })
@@ -1829,7 +1966,7 @@ function populateSingleProductDetails(){
                             
 
                             // setTimeout(()=>{
-                                $('.owl-carousel').html(carouselcontents);
+                                $('.owl-carousel-singleproduct-page').html(carouselcontents);
                                 // $('.swiper-container').append(swiperBtn);
                             // },500)
                         }
@@ -1849,8 +1986,15 @@ function populateSingleProductDetails(){
                     if(embedLink){
                         $('#videoLink').attr('src', thevideoLink);
                     }else if(watchLink){
+                        let watchExtension_formated;
                         let watchExtension = thedata.video.split('watch?v=')[1];
-                        videoLink = "https://www.youtube.com/embed/"+watchExtension;
+                        let thelink = watchExtension.includes("&");
+                        if(thelink){
+                            watchExtension_formated = watchExtension.split('&')[0];
+                        }else{
+                            watchExtension_formated = watchExtension;
+                        }
+                        videoLink = "https://www.youtube.com/embed/"+watchExtension_formated;
                         $('#videoLink').attr('src', videoLink);
                     }else if(mp4Link){
                         $('#videoLinkTagArea').html(`<video src="${thevideoLink}" width="100%" height="315" controls></video>`);
@@ -3311,8 +3455,10 @@ $('#formpage3').submit(function(e){
         let windowTo = document.getElementById('windowTo').value;
 
         // format from M/D/YYYY to YYYYMMDD
-        let windowFromValue = windowFrom.replaceAll("-", "/");
-        let windowToValue = windowTo.replaceAll("-", "/");
+        // let windowFromValue = windowFrom.replaceAll("-", "/");
+        // let windowToValue = windowTo.replaceAll("-", "/");
+        let windowFromValue = windowFrom.replaceAll("/", "-");
+        let windowToValue = windowTo.replaceAll("/", "-");
 
         // let thedeliveryWindowValue = windowFromValue+"-"+windowToValue;
         // deliveryWindowValue = JSON.stringify(thedeliveryWindowValue);
@@ -3320,6 +3466,9 @@ $('#formpage3').submit(function(e){
             "from": windowFromValue,"to":windowToValue
         }
     }
+
+    // console.log("deliveryWindowValue ",JSON.stringify(deliveryWindowValue));
+    deliveryWindowValue = JSON.stringify(deliveryWindowValue);
 
     let start_date, end_date, minimum_bid;
     if(activePage=="/dashboard/addcropauction.html"){
@@ -3398,7 +3547,7 @@ $('#formpage3').submit(function(e){
         formData.append("address", deliveryaddress.value);
     }
     if(activePage=="/dashboard/addcropwanted.html"||activePage=="/dashboard/addcrop.html"){
-        formData.append("delivery_window", "deliveryWindowValue");
+        formData.append("delivery_window", deliveryWindowValue);
     }
     if(activePage=="/dashboard/addcropauction.html"){
         formData.append("delivery_window", "NULL");
@@ -3707,6 +3856,7 @@ function fetchInputs(){
                 // alert(response.message);
                 let thedata = response.data.reverse();
                 let rowContent = "";
+                let carouselrowContent = "";
                 let index;
                 console.log(thedata, "erfrefre");
                 if(thedata.length > 0){
@@ -3726,22 +3876,22 @@ function fetchInputs(){
                         rowContent += `
                         <li class="cardholder p-3 fontFamily1 lazy">
                             <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                            <div class="row">
-                                <div class="item-inner col-7">
+                            <div class="d-flex justify-content-between">
+                                <div class="item-inner">
                                     <div class="item-title-row mb-0">
-                                        <h6 class="item-title zowasel-darkblue-color f-18"><a>${truncate(row.subcategory.name,30)}</a></h6>
+                                        <h6 class="item-title zowasel-darkblue-color f-18"><a>${truncate(row.subcategory.name,20)}</a></h6>
                                         <div class="item-subtitle zowasel-color fw-bold f-18">${truncate(row.category.name,20) }</div>
                                     </div>
                                     <div class="item-footer">
                                         <h6 class="me-3 mb-0"><i class="fa fa-user f-13 me-1"></i> ${row.user.first_name}</h6>
-                                        <h6 class="me-3 mb-0 text-truncate">${row.description}</h6>
+                                        <h6 class="me-3 mb-0 text-truncate">${truncate(row.description,20)}</h6>
                                     </div>
                                 </div>
-                                <div class="col-5">
+                                <div class="item-inner">
                                     <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <h6 class="mb-0 zowasel-color f-18">₦ ${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</h6>
+                                        <h6 class="mb-0 zowasel-color f-18">₦${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</h6>
                                     </a>
-                                    <div class="d-flex mt-2">
+                                    <div class="d-flex mt-3">
                                         <div class="cropstatus cropActive ${activeProductClass}"></div>
                                     </div>
                                     <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="goToInputDetails1(${row.id})">
@@ -3752,10 +3902,45 @@ function fetchInputs(){
                         </li>
                         `;   
                     }
+
+                    for (let i = 0; i < 1; i++) {
+                        // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        console.log("ggg",row);
+                        index= i+1;
+
+                        let therow = JSON.stringify(row);
+
+                        let theprice;
+                        if(row.price){ theprice = row.price; }else{ theprice = ""; }
+
+                        carouselrowContent += `
+                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="goToInputDetails1(${row.id})">
+                            <div class="d-none" id="rowdetails${row.id}">${therow}</div>
+                            <a href="#">
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,30)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,20) }</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,20)}</div>
+                                <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</div>
+                            </a>
+                        </div>
+                        `; 
+                    }
+
+                    let emptycell = `
+                    <div class="text-center p-2 py-3"">
+                        <a href="#">Click "More" to see others</a>
+                    </div>
+                    <div class="text-center p-2 py-3">
+                    </div>
+                    `;
+
                     $('#inputs').html(rowContent);
+                    $('#p_carouselinputsforsale').html(carouselrowContent + emptycell);
 
                 }else{
                     $('#inputs').html("No Input yet");
+                    $('#p_carouselinputsforsale').html("No Input yet");
                 }
 
                 lazyLoading();
@@ -4389,6 +4574,7 @@ function fetchUserCropsforSaleByUserID(){
                 // alert(response.message);
                 let thedata = response.data.rows;
                 let rowContent = "";
+                let carouselrowContent = "";
                 let index;
                 console.log(thedata, "My crop for sale");
                 if(thedata.length > 0){
@@ -4417,8 +4603,8 @@ function fetchUserCropsforSaleByUserID(){
                         rowContent += `
                         <li class="cardholder p-3 fontFamily1 lazy">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="row">
-                            <div class="item-inner col-6">
+                        <div class="d-flex justify-content-between">
+                            <div class="item-inner">
                                 <div class="item-title-row mb-0">
                                     <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} - ${thecolor}</a></h6>
                                     <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
@@ -4429,9 +4615,9 @@ function fetchUserCropsforSaleByUserID(){
                                     </div>    
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="item-inner">
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)}</h6>
+                                    <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)}</h6>
                                 </a>    
                                 <div class="d-flex mt-2">
                                     <div class="cropstatus cropActive ${activeProductClass}"></div>
@@ -4445,10 +4631,54 @@ function fetchUserCropsforSaleByUserID(){
                     </li>
                         `;   
                     }
+
+                    for (let i = 0; i < 10; i++) {
+                        // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+                        console.log("row",row);
+
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = "- "+row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+  
+                        let activeProductClass, negotiationProductClass;
+                        if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+                        if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
+                        carouselrowContent += `
+                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="goToMyPersonalCropDetails1(${row.id})">
+                            <a href="#">
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${row.category.name}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,18)}</div>
+                                <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${toCommas(theprice)} / ${thetest_weight}</div>
+                            </a>
+                        </div>
+                        `; 
+                    }
+
+                    let emptycell = `
+                    <div class="text-center p-2 py-3"">
+                        <a href="#">Click "More" to see others</a>
+                    </div>
+                    <div class="text-center p-2 py-3">
+                    </div>
+                    `;
+                    $('#p_carouselcropsforsale').html(carouselrowContent + emptycell);
+
                     $('#p_cropsByUserID').html(rowContent);
 
                 }else{
                     $('#p_cropsByUserID').html("No Crop for sale yet");
+                    $('#p_carouselcropsforsale').html("No Crop for sale yet");
                 }
 
                 lazyLoading();
@@ -4458,7 +4688,7 @@ function fetchUserCropsforSaleByUserID(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
@@ -4540,6 +4770,7 @@ function fetchCropsforAuction(){
                 // alert(response.message);
                 let thedata = response.data.rows;
                 let rowContent = "";
+                let carouselrowContent = "";
                 let index;
                 console.log(thedata, "erfrefre");
                 if(thedata.length > 0){
@@ -4575,27 +4806,27 @@ function fetchCropsforAuction(){
                         rowContent += `
                         <li class="lazy cardholder p-3 fontFamily1">
                         <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="row">
-                            <div class="item-inner col-6">
+                        <div class="d-flex justify-content-between">
+                            <div class="item-inner">
                                 <div class="item-title-row mb-0">
                                     <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} ${thecolor}</a></h6>
                                     <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">${truncate(row.description,20)}</h6>
+                                        <div class="me-3 mb-0 f-12">${truncate(row.description,20)}</div>
                                     </div>    
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="item-inner">
                                 <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    <h6 class="mb-0 zowasel-color f-18">₦ ${toCommas(theprice)}/${thetest_weight}</h6>
+                                    <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)}/${thetest_weight}</h6>
                                 </a>
                                 <div class="d-flex align-items-center my-2">
                                     <span class="cropstatus cropActive ${activeProductClass}"></span>
                                     ${crophasBid}
                                 </div>
-                                <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="localStorage.setItem('singleproductID',${row.id}); 
+                                <button class="btn zowasel-darkblue-bg text-white w-100 py-2" onclick="localStorage.setItem('singleproductID',${row.id}); 
                                 location.assign('${gotoProductdetails}')">
                                     View
                                 </button> 
@@ -4604,12 +4835,53 @@ function fetchCropsforAuction(){
                     </li>
                         `;   
                     }
+
+                    for (let i = 0; i < 2; i++) {
+                        // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        let therow = JSON.stringify(row);
+
+                        let thecolor, theprice, thetest_weight;
+                        let specification = row.specification;
+                        if(specification){
+                            if(specification.color){ thecolor = "- "+ row.specification.color; }else{ thecolor = ""; }
+                            if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                            if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+                        }else{
+                            thecolor = "";
+                            theprice = "";
+                        }
+
+
+                        carouselrowContent += `
+                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                        location.assign('${gotoProductdetails}')">
+                            <a href="#">
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${row.category.name}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,18)}</div>
+                                <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${toCommas(theprice)} / ${thetest_weight}</div>
+                            </a>
+                        </div>
+                        `;   
+                    }
+
+                    let emptycell = `
+                    <div class="text-center p-2 py-3"">
+                        <a href="#">Click "More" to see others</a>
+                    </div>
+                    <div class="text-center p-2 py-3">
+                    </div>
+                    `;
                     
                     if(usertype == "corporate"){
                         $('#p_allCropAuction').html(rowContent);
                     }else if(usertype == "merchant"){
                         $('#p_cropAuctionByUserID').html(rowContent);
                     }
+                    $('#p_carouselcropsforauction').html(carouselrowContent + emptycell);
 
                 }else{
                     if(usertype == "corporate"){
@@ -4617,6 +4889,7 @@ function fetchCropsforAuction(){
                     }else if(usertype == "merchant"){
                         $('#p_cropAuctionByUserID').html("No Crop yet");
                     }
+                    $('#p_carouselcropsforauction').html("No Crop yet");
                 }
 
                 lazyLoading();
@@ -5108,6 +5381,97 @@ function owlcarouselSettings(){
             responsive: {
             0: {
                 items: 1.25
+            },
+            460: {
+                items: 1.75
+            },
+            768: {
+                items: 2.5
+            },
+            900: {
+                items: 3.5
+            },
+            1200: {
+                margin: 0,
+                onInitialized: itemExpanded,
+                onRefresh: itemExpanded,
+                autoWidth: true,
+                mouseDrag: false,
+                items: 5
+            }
+            }
+        });
+    }
+}
+
+
+
+function owlcarouselSettingsForAllProducts(){
+    if ($(window).width() > 1200) {
+        function itemSize() {
+            var OwlSlideItem = $(".carousel-accordion .accordion_li"),
+            OwlSlideItemmargin = 10,
+            // itemsLength = 5,
+            owlFullScrnWidth = $(".carousel-accordion").width(),
+            normItemWidth = owlFullScrnWidth / itemsLength - 9;
+
+            OwlSlideItem.stop().animate({ width: normItemWidth + "px" }, 500);
+        }
+        itemSize();
+    }
+
+    function itemExpanded() {
+    var OwlSlidemactive = $(".carousel-accordion .owl-item.active"),
+        // OwlSlideItemmargin = $('.carousel-accordion .owl-item').css('marginRight').replace(/[A-Za-z]/g, ""),
+        itemsLength = 10,
+        owlFullScrnWidth = $(".carousel-accordion").width() - itemsLength,
+        normItemWidth = owlFullScrnWidth / itemsLength - 10,
+        lgItemWidth = normItemWidth * 2 + 20,
+        smItemWidth = (normItemWidth * 3) / 4 - 3;
+
+    OwlSlidemactive.hover(
+        function () {
+        var $this = $(this);
+        $this
+            .addClass("expanded")
+            .removeClass("active")
+            .find(".accordion_li")
+            .stop()
+            .animate({ width: lgItemWidth + "px" }, 500);
+        $(".carousel-accordion .active")
+            .find(".accordion_li")
+            .stop()
+            .animate({ width: smItemWidth + "px" }, 500);
+        },
+        function () {
+        var $this = $(this);
+        $this.removeClass("expanded").addClass("active");
+        $(".carousel-accordion .active")
+            .find(".accordion_li")
+            .stop()
+            .animate({ width: normItemWidth + "px" }, 500);
+        }
+    );
+    }
+    setTimeout(()=>{
+        initialize_owl($(".carousel-accordion"));
+    },2000)
+
+    function initialize_owl(el) {
+        el.owlCarousel({
+            loop: true,
+            margin: 10,
+            // navText: ["<i class='angle-left'></i>", "<i class='angle-right'></i>"],
+            navText: "",
+            dots: false,
+            autoPlay: false,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: false,
+            nav: false,
+            responsiveClass: true,
+            responsive: {
+            0: {
+                items: 2.25
             },
             460: {
                 items: 1.75

@@ -27,3 +27,6 @@ function populateOnAllDashboardScreens(){
     }
 }
 populateOnAllDashboardScreens();
+setTimeout(()=>{
+    populateOnAllDashboardScreens();
+},1000)
