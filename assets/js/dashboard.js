@@ -87,7 +87,16 @@ const buttommenu =(page)=>{
             $( "#buttommenu" ).html( data );
         })
     }
+}
 
+const buttomaddnewcrop =(page)=>{
+    if(page){
+        
+    }else{
+        $.get( "components/buttomaddnewcrop.html", function( data ) {
+            $( "#buttommenu" ).html( data );
+        })
+    }
 }
 
 
@@ -1326,7 +1335,7 @@ function fetchAllCropsForSale(){
                         `;   
                     }
 
-                    for (let i = 0; i < 2; i++) {
+                    for (let i = 0; i < 10; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -3903,7 +3912,7 @@ function fetchInputs(){
                         `;   
                     }
 
-                    for (let i = 0; i < 1; i++) {
+                    for (let i = 0; i < 5; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         console.log("ggg",row);
@@ -4836,7 +4845,7 @@ function fetchCropsforAuction(){
                         `;   
                     }
 
-                    for (let i = 0; i < 2; i++) {
+                    for (let i = 0; i < 10; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
