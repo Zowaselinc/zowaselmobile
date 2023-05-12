@@ -11,13 +11,11 @@
 
 <div class="toolbar-inner menubar-nav">
     <a class="nav-link notificationLink w-100 d-flex justify-content-end mb-4">
-        <button class="btn zowasel-bg text-white addcropbtn">
+        <button class="btn zowasel-bg text-white addcropbtn" onclick="addproduct()">
             <img src="../../logos/addicon.png" /> &nbsp;
             Add Crop
         </button>
     </a>
-    
-   
 </div>
 
 
@@ -27,12 +25,18 @@
     // console.log(urlString);
 
     let paramString = urlString.split('dashboard/')[1];
-    // console.log(paramString);
+    console.log(paramString);
 
-    $('.nav-link').removeClass('active');
-    if(paramString == "notification.html"){
-        $('.notificationLink').addClass('active');
+    function addproduct(){
+        if(paramString == "viewusercropsforsale.html"){
+            location.assign("/dashboard/addcrop.html");
+        }
+
+        if(paramString == "viewusercropsforauction.html"){
+            location.assign("/dashboard/addcropauction.html");
+        }
     }
+    
     if(paramString == "index.html"){
         $('.homeLink').addClass('active');
     }
@@ -49,81 +53,3 @@
         $('.conversationsLink').addClass('active');
     }
 </script>
-
-<script>
-    /************************************************************************************
-     * /* ---------------- FETCH USER NOTIFICATION BY USER ID AND TYPE ---------------- *
-     ************************************************************************************/
-    function fetchUserNotificationsByUserTypeandID(){
-        let user = localStorage.getItem('zowaselUser');
-        user = JSON.parse(user);
-        let userid = user.user.id;
-        let usertype = user.user.type;
-    
-        // startPageLoader();
-        $.ajax({
-            url: `${liveMobileUrl}/notification/${usertype}/${userid}`,
-            type: "GET",
-            "timeout": 25000,
-            "headers": {
-                "Content-Type": "application/json",
-                "authorization": localStorage.getItem('authToken')
-            },
-            success: function(response) { 
-                // alert("efe");
-                // EndPageLoader();
-                // $('.loader').addClass('loader-hidden');
-                // console.log(response, "The get all notification by useridANDtype response");
-                if(response.error == true){
-                    // alert(response.message);
-                    responsemodal("erroricon.png", "Error", response.message);
-                    // $('.loader').addClass('loader-hidden');
-                }else{
-                    // alert(response.message);
-                    let thedata = (response.data).reverse();
-                    let rowContent = "";
-                    let index;
-                    // console.log(thedata, "Notification count data");
-                    // console.log(JSON.parse(thedata[7].tracking_details).transit.length);
-                    let total_newnotification;
-                    if(thedata.length > 0){
-                        // GET ALL UNSEEN RECORDS
-                        let newnotification = thedata.filter((item)=>item.general_seen==0);
-                        total_newnotification = newnotification.length;
-                        if(total_newnotification>0){
-                            $('.notification-count').show();
-                        }else{
-                            $('.notification-count').hide();
-                        }
-                        $('.notification-count').text(total_newnotification); 
-              
-                    }else{
-                        $('.notification-count').hide();
-                        $('.notification-count').text(0);
-                    }
-                        
-                }
-            },
-            error: function(xmlhttprequest, textstatus, message) {
-                EndPageLoader();
-                if(textstatus==="timeout") {
-                    // basicmodal("", "Service timed out");
-                } else {
-                    // alert(textstatus);
-                    // basicmodal("", textstatus);
-                }
-            }
-        });
-    }
-    /************************************************************************************
-     * /* ---------------- FETCH USER NOTIFICATION BY USER ID AND TYPE ---------------- *
-     ************************************************************************************/
-    fetchUserNotificationsByUserTypeandID();
-    setInterval(() => {
-            setTimeout(()=>{
-                fetchUserNotificationsByUserTypeandID();
-            },500)
-    }, 2000);
-    
-    </script>
-    

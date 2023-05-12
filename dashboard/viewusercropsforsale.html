@@ -230,7 +230,15 @@
     sidemenu();
     populateUserDetails();
     fetchUserCropsforSaleByUserID();
-    buttomaddnewcrop();
+    function userTypeFunction(){
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let usertype = user.user.type;
+        if(usertype=="merchant"){
+            buttomaddnewcrop();
+        }else{ buttommenu(); }
+    }
+    userTypeFunction();
 </script>
 
 <script>
