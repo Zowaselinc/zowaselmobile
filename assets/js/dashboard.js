@@ -23,7 +23,7 @@ PullToRefresh.init({
 function lazyLoading(){
     $('.lazy').hide();
     $('.lazy').each(function(index,value) {
-        console.log(index, "frelkferk");
+        // console.log(index, "frelkferk");
         if(index < 11 ) {
         $(this).show();
         }
@@ -94,6 +94,16 @@ const buttomaddnewcrop =(page)=>{
         
     }else{
         $.get( "components/buttomaddnewcrop.html", function( data ) {
+            $( "#buttommenu" ).html( data );
+        })
+    }
+}
+
+const buttomaddnewinput =(page)=>{
+    if(page){
+        
+    }else{
+        $.get( "components/buttomaddnewinput.html", function( data ) {
             $( "#buttommenu" ).html( data );
         })
     }
@@ -1223,6 +1233,7 @@ function checkifActiveB4GoingtoSinglePage(rowID, isActive, gotoProductdetails){
 
 
 /* ------------------------------ FETCH ALL CROPS FOR SALE ----------------------------- */
+// CORPORATE
 function fetchAllCropsForSale(){
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -1335,7 +1346,7 @@ function fetchAllCropsForSale(){
                         `;   
                     }
 
-                    for (let i = 0; i < 10; i++) {
+                    for (let i = 0; i < 5; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -1370,11 +1381,11 @@ function fetchAllCropsForSale(){
                     }
 
                     let emptycell = `
-                    <div class="text-center p-2 py-3">
-                        <a href="#">Click "More" to see others</a>
-                    </div>
-                    <div class="text-center p-2 py-3">
-                    </div>
+                        <div class="text-center p-2 py-3"">
+                            <a href="#">Click "More" to see others</a>
+                        </div>
+                        <div class="text-center p-2 py-3">
+                        </div>
                     `;
                     $('#p_allcropsforsale').html(rowContent);
                     $('#p_carouselcropsforsale').html(carouselrowContent + emptycell);
@@ -3912,7 +3923,8 @@ function fetchInputs(){
                         `;   
                     }
 
-                    for (let i = 0; i < 5; i++) {
+                    // for (let i = 0; i < 5; i++) {
+                        for (let i = 0; i < 1; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         console.log("ggg",row);
@@ -4032,25 +4044,30 @@ function fetchMerchantAddedInputs(){
                         }
 
                         rowContent += `
-                        <li onclick="goToInputDetails2(${row.id})" style="background:whitesmoke;padding: 13px 15px 0px;">
-                        <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="item-content">
+                        <li class="cardholder p-3 fontFamily1 lazy">
+                        <div class="d-none" id="rowdetails2_${row.id}">${therow}</div>
+                        <div class="d-flex justify-content-between">
                             <div class="item-inner">
-                                <div class="item-title-row mb-0" style="width:80%;">
-                                    <h6 class="item-title"><a>${row.category.name}</a></h6>
-                                    <div class="item-subtitle text-truncate">${truncate(row.description, 50)}</div>
+                                <div class="item-title-row mb-0">
+                                    <h6 class="item-title zowasel-darkblue-color f-18"><a>${truncate(row.subcategory.name,20)}</a></h6>
+                                    <div class="item-subtitle zowasel-color fw-bold f-18">${truncate(row.category.name,20) }</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">NGN ${toCommas(row.price)}</h6>
+                                        <h6 class="me-3 mb-0 text-truncate">${truncate(row.description,20)}</h6>
                                     </div>    
-                                    
                                 </div>
                             </div>
-                            <div class="item-media media media-90">  
-                                <div class="d-flex">
+                            <div class="item-inner"> 
+                                <a href="javascript:void(0);" class="item-bookmark icon-2">
+                                    <h6 class="mb-0 zowasel-color f-18">₦${truncate(toCommas(row.price), 10)} / ${truncate(row.packaging,10)}</h6>
+                                </a> 
+                                <div class="d-flex mt-3">
                                     <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
                                 </div>
+                                <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="goToInputDetails2(${row.id})">
+                                    View
+                                </button>
                             </div>
                         </div>
                     </li>
@@ -4112,7 +4129,7 @@ function goToInputDetails1(n){
 
 function goToInputDetails2(n){
     location.assign('inputdetail.html');
-    let singleInputDetails = $('#rowdetails'+n).text();
+    let singleInputDetails = $('#rowdetails2_'+n).text();
     // alert(singleInputDetails);
     localStorage.setItem('singleInputDetails', singleInputDetails);
     localStorage.setItem('last_input_crop_page',"viewuseraddedinput.html");
@@ -4123,6 +4140,56 @@ function populateSingleInputDetails(){
     let singleInputDetails = localStorage.getItem('singleInputDetails');
     let input = JSON.parse(singleInputDetails);
     console.log(input);
+
+    $('.testWeight').html(input.packaging);
+    $('.productQuantity').html(input.stock);
+
+    /* -------------------------------- CAROUSEL -------------------------------- */
+    let imagesLink = input.images;
+    console.log("ImagesLink", imagesLink);
+    if(imagesLink){
+        if(imagesLink.includes('/data/products')){
+            
+        }else{
+            var parsedImagesLink = JSON.parse(imagesLink);
+            console.log("parsedImagesLink",parsedImagesLink.length);
+
+            let carousel="";
+            let carouselcontents;
+            if(parsedImagesLink.length < 1){
+                $(".swiper-btn-center-lr").hide();
+            }else{
+                for(let i=0; i<parsedImagesLink.length; i++){
+                    carousel +=`
+                    <div class="accordion_li">
+                        <a href="#">
+                            <div class="bg-image">
+                            <img src="${parsedImagesLink[i]}" class="accordion_img" alt="img">
+                            </div>
+                        </a>
+                    </div>
+                    `;
+                }
+                let swiperBtn = `
+                    <div class="swiper-btn">
+                        <div class="swiper-pagination style-2 flex-1"></div>
+                    </div>
+                `;
+
+            carouselcontents = `
+                    ${carousel}
+                `;
+                
+                
+
+                // setTimeout(()=>{
+                    $('.owl-carousel-singleproduct-page').html(carouselcontents);
+                    // $('.swiper-container').append(swiperBtn);
+                // },500)
+            }
+        }
+    }
+    /* -------------------------------- CAROUSEL -------------------------------- */
 
     let previouspage = localStorage.getItem('last_input_crop_page');
     if(previouspage == "viewusercropsforsale.html"){
@@ -4154,8 +4221,6 @@ function populateSingleInputDetails(){
             isverified = `Verified &nbsp;<img src="../logos/verified.svg" width="22px" alt="">`;
         // }
         $('.isVerified').html(isverified);
-        $('.testWeight').html(input.packaging);
-        $('.productQuantity').html(input.stock);
         $('.product_type').html(input.product_type);
         $('.manufacture_country').html(input.manufacture_country);
         $('.manufacture_name').html(capitalizeFirstLetter(input.manufacture_name));
@@ -4345,6 +4410,7 @@ function fetchUserInputCart(){
             console.log(total_items_inCart);
             console.log(total_price_count);
             $('.total_items_inCart').html(total_items_inCart);
+            $('.total_items_inCart').val(total_items_inCart);
             $('.total_price_count').html(total_price_count);
             $('#total_price').val(total_price_count);
         },
@@ -4818,12 +4884,12 @@ function fetchCropsforAuction(){
                         <div class="d-flex justify-content-between">
                             <div class="item-inner">
                                 <div class="item-title-row mb-0">
-                                    <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} ${thecolor}</a></h6>
+                                    <h6 class="item-title zowasel-darkblue-color f-18"><a>${truncate(row.subcategory.name,15)} ${thecolor}</a></h6>
                                     <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
                                 </div>
                                 <div class="item-footer">
                                     <div class="d-flex align-items-center">
-                                        <div class="me-3 mb-0 f-12">${truncate(row.description,20)}</div>
+                                        <div class="me-3 mb-0 f-12">${truncate(row.description,19)}</div>
                                     </div>    
                                 </div>
                             </div>
@@ -4845,7 +4911,8 @@ function fetchCropsforAuction(){
                         `;   
                     }
 
-                    for (let i = 0; i < 10; i++) {
+                    // for (let i = 0; i < 10; i++) {
+                        for (let i = 0; i < 1; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -5385,7 +5452,7 @@ function owlcarouselSettings(){
             autoPlay: true,
             autoplayTimeout: 5000,
             autoplayHoverPause: true,
-            nav: true,
+            nav: false,
             responsiveClass: true,
             responsive: {
             0: {

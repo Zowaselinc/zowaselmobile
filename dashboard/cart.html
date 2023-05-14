@@ -32,6 +32,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+
+    <link rel="stylesheet" href="dist/css/dialog-mobile.css">
+    <script src="dist/mcx-dialog.js"></script> 
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -147,6 +150,7 @@
                 <ul>
 					<li>
                         <span style="width: 70%;">Items in Cart</span>
+                        <input type="hidden" class="total_items_inCart" id="totalcartitem" />
                         <span style="width: 30%;text-align:right;" class="total_items_inCart"></span>
                     </li>
                     <li>
@@ -246,7 +250,12 @@
 
 <script>
     const proceedtoCheckout =()=>{
-        createCartOrder();
+        var totalcartitem = document.getElementById('totalcartitem').value;
+        if(totalcartitem<1){
+            mcxDialog.alert("There are no items in cart");
+        }else{
+            createCartOrder();
+        }
     }
 </script>
 

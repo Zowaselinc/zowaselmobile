@@ -1,0 +1,35 @@
+<style>
+    .addcropbtn{
+        border: 2px solid #EAE9F0;
+        box-shadow: 0px 4px 12px 4px rgba(0, 0, 0, 0.14);
+        border-radius: 28px;
+        /* width: 127px; */
+        height: 44px;
+        padding: 8px 14px;
+    }
+</style>
+
+<div class="toolbar-inner menubar-nav">
+    <a class="nav-link notificationLink w-100 d-flex justify-content-end mb-4">
+        <button class="btn zowasel-bg text-white addcropbtn" onclick="addproduct()">
+            <img src="../../logos/addicon.png" /> &nbsp;
+            Add Input
+        </button>
+    </a>
+</div>
+
+
+<script>
+    // const urlString = window.location.href;
+    const urlString = window.location.pathname;
+    // console.log(urlString);
+
+    let paramString = urlString.split('dashboard/')[1];
+    // console.log(paramString);
+
+    function addproduct(){
+        if(paramString == "viewuseraddedinput.html"){
+            location.assign("/dashboard/addinput.html");
+        }
+    }
+</script>

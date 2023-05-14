@@ -38,6 +38,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="../assets/owlcarousel/owlcarousel.min.css">
+    <link rel="stylesheet" href="../assets/owlcarousel/owltheme.default.min.css">  
+
     <style>
         /* .loader {
             width: 100%;
@@ -49,7 +52,9 @@
     </style>
 
 </head>   
-<body class="bg-white">
+<!-- <body class="bg-white"> -->
+<body class="">
+<script src="../assets/js/darkmode.js"></script>
 <div class="page-wraper">
     
     <!-- Preloader -->
@@ -86,7 +91,7 @@
                         </div>
                     </div>
 
-                    <ul class="item-inner">
+                    <ul class="item-inner productownerdetails" style="display:none">
                         <li class="borderBottom pb-2">
                             <div class="reviews-info d-flex align-items-center">
                                 <h6 class="mt-1 fontFamily1" style="margin-left:0px;">
@@ -140,7 +145,7 @@
     </div>
     <!-- Fixd Header -->
 
-    <script src="../../assets/js/jquery.js"></script>
+    <script src="../assets/js/jquery.js"></script>
     <script>
         function gotoPrevPage(){
             let previouspage = localStorage.getItem('last_input_crop_page');
@@ -160,11 +165,12 @@
 	
     
     <!-- Page Content -->
-    <div id="main" class="page-content after-a-fixed1-header mt-4">
+    <div id="main" class="page-content after-a-fixed1-header">
         <div class="content-body fb">
             <!-- <div class="swiper-btn-center-lr my-0">
                 <div class="swiper-container demo-swiper">
                     <div class="swiper-wrapper">
+
                         <div class="swiper-slide">
                             <div class="dz-banner-heading">
                                 <div class="overlay-black-light">
@@ -174,24 +180,44 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="dz-banner-heading">
-                                <div class="overlay-black-light">
+                                <div -class="overlay-black-light">
                                     <img src="../logos/maizethumbnail_resized.jpg" class="bnr-img" alt="bg-image">
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="swiper-btn">
                         <div class="swiper-pagination style-2 flex-1"></div>
                     </div>
                 </div>
             </div> -->
+
+            <!-- ------------------------------ CAROUSEL ------------------------------- -->
+            <div class="container carousel-accordion owl-carousel owl-carousel-singleproduct-page mt-4">
+                <!--   if you add more than 5 slides, then they active carousel navigations -->
+              
+                <!-- <div class="accordion_li">
+                  <a href="#">
+                    <div class="bg-image">
+                      <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" class="accordion_img" alt="img">
+                    </div> -->
+                    <!-- <div class="pv-content">
+                      <p>Lorem ipsum dolor sit .</p>
+                    </div> -->
+                  <!-- </a>
+                </div> -->
+            </div>
+            <!-- ------------------------------ CAROUSEL ------------------------------- -->
+
+
             <!-- Content Section 1 -->
             <div class="container">
-                <div class="item-list-3 d-flex flex-row align-items-center justify-content-between mt-4">
+                <div class="item-list-3 d-flex flex-row align-items-center justify-content-between mt-3">
                     <h5 class="ships">Shipping: 
                         <span style="color:#7D8FAB;">NGN500</span>
                     </h5>
-                    <div  class="thequantitynumbering">
+                    <div class="thequantitynumbering" style="display:none;">
                         <div class="dz-stepper border-1 col-5 d-block">
                             <span class="text-center d-block">Quantity</span>
                             <input class="stepper" type="text" id="inputquantity" value="1" min="1" name="demo3" >
@@ -339,13 +365,14 @@
 <!--**********************************
     Scripts
 ***********************************-->
-<script src="../../assets/js/jquery.js"></script>
-<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
-<script src="../../assets/js/dz.carousel.js"></script><!-- Swiper -->
-<script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
-<script src="../../assets/js/settings.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../assets/owlcarousel/owl.carousel.min.js"></script>
+<script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/custom.js"></script>
 <script src="../assets/js/modal.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
 <script src="../assets/js/env.js"></script> 
@@ -399,14 +426,32 @@
     let previouspage = localStorage.getItem('last_input_crop_page');
     if(previouspage == "viewuseraddedinput.html"){
         $('.offerbutton_holder').addClass('d-none');
-        $('.thequantitynumbering').html(`
-        `);
-        // alert("Ref");
-        // <div class="text-center">
-        //     <h6>Quantity</h6>
-        //     <p class="quantity"></p>
-        // </div>
     }
+
+    function usertypeFunction(){
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let userid = user.user.id;
+        let usertype = user.user.type;
+        if(usertype=="corporate"){
+            $('.productownerdetails').hide();
+            $('.thequantitynumbering').hide();
+        }else if(usertype=="merchant"){
+            $('.productownerdetails').show();
+            $('.thequantitynumbering').show();
+        }
+    }
+    usertypeFunction();
+</script>
+
+<script>
+    $(document).ready(()=>{
+        // $(".owl-carousel").owlCarousel({
+        //     navigation : true
+        // });
+
+        owlcarouselSettings();
+    })
 </script>
 
 </body>

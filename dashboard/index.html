@@ -146,7 +146,7 @@
                     <div class="container py-0">
                         <!-- CROPS FOR SALE -->
                         <div class="d-flex align-items-center justify-content-between f-16 fw-700 my-2">
-                            <div class="zowasel-darkblue-color"><span id="pronoun_crop_offer"></span>Crops For Sale</div>
+                            <div class="zowasel-darkblue-color"><span class="pronoun_crop_offer"></span>Crops For Sale</div>
                             <div class="zowasel-color" onclick="viewmoreProducts('cropsforsale')">More</div>
                         </div>
                         <!-- ------------------------------ CAROUSEL ------------------------------- -->
@@ -169,7 +169,7 @@
 
                         <!-- CROPS FOR AUCTION -->
                         <div class="d-flex align-items-center justify-content-between f-16 fw-700 my-2">
-                            <div class="zowasel-darkblue-color">Crops For Auction</div>
+                            <div class="zowasel-darkblue-color"><span class="pronoun_crop_offer"></span>Crops For Auction</div>
                             <div class="zowasel-color" onclick="viewmoreProducts('cropsforauction')">More</div>
                         </div>
                         <!-- ------------------------------ CAROUSEL ------------------------------- -->
@@ -192,7 +192,7 @@
 
                         <!-- INPUTS FOR SALE -->
                         <div class="d-flex align-items-center justify-content-between f-16 fw-700 my-2">
-                            <div class="zowasel-darkblue-color">Inputs For Sale</div>
+                            <div class="zowasel-darkblue-color"><span class="pronoun_inputforsale"></span>Inputs For Sale</div>
                             <div class="zowasel-color" onclick="viewmoreProducts('inputsforsale')">More</div>
                         </div>
                         <!-- ------------------------------ CAROUSEL ------------------------------- -->
@@ -335,9 +335,10 @@
         user = JSON.parse(user);
         let usertype = user.user.type;
         if(usertype == "merchant"){
-            $('#pronoun_crop_offer').html('My ');
+            $('.pronoun_crop_offer').html('My ');
             fetchUserCropsforSaleByUserID();
         }else if(usertype == "corporate"){
+            $('.pronoun_inputforsale').html('My ');
             fetchAllCropsForSale();
         }
     }
@@ -352,18 +353,20 @@
         let theURL, gotoProductdetails, viewmoreProduts, currentPage;
         if(usertype == "corporate"){
             // Corporate should see all crops for sale
-            if(n=="cropsforsale"){ location.assign('/dashboard/allcropsforsale.html');
-            }else{ location.assign('/dashboard/cropsforsale.html'); }
+            if(n=="cropsforsale"){ location.assign('/dashboard/cropsforsale.html'); }
+            if(n=="cropsforauction"){ location.assign('/dashboard/cropsforauction.html'); }
+            if(n=="inputsforsale"){ location.assign('/dashboard/viewuseraddedinput.html'); }
         }else if(usertype == "merchant"){
             // Merchant should see only hos crops for sale
-            if(n=="cropsforsale"){ location.assign('/dashboard/viewusercropsforsale.html');
-            }else{ location.assign('/dashboard/allcropsforsale.html'); }
+            if(n=="cropsforsale"){ location.assign('/dashboard/viewusercropsforsale.html'); }
+            if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html'); }
+            if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html'); }
 
-            if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html');
-            }else{  }
+            // if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html');
+            // }else{  }
 
-            if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html');
-            }else{  }
+            // if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html');
+            // }else{  }
         }
     }
 </script>
