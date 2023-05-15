@@ -4945,9 +4945,9 @@ function fetchCropsforAuction(){
                         <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
                         location.assign('${gotoProductdetails}')">
                             <a href="#">
-                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${row.category.name}</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,9)}</div>
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,6)} ${truncate(thecolor,4)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,7)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,7)}</div>
                                 <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${toCommas(theprice)} / ${thetest_weight}</div>
                             </a>
                         </div>
