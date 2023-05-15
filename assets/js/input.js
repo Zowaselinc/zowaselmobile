@@ -91,6 +91,7 @@ function grabSingleOrderDetails(){
             EndPageLoader();
             // $('.loader').hide();
             console.log(response, "The single Order details response");
+            
             if(response.error == true){
                 // alert(response.message);
                 responsemodal("erroricon.png", "Error", response.message);
