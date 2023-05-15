@@ -74,6 +74,7 @@ function grabSingleOrderDetails(){
     let pathname = window.location.search;
     let queryString = new URLSearchParams(pathname);
     let order_hash = queryString.get("ORD");
+    $('#order_hash').val(order_hash);
     // console.log(order_hash, "order_hash");
 
     startPageLoader();

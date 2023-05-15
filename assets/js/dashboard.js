@@ -4350,6 +4350,16 @@ function fetchUserInputCart(){
                         total_price_count = parseInt(total_price_count) + eval(parseInt(row.price)*row.quantity);
                         total_items_inCart = parseInt(total_items_inCart) + parseInt(row.quantity);
 
+                        let images = row.input.images;
+                        images = JSON.parse(images);
+                        // console.log("images",images);
+                        let theimage;
+                        if(images.length<1 || images[0].includes('public/')){
+                            theimage = ``;
+                        }else{
+                            theimage = `<img src="${images[0]}" alt="logo">`;
+                        }
+
                         rowContent += `
                         <li>
                             <div class="item-content single-cart-item">
@@ -4358,11 +4368,11 @@ function fetchUserInputCart(){
                             <button type="button" class="btn text-white deletecartBtn" onclick="deleteCart(${row.id})">x</button>
 
                                 <div class="item-media media media-60">
-
+                                    ${theimage}
                                 </div>
                                 <div class="item-inner">
                                     <div class="item-title-row mb-0 mt-3">
-                                        <h6 class="item-title"><a href="order-list.html">${row.input.subcategory.name}</a></h6>
+                                        <h6 class="item-title"><a">${row.input.subcategory.name}</a></h6>
                                         <div class="item-subtitle">${row.input.user.first_name+" "+row.input.user.last_name}</div>
                                     </div>
                                     <div class="item-footer mb-0">
