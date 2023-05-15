@@ -1346,7 +1346,7 @@ function fetchAllCropsForSale(){
                         `;   
                     }
 
-                    for (let i = 0; i < 5; i++) {
+                    for (let i = 0; i < 3; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -3924,7 +3924,7 @@ function fetchInputs(){
                     }
 
                     // for (let i = 0; i < 5; i++) {
-                        for (let i = 0; i < 1; i++) {
+                        for (let i = 0; i < 3; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         console.log("ggg",row);
@@ -3939,9 +3939,9 @@ function fetchInputs(){
                         <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="goToInputDetails1(${row.id})">
                             <div class="d-none" id="rowdetails${row.id}">${therow}</div>
                             <a href="#">
-                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,30)}</div>
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,10)}</div>
                                 <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,20) }</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,9)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,6)}</div>
                                 <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</div>
                             </a>
                         </div>
@@ -4717,7 +4717,7 @@ function fetchUserCropsforSaleByUserID(){
                         `;   
                     }
 
-                    for (let i = 0; i < 10; i++) {
+                    for (let i = 0; i < 3; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -4922,7 +4922,7 @@ function fetchCropsforAuction(){
                     }
 
                     // for (let i = 0; i < 10; i++) {
-                        for (let i = 0; i < 1; i++) {
+                        for (let i = 0; i < 3; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -5545,11 +5545,17 @@ function owlcarouselSettingsForAllProducts(){
 
     function initialize_owl(el) {
         el.owlCarousel({
-            loop: true,
+            rtl: false,
+            center: false,
+            loop: false,
             margin: 10,
             // navText: ["<i class='angle-left'></i>", "<i class='angle-right'></i>"],
             navText: "",
             dots: false,
+            lazyLoading: false,
+            startPosition: -1,
+            // smartSpeed: 200,
+            autoWidth: false,
             autoPlay: false,
             autoplayTimeout: 5000,
             autoplayHoverPause: false,
@@ -5557,7 +5563,9 @@ function owlcarouselSettingsForAllProducts(){
             responsiveClass: true,
             responsive: {
             0: {
-                items: 2.25
+                // items: 2.25,
+                items: getItems(2.25),
+                loop: false
             },
             460: {
                 items: 1.75
@@ -5578,6 +5586,26 @@ function owlcarouselSettingsForAllProducts(){
             }
             }
         });
+    }
+}
+
+let myItemCount = 10;
+function getItems(items) {
+    if (myItemCount < items) {
+        return myItemCount;
+    }
+    else {
+        return items;
+    }
+}
+
+
+function getLoop(items) {
+    if (myItemCount < items) {
+        return false;
+    }
+    else {
+        return true;
     }
 }
 /* ------------------------------ OWL CAROUSEL ------------------------------ */
