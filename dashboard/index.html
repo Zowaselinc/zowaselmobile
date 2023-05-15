@@ -101,9 +101,9 @@
                 <div class="main-balance">
                     <div class="d-flex align-items-center justify-content-between zowasel-white-color">
                         <span class="wallet-title">Wallet Balance</span>
-                        <span class="wallet-link fw-bold d-flex align-items-center">
+                        <span class="wallet-link fw-bold d-flex align-items-center" onclick="location.assign('/dashboard/wallet.html')">
                             <span class="d-block me-2">Wallet</span> 
-                            <img src="../assets/icons/rightarrow.png" role="button" style="width:11.77px;height:20px;" onclick="location.assign('/dashboard/wallet.html')" />
+                            <img src="../assets/icons/rightarrow.png" role="button" style="width:11.77px;height:20px;" />
                         </span>
                     </div>
                     <h1 class="zowasel-white-color d-flex align-items-center">
@@ -320,12 +320,15 @@
 </script>
 
 <script>
+    setTimeout(()=>{
+        owlcarouselSettingsForAllProducts();
+    },1000);
     $(document).ready(()=>{
         // $(".owl-carousel").owlCarousel({
             //     navigation : true
             // });
             
-        owlcarouselSettingsForAllProducts();
+        // owlcarouselSettingsForAllProducts();
     })
 </script>
 
