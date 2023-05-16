@@ -316,6 +316,69 @@ function deleteCookie(name){
 }
 
 
+/* ---------------- CHECK IF ACCOUNT DETAILS HAS BEEN UPDATED --------------- */
+function proceedtoKYC(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    user = user.user;
+
+    let country = user.country;
+    let gender = user.gender;
+    let state = user.state;
+    let city = user.city;
+    let address = user.address;
+
+    // COMPANY
+    let company = user.user.company;
+    
+    let company_country = company.country;
+    let contact_person = company.contact_person;
+
+    let userdetailsHasANullField;
+    if(!country || !gender || !state || !city || !address){
+        userdetailsHasANullField = true;
+    }else{
+        userdetailsHasANullField = false;
+    }
+
+    let companydetailsHasANullField;
+    if(!company_country || !contact_person){
+        companydetailsHasANullField = true;
+    }else{
+        companydetailsHasANullField = false;
+    }
+
+    function gotoEditAccountDetails(){
+        setTimeout(()=>{
+            location.assign('/dashboard/editaccountdetails.html');
+        },3000)
+    }
+    
+    if(company){
+        if(userdetailsHasANullField === true && companydetailsHasANullField === true){
+            basicmodal("Please update your account and company details");
+            gotoEditAccountDetails();
+        }else if(userdetailsHasANullField === true && companydetailsHasANullField === false){
+            basicmodal("Please update your account details");
+            gotoEditAccountDetails();
+        }else if(userdetailsHasANullField === false && companydetailsHasANullField === true){
+            basicmodal("Please update your company details");
+            gotoEditAccountDetails();
+        }else{
+            location.assign('/dashboard/kycverification.html');
+        }
+    }else{
+        if(userdetailsHasANullField === true){
+            basicmodal("Please update your account details");
+            gotoEditAccountDetails();
+        }else{
+            location.assign('/dashboard/kycverification.html');
+        }
+    }
+}
+/* ---------------- CHECK IF ACCOUNT DETAILS HAS BEEN UPDATED --------------- */
+
+
 
 const populateUserDetails =()=>{
     let user = localStorage.getItem('zowaselUser');
