@@ -203,7 +203,8 @@
                         <label>Country</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
-                            <select required id="company_country" class="form-control p_countryList company_country">
+                            <select class="form-control p_countryList" id="company_country" required="">
+                                
                             </select>
                             <small class="input_response">Error Message</small>
                         </div>
@@ -313,17 +314,23 @@
 <script>
     // sidemenu();
     populateUserDetails();
-    populateCountryList();
+    setTimeout(()=>{
+        populateCountryList();
+    },500)
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let country = user.user.country;
     let state = user.user.state;
     let company = user.user.company;
+    setTimeout(()=>{
+        $('#countryList').val(country);
+    },1000)
+    
     if(country){
-        $('.countryname').val(country);
         $(document).ready(()=>{
             var countryvalue = country;
             // alert(countryvalue);
+            // console.log("countrylist", countrylist);
 
             var listItems = '';
             var emptylistItems = '<option value="">- Select state -</option>';
@@ -359,8 +366,8 @@
         let companycountry = company.country;
         let companystate = company.state;
         setTimeout(()=>{
-            $('.company_country').val(companycountry);
-        },500)
+            $('#company_country').val(companycountry);
+        },1000)
         
         $(document).ready(()=>{
             $('#company_state').val(companystate);
