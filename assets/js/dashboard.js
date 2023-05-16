@@ -287,6 +287,8 @@ function checkifKYCis_done(){
         if(userkycDoneStatus == 1){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/kycverification.html');
+        }else{
+            
         }
     }else{
         
@@ -323,10 +325,10 @@ function proceedtoKYC(){
     user = user.user;
 
     let country = user.country;
-    let gender = user.gender;
+    // let gender = user.gender;
     let state = user.state;
     let city = user.city;
-    let address = user.address;
+    let primary_address = user.primary_address;
 
     // COMPANY
     let company = user.company;
@@ -337,7 +339,7 @@ function proceedtoKYC(){
     }
 
     let userdetailsHasANullField;
-    if(!country || !gender || !state || !city || !address){
+    if(country==null || country=="" || state==null || state=="" || city==null || city=="" || primary_address==null || primary_address==""){
         userdetailsHasANullField = true;
     }else{
         userdetailsHasANullField = false;
@@ -357,6 +359,8 @@ function proceedtoKYC(){
     }
     
     if(company){
+        console.log(country, "||", state, "||", city, "||", primary_address);
+        console.log(userdetailsHasANullField, companydetailsHasANullField);
         if(userdetailsHasANullField === true){
             if(companydetailsHasANullField === true){
                 basicmodal("", "Please update your account and company details");
@@ -369,9 +373,9 @@ function proceedtoKYC(){
             if(companydetailsHasANullField === true){
                 basicmodal("", "Please update your company details");
                 gotoEditAccountDetails();
+            }else{
+                location.assign('/dashboard/kycverification.html');
             }
-        }else{
-            location.assign('/dashboard/kycverification.html');
         }
     }else{
         if(userdetailsHasANullField === true){

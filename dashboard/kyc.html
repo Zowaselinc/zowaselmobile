@@ -897,9 +897,9 @@
             // // form.append("front", fileInput.files[0], "idcard.png");
             formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
 
-            console.log(id_type+id_number+firstname+lastname+phone+country+state+city+address+dob+gender+bvn, "formData");
-            console.log(blobFile_Front, "formData");
-            console.log(blobFile_Back, "formData");
+            // console.log(id_type+id_number+firstname+lastname+phone+country+state+city+address+dob+gender+bvn, "formData");
+            // console.log(blobFile_Front, "formData");
+            // console.log(blobFile_Back, "formData");
             startPageLoader();
             var settings = {
                 "url": `${liveMobileUrl}/users/account/kyc`,
@@ -927,7 +927,7 @@
                     setTimeout(()=>{
                         // $("#addInputForm")[0].reset();
 
-                        if(company.id){
+                        if(company){
                             mcxDialog.confirm("Continue with Kyb", {
                                 sureBtnClick: function(){
                                     // callback
