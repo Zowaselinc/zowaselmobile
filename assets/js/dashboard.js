@@ -357,15 +357,19 @@ function proceedtoKYC(){
     }
     
     if(company){
-        if(userdetailsHasANullField === true && companydetailsHasANullField === true){
-            basicmodal("", "Please update your account and company details");
-            gotoEditAccountDetails();
-        }else if(userdetailsHasANullField === true && companydetailsHasANullField === false){
-            basicmodal("", "Please update your account details");
-            gotoEditAccountDetails();
-        }else if(userdetailsHasANullField === false && companydetailsHasANullField === true){
-            basicmodal("", "Please update your company details");
-            gotoEditAccountDetails();
+        if(userdetailsHasANullField === true){
+            if(companydetailsHasANullField === true){
+                basicmodal("", "Please update your account and company details");
+                gotoEditAccountDetails();
+            }else if(companydetailsHasANullField === false){
+                basicmodal("", "Please update your account details");
+                gotoEditAccountDetails();
+            }
+        }else if(userdetailsHasANullField === false){
+            if(companydetailsHasANullField === true){
+                basicmodal("", "Please update your company details");
+                gotoEditAccountDetails();
+            }
         }else{
             location.assign('/dashboard/kycverification.html');
         }
