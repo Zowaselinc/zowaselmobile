@@ -928,12 +928,16 @@
                         // $("#addInputForm")[0].reset();
 
                         if(company){
-                            mcxDialog.confirm("Continue with Kyb", {
-                                sureBtnClick: function(){
-                                    // callback
-                                    location.assign('kyb.html');                                
-                                }
-                            });
+                            basicmodal("","Continue with KYB, Redirecting...")
+                            // mcxDialog.confirm("Continue with Kyb", {
+                            //     sureBtnClick: function(){
+                            //         // callback
+                            //         location.assign('kyb.html');                                
+                            //     }
+                            // });
+                            setTimeout(()=>{
+                                location.assign('kyb.html');
+                            },3000)
                         }else{
                             location.assign('editprofile.html?type=kyc');
                         }

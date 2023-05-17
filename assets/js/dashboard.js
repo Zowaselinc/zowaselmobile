@@ -528,12 +528,17 @@ function updateUserAccount(){
                 setTimeout(()=>{
                     $('.loader').addClass('loader-hidden');
                 },3000)
+
+                // UPDATE STORED USER DETAILS
+                let sessionuser = localStorage.getItem('zowaselUser');
+                sessionuser = JSON.parse(sessionuser);
+                // sessionuser.user = response.data;
+                // let modifiedUserString = JSON.stringify(sessionuser);
+                // localStorage.setItem('zowaselUser', modifiedUserString);
+
                 setTimeout(()=>{
-                    basicmodal("Redirecting to login", "Please login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },3500)
+                    console.log("sessionuser", response.data);
+                },1500)
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
@@ -607,7 +612,7 @@ function updateUserPassword(){
                 setTimeout(()=>{
                     basicmodal("Redirecting to login", "Please login again");
                     setTimeout(()=>{
-                        logout();
+                        // logout();
                     },3000)
                 },3500)
             }
@@ -699,7 +704,7 @@ function updateCompanyAccount(){
                 setTimeout(()=>{
                     basicmodal("Redirecting to login", "Please login again");
                     setTimeout(()=>{
-                        logout();
+                        // logout();
                     },3000)
                 },3500)
             }
