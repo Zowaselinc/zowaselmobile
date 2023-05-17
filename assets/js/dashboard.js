@@ -532,12 +532,12 @@ function updateUserAccount(){
                 // UPDATE STORED USER DETAILS
                 let sessionuser = localStorage.getItem('zowaselUser');
                 sessionuser = JSON.parse(sessionuser);
-                // sessionuser.user = response.data;
-                // let modifiedUserString = JSON.stringify(sessionuser);
-                // localStorage.setItem('zowaselUser', modifiedUserString);
+                sessionuser.user = response.data;
+                let modifiedUserString = JSON.stringify(sessionuser);
+                localStorage.setItem('zowaselUser', modifiedUserString);
 
                 setTimeout(()=>{
-                    console.log("sessionuser", response.data);
+                    // console.log("sessionuser", modifiedUserString);
                 },1500)
             }
         },
@@ -655,7 +655,7 @@ function updateUserPassword(){
 /* ------------------------- UPDATE COMPANY ACCOUNT ------------------------- */
 function updateCompanyAccount(){
     let company_name = document.getElementById('company_name');
-    // let company_country = document.getElementById('company_country');
+    let company_country = document.getElementById('company_country');
     let state = document.getElementById('company_state');
     let company_address = document.getElementById('company_address');
     let email = document.getElementById('company_email');
@@ -682,6 +682,7 @@ function updateCompanyAccount(){
         "data": JSON.stringify({
             "company_name": company_name.value,
             "state": state.value,
+            "company_country": company_country.value,
             "company_address": company_address.value,
             "email": email.value,
             "contact_person": contact_person.value,
@@ -701,12 +702,16 @@ function updateCompanyAccount(){
                 setTimeout(()=>{
                     $('.loader').addClass('loader-hidden');
                 },3000)
-                setTimeout(()=>{
-                    basicmodal("Redirecting to login", "Please login again");
-                    setTimeout(()=>{
-                        // logout();
-                    },3000)
-                },3500)
+                 // UPDATE STORED USER DETAILS
+                 let sessionuser = localStorage.getItem('zowaselUser');
+                 sessionuser = JSON.parse(sessionuser);
+                 sessionuser.user = response.data;
+                 let modifiedUserString = JSON.stringify(sessionuser);
+                 localStorage.setItem('zowaselUser', modifiedUserString);
+ 
+                 setTimeout(()=>{
+                    //  console.log("sessionuser", modifiedUserString);
+                 },1500)
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
