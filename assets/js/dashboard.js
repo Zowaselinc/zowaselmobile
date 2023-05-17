@@ -305,6 +305,9 @@ function checkifKYCis_done(){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/checkuserverification.html');
         }
+        if(userkycDoneStatus == 1){
+            checkifKYCis_verified();
+        }
     }
 }
 checkifKYCis_done();
@@ -710,7 +713,7 @@ function updateCompanyAccount(){
                  localStorage.setItem('zowaselUser', modifiedUserString);
  
                  setTimeout(()=>{
-                    //  console.log("sessionuser", modifiedUserString);
+                     console.log("sessionuser", response.data);
                  },1500)
             }
         },
