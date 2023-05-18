@@ -111,17 +111,12 @@ socket.on(usersocketchannel,function(data){
 })
 
 
-    $(document).ready(()=>{
-
-
-
-
-       
+    $(document).ready(()=>{       
        
        /* ------------------------ CHECK IF USER IS VERIFIED FOR KYC ----------------------- */
         function checkifuser_hasDoneKYC(){
-            // let user = localStorage.getItem('zowaselUser');
-            // user = JSON.parse(user);
+            let user = localStorage.getItem('zowaselUser');
+            user = JSON.parse(user);
             // let user_id = user.user.id;
             startPageLoader();
             $.ajax({
@@ -147,7 +142,7 @@ socket.on(usersocketchannel,function(data){
                         // console.log(verification_status, "verification Status");
                         if(data.status.toLowerCase()=="unverified"){
                             location.assign('kyc.html');
-                            $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus">Unverified</button>');
+                            $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus bg-warning">Unverified</button>');
                         }else if(data.status.toLowerCase()!=="unverified"){
                             // location.assign('editprofile.html?type=kyc');
                             // localStorage.setItem('KycVerificationResult', JSON.stringify(data));
@@ -160,9 +155,12 @@ socket.on(usersocketchannel,function(data){
                             $('.previewKYC-container').show();
 
                             if(data.status.toLowerCase()=="pending verification"){
-                                statusClass = "text-warning"
+                                statusClass = "bg-warning text-white";
                             }else if(data.status.toLowerCase()=="verified"){
-                                statusClass = "text-success"
+                                statusClass = "bg-success text-white";
+
+
+
                             }else{
                                 statusClass = "";
                             }

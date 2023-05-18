@@ -123,10 +123,12 @@
                         let data = response.data;
                         // let verification_status = row.user.is_verified;
                         // console.log(verification_status, "verification Status");
-                        alert(data.status);
+                        // alert(data.status);
+                        console.log(data.status);
+                        // "Verified" : "Pending Verification"
                         if(data.status.toLowerCase()=="unverified"){
                             location.assign('kyb.html');
-                            $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus">Unverified</button>');
+                            $('.kycSectionVerificationStatus').html('<button class="btn verificationStatus text-gray fw-bold p-2">Unverified</button>');
                         }else if(data.status.toLowerCase()!=="unverified"){
                             // location.assign('editprofile.html?type=kyc');
                             // localStorage.setItem('KycVerificationResult', JSON.stringify(data));
@@ -139,13 +141,13 @@
                             $('.previewKYB-container').show();
 
                             if(data.status.toLowerCase()=="pending verification"){
-                                statusClass = "text-warning"
+                                statusClass = "text-warning fw-bold p-2"
                             }else if(data.status.toLowerCase()=="verified"){
-                                statusClass = "text-success";
+                                statusClass = "text-white fw-bold bg-success p-2 px-3";
                             }else{
                                 statusClass = "";
                             }
-                            $('.kycSectionVerificationStatus').html(`<button class="btn verificationStatus ${statusClass}">${data.status}</button>`);
+                            $('.kybSectionVerificationStatus').html(`<button class="btn verificationStatus ${statusClass}">${data.status}</button>`);
 
                             getKYBDocuments();
                         }

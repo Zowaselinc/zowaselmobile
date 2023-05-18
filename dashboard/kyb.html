@@ -38,6 +38,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 </head>   
 <!-- <body class="bg-white"> -->
 <body class="">
@@ -91,7 +92,7 @@
 
     
     <!-- Page Content -->
-    <div id="main" class="page-content bottom-content ">
+    <div id="main" class="page-content bottom-content container">
        
        <div class="account-box">
            <div class="container">
@@ -220,6 +221,7 @@
     // sidemenu();
     // populateUserDetails();
     populateCountryList();
+    pageRestriction();
 </script>
 
 <script>
@@ -459,7 +461,7 @@
                 mcxDialog.confirm("Update your company profile before proceeding \n Go to profile company details", {
                     sureBtnClick: function(){
                         // callback
-                        location.assign("editprofile.html");
+                        location.assign("/dashboard/editaccountdetails.html");
                     }
                 });
             }else{
@@ -517,7 +519,8 @@
                         setTimeout(()=>{
                             // $("#addInputForm")[0].reset();
 
-                            location.assign('editprofile.html?type=kyb');
+                            // location.assign('editprofile.html?type=kyb');
+                            location.assign('/dashboard/kybverification.html');
                         },2000)
                         
                     }

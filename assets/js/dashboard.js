@@ -197,6 +197,7 @@ function capitalizeFirstLetter(text){
 
 
 function pageRestriction(){
+    // alert("page restriction");
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let user_id = user.user.id;
@@ -208,7 +209,7 @@ function pageRestriction(){
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
 
-        // console.log(data, "KYC Socket data");
+        // console.log(data, "KYC/KYB Socket data");
         // alert("SOcket entered")
 
         // COOKIES
@@ -218,17 +219,122 @@ function pageRestriction(){
         let value2 = data.userdidkyc;
         setCookie(key2,value2,0.5);
 
-        
         let key = "userkycstatus";
         let value = data.userskycstatus;
         setCookie(key,value,0.5);
+
+        let key2kyb = "userdidkyb";
+        let value2kyb = data.userdidkyb;
+        setCookie(key2kyb,value2kyb,0.5);
+
+        let keykyb = "userkybstatus";
+        let valuekyb = data.userskybstatus;
+        setCookie(keykyb,valuekyb,0.5);
         // COOKIES
     })
+
+    // API TO CHECK INCASE SOCKET FAILS
+    $.ajax({
+        url: `${liveMobileUrl}/users/account/checkkycstatus`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            $('.loader').addClass('loader-hidden');
+            // console.log(response, "The get all category response");
+            if(response.error == true){
+                // alert(response.message);
+                console.log(response.message);
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                
+                console.log("the kyc/kyb status data", thedata);    
+                // KYC
+                let key2 = "userdidkyc";
+                let value2 = 1;
+                if(thedata.kyc){
+                    setCookie(key2,value2,0.5);
+                }else{
+                    setCookie(key2,0,0.5);
+                }
+
+                let key = "userkycstatus";
+                let value = 1;
+                if(thedata.kyc.verified==1){
+                    setCookie(key,value,0.5);
+                }else{
+                    setCookie(key,0,0.5);
+                }
+
+                // KYB
+                let key2kyb = "userdidkyb";
+                let value2kyb = 1;
+                let keykyb = "userkybstatus";
+                if(thedata.kyb){
+                    setCookie(key2kyb,value2kyb,0.5);
+                    // STATUS
+                    let valuekyb = thedata.kyb.status;
+                    if(thedata.kyb.status=="complete"){
+                        setCookie(keykyb,valuekyb,0.5);
+                    }else{
+                        setCookie(keykyb,valuekyb,0.5);
+                    }
+                }else{
+                    setCookie(key2kyb,0,0.5);
+                    setCookie(keykyb,0,0.5);
+                }
+
+                
+                
+
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                console.log("", "Session has ended, Login again");
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+    // API TO CHECK INCASE SOCKET FAILS
 
     socket.on("flw",function(data){
         // console.log(data, "KYC Socket data");
         // alert("SOcket entered")
     })
+
+    // socket.on("db",function(data){
+    //     console.log(data, "DB Socket data");
+    //     // alert("SOcket entered")
+    // })
 }
 
 function setCookie(key,value,time){
@@ -265,6 +371,7 @@ function checkifKYCis_verified(){
     let pathname = window.location.pathname;
     if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
     ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    ||pathname.includes('dashboard/checkuserkybverification')
     ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
     ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')){
 
@@ -272,6 +379,9 @@ function checkifKYCis_verified(){
         if(userkycstatus == 0){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/checkuserverification.html');
+        }else{
+            console.log("KYC is verified");
+            checkifKYBis_done();
         }
     }
     
@@ -296,6 +406,7 @@ function checkifKYCis_done(){
 
     if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
     ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    ||pathname.includes('dashboard/checkuserkybverification')
     ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
     ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
     ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
@@ -312,6 +423,66 @@ function checkifKYCis_done(){
 }
 checkifKYCis_done();
 
+
+// Check if KYB is done
+function checkifKYBis_done(){
+    let userkybDoneStatus = getCookie("userdidkyb");
+    // alert(userkybDoneStatus);
+    let pathname = window.location.pathname;
+    if(pathname.includes('dashboard/kyb.html')){
+        if(userkybDoneStatus == 1){
+            // console.log(window.location)
+            location.assign(window.location.origin+'/dashboard/kybverification.html');
+        }else{
+            
+        }
+    }else{
+        
+    }
+
+    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
+    ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    ||pathname.includes('dashboard/checkuserkybverification')
+    ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
+    ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
+    ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
+
+    }else{
+        if(userkybDoneStatus == 0){
+            // console.log(window.location)
+            location.assign(window.location.origin+'/dashboard/checkuserkybverification.html');
+        }
+        if(userkybDoneStatus == 1){
+            // alert("Check if KYB is verified");
+            console.log("Check if KYB is verified");
+            checkifKYBis_verified();
+        }
+    }
+}
+
+
+function checkifKYBis_verified(){
+    let userkybstatus = getCookie("userkybstatus");
+    console.log("Kyb "+userkybstatus);
+    // alert(userkybstatus);
+    let pathname = window.location.pathname;
+    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
+    ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    ||pathname.includes('dashboard/checkuserkybverification')
+    ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
+    ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')){
+
+    }else{
+        if(userkybstatus.toLowerCase() == "pending" || userkybstatus.toLowerCase() == "failed"){
+            // console.log(window.location)
+            location.assign(window.location.origin+'/dashboard/checkuserkybverification.html');
+        }else{
+            console.log("KYB is verified");
+            // THE END OF USER VERIFICATION IF THE USER HAS A COMPANY
+        }
+    }
+    
+}
 
 
 
@@ -388,6 +559,11 @@ function proceedtoKYC(){
             location.assign('/dashboard/kycverification.html');
         }
     }
+}
+
+
+function proceedtoKYB(){
+    location.assign('/dashboard/kybverification.html');
 }
 /* ---------------- CHECK IF ACCOUNT DETAILS HAS BEEN UPDATED --------------- */
 
