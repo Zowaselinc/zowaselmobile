@@ -209,21 +209,20 @@
                         responsemodal("erroricon.png", "Error", response.message);
                     }else{
                         // alert(response.message);
-                        let data = response.data;
+                        let companydata = response.companydata;
+                    
+                        let document = response.data;
 
-                        let company = data.company_details;
-                        let document = data.kybDataObj;
-
-                        $('.kyb_name').html(`<span style="text-transform:capitalize;">${company.company_name}</span>`);
-                        $('.kyb_email').html(`<span style="text-transform:capitalize;">${company.company_email}</span>`);
-                        $('.kyb_phoneno').html(company.company_phone);
-                        $('.kyb_address').html(company.company_address);
-                        $('.kyb_state').html(company.state);
-                        $('.kyb_country').html(`<span style="text-transform:capitalize;">${company.country}</span>`);
-                        $('.kyb_contactperson').html(`<span style="text-transform:capitalize;">${company.contact_person}</span>`);
-                        $('.kyb_rcnumber').html(`<span style="text-transform:capitalize;">${company.rc_number}</span>`);
-                        $('.kyb_website').html(`<span style="text-transform:capitalize;">${company.company_website}</span>`);
-                        $('.kyb_taxid').html(`<span style="text-transform:capitalize;">${data.tax_id}</span>`);
+                        $('.kyb_name').html(`<span style="text-transform:capitalize;">${companydata.company_name}</span>`);
+                        $('.kyb_email').html(`<span style="text-transform:capitalize;">${companydata.company_email}</span>`);
+                        $('.kyb_phoneno').html(companydata.company_phone);
+                        $('.kyb_address').html(companydata.company_address);
+                        $('.kyb_state').html(companydata.state);
+                        $('.kyb_country').html(`<span style="text-transform:capitalize;">${companydata.country}</span>`);
+                        $('.kyb_contactperson').html(`<span style="text-transform:capitalize;">${companydata.contact_person}</span>`);
+                        $('.kyb_rcnumber').html(`<span style="text-transform:capitalize;">${companydata.rc_number}</span>`);
+                        $('.kyb_website').html(`<span style="text-transform:capitalize;">${companydata.company_website}</span>`);
+                        $('.kyb_taxid').html(`<span style="text-transform:capitalize;">${document.tax_id}</span>`);
 
                         $('#cacImageSrc').attr('src', document.cac);
                         $('#financialStatementImageSrc').attr('src', document.financial_statement);

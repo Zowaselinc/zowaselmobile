@@ -123,7 +123,7 @@
                                    <div class="upload__btn-box">
                                    <label class="upload__btn">
                                        <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload image</p>
-                                       <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile_CAC" accept="image/png, image/jpg, image/jpeg">
+                                       <input type="file" id="cacimage" data-max_length="0" class="upload__inputfile_CAC" accept="image/png, image/jpg, image/jpeg">
                                    </label>
                                    </div>
                                    <div class="upload__img-wrap preview-CAC"></div>
@@ -136,7 +136,7 @@
                                     <div class="upload__btn-box">
                                     <label class="upload__btn">
                                         <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload image</p>
-                                        <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile_financialStatement" accept="image/png, image/jpg, image/jpeg">
+                                        <input type="file" id="finimage" data-max_length="0" class="upload__inputfile_financialStatement" accept="image/png, image/jpg, image/jpeg">
                                     </label>
                                     </div>
                                     <div class="upload__img-wrap preview-financialStatement"></div>
@@ -149,7 +149,7 @@
                                     <div class="upload__btn-box">
                                     <label class="upload__btn">
                                         <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload image</p>
-                                        <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile_MOU" accept="image/png, image/jpg, image/jpeg">
+                                        <input type="file" id="mouimage" data-max_length="0" class="upload__inputfile_MOU" accept="image/png, image/jpg, image/jpeg">
                                     </label>
                                     </div>
                                     <div class="upload__img-wrap preview-MOU"></div>
@@ -440,14 +440,13 @@
             basicmodal("", "Upload MOU Document");
         }else{
 
-            // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
             let tax_id = document.getElementById('tax_id');
-
+            
             let user = localStorage.getItem('zowaselUser');
             user = JSON.parse(user);
             let userid = user.user.id;
             let company = user.user.company;
-
+            
             let name = company.company_name;
             let address = company.company_address;
             let state = company.state;
@@ -456,7 +455,7 @@
             let phone = company.company_phone;
             let website = company.company_website;
             let email = company.company_email;
-
+            
             if(!name || !address || !state || !country|| !contact_person || !phone || !email){
                 mcxDialog.confirm("Update your company profile before proceeding \n Go to profile company details", {
                     sureBtnClick: function(){
@@ -465,66 +464,143 @@
                     }
                 });
             }else{
-
+                
                 console.log(cacFile, "cacFile");
                 console.log(financialStatementFile, "financialStatementFile");
                 console.log(mouFile, "mouFile");
-
-                //Store form Data
-                var formData = new FormData();
-
-                formData.append("tax_id", tax_id.value);
-                formData.append("name", name);
-                formData.append("address", address);
-                formData.append("state", state);
-                formData.append("country", country);
-                formData.append("contact_person", contact_person);
-                formData.append("phone", phone);
-                formData.append("website", website);
-                formData.append("email", email);
-
-                let cacFileType = cacFile[0].type;
-                let finFileType = financialStatementFile[0].type;
-                let mouFileType = mouFile[0].type;
-
-                formData.append("cac", cacFile[0], `cac${userid}.jpeg`);
-                formData.append("financial_statement", financialStatementFile[0], `financial_statement${userid}.jpeg`);
-                formData.append("mou", cacFile[0], `cac${userid}.jpeg`);
-
-                console.log(tax_id.value+name+address+state+country+contact_person+phone+website+email, "formData");
+                // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
                 startPageLoader();
-                var settings = {
-                    "url": `${liveMobileUrl}/account/kyb`,
-                    "method": "POST",
-                    "timeout": 0,
-                    "headers": {
-                        // "Content-Type": "application/json",
-                        "authorization": localStorage.getItem('authToken')
-                    },
-                    "processData": false,
-                    "mimeType": "multipart/form-data",
-                    "contentType": false,
-                    "data": formData
-                };
+                let img1,img2,img3;
 
-                $.ajax(settings).done(function (data) {
-                    // console.log(data);
-                    let response = JSON.parse(data);
-                    EndPageLoader();
-                    if(response.error == true){
-                        // alert(response.message);
-                        responsemodal("erroricon.png", "Error", response.message);
-                    }else{
-                        responsemodal("successicon.png", "Success", response.message);
-                        setTimeout(()=>{
-                            // $("#addInputForm")[0].reset();
+                console.log(cacFile[0], "yeye");
+                var fd = new FormData();  
+                // fd.append( 'file', input.files[0] );
+                fd.append("image", cacFile[0]);
+                fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                .then(data => {
+                    // console.log("Chima", data);
+                    if(data.error == false){
+                        img1 = data.data.imageLink;
 
-                            // location.assign('editprofile.html?type=kyb');
-                            location.assign('/dashboard/kybverification.html');
-                        },2000)
-                        
+                        fd = new FormData();
+                        fd.append("image", financialStatementFile[0]);
+                        fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                        .then(data => {
+                            // console.log("Chima", data);
+                            if(data.error == false){
+                                img2 = data.data.imageLink;
+
+                                fd = new FormData();
+                                fd.append("image", mouFile[0]);
+                                fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                                .then(data => {
+                                    // console.log("Chima", data);
+                                    if(data.error == false){
+                                        img3 = data.data.imageLink;
+
+                                        //Store form Data
+                                        var formData = new FormData();
+                                        formData.append("tax_id", tax_id.value);
+                                        formData.append("name", name);
+                                        formData.append("address", address);
+                                        formData.append("state", state);
+                                        formData.append("country", country);
+                                        formData.append("contact_person", contact_person);
+                                        formData.append("phone", phone);
+                                        formData.append("website", website);
+                                        formData.append("email", email);
+
+                                        formData.append("cac", img1);
+                                        formData.append("financial_statement", img2);
+                                        formData.append("mou", img3);
+
+                                        // console.log(tax_id.value+name+address+state+country+contact_person+phone+website+email, "formData");
+                                        startPageLoader();
+                                        var settings = {
+                                            "url": `${liveMobileUrl}/account/kyb`,
+                                            "method": "POST",
+                                            "timeout": 3500,
+                                            "headers": {
+                                                // "Content-Type": "application/json",
+                                                "authorization": localStorage.getItem('authToken')
+                                            },
+                                            "processData": false,
+                                            "mimeType": "multipart/form-data",
+                                            "contentType": false,
+                                            "data": formData
+                                        };
+
+                                        $.ajax(settings).done(function (data) {
+                                            // console.log(data);
+                                            let response = JSON.parse(data);
+                                            EndPageLoader();
+                                            if(response.error == true){
+                                                // alert(response.message);
+                                                responsemodal("erroricon.png", "Error", response.message);
+                                            }else{
+                                                responsemodal("successicon.png", "Success", response.message);
+                                                setTimeout(()=>{
+                                                    // $("#addInputForm")[0].reset();
+
+                                                    // location.assign('editprofile.html?type=kyb');
+                                                    location.assign('/dashboard/kybverification.html');
+                                                },2000)
+                                                
+                                            }
+                                        });
+                                    }
+                                })
+                            }
+                        })
                     }
-                });
+                })
+
+                
+                //Store form Data
+                // var formData = new FormData();
+
+                // let cacFileType = cacFile[0].type;
+                // let finFileType = financialStatementFile[0].type;
+                // let mouFileType = mouFile[0].type;
+
+                // formData.append("cac", cacFile[0], `cac${userid}.jpeg`);
+                // formData.append("financial_statement", financialStatementFile[0], `financial_statement${userid}.jpeg`);
+                // formData.append("mou", cacFile[0], `cac${userid}.jpeg`);
+
+                // console.log(tax_id.value+name+address+state+country+contact_person+phone+website+email, "formData");
+                // startPageLoader();
+                // var settings = {
+                //     "url": `${liveMobileUrl}/account/kyb`,
+                //     "method": "POST",
+                //     "timeout": 3500,
+                //     "headers": {
+                //         // "Content-Type": "application/json",
+                //         "authorization": localStorage.getItem('authToken')
+                //     },
+                //     "processData": false,
+                //     "mimeType": "multipart/form-data",
+                //     "contentType": false,
+                //     "data": formData
+                // };
+
+                // $.ajax(settings).done(function (data) {
+                    // console.log(data);
+                //     let response = JSON.parse(data);
+                //     EndPageLoader();
+                //     if(response.error == true){
+                //         // alert(response.message);
+                //         responsemodal("erroricon.png", "Error", response.message);
+                //     }else{
+                //         responsemodal("successicon.png", "Success", response.message);
+                //         setTimeout(()=>{
+                //             // $("#addInputForm")[0].reset();
+
+                //             // location.assign('editprofile.html?type=kyb');
+                //             location.assign('/dashboard/kybverification.html');
+                //         },2000)
+                        
+                //     }
+                // });
 
             }
 
