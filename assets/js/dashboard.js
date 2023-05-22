@@ -5994,10 +5994,10 @@ $(document).on('click', '.save-modal', function (ev) {
                 // alert(response.message);
                 responsemodal("erroricon.png", "Error", response.message);
             }else{
-                // responsemodal("successicon.png", "Success", response.message);
+                responsemodal("successicon.png", "Success", response.message);
                 setTimeout(()=>{    
                     $('.modal').modal('hide');
-                },500)
+                },1500)
 
                  // UPDATE STORED USER DETAILS
                  let sessionuser = localStorage.getItem('zowaselUser');
