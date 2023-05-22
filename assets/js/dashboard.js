@@ -5965,49 +5965,62 @@ $(document).on('click', '.save-modal', function (ev) {
         $('#confirm-profileimg').attr('src', resp);
         // The base 64 image
         newprofilePicture = urlToFile(resp);
-        //Store form Data
-        var formData = new FormData();
         console.log("newprofilePicture", newprofilePicture);
 
-        formData.append("image", newprofilePicture, `profile.${newprofilePicture.type.split("/")[1]}`);
+        var fd = new FormData();  
+        // fd.append( 'file', input.files[0] );
+        fd.append("image", newprofilePicture);
+        fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+        .then(data => {
+            // console.log("Chima", data);
+            if(data.error == false){
+                img1 = data.data.imageLink;
 
-        startPageLoader();
-        var settings = {
-            "url": `${liveMobileUrl}/users/account/profilepicture`,
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-                // "Content-Type": "application/json",
-                "authorization": localStorage.getItem('authToken')
-            },
-            "processData": false,
-            "mimeType": "multipart/form-data",
-            "contentType": false,
-            "data": formData
-        };
+                //Store form Data
+                var formData = new FormData();
 
-        $.ajax(settings).done(function (data) {
-            // console.log(data);
-            let response = JSON.parse(data);
-            EndPageLoader();
-            if(response.error == true){
-                // alert(response.message);
-                responsemodal("erroricon.png", "Error", response.message);
-            }else{
-                responsemodal("successicon.png", "Success", response.message);
-                setTimeout(()=>{    
-                    $('.modal').modal('hide');
-                },1500)
+                formData.append("image", img1);
 
-                 // UPDATE STORED USER DETAILS
-                 let sessionuser = localStorage.getItem('zowaselUser');
-                 sessionuser = JSON.parse(sessionuser);
-                 sessionuser.user = response.data;
-                 let modifiedUserString = JSON.stringify(sessionuser);
-                 localStorage.setItem('zowaselUser', modifiedUserString);
-                
+                startPageLoader();
+                var settings = {
+                    "url": `${liveMobileUrl}/users/account/profilepicture`,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        // "Content-Type": "application/json",
+                        "authorization": localStorage.getItem('authToken')
+                    },
+                    "processData": false,
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": formData
+                };
+
+                $.ajax(settings).done(function (data) {
+                    // console.log(data);
+                    let response = JSON.parse(data);
+                    EndPageLoader();
+                    if(response.error == true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        responsemodal("successicon.png", "Success", response.message);
+                        setTimeout(()=>{    
+                            $('.modal').modal('hide');
+                        },1500)
+
+                        // UPDATE STORED USER DETAILS
+                        let sessionuser = localStorage.getItem('zowaselUser');
+                        sessionuser = JSON.parse(sessionuser);
+                        sessionuser.user = response.data;
+                        let modifiedUserString = JSON.stringify(sessionuser);
+                        localStorage.setItem('zowaselUser', modifiedUserString);
+                        
+                    }
+                });
+
             }
-        });
+        })
     });
   });
 /* ---------------------------- PROFILE PIC EDIT ---------------------------- */
