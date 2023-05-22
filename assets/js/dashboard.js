@@ -3697,7 +3697,7 @@ const addCropAuctionPage =()=>{
                 }
             });
         }else{
-            EndPageLoader
+            EndPageLoader();
         }
 
     })
@@ -4293,7 +4293,9 @@ function fetchInputs(){
                     }
 
                     // for (let i = 0; i < 5; i++) {
-                        for (let i = 0; i < 3; i++) {
+                    let looptill;
+                    if(thedata.length>3){looptill=3}else{looptill=thedata.length}
+                    for (let i = 0; i < looptill; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         console.log("ggg",row);
@@ -4319,9 +4321,7 @@ function fetchInputs(){
 
                     let emptycell = `
                     <div class="text-center p-2 py-3"">
-                        <a href="#">Click "More" to see others</a>
-                    </div>
-                    <div class="text-center p-2 py-3">
+                        <!--<a href="#">Click "More" to see others</a>-->
                     </div>
                     `;
 
