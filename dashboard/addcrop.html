@@ -43,10 +43,13 @@
             border-radius: 8px;
             border: 1px solid #EAE9F0;
         }
-        .form-control{
+        .form-control, textarea, .ck-editor{
             background-color: #EFEFEF;
             border-radius: 8px;
             border: 1px solid #EAE9F0;
+        }
+        .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
+            background-color: #EFEFEF;
         }
     </style>
 </head>   
@@ -128,7 +131,7 @@
         
         <div class="account-box">
             <div class="container">
-                <div class="account-area">
+                <div class="account-area fontFamily3">
 
                     <!-- <script src="../assets/js/jquery.js"></script>
                     <script>
@@ -156,13 +159,13 @@
                     <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
                     <form class="form" id="formpage1">
                         <p aria-hidden="true" id="required-description">
-                            <span class="required"><strong>*</strong></span> Required field
+                            <span class="required f-14"><strong>*</strong></span> Required field
                         </p>
 
                         <!-- Form 1A -->
 
                         <!-- <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Crop Title <span>(Optional)</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Crop Title <span>(Optional)</span></label>
                             <input name="croptitle" type="text" class="form-control" id="croptitle" style="border:1px solid #ced4da;" />
                         </div> -->
                         <!-- <div class="upload__box">
@@ -178,20 +181,20 @@
                             </div>
                         </div> -->
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Crop Category <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Crop Category <span class="required">*</span></label>
                             <select class="form-select" id="category" required="">
                                 <option value="">--Select category--</option>
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Product sub category <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Product sub category <span class="required">*</span></label>
                             <select class="form-select" aria-label="Default select example" id="subcategory" required="">
                                 <option value="">--Select Subcategory--</option>
                                 <!-- <option value="1">Random category</option> -->
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Product Color <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Product Color <span class="required">*</span></label>
                             <select class="form-select" aria-label="Default select example" id="color" required="">
                                 <!-- <option value="red">red</option>
                                 <option value="green">green</option>
@@ -199,56 +202,60 @@
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Warehouse Address <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Warehouse Address <span class="required">*</span></label>
                             <input name="warehouse_address" type="text" required class="form-control" id="warehouse_address" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Packaging <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Packaging <span class="required">*</span></label>
                             <input name="packaging" type="text" required class="form-control" id="packaging" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Manufacturer Name <span class="required">*</span> </label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Manufacturer Name <span class="required">*</span> </label>
                             <input name="manufacture_name" type="text" required class="form-control" id="manufacture_name" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Moisture content (MC) <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Moisture content (MC) <span class="required">*</span></label>
                             <select class="form-select ponetohundredpercent" aria-label="Default select example" id="moisturecontent" required="">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Foreign Matter (FM) <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Foreign Matter (FM) <span class="required">*</span></label>
                             <select class="form-select ponetohundredpercent" aria-label="Default select example" id="foreignmatter" required="">
                                
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Test weight <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Test weight <span class="required">*</span></label>
                             <select class="form-select" aria-label="Default select example" required="" id="testweight">
                                 <option value="kg">KG</option>
                                 <option value="mt">MT</option>
                             </select>
                         </div>
-                        <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Negotiable <span class="required">*</span></label>
-                            <select class="form-select" aria-label="Default select example" required="" id="negotiable">
+                        <div class="w-100 mb-3 d-flex align-items-center">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700 me-4">Negotiable</label>
+                            <!-- <select class="form-select" aria-label="Default select example" required="" id="negotiable">
                                 <option value="">--Select yes/no--</option>
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
-                            </select>
+                            </select> -->
+                            <div class="switch">
+                                <input id="negotiable" name="negotiable" class="look form-control" type="checkbox" value="0">
+                                <label for="negotiable" class="mt-3" onclick="toggleNegotiationMode()"></label>
+                            </div>
                         </div>
                         <!-- FORM 1A -->
 
 
                         <!-- FORM 1B -->
                         <div class="w-100 editor-wrapper">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Quality description <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Quality description <span class="required">*</span></label>
                             <textarea name="cropdescription" id="editor"></textarea>
                         </div>
-                        <div class="w-100 editor-wrapper">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Application <span class="required">*</span></label>
+                        <!-- <div class="w-100 editor-wrapper">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Application <span class="required">*</span></label>
                             <textarea name="cropapplication" id="application"></textarea>
-                        </div>
+                        </div> -->
                         
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label mb-0">Currency <span class="required">*</span></label>
@@ -284,7 +291,7 @@
                         <div class="crop_details">Quantity and Pricing</div>
                         <div class="w-100 mb-3">
                             <label for="formGroupExampleInput" class="form-label mb-0">Crop quantity <span class="required">*</span></label>
-                            <input type="number" class="form-control" min="1" max="100" id="quantity" placeholder="Type your answer" required="" />
+                            <input type="number" class="form-control" min="1" max="1000" id="quantity" placeholder="Type your answer" required="" />
                         </div>
                         <div class="w-100 mb-3">
                             <label for="formGroupExampleInput" class="form-label mb-0">Amount/offer <span class="required">*</span></label>
@@ -292,13 +299,13 @@
                         </div>
 
                         <div class="crop_details mb-3 mt-2">Delivery Details</div>
-                        <div class="w-100 mb-3">
+                        <!-- <div class="w-100 mb-3">
                             <label for="formGroupExampleInput" class="form-label mb-0">Delivery window <span class="required">*</span></label>
                             <div class="form-row">
-                                <div class="col"><input id="windowFrom" type="date" class="form-control" placeholder="Type your answer" required="" /></div>
-                                <div class="col"><input id="windowTo" type="date" class="form-control" placeholder="Type your answer" required="" /></div>
+                                <div class="col"><input id="windowFrom" type="date" class="form-control" placeholder="Type your answer" /></div>
+                                <div class="col"><input id="windowTo" type="date" class="form-control" placeholder="Type your answer" /></div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label mb-0">Country <span class="required">*</span></label>
                             <select class="form-select" id="countryList" aria-label="Default select example" required="">
@@ -364,140 +371,140 @@
                         <!-- FORM 3A -->
                         <div class="crop_details mb-3 mt-2">Crop Specification</div>
                         <div class="w-100 mb-3">
-                            <label for="formGroupExampleInput" class="form-label mb-0">Broken grains <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="brokengrains" aria-label="Default select example" required="">
+                            <label for="formGroupExampleInput" class="form-label mb-0">Broken grains <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="brokengrains" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="formGroupExampleInput" class="form-label mb-0">Weevil <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="weevil" aria-label="Default select example" required="">
+                            <label for="formGroupExampleInput" class="form-label mb-0">Weevil <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="weevil" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="formGroupExampleInput" class="form-label mb-0">Hardness <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="hardness" aria-label="Default select example" required="">
+                            <label for="formGroupExampleInput" class="form-label mb-0">Hardness <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="hardness" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Oil Content <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="oilcontent" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Oil Content <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="oilcontent" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Grain Size <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="grainsize" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Grain Size <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="grainsize" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Ash Content <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="ashcontent" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Ash Content <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="ashcontent" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Volatile <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="volatile" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Volatile <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="volatile" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Drying Process <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="dryingprocess" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Drying Process <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="dryingprocess" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Curcumin Content <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="curcumincontent" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Curcumin Content <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="curcumincontent" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Total defects <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="total_defects" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Total defects <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="total_defects" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Dockage <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="dockage" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Dockage <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="dockage" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Moisture <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="moisture" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Moisture <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="moisture" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Rotten/Shriveled <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="rotten_shriveled" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Rotten/Shriveled <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="rotten_shriveled" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Damaged kernel(DK) <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="damagedkernel" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Damaged kernel(DK) <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="damagedkernel" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Splits <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="splits" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Splits <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="splits" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Infestation <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="infestation" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Infestation <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="infestation" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Hectolter Teat Weight <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="hectolter_teat_weight" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Hectolter Teat Weight <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="hectolter_teat_weight" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Acid Insoluable Ash <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="acid_insoluable_ash" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Acid Insoluable Ash <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="acid_insoluable_ash" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Mold % By Weight <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="moldbyweight" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Mold % By Weight <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="moldbyweight" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Whole Dead Insects <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="wholedeadinsects" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Whole Dead Insects <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="wholedeadinsects" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Insect Defiled/Infested, By Weight <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="insect_defiled_infested" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Insect Defiled/Infested, By Weight <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="insect_defiled_infested" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Extraneous, % By Weight <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="extaneous" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Extraneous, % By Weight <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="extaneous" aria-label="Default select example">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Mammalian <span class="required">*</span></label>
-                            <select class="form-select ponetohundredpercent" id="mammalian" aria-label="Default select example" required="">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Mammalian <i>(optional)</i></label>
+                            <select class="form-select ponetohundredpercent" id="mammalian" aria-label="Default select example">
                                 
                             </select>
                         </div>
@@ -585,16 +592,27 @@
             console.error( error );
         } );
 
-    ClassicEditor.create( document.querySelector( '#application' ) )
-        .then(editor => {myClassicEditor = editor;})
-        .catch( error => {
-            console.error( error );
-        } );
-
-
+    // ClassicEditor.create( document.querySelector( '#application' ) )
+    //     .then(editor => {myClassicEditor = editor;})
+    //     .catch( error => {
+    //         console.error( error );
+    //     } );
 
     
+    function toggleNegotiationMode(){
+        var negotiable = document.getElementById('negotiable');
+        // alert(negotiable.value);
+        if(!negotiable.value){
+            negotiable.value = 1;
+        }else if(negotiable.value==1){
+            negotiable.value = 0;
+        }else if(negotiable.value==0){
+            negotiable.value = 1;
+        }
+    }
 
+    
+    let globalImageArrayLength=0;
     $(document).ready(function(){
         // CKEDITOR.replace( 'cropdescription' );
         // $("#addCrop").click(function(){
@@ -620,10 +638,17 @@
         $('#formpage2').submit(function(e){
             e.preventDefault();
             let form_slide2_response = document.getElementById('form_slide2_response');
+            var cropimages = document.getElementById("cropimages");
             // let cropdescription = document.getElementById('editor');
             // if(cropdescription.value==""||cropdescription.value===null){
             //     form_slide1_response.innerHTML = `<span class="text-danger"><i>* Enter crop description</i></span>`
             // }else{
+                console.log("globalImageArrayLength",globalImageArrayLength);
+                // cropimages.files.length
+                if (globalImageArrayLength < 5) {
+                    basicmodal("", "Please enter at least 5 images");
+                    return;
+                }
                 $('#formpage1,#formpage2').hide();
                 $('#formpage3').show();
             // }
@@ -683,6 +708,7 @@
                             imgArray.push(f);
 
                             console.log(imgArray, " image Array");
+                            globalImageArrayLength = imgArray.length;
                             var reader = new FileReader();
                             reader.onload = function (e) {
                             var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
@@ -707,6 +733,7 @@
                 }
             }
             console.log(imgArray, " image Array After Delete");
+            globalImageArrayLength = imgArray.length;
             $(this).parent().parent().remove();
         });
         

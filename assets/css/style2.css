@@ -48,7 +48,7 @@
   background-color: var(--zowasel-darkblue);
 }
 .zowasel-darkblue-color{
-  color: var(--zowasel-darkblue);
+  color: var(--zowasel-darkblue) !important;
 }
 .theme-dark .zowasel-darkblue-color{
   color: var(--zowasel-darkblue);
@@ -528,6 +528,13 @@
   /* ---------------------------------- MODAL --------------------------------- */
   .modal{
     background: rgba(0,0,0,0.6);
+  }
+  .modal-full {
+    background: #f4f5fa;
+  }
+  .modal-full .modal-dialog .modal-content {
+    background-color: transparent !important;
+    border: none;
   }
   .dialogbox .modal-dialog {
     position: fixed !important;

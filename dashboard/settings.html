@@ -32,6 +32,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+
+    <!-- Include the necessary CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,10 +80,27 @@
         <!-- Preloader end-->
 
         <!-- Wallet Card -->
-        <div class="wallet-card" id="main">
+        <div class="wallet-card">
             <div class="container">
-                <div class="main-balance">
-                    <div class="zowasel-white-color">
+                <div class="main-balance d-flex align-items-center">
+                    <div class="user-avatar me-3">
+                        <div class="avatar-container position-relative">
+                            <!-- user avatar --><!--v-if-->
+                            <!-- <img src="../logos/dogavatar.png" id="confirm-profileimg" alt="useravatar" class="img-fluid avatar-image"> -->
+                            <img src="" id="confirm-profileimg" alt="useravatar" class="img-fluid avatar-image">
+
+                            <!-- display absolute at top right -->
+                            <div  id="upload-aphoto" class="edit-icon-container position-absolute d-flex flex-row justify-content-center align-items-center">
+                                <input id='selectedFile' class="disp-none" type='file' accept=".png, .jpg, .jpeg, .svg">
+                                <!-- edit icon -->
+                                <a href="javascript:void(0)">
+                                    <img src="../logos/edit.svg" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zowasel-white-color fontFamily1">
                         <span class="f-20 fw-700">
                             <span class="first_name"></span> <span class="last_name"></span>
                         </span>
@@ -95,7 +115,6 @@
                             <img src="../assets/icons/rightarrow.png" role="button" style="width:11.77px;height:20px;" onclick="location.assign('/dashboard/wallet.html')" />
                         </span> -->
                     </div>
-                   
                 </div>
             </div>
         </div>
@@ -193,7 +212,7 @@
                         <div class="row transaction-overview p-2 mt-3" onclick="logout()">
                             <div class="row col-12 my-2 f-14">
                                 <div class="col-9">
-                                    <span class="zowasel-darkblue-color f-15 fw-700 text-danger">Logout</span>
+                                    <span class="f-15 fw-700 text-danger">Logout</span>
                                 </div>
                                 <div class="col-3 px-0" style="text-align:right;">
                                     <!-- <img src="../assets/icons/rightarrow.png" class="filter_to_darkblue" /> -->
@@ -209,6 +228,32 @@
         
     </div>    
     <!-- Page Content End-->
+
+
+
+    <!-- PROFILE UPDATE MODAL -->
+    <div class="modal fade" id="imageModalContainer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+          <div class="modal-content modal-content1 modal-content1">
+            <div class="modal-header">
+              <h5 class="modal-title" id="imageModal">Change Profile Picture</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-body1">
+              <div id='crop-image-container'>
+      
+              </div>
+            </div>
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button> -->
+              <button type="button" class="btn zowasel-bg text-white save-modal">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- PROFILE UPDATE MODAL -->
 
 
     <!-- Menubar -->
@@ -251,6 +296,8 @@
 <script src="../assets/lib/pulltorefresh.js"></script>
 <script src="../assets/js/env.js"></script> 
 <script src="../assets/js/dashboard.js"></script>
+<!-- Include the Croppie library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
 
 
 

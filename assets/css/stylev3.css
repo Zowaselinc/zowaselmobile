@@ -15,9 +15,9 @@
 
 .wallet-card {
     position: absolute;
-    width: 80%;
+    width: 90%;
     height: 129px;
-    left: 10%;
+    left: 5%;
     /* right: 10%; */
     top: 85px;
     background-color: var(--zowasel-green);
@@ -299,3 +299,27 @@
     border-radius: 6px;
     min-height: 142px;
   }
+
+
+
+/* -------------------------------- SETTINGS -------------------------------- */
+.disp-none{
+  display:none;
+}
+.user-avatar .avatar-container {
+  width: 77px;
+  height: 78px;
+  border-radius: 50%;
+}
+.user-avatar .avatar-container .avatar-image{
+  border-radius: 50%;
+}
+.user-avatar .avatar-container .edit-icon-container {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  top: -7px;
+  right: -7px;
+}
+/* -------------------------------- SETTINGS -------------------------------- */

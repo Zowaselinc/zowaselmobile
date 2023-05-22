@@ -58,6 +58,38 @@ function responsemodal(icon, title, body){
 }
 
 
+// <!-- Full White Background Modal -->
+function responsefullmodal(icon, title, body, page){
+    $('.mymodal').show();
+
+    let responsemodalContent = `
+        <div class="modal fade modal-full dialogbox d-block" style="opacity:1;" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-icon text-success">
+                        <img src="../../logos/${icon}" />
+                    </div>
+                    <div class="modal-header mt-1">
+                        <h5 class="modal-title zowasel-darkblue-color fontFamily1 fw-600 f-24 lh-36">${title}</h5>
+                    </div>
+                    <div class="modal-body">
+                        ${body}
+                    </div>
+                    <div class="modal-footer" style="border-top:0;">
+                        <div class="btn-inline">
+                            <a href="#" class="btn zowasel-darkblue-bg text-white f-14" onclick="closefullmodal('${page}')" data-bs-dismiss="modal" style="padding: 9px 50px;line-height: 28px;">
+                                Continue
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    $('.mymodal').html(responsemodalContent);
+}
+
+
 
 
 function confirmmodal(title,body,section,section_id){
@@ -92,11 +124,14 @@ function closemodal(){
     $('.mymodal').hide();
 }
 
-
-
 // function confirmaccepted(){
 //     return true;
 // }
+
+function closefullmodal(goto){
+    $('.mymodal').hide();
+    location.assign(goto);
+}
 
 
 

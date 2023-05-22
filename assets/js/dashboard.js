@@ -588,6 +588,12 @@ const populateUserDetails =()=>{
 
     // $('.wallet_balance').text()
 
+    // Profile Pic
+    if(!user.user.image){ $('#confirm-profileimg').attr('src','../logos/dogavatar.png'); }else{ 
+        let image = JSON.parse(user.user.image);
+        $('#confirm-profileimg').attr('src',image[0]);
+    }
+
     if(!(user.user.primary_address)){ $('.primary_address').text("---"); }else{ 
         $('.primary_address').text(user.user.primary_address); 
         $('.primary_address').val(user.user.primary_address); 
@@ -1608,7 +1614,8 @@ function fetchAllCropsForSale(){
                         `;   
                     }
 
-                    for (let i = 0; i < 3; i++) {
+                    if(thedata.length>3){looptill=3}else{looptill=thedata.length}
+                    for (let i = 0; i < looptill; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -2052,6 +2059,7 @@ function activateCrop(crop_id){
                         // alert(response.message);
                         responsemodal("successicon.png", "Success", response.message);
                         populateSingleMyPersonalProductDetails();
+                        owlcarouselSettings();
                         setTimeout(()=>{
                             $('.mymodal').hide();
                         },3000)
@@ -2060,7 +2068,7 @@ function activateCrop(crop_id){
                 error: function(xmlhttprequest, textstatus, message) {
                     EndPageLoader();
                     // console.log(xmlhttprequest, "Error code");
-                    if(textstatus==="timeout" || textstatus=="error") {
+                    if(textstatus==="timeout") {
                         basicmodal("", "Service timed out <br/>Check your internet connection");
                     }
                 },
@@ -2116,6 +2124,7 @@ function deactivateCrop(crop_id){
                         // alert(response.message);
                         responsemodal("successicon.png", "Success", response.message);
                         populateSingleMyPersonalProductDetails();   
+                        owlcarouselSettings();
                         setTimeout(()=>{
                             $('.mymodal').hide();
                         },3000)  
@@ -3536,13 +3545,14 @@ const addCropPage =()=>{
 
     // ponetohundredpercent
     $(document).ready(function(){
+        let emptyoption = `<option value=""></option>`;
         let rowContent = "";
         for(let i=1; i<=100; i++){
             rowContent += `
                 <option value="${i}">${i}%</option>
             `;   
         }
-        $('.ponetohundredpercent').html(rowContent);
+        $('.ponetohundredpercent').html(emptyoption + rowContent);
     })
 
 
@@ -3615,13 +3625,14 @@ const addCropAuctionPage =()=>{
 
     // ponetohundredpercent
     $(document).ready(function(){
+        let emptyoption = `<option value=""></option>`;
         let rowContent = "";
         for(let i=1; i<=100; i++){
             rowContent += `
                 <option value="${i}">${i}%</option>
             `;   
         }
-        $('.ponetohundredpercent').html(rowContent);
+        $('.ponetohundredpercent').html(emptyoption + rowContent);
     })
 
 
@@ -3720,19 +3731,19 @@ $('#formpage3').submit(function(e){
     let category = document.getElementById('category');
     let subcategory = document.getElementById('subcategory');
     let color = document.getElementById('color');
+    let warehouse_address_value = document.getElementById('warehouse_address').value;
     
-    let application, manufacture_name, packaging, warehouse_address_value;
+    let application, manufacture_name, packaging;
     if(activePage=="/dashboard/addcropauction.html"||activePage=="/dashboard/addcrop.html"){
-        application = document.getElementById('application');
-        manufacture_name = document.getElementById('manufacture_name');
+        // application = document.getElementById('application');
         packaging = document.getElementById('packaging');
-        warehouse_address_value = document.getElementById('warehouse_address').value;
+        manufacture_name = document.getElementById('manufacture_name');
     }else{
-        warehouse_address_value = "";
+        
     }
 
     let deliveryWindowValue;
-    if(activePage=="/dashboard/addcropwanted.html"||activePage=="/dashboard/addcrop.html"){
+    if(activePage=="/dashboard/addcropwanted.html"){
         let windowFrom = document.getElementById('windowFrom').value;
         let windowTo = document.getElementById('windowTo').value;
 
@@ -3747,6 +3758,8 @@ $('#formpage3').submit(function(e){
         deliveryWindowValue = {
             "from": windowFromValue,"to":windowToValue
         }
+    }else{
+        deliveryWindowValue = null;
     }
 
     // console.log("deliveryWindowValue ",JSON.stringify(deliveryWindowValue));
@@ -3816,9 +3829,10 @@ $('#formpage3').submit(function(e){
     formData.append("video", videourl.value);
     
     if(activePage=="/dashboard/addcropauction.html"||activePage=="/dashboard/addcrop.html"){
-        formData.append("application", application.value);
+        // formData.append("application", application.value);
         formData.append("manufacture_name", manufacture_name.value);
         formData.append("packaging", packaging.value);
+        formData.append("delivery_window", null);
     }
     if(activePage=="/dashboard/addcropauction.html"){
         formData.append("start_date", start_date.value);
@@ -3828,7 +3842,7 @@ $('#formpage3').submit(function(e){
     if(activePage=="/dashboard/addcropwanted.html"){
         formData.append("address", deliveryaddress.value);
     }
-    if(activePage=="/dashboard/addcropwanted.html"||activePage=="/dashboard/addcrop.html"){
+    if(activePage=="/dashboard/addcropwanted.html"){
         formData.append("delivery_window", deliveryWindowValue);
     }
     if(activePage=="/dashboard/addcropauction.html"){
@@ -3920,28 +3934,31 @@ $('#formpage3').submit(function(e){
         EndPageLoader();
         if(response.error == true){
             // alert(response.message);
-            responsemodal("erroricon.png", "Error", response.message);
+            // responsemodal("erroricon.png", "Error", response.message);
+            // responsefullmodal(icon, title, body, page)
+            responsefullmodal("erroricon.png", response.message, "", "");
         }else{
-            responsemodal("successicon.png", "Success", response.message);
-            setTimeout(()=>{
+            // responsemodal("successicon.png", "Success", response.message);
+            // setTimeout(()=>{
                 // $("#addInputForm")[0].reset();
                 $('.dialogbox').addClass('d-none');
                 $('.dialogbox').removeClass('d-block');
                 const activePage = window.location.pathname;
                 // alert(activePage);
-                let croptype;
+                let croptype, goto;
                 if(activePage=="/dashboard/addcropauction.html"){
                     croptype = "auction";
-                    location.assign('/dashboard/viewusercropsforauction.html');
+                    goto = '/dashboard/viewusercropsforauction.html';
                 }else if(activePage=="/dashboard/addcrop.html"){
                     croptype = "sale";
-                    location.assign('viewusercropsforsale.html');
+                    goto = 'viewusercropsforsale.html';
                 }else if(activePage=="/dashboard/addcropwanted.html"){
                     croptype = "wanted";
-                    location.assign('/dashboard/cropswanted.html');
+                    goto = '/dashboard/cropswanted.html';
                 }
+                responsefullmodal("successicon2.png", "Crop Added", "", goto);
                 // location.assign('viewusercropsforsale.html');
-            },2000)
+            // },2000)
             
         }
     });
@@ -4949,41 +4966,43 @@ function fetchUserCropsforSaleByUserID(){
 
                         rowContent += `
                         <li class="cardholder p-3 fontFamily1 lazy">
-                        <div class="d-none" id="rowdetails${row.id}">${therow}</div>
-                        <div class="d-flex justify-content-between">
-                            <div class="item-inner">
-                                <div class="item-title-row mb-0">
-                                    <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} - ${thecolor}</a></h6>
-                                    <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
+                            <div class="d-none" id="rowdetails${row.id}">${therow}</div>
+                            <div class="d-flex justify-content-between">
+                                <div class="item-inner">
+                                    <div class="item-title-row mb-0">
+                                        <h6 class="item-title zowasel-darkblue-color f-18"><a>${row.subcategory.name} - ${thecolor}</a></h6>
+                                        <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
+                                    </div>
+                                    <div class="item-footer">
+                                        <div class="d-flex align-items-center">
+                                            <h6 class="me-3 mb-0">${truncate(row.description,20)}</h6>
+                                        </div>    
+                                    </div>
                                 </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3 mb-0">${truncate(row.description,20)}</h6>
-                                    </div>    
+                                <div class="item-inner">
+                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
+                                        <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)}</h6>
+                                    </a>    
+                                    <div class="d-flex mt-2">
+                                        <div class="cropstatus cropActive ${activeProductClass}"></div>
+                                        <div class="cropstatus cropNegotiable ${negotiationProductClass}"></div>
+                                    </div>
+                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="goToMyPersonalCropDetails1(${row.id})">
+                                        View
+                                    </button>
                                 </div>
                             </div>
-                            <div class="item-inner">
-                                <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                    <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)}</h6>
-                                </a>    
-                                <div class="d-flex mt-2">
-                                    <div class="cropstatus cropActive ${activeProductClass}"></div>
-                                    <div class="cropstatus cropNegotiable ${negotiationProductClass}"></div>
-                                </div>
-                                <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="goToMyPersonalCropDetails1(${row.id})">
-                                    View
-                                </button>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
                         `;   
                     }
 
-                    for (let i = 0; i < 3; i++) {
+                    let looptill;
+                    if(thedata.length>3){looptill=3}else{looptill=thedata.length}
+                    for (let i = 0; i < looptill; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
-                        console.log("row",row);
+                        // console.log("row",row);
 
                         let thecolor, theprice, thetest_weight;
                         let specification = row.specification;
@@ -5003,9 +5022,9 @@ function fetchUserCropsforSaleByUserID(){
                         carouselrowContent += `
                         <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="goToMyPersonalCropDetails1(${row.id})">
                             <a href="#">
-                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${row.category.name}</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,9)}</div>
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,9)} ${truncate(thecolor,7)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,14)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2 text-truncate" style="max-width: 100%;">${truncate(row.description,14)}</div>
                                 <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${toCommas(theprice)} / ${thetest_weight}</div>
                             </a>
                         </div>
@@ -5014,9 +5033,7 @@ function fetchUserCropsforSaleByUserID(){
 
                     let emptycell = `
                     <div class="text-center p-2 py-3"">
-                        <a href="#">Click "More" to see others</a>
-                    </div>
-                    <div class="text-center p-2 py-3">
+                        <a href="#"><!--Click "More" to see others--></a>
                     </div>
                     `;
                     $('#p_carouselcropsforsale').html(carouselrowContent + emptycell);
@@ -5184,7 +5201,8 @@ function fetchCropsforAuction(){
                     }
 
                     // for (let i = 0; i < 10; i++) {
-                        for (let i = 0; i < 3; i++) {
+                    if(thedata.length>3){looptill=3}else{looptill=thedata.length}
+                    for (let i = 0; i < looptill; i++) {
                         // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -5218,9 +5236,7 @@ function fetchCropsforAuction(){
 
                     let emptycell = `
                     <div class="text-center p-2 py-3"">
-                        <a href="#">Click "More" to see others</a>
-                    </div>
-                    <div class="text-center p-2 py-3">
+                        <a href="#"><!--Click "More" to see others--></a>
                     </div>
                     `;
                     
@@ -5871,3 +5887,127 @@ function getLoop(items) {
     }
 }
 /* ------------------------------ OWL CAROUSEL ------------------------------ */
+
+
+
+
+/* ---------------------------- PROFILE PIC EDIT ---------------------------- */
+function urlToFile(url){
+    let arr = url.split(",");
+    // console.log(arr);
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let data = arr[1]; //encoded in base64
+
+    let dataStr = atob(data); //decode the base64
+    let n = dataStr.length;
+    let dataArr = new Uint8Array(n);
+
+    while(n--){
+        dataArr[n] = dataStr.charCodeAt(n);
+    }
+    // console.log(dataArr); //This is what we need to create a file
+
+    let file = new File([dataArr], 'File.jpg', {type: mime});
+    // console.log(file);
+    return file;
+
+    // console.log("mime",mime);
+    // console.log("data",data);
+}
+
+$(document).on('click', '#upload-aphoto', function () {
+    document.getElementById('selectedFile').click();
+});
+
+$('#selectedFile').change(function () {
+    if (this.files[0] == undefined)
+      return;
+    $('#imageModalContainer').modal('show');
+    let reader = new FileReader();
+    reader.addEventListener("load", function () {
+      window.src = reader.result;
+      $('#selectedFile').val('');
+    }, false);
+    if (this.files[0]) {
+      reader.readAsDataURL(this.files[0]);
+    }
+});
+
+let croppi;
+$('#imageModalContainer').on('shown.bs.modal', function () {
+  let width = document.getElementById('crop-image-container').offsetWidth - 20;
+  $('#crop-image-container').height((width - 80 +20) + 'px');
+    croppi = $('#crop-image-container').croppie({
+      viewport: {
+        width: width,
+        height: width
+      },
+    });
+  $('.modal-body1').height(document.getElementById('crop-image-container').offsetHeight + 50 + 'px');
+  croppi.croppie('bind', {
+    url: window.src,
+  }).then(function () {
+    croppi.croppie('setZoom', 0);
+  });
+});
+
+$('#imageModalContainer').on('hidden.bs.modal', function () {
+  croppi.croppie('destroy');
+});
+
+let newprofilePicture;
+$(document).on('click', '.save-modal', function (ev) {
+    croppi.croppie('result', {
+      type: 'base64',
+      format: 'jpeg',
+      size: 'original'
+    }).then(function (resp) {
+        $('#confirm-profileimg').attr('src', resp);
+        // The base 64 image
+        newprofilePicture = urlToFile(resp);
+        //Store form Data
+        var formData = new FormData();
+        console.log("newprofilePicture", newprofilePicture);
+
+        formData.append("image", newprofilePicture, `profile.${newprofilePicture.type.split("/")[1]}`);
+
+        startPageLoader();
+        var settings = {
+            "url": `${liveMobileUrl}/users/account/profilepicture`,
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                // "Content-Type": "application/json",
+                "authorization": localStorage.getItem('authToken')
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": formData
+        };
+
+        $.ajax(settings).done(function (data) {
+            // console.log(data);
+            let response = JSON.parse(data);
+            EndPageLoader();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // responsemodal("successicon.png", "Success", response.message);
+                setTimeout(()=>{    
+                    $('.modal').modal('hide');
+                },500)
+
+                 // UPDATE STORED USER DETAILS
+                 let sessionuser = localStorage.getItem('zowaselUser');
+                 sessionuser = JSON.parse(sessionuser);
+                 sessionuser.user = response.data;
+                 let modifiedUserString = JSON.stringify(sessionuser);
+                 localStorage.setItem('zowaselUser', modifiedUserString);
+                
+            }
+        });
+    });
+  });
+/* ---------------------------- PROFILE PIC EDIT ---------------------------- */

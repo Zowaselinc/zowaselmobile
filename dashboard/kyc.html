@@ -878,78 +878,103 @@
             console.log(blobFile_Front, "blobFile_Front");
             console.log(blobFile_Back, "blobFile_Back");
 
-            //Store form Data
-            var formData = new FormData();
-
-            formData.append("id_type", id_type);
-            formData.append("id_number", id_number);
-            formData.append("first_name", firstname);
-            formData.append("last_name", lastname);
-            formData.append("phone_number", phone);
-            formData.append("country", country);
-            formData.append("state", state);
-            formData.append("city", city);
-            formData.append("address", address);
-            formData.append("dob", dob);
-            formData.append("gender", gender);
-            formData.append("bvn", bvn);
-            formData.append("front", blobFile_Front, `idfrontcard${userid}.${blobFile_Front.type.split("/")[1]}`);
-            // // form.append("front", fileInput.files[0], "idcard.png");
-            formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
-
-            // console.log(id_type+id_number+firstname+lastname+phone+country+state+city+address+dob+gender+bvn, "formData");
-            // console.log(blobFile_Front, "formData");
-            // console.log(blobFile_Back, "formData");
+            // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
             startPageLoader();
-            var settings = {
-                "url": `${liveMobileUrl}/users/account/kyc`,
-                "method": "POST",
-                "timeout": 0,
-                "headers": {
-                    // "Content-Type": "application/json",
-                    "authorization": localStorage.getItem('authToken')
-                },
-                "processData": false,
-                "mimeType": "multipart/form-data",
-                "contentType": false,
-                "data": formData
-            };
+            let img1,img2;
 
-            $.ajax(settings).done(function (data) {
-                // console.log(data);
-                let response = JSON.parse(data);
-                EndPageLoader();
-                if(response.error == true){
-                    // alert(response.message);
-                    responsemodal("erroricon.png", "Error", response.message);
-                }else{
-                    responsemodal("successicon.png", "Success", response.message+"<br/>Verification is in progress");
-                    setTimeout(()=>{
-                        // $("#addInputForm")[0].reset();
+            console.log(blobFile_Front, "yeye");
+            var fd = new FormData();  
+            // fd.append( 'file', input.files[0] );
+            fd.append("image", blobFile_Front);
+            fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+            .then(data => {
+                // console.log("Chima", data);
+                if(data.error == false){
+                    img1 = data.data.imageLink;
 
-                        if(company){
-                            basicmodal("","Continue with KYB, Redirecting...")
-                            // mcxDialog.confirm("Continue with Kyb", {
-                            //     sureBtnClick: function(){
-                            //         // callback
-                            //         location.assign('kyb.html');                                
-                            //     }
-                            // });
-                            setTimeout(()=>{
-                                location.assign('kyb.html');
-                            },3000)
-                        }else{
-                            location.assign('editprofile.html?type=kyc');
+                    fd = new FormData();
+                    fd.append("image", blobFile_Back);
+                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                    .then(data => {
+                        // console.log("Chima", data);
+                        if(data.error == false){
+                            img2 = data.data.imageLink;
+
+                            //Store form Data
+                            var formData = new FormData();
+
+                            formData.append("id_type", id_type);
+                            formData.append("id_number", id_number);
+                            formData.append("first_name", firstname);
+                            formData.append("last_name", lastname);
+                            formData.append("phone_number", phone);
+                            formData.append("country", country);
+                            formData.append("state", state);
+                            formData.append("city", city);
+                            formData.append("address", address);
+                            formData.append("dob", dob);
+                            formData.append("gender", gender);
+                            formData.append("bvn", bvn);
+                            formData.append("img1", img1);
+                            formData.append("img2", bvn);
+                            formData.append("front", blobFile_Front, `idfrontcard${userid}.${blobFile_Front.type.split("/")[1]}`);
+                            // // form.append("front", fileInput.files[0], "idcard.png");
+                            formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
+
+                            // console.log(id_type+id_number+firstname+lastname+phone+country+state+city+address+dob+gender+bvn, "formData");
+                            // console.log(blobFile_Front, "formData");
+                            // console.log(blobFile_Back, "formData");
+                            var settings = {
+                                "url": `${liveMobileUrl}/users/account/kyc`,
+                                "method": "POST",
+                                "timeout": 0,
+                                "headers": {
+                                    // "Content-Type": "application/json",
+                                    "authorization": localStorage.getItem('authToken')
+                                },
+                                "processData": false,
+                                "mimeType": "multipart/form-data",
+                                "contentType": false,
+                                "data": formData
+                            };
+
+                            $.ajax(settings).done(function (data) {
+                                // console.log(data);
+                                let response = JSON.parse(data);
+                                EndPageLoader();
+                                if(response.error == true){
+                                    // alert(response.message);
+                                    responsemodal("erroricon.png", "Error", response.message);
+                                }else{
+                                    responsemodal("successicon.png", "Success", response.message+"<br/>Verification is in progress");
+                                    setTimeout(()=>{
+                                        // $("#addInputForm")[0].reset();
+
+                                        if(company){
+                                            basicmodal("","Continue with KYB, Redirecting...")
+                                            // mcxDialog.confirm("Continue with Kyb", {
+                                            //     sureBtnClick: function(){
+                                            //         // callback
+                                            //         location.assign('kyb.html');                                
+                                            //     }
+                                            // });
+                                            setTimeout(()=>{
+                                                location.assign('kyb.html');
+                                            },3000)
+                                        }else{
+                                            location.assign('editprofile.html?type=kyc');
+                                        }
+                                        
+                                    },2000)
+                                    
+                                }
+                            });
                         }
-                        
-                    },2000)
-                    
+                    })
                 }
-            });
+            })
         })
-
-
-
+        
     })
 
     // GO BACK TO PREVIOUS SECTION

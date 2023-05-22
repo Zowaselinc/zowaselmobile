@@ -12608,14 +12608,20 @@ button {
     opacity: 0.3;
     line-height: 1; }
   .modal-header .close {
-    padding: 0.875rem 1.815rem;
+    /* padding: 0.875rem 1.815rem;
     margin: 0;
     position: absolute;
     right: 0;
     float: none;
     top: 0;
     font-size: 1.875rem;
-    font-weight: 100; }
+    font-weight: 100;  */
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--zowasel-darkblue);
+    background-color: transparent;
+    border: none;
+  }
   @media only screen and (max-width: 35.9375rem) {
     .modal-header {
       padding: 1rem 1rem 1rem; } }
