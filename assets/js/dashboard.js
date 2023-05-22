@@ -3820,6 +3820,7 @@ $('#formpage3').submit(function(e){
 
     //Store form Data
     var formData = new FormData();
+    
 
     // formData.append("user_id", user.user.id);
     // formData.append("title", croptitle.value);
@@ -3898,12 +3899,13 @@ $('#formpage3').submit(function(e){
     // formData.append("file2", fileInput.files[0], "maizethumbnail_resized.jpg");
 
 
-
+    let imgArr = [];
     //Loop through array of file and append formData Data
     for (var i = 0; i < cropfilesToUpload.length; i++) {
         var file = cropfilesToUpload[i];
         var filename = cropfilesToUpload[i].name;
-        formData.append("image"+i, file, filename);
+        // formData.append("image"+i, file, filename);
+        imgArr.push(file);
     }
 
     
@@ -3916,55 +3918,140 @@ $('#formpage3').submit(function(e){
         croptype = "wanted";
     }
 
-    startPageLoader();
-    var settings = {
-        "url": `${liveMobileUrl}/crop/${croptype}/add`,
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-            // "Content-Type": "application/json",
-            "authorization": localStorage.getItem('authToken')
-        },
-        "processData": false,
-        "mimeType": "multipart/form-data",
-        "contentType": false,
-        "data": formData
-    };
 
-    $.ajax(settings).done(function (data) {
-        // console.log(data);
-        let response = JSON.parse(data);
-        EndPageLoader();
-        if(response.error == true){
-            // alert(response.message);
-            // responsemodal("erroricon.png", "Error", response.message);
-            // responsefullmodal(icon, title, body, page)
-            responsefullmodal("erroricon.png", response.message, "", "");
-        }else{
-            // responsemodal("successicon.png", "Success", response.message);
-            // setTimeout(()=>{
-                // $("#addInputForm")[0].reset();
-                $('.dialogbox').addClass('d-none');
-                $('.dialogbox').removeClass('d-block');
-                const activePage = window.location.pathname;
-                // alert(activePage);
-                let croptype, goto;
-                if(activePage=="/dashboard/addcropauction.html"){
-                    croptype = "auction";
-                    goto = '/dashboard/viewusercropsforauction.html';
-                }else if(activePage=="/dashboard/addcrop.html"){
-                    croptype = "sale";
-                    goto = 'viewusercropsforsale.html';
-                }else if(activePage=="/dashboard/addcropwanted.html"){
-                    croptype = "wanted";
-                    goto = '/dashboard/cropswanted.html';
+    startPageLoader();
+    // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
+    let img1,img2,img3,img4,img5;
+
+    console.log(imgArr, "The Image Img Array");
+    var fd = new FormData();  
+    // fd.append( 'file', input.files[0] );
+    fd.append("image", imgArr[0]);
+    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+    .then(data => {
+        // console.log("Chima", data);
+        if(data.error == false){
+            img1 = data.data.imageLink;
+
+            fd = new FormData();
+            fd.append("image", imgArr[1]);
+            fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+            .then(data => {
+                // console.log("Chima", data);
+                if(data.error == false){
+                    img2 = data.data.imageLink;
+
+                    fd = new FormData();
+                    fd.append("image", imgArr[2]);
+                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                    .then(data => {
+                        // console.log("Chima", data);
+                        if(data.error == false){
+                            img3= data.data.imageLink;
+
+                            fd = new FormData();
+                            fd.append("image", imgArr[3]);
+                            fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                            .then(data => {
+                                // console.log("Chima", data);
+                                if(data.error == false){
+                                    img4 = data.data.imageLink;
+
+                                    fd = new FormData();
+                                    fd.append("image", imgArr[4]);
+                                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                                    .then(data => {
+                                        // console.log("Chima", data);
+                                        if(data.error == false){
+                                            img5 = data.data.imageLink;
+                                            
+                                            //Store form Data
+                                            
+                                            /* ------------------------------ // FORM DATA ------------------------------ */
+                                            //Store form Data
+                                            formData.append("image1", img1);
+                                            formData.append("image2", img2);
+                                            formData.append("image3", img3);
+                                            formData.append("image4", img4);
+                                            formData.append("image5", img5);
+
+                                            console.log(formData, "The final formData");
+
+                                            var settings = {
+                                                "url": `${liveMobileUrl}/crop/${croptype}/add`,
+                                                "method": "POST",
+                                                "timeout": 0,
+                                                "headers": {
+                                                    // "Content-Type": "application/json",
+                                                    "authorization": localStorage.getItem('authToken')
+                                                },
+                                                "processData": false,
+                                                "mimeType": "multipart/form-data",
+                                                "contentType": false,
+                                                "data": formData
+                                            };
+                                        
+                                            $.ajax(settings).done(function (data) {
+                                                // console.log(data);
+                                                let response = JSON.parse(data);
+                                                EndPageLoader();
+                                                if(response.error == true){
+                                                    // alert(response.message);
+                                                    // responsemodal("erroricon.png", "Error", response.message);
+                                                    // responsefullmodal(icon, title, body, page)
+                                                    responsefullmodal("erroricon.png", response.message, "", "");
+                                                }else{
+                                                    // responsemodal("successicon.png", "Success", response.message);
+                                                    // setTimeout(()=>{
+                                                        // $("#addInputForm")[0].reset();
+                                                        $('.dialogbox').addClass('d-none');
+                                                        $('.dialogbox').removeClass('d-block');
+                                                        const activePage = window.location.pathname;
+                                                        // alert(activePage);
+                                                        let croptype, goto;
+                                                        if(activePage=="/dashboard/addcropauction.html"){
+                                                            croptype = "auction";
+                                                            goto = '/dashboard/viewusercropsforauction.html';
+                                                        }else if(activePage=="/dashboard/addcrop.html"){
+                                                            croptype = "sale";
+                                                            goto = 'viewusercropsforsale.html';
+                                                        }else if(activePage=="/dashboard/addcropwanted.html"){
+                                                            croptype = "wanted";
+                                                            goto = '/dashboard/cropswanted.html';
+                                                        }
+                                                        responsefullmodal("successicon2.png", "Crop Added", "", goto);
+                                                        // location.assign('viewusercropsforsale.html');
+                                                    // },2000)
+                                                    
+                                                }
+                                            });
+                                            /* ------------------------------ // FORM DATA ------------------------------ */
+                                        
+                                        }
+                                    })
+                                    // End of 5th image
+                                }
+                            })
+                            // End of 4th image
+                        }
+                    })
+                    // End of 3rd image
                 }
-                responsefullmodal("successicon2.png", "Crop Added", "", goto);
-                // location.assign('viewusercropsforsale.html');
-            // },2000)
-            
+            })
+            // End of 2nd image
         }
-    });
+    })
+    // End of 1st image
+                
+
+
+                    
+                    
+                    
+
+
+
+   
 
 
 
@@ -5963,7 +6050,7 @@ $(document).on('click', '.save-modal', function (ev) {
     croppi.croppie('result', {
       type: 'base64',
       format: 'jpeg',
-      size: 'original'
+      size: 'original'  
     }).then(function (resp) {
         $('#confirm-profileimg').attr('src', resp);
         // The base 64 image
