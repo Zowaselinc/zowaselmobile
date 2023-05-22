@@ -589,9 +589,12 @@ const populateUserDetails =()=>{
     // $('.wallet_balance').text()
 
     // Profile Pic
-    if(!user.user.image){ $('#confirm-profileimg').attr('src','../logos/dogavatar.png'); }else{ 
-        let image = JSON.parse(user.user.image);
-        $('#confirm-profileimg').attr('src',image[0]);
+    if(user.user.image){ 
+        let image = user.user.image;
+        // console.log(image);
+        $('#confirm-profileimg').attr('src',`${image}`);
+    }else{ 
+        $('#confirm-profileimg').attr('src','../logos/dogavatar.png'); 
     }
 
     if(!(user.user.primary_address)){ $('.primary_address').text("---"); }else{ 
