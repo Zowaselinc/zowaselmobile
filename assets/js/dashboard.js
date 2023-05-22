@@ -5970,6 +5970,7 @@ $(document).on('click', '.save-modal', function (ev) {
         newprofilePicture = urlToFile(resp);
         console.log("newprofilePicture", newprofilePicture);
 
+        startPageLoader();
         var fd = new FormData();  
         // fd.append( 'file', input.files[0] );
         fd.append("image", newprofilePicture);
@@ -5984,7 +5985,6 @@ $(document).on('click', '.save-modal', function (ev) {
 
                 formData.append("image", img1);
 
-                startPageLoader();
                 var settings = {
                     "url": `${liveMobileUrl}/users/account/profilepicture`,
                     "method": "POST",
