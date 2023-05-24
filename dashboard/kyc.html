@@ -675,6 +675,18 @@
         });
 
 
+        function clearPhoto() {
+            let canvas = document.getElementById('canvas');
+            let photo = document.getElementById('photo');
+            let context = canvas.getContext('2d');
+            
+            context.fillStyle = "#AAA";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            var data = canvas.toDataURL('image/png');
+            photo.setAttribute('src', data);
+        }
+
+
 
         // SWITCH PAGE SECTIONS 
         let frontIDLink, backIDLink;
