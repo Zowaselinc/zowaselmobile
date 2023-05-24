@@ -388,7 +388,7 @@ function checkifKYCis_verified(){
             if(user.user.account_type=="company"){
                 checkifKYBis_done();
             }
-        }
+        } 
     }
     
 }
