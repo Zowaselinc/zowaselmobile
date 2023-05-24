@@ -409,6 +409,8 @@
 
 
     // <!-- ---------------------------- IMAGE UPLOAD ----------------------------- -->
+    let globalImageArrayLength = 0;
+
     jQuery(document).ready(function () {
         ImgUpload();
     });
@@ -446,6 +448,7 @@
                         imgArray.push(f);
 
                         console.log(imgArray, " image Array");
+                        globalImageArrayLength = imgArray.length;
                         var reader = new FileReader();
                         reader.onload = function (e) {
                         var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
@@ -467,6 +470,8 @@
                     break;
                 }
             }
+            console.log(imgArray, " image Array After Delete");
+            globalImageArrayLength = imgArray.length;
             $(this).parent().parent().remove();
         });
         
@@ -553,65 +558,93 @@
             // form.append("front", fileuploaded, "cornproduct_resize.jpg");
             // form.append("image2", fileInput.files[0], "maizethumbnail_resized.jpg");
 
-            let allimages = [];
-            let img; 
-            for (var i = 0; i < inputfilesToUpload.length; i++) {
-                var file = inputfilesToUpload[i];
-                var filename = inputfilesToUpload[i].name;
-                form.append("image"+i, file, filename);
-                let index = i+1;
+            console.log("globalImageArrayLength",globalImageArrayLength);
+            // cropimages.files.length
+            if (globalImageArrayLength < 3) {
+                basicmodal("", "Please enter at least 3 to 5 images");
+            }else{
                 
+                startPageLoader();
+                let img, index=0; 
                 var fd = new FormData(); 
-                // fd.append( 'file', input.files[0] );
-                fd.append("image", file);
-                fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
-                .then(data => {
-                    // console.log("Chima", data);
-                    if(data.error == false){
-                        img = data.data.imageLink;
-                        allimages.push(img);
-                    }
-                })
-                console.log(img);
-                
-            }
-
-            console.log(allimages);
-
-            // startPageLoader();
-            // var settings = {
-            //     "url": `${liveBaseUrl}/input/add`,
-            //     "method": "POST",
-            //     "timeout": 25000,
-            //     "headers": {
-            //         "Authorization": `${localStorage.getItem('authToken')}`
-            //     },
-            //     "processData": false,
-            //     "mimeType": "multipart/form-data",
-            //     "contentType": false,
-            //     "data": form
-            // };
-
-            // $.ajax(settings).done(function (data) {
-                // console.log(data);
-            //     let response = JSON.parse(data);
-            //     EndPageLoader();
-            //     if(response.error == true){
-            //         // alert(response.message);
-            //         responsemodal("erroricon.png", "Error", response.message);
-            //     }else{
-            //         responsemodal("successicon.png", "Success", response.message);
-            //         // location.assign('')
-            //         setTimeout(()=>{
-            //             $("#addInputForm")[0].reset();
-            //             $('.dialogbox').addClass('d-none');
-            //             $('.dialogbox').removeClass('d-block');
-            //             location.assign('viewuseraddedinput.html');
-            //         },2000)
+                let allimages = [];
+                let imagecompleted;
+                for (var i = 0; i < inputfilesToUpload.length; i++) {
+                    var file = inputfilesToUpload[i];
+                    var filename = inputfilesToUpload[i].name;
+                    // form.append("image"+i, file, filename);
+                    index = i+1;
                     
-            //     }
-            // });
+                    fd = new FormData(); 
+                    // fd.append( 'file', input.files[0] );
+                    fd.append("image", file);
+                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                    .then(data => {
+                        // console.log("Chima", data);
+                        if(data.error == false){
+                            img = data.data.imageLink;
+                            console.log(img, "img"+index);
+                        }
+                        allimages.push(img);
+                        if(allimages.length==globalImageArrayLength){
+                            imagecompleted = true;
 
+                            console.log(index, "Image completed");
+                            form.append("images", allimages);
+
+                            var settings = {
+                                "url": `${liveBaseUrl}/input/add`,
+                                "method": "POST",
+                                "timeout": 25000,
+                                "headers": {
+                                    "Authorization": `${localStorage.getItem('authToken')}`
+                                },
+                                "processData": false,
+                                "mimeType": "multipart/form-data",
+                                "contentType": false,
+                                "data": form
+                            };
+
+                            $.ajax(settings).done(function (data) {
+                                console.log(data);
+                                let response = JSON.parse(data);
+                                EndPageLoader();
+                                if(response.error == true){
+                                    // alert(response.message);
+                                    responsemodal("erroricon.png", "Error", response.message);
+                                }else{
+                                    responsemodal("successicon.png", "Success", response.message);
+                                    // location.assign('')
+                                    setTimeout(()=>{
+                                        $("#addInputForm")[0].reset();
+                                        $('.dialogbox').addClass('d-none');
+                                        $('.dialogbox').removeClass('d-block');
+                                        location.assign('viewuseraddedinput.html');
+                                    },2000)
+                                    
+                                }
+                            });
+                        }
+                    })
+                    
+                }
+
+                // console.log("allimages", allimages);
+                // for(var i=0; i<globalImageArrayLength; i++){
+                //     form.append("images", JSON.stringify(allimages));
+                // }
+
+                // console.log("allimages length", allimages.length);
+                // console.log("String allimages length", JSON.stringify(allimages));
+                // form.append("images", JSON.stringify(allimages));
+
+                // if(allimages.length){
+                    
+                // }else{
+                //     console.log(allimages.length,"images.length");
+                // }
+            }
+            // End of globalImageArrayLength
         }
 
     })
