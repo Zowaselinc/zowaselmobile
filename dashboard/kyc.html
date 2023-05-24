@@ -670,20 +670,34 @@
                 // sessionStorage.setItem("blobFile_Back",blobFile_Back);
 
             } else {
-                clearphoto();
+                clearphoto2();
             }
         });
 
 
         function clearPhoto() {
-            let canvas = document.getElementById('canvas');
-            let photo = document.getElementById('photo');
+            // let canvas = document.getElementById('canvas');
+            // let photo = document.getElementById('photo');
+
+            let canvas = document.getElementById('canvas-IDBack');
+            let photo = document.getElementById('photo-IDBack'); 
             let context = canvas.getContext('2d');
             
             context.fillStyle = "#AAA";
             context.fillRect(0, 0, canvas.width, canvas.height);
             var data = canvas.toDataURL('image/png');
             photo.setAttribute('src', data);
+        }
+
+        function clearPhoto2(){
+            let canvas2 = document.getElementById('canvas-IDFront');
+            let photo2 = document.getElementById('photo-IDFront'); 
+            let context2 = canvas2.getContext('2d');
+            
+            context2.fillStyle = "#AAA";
+            context2.fillRect(0, 0, canvas2.width, canvas2.height);
+            var data2 = canvas2.toDataURL('image/png');
+            photo2.setAttribute('src', data2);
         }
 
 
