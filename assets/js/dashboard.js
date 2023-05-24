@@ -366,6 +366,10 @@ function getCookie(name){
 // console.log(getCookie("userkycstatus"), "userkycstatus");
 
 function checkifKYCis_verified(){
+
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+
     let userkycstatus = getCookie("userkycstatus");
     // alert(userkycstatus);
     let pathname = window.location.pathname;
@@ -381,7 +385,9 @@ function checkifKYCis_verified(){
             location.assign(window.location.origin+'/dashboard/checkuserverification.html');
         }else{
             console.log("KYC is verified");
-            checkifKYBis_done();
+            if(user.user.account_type=="company"){
+                checkifKYBis_done();
+            }
         }
     }
     
@@ -1645,7 +1651,7 @@ function fetchAllCropsForSale(){
                             <a href="#">
                                 <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
                                 <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${row.category.name}</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,9)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,7)}</div>
                                 <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${toCommas(theprice)} / ${thetest_weight}</div>
                             </a>
                         </div>
@@ -1654,9 +1660,7 @@ function fetchAllCropsForSale(){
 
                     let emptycell = `
                         <div class="text-center p-2 py-3"">
-                            <a href="#">Click "More" to see others</a>
-                        </div>
-                        <div class="text-center p-2 py-3">
+                            <!--<a href="#">Click "More" to see others</a>-->
                         </div>
                     `;
                     $('#p_allcropsforsale').html(rowContent);
@@ -2204,7 +2208,7 @@ function populateSingleProductDetails(){
                     }else if(daysRemaining < 0){
                         $('.daysRemaining').html("<span class='text-danger'>Bid duration has ended</span>");
                     }else{
-                        $('.daysRemaining').html(daysRemaining+" days");
+                        $('.daysRemaining').html(Math.round(daysRemaining)+" days");
                     }
 
                     $('#crop_id').val(thedata.id);
@@ -4587,7 +4591,7 @@ function populateSingleInputDetails(){
         // if(thedata.user.is_verified === 0){
         //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
         // }else{
-            isverified = `Verified &nbsp;<img src="../logos/verified.svg" width="22px" alt="">`;
+            isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="22px" alt="">`;
         // }
         $('.isVerified').html(isverified);
         $('.product_type').html(input.product_type);
@@ -5326,7 +5330,7 @@ function fetchCropsforAuction(){
 
                     let emptycell = `
                     <div class="text-center p-2 py-3"">
-                        <a href="#"><!--Click "More" to see others--></a>
+                        <!--<a href="#">Click "More" to see others</a>-->
                     </div>
                     `;
                     
@@ -5865,7 +5869,7 @@ function owlcarouselSettingsForAllProducts(){
         function itemSize() {
             var OwlSlideItem = $(".carousel-accordion .accordion_li"),
             OwlSlideItemmargin = 10,
-            // itemsLength = 5,
+            itemsLength = 5,
             owlFullScrnWidth = $(".carousel-accordion").width(),
             normItemWidth = owlFullScrnWidth / itemsLength - 9;
 

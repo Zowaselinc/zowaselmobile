@@ -130,46 +130,46 @@
         <!-- INDIVIDUAL DETAILS -->
         <div class="account-box">
             <div class="container">
-                <div class="account-area">
+                <div class="account-area fontFamily3">
 					
                     <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
                     <form class="form" id="updateUserAccount">
                         <p aria-hidden="true" id="required-description">
-                            <span class="required"><strong>*</strong></span> Required field
+                            <span class="required f-14"><strong>*</strong></span> Required field
                         </p>
 
                         <!-- Form 1A -->
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">First Name <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">First Name <span class="required">*</span></label>
                             <input name="first_name" type="text" required class="form-control first_name" id="firstname" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Last name <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Last name <span class="required">*</span></label>
                             <input name="last_name" type="text" required class="form-control last_name" id="lastname" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Phone Number <span class="required">*</span> </label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Phone Number <span class="required">*</span> </label>
                             <input name="phonenumber" type="number" required class="form-control phonenumber" id="phonenumber" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Address <span class="required">*</span> </label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Address <span class="required">*</span> </label>
                             <input name="primary_address" type="text" required class="form-control primary_address" id="primary_address" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Country <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Country <span class="required">*</span></label>
                             <select class="form-select countryname" id="countryList" aria-label="Default select example" required="">
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">State <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">State <span class="required">*</span></label>
                             <select class="form-select" id="stateList" aria-label="Default select example" required="">
                                 <option value="">- Select state -</option>
                                 
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">City <span class="required">*</span> </label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">City <span class="required">*</span> </label>
                             <input name="city" type="text" required class="form-control city" id="city" style="border:1px solid #ced4da;" />
                         </div>
 
@@ -194,13 +194,13 @@
                     <h5 class="text-center mb-4 mt-0">Company details</h5>
 
                     <form class="input-style" id="updateCompanyAccount">
-                        <label>Company Name</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Company Name</label>
                         <div class="input-group input-mini mb-3">
                             <span class="input-group-text"><i class="fa fa-building"></i></span>
                             <input required id="company_name" min="1" type="text" class="form-control company_name" placeholder="-">
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>Country</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Country</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
                             <select class="form-control p_countryList" id="company_country" required="">
@@ -208,43 +208,43 @@
                             </select>
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>State</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">State</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
                             <input required id="company_state" min="2" type="text" class="form-control company_state" placeholder="-" />
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>Address</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Address</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
                             <input required id="company_address" min="2" type="text" class="form-control company_address" placeholder="-" />
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>Company Email</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Company Email</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                             <input required id="company_email" min="6" type="email" class="form-control company_email" placeholder="-">
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>Company Website (Optional)</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Company Website (Optional)</label>
                         <div class="input-group input-mini mb-3">
                             <span class="input-group-text"><i class="fa fa-globe"></i></span>
                             <input id="company_website" min="4" type="text" class="form-control company_website" placeholder="-">
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>RC Number</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">RC Number</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-registered"></i></span>
                             <input required disabled id="rc_number" min="5" type="text" class="form-control rc_number" placeholder="-">
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>Contact Name</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Contact Name</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                             <input required id="contact_person" min="3" type="text" class="form-control contact_person" placeholder="-">
                             <small class="input_response">Error Message</small>
                         </div>
-                        <label>Company Phone</label>
+                        <label class="form-label text-dark mb-0 lh-28 fw-700">Company Phone</label>
                         <div class="mb-3 input-group input-mini">
                             <span class="input-group-text"><i class="fa fa-phone"></i></span>
                             <input required id="company_phone" min="5" type="number" class="form-control company_phone" placeholder="-">

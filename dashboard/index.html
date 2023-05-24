@@ -80,8 +80,9 @@
                         </div>
                         <div class="mid-content">
                         </div>
-                        <div class="right-content">
+                        <div class="right-content position-relative">
                             <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" />
+                            <span class="notification-count" style="display: none;"><!--3--></span>
                         </div>
                     </div>
                 </div>
@@ -329,6 +330,9 @@
             // });
             
         // owlcarouselSettingsForAllProducts();
+        setTimeout(()=>{
+            owlcarouselSettingsForAllProducts();
+        },1500);
     })
 </script>
 
@@ -344,6 +348,7 @@
             $('.pronoun_inputforsale').html('My ');
             fetchAllCropsForSale();
         }
+        owlcarouselSettingsForAllProducts();
     }
     userSpecificFunction();
     

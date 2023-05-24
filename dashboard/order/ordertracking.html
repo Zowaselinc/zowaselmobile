@@ -143,7 +143,9 @@
                 <!-- Pending and GotoWallet Button -->
                 
                 <!-- for corporates view -->
-                <a class="btn payment-status wallet d-block w-100" href="updateshipping.html">Update Tracking</a>
+                <input type="hidden" id="buyer_type_from_db" />
+                <input type="hidden" id="theproduct_type_from_db" />
+                <a class="btn payment-status wallet w-100 updatetrackingBTN" href="updateshipping.html" style="display:none;">Update Tracking</a>
 
                 <button class="btn zowaselBlue text-white my-3 w-100" onclick="showWaybillDocument('waybilldocument')">View waybill document</button>
             </div>
@@ -411,6 +413,36 @@
     });
     // Download Full Specification
     // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
+
+    $(document).ready(()=>{
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let userid = user.user.id;
+        let usertype = user.user.type;
+        let userPaymentType = user.type;
+
+        setTimeout(()=>{
+            let buyer_type_from_db = document.getElementById('buyer_type_from_db').value;
+            let theproduct_type_from_db = document.getElementById('theproduct_type_from_db').value;
+            // alert(buyer_type_from_db+" buyer_type_from_db");
+            if(buyer_type_from_db=="corporate"){
+                if(usertype=="corporate"){
+                    // alert("For Corporate");
+                    if(theproduct_type_from_db=="offer" || theproduct_type_from_db=="auction" || theproduct_type_from_db=="wanted"){
+                        $('.updatetrackingBTN').hide();
+                    }
+                }
+            }
+            if(buyer_type_from_db=="corporate"){
+                if(usertype=="merchant"){
+                    // alert("For Merchant");
+                    if(theproduct_type_from_db=="offer" || theproduct_type_from_db=="auction" || theproduct_type_from_db=="wanted"){
+                        $('.updatetrackingBTN').show();
+                    }
+                }
+            }
+        },1000)
+    })
 </script>
 </body>
 </html>

@@ -553,45 +553,64 @@
             // form.append("front", fileuploaded, "cornproduct_resize.jpg");
             // form.append("image2", fileInput.files[0], "maizethumbnail_resized.jpg");
 
+            let allimages = [];
+            let img; 
             for (var i = 0; i < inputfilesToUpload.length; i++) {
                 var file = inputfilesToUpload[i];
                 var filename = inputfilesToUpload[i].name;
                 form.append("image"+i, file, filename);
+                let index = i+1;
+                
+                var fd = new FormData(); 
+                // fd.append( 'file', input.files[0] );
+                fd.append("image", file);
+                fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                .then(data => {
+                    // console.log("Chima", data);
+                    if(data.error == false){
+                        img = data.data.imageLink;
+                        allimages.push(img);
+                    }
+                })
+                console.log(img);
+                
             }
 
-            startPageLoader();
-            var settings = {
-                "url": `${liveBaseUrl}/input/add`,
-                "method": "POST",
-                "timeout": 25000,
-                "headers": {
-                    "Authorization": `${localStorage.getItem('authToken')}`
-                },
-                "processData": false,
-                "mimeType": "multipart/form-data",
-                "contentType": false,
-                "data": form
-            };
+            console.log(allimages);
 
-            $.ajax(settings).done(function (data) {
+            // startPageLoader();
+            // var settings = {
+            //     "url": `${liveBaseUrl}/input/add`,
+            //     "method": "POST",
+            //     "timeout": 25000,
+            //     "headers": {
+            //         "Authorization": `${localStorage.getItem('authToken')}`
+            //     },
+            //     "processData": false,
+            //     "mimeType": "multipart/form-data",
+            //     "contentType": false,
+            //     "data": form
+            // };
+
+            // $.ajax(settings).done(function (data) {
                 // console.log(data);
-                let response = JSON.parse(data);
-                EndPageLoader();
-                if(response.error == true){
-                    // alert(response.message);
-                    responsemodal("erroricon.png", "Error", response.message);
-                }else{
-                    responsemodal("successicon.png", "Success", response.message);
-                    // location.assign('')
-                    setTimeout(()=>{
-                        $("#addInputForm")[0].reset();
-                        $('.dialogbox').addClass('d-none');
-                        $('.dialogbox').removeClass('d-block');
-                        location.assign('viewuseraddedinput.html');
-                    },2000)
+            //     let response = JSON.parse(data);
+            //     EndPageLoader();
+            //     if(response.error == true){
+            //         // alert(response.message);
+            //         responsemodal("erroricon.png", "Error", response.message);
+            //     }else{
+            //         responsemodal("successicon.png", "Success", response.message);
+            //         // location.assign('')
+            //         setTimeout(()=>{
+            //             $("#addInputForm")[0].reset();
+            //             $('.dialogbox').addClass('d-none');
+            //             $('.dialogbox').removeClass('d-block');
+            //             location.assign('viewuseraddedinput.html');
+            //         },2000)
                     
-                }
-            });
+            //     }
+            // });
 
         }
 

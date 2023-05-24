@@ -123,6 +123,11 @@ function truncate(str, length) {
                     $('#pageTitle').html("Sale");
                 }
 
+                // HIDE/SHOW UPDATE TRACKING BUTTON
+                let theproduct = JSON.parse(thedata.products);
+                $('#buyer_type_from_db').val(thedata.buyer_type);
+                $('#theproduct_type_from_db').val(theproduct[0].type);
+
                 let InputProduct = JSON.parse(thedata.products)[0].input;
                 
                 // START OF **IF IT IS AN INPUT
