@@ -21,3 +21,5 @@ let FLW_PUBLIC_KEY="FLWPUBK_TEST-31d2c67e18903e84121df7538ea64fd0-X";
 let FLW_SECRET_KEY="FLWSECK_TEST-f2d4096dec00240d8490578d4b6daa07-X";
 
 // export {liveMobileUrl, liveBaseUrl};
+
+let e89wzr6xxOvAHq51PXuateactV7vm8iyZhIWC4o65BOOg06RLlH3m;

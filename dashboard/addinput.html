@@ -161,13 +161,25 @@
                         <!-- Form 1A -->
 
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Input Category <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Product type <span class="required">*</span></label>
+                            <!-- <input name="inputproducttype" type="text" class="form-control" required  style="border:1px solid #ced4da;" /> -->
+                            <select class="form-select" id="inputproducttype" name="inputproducttype" required="">
+                                <!-- <option value="">--Select Subcategory--</option> -->
+                                <option value="">--Select Product type--</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Organic">Organic</option>
+                                <option value="GMO">GMO</option>
+                            </select>
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Catalog <span class="required">*</span></label>
                             <select class="form-select" required="" id="category" >
                                 <option value="">--Select category--</option>
                             </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Input sub category <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Product <span class="required">*</span></label>
                             <select class="form-select" required="" aria-label="Default select example" id="subcategory" >
                                 <option value="">--Select Subcategory--</option>
                             </select>
@@ -177,49 +189,47 @@
                             <input name="inputtitle" type="text" class="form-control" required id="inputprice" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Packaging <span class="required">*</span></label>
-                            <input name="inputtitle" type="text" class="form-control" required id="inputpackaging" style="border:1px solid #ced4da;" />
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Input Crop focus <span class="required">*</span></label>
+                            <select class="form-select" id="inputcropfocus" name="inputtitle" required="">
+                                <!-- <option value="">--Select Subcategory--</option> -->
+                                <option value="">--Select Crop Focus--</option>
+                                <option value="Maize">Maize</option>
+                            </select>
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Product type  <span class="required">*</span></label>
-                            <input name="inputproducttype" type="text" class="form-control" required id="inputproducttype" style="border:1px solid #ced4da;" />
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Packaging <span class="required">*</span></label>
+                            <!-- <input name="inputtitle" type="text" class="form-control" required id="inputpackaging" style="border:1px solid #ced4da;" /> -->
+                            <select class="form-select" id="inputpackaging" name="inputtitle" required="">
+                                <option value="">--Select Packaging--</option>
+                                <option value="Bag">Bag</option>
+                                <option value="Bottles">Bottles</option>
+                                <option value="Sachet">Sachet</option>
+                                <option value="Carbon">Carbon</option>
+                            </select>
                         </div>
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Liters(1-50) <span class="required">*</span></label>
                             <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputliters" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Input Crop focus <span class="required">*</span></label>
-                            <input name="inputtitle" type="text" class="form-control" required id="inputcropfocus" style="border:1px solid #ced4da;" />
-                        </div>
-                        <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Kilograms(5-50) <span class="required">*</span></label>
                             <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputkg" style="border:1px solid #ced4da;" />
                         </div>
-                        <div class="w-100 mb-3">
+                        <!-- <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Grams(5-50) <span class="required">*</span></label>
-                            <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputgram" style="border:1px solid #ced4da;" />
-                        </div>
+                            <input name="inputtitle" type="number" min="1" max="50" class="form-control" id="inputgram" style="border:1px solid #ced4da;" />
+                        </div> -->
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Stock <span class="required">*</span></label>
+                            <label for="exampleInputEmail1" class="form-label text-dark mb-0">Stock (Quantity) <span class="required">*</span></label>
                             <input name="inputstock" type="text" class="form-control" required id="inputstock" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">Country <span class="required">*</span></label>
-                            <select class="form-select" required="" id="countryList" aria-label="Default select example" >
-                                
-                            </select>
-                        </div>
-                        <div class="w-100 mb-3">
-                            <label for="exampleInputEmail1" class="form-label mb-0">State <span class="required">*</span></label>
-                            <select class="form-select" required="" id="stateList" aria-label="Default select example" >
-                                <option value="">- Select state -</option>
-                                
-                            </select>
-                        </div>
-                        <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Delivery method <span class="required">*</span></label>
-                            <input name="inputtitle" type="text" class="form-control" required id="inputdeliverymethod" style="border:1px solid #ced4da;" />
+                            <select class="form-select" required="" aria-label="Default select example" id="inputdeliverymethod" >
+                                <option value="">--Select Shipping Method--</option>
+                                <option value="Delivery">Delivery</option>
+                                <option value="Pick up at Crop Center">Pick up at Crop Center</option>
+                            </select>
                         </div>
                         <!-- <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Input Application <span class="required">*</span></label>
@@ -243,17 +253,30 @@
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Expiring Date <span class="required">*</span></label>
                             <input name="expiringdate" type="date" class="form-control" required id="expiringdate" style="border:1px solid #ced4da;" />
                         </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Manufacture Country <span class="required">*</span></label>
+                            <select class="form-select" required="" id="countryList" aria-label="Default select example" >
+                                
+                            </select>
+                        </div>
+                        <div class="w-100 mb-3">
+                            <label for="exampleInputEmail1" class="form-label mb-0">Manufacture State <span class="required">*</span></label>
+                            <select class="form-select" required="" id="stateList" aria-label="Default select example" >
+                                <option value="">- Select state -</option>
+                                
+                            </select>
+                        </div>
                         <!-- FORM 1A -->
 
 
                         <!-- FORM 1B -->
                         <div class="upload__box">
                             <div class="w-100 mb-3">
-                                <label for="exampleInputEmail1" class="form-label mb-0">Product image (maximum of 5) <span class="required">*</span></label>
+                                <label for="exampleInputEmail1" class="form-label mb-0">Product image (maximum of 1) <span class="required">*</span></label>
                                 <div class="upload__btn-box">
                                 <label class="upload__btn">
                                     <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p>
-                                    <input type="file" multiple="" id="inputimages" data-max_length="4" class="upload__inputfile" required accept="image/png, image/jpg, image/jpeg">
+                                    <input type="file" id="inputimages" data-max_length="0" class="upload__inputfile" required accept="image/png, image/jpg, image/jpeg">
                                 </label>
                                 </div>
                                 <div class="upload__img-wrap"></div>
@@ -517,7 +540,7 @@
             let inputcropfocus = document.getElementById('inputcropfocus');
             let inputliters = document.getElementById('inputliters');
             let inputkg = document.getElementById('inputkg');
-            let inputgram = document.getElementById('inputgram');
+            // let inputgram = document.getElementById('inputgram');
             let inputstock = document.getElementById('inputstock');
             let countryList = document.getElementById('countryList');
             let stateList = document.getElementById('stateList');
@@ -543,7 +566,7 @@
             form.append("stock", inputstock.value);
             form.append("usage_instruction", usageinstruction.value);
             form.append("kilograms", inputkg.value);
-            form.append("grams", inputgram.value);
+            // form.append("grams", inputgram.value);
             form.append("liters", inputliters.value);
             form.append("price", inputprice.value);
             form.append("currency", currency.value);
@@ -560,8 +583,8 @@
 
             console.log("globalImageArrayLength",globalImageArrayLength);
             // cropimages.files.length
-            if (globalImageArrayLength < 3) {
-                basicmodal("", "Please enter at least 3 to 5 images");
+            if (globalImageArrayLength < 1) {
+                basicmodal("", "Please enter at least 1 image");
             }else{
                 
                 startPageLoader();
@@ -611,15 +634,18 @@
                                 EndPageLoader();
                                 if(response.error == true){
                                     // alert(response.message);
-                                    responsemodal("erroricon.png", "Error", response.message);
+                                    // responsemodal("erroricon.png", "Error", response.message);
+                                    responsefullmodal("erroricon.png", response.message, "", "");
                                 }else{
-                                    responsemodal("successicon.png", "Success", response.message);
+                                    // responsemodal("successicon.png", "Success", response.message);
+                                    let goto = "/dashboard/viewuseraddedinput.html";
+                                    responsefullmodal("successicon2.png", "Input Added", "", goto);
                                     // location.assign('')
                                     setTimeout(()=>{
                                         $("#addInputForm")[0].reset();
-                                        $('.dialogbox').addClass('d-none');
-                                        $('.dialogbox').removeClass('d-block');
-                                        location.assign('viewuseraddedinput.html');
+                                        // $('.dialogbox').addClass('d-none');
+                                        // $('.dialogbox').removeClass('d-block');
+                                        // location.assign('viewuseraddedinput.html');
                                     },2000)
                                     
                                 }

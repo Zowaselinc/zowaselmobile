@@ -112,8 +112,8 @@
                         </li> -->
                     </ul>
 
-                    <div class="price row">
-                        <div class="col-6">
+                    <div class="price d-flex justify-content-between">
+                        <div class="">
                             <span class="fw-normal f-14 fontFamily1 zowasel-white-color">Price</span>
                             <h3 class="fontFamily1 f-20 zowasel-color">
                                 NGN<span class="productAmount"><!--5000--></span>
@@ -122,7 +122,7 @@
                             </h3>
                         </div>
 
-                        <div class="col-6" style="text-align:right;">
+                        <div class="" style="text-align:right;">
                             <span class="fw-normal f-14 fontFamily1 zowasel-white-color">Stock</span>
                             <h3 class="fontFamily1 f-20 zowasel-color">
                                 <span class="productQuantity"><!--Kg/MT--></span>
@@ -194,7 +194,7 @@
             </div> -->
 
             <!-- ------------------------------ CAROUSEL ------------------------------- -->
-            <div class="container carousel-accordion owl-carousel owl-carousel-singleproduct-page mt-4">
+            <div class="container carousel-accordion owl-carousel owl-carousel-singleproduct-page mt-0">
                 <!--   if you add more than 5 slides, then they active carousel navigations -->
               
                 <!-- <div class="accordion_li">
@@ -450,7 +450,14 @@
         //     navigation : true
         // });
 
-        owlcarouselSettings();
+        owlcarouselInputSettings();
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let usertype = user.user.type;
+        if(usertype=="corporate"){
+
+            $('.after-a-fixed1-header').css({'top':'170px'})
+        }
     })
 </script>
 

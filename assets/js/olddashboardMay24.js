@@ -3927,89 +3927,124 @@ $('#formpage3').submit(function(e){
     // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
     let img1,img2,img3,img4,img5;
 
-    let img, index=0; 
-    var fd = new FormData(); 
     console.log(imgArr, "The Image Img Array");
-    let allimages = [];
-    let imagecompleted;
-    for (var i = 0; i < imgArr.length; i++) {
-        var file = imgArr[i];
-        var filename = imgArr[i].name;
-        // form.append("image"+i, file, filename);
-        index = i+1;
+    var fd = new FormData();  
+    // fd.append( 'file', input.files[0] );
+    fd.append("image", imgArr[0]);
+    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+    .then(data => {
+        // console.log("Chima", data);
+        if(data.error == false){
+            img1 = data.data.imageLink;
 
-        fd = new FormData(); 
-        // fd.append( 'file', input.files[0] );
-        fd.append("image", file);
-        fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
-        .then(data => {
-            // console.log("Chima", data);
-            if(data.error == false){
-                img = data.data.imageLink;
-                console.log(img, "img"+index);
-            }
-            allimages.push(img);
-            if(allimages.length==imgArr.length){
-                imagecompleted = true;
+            fd = new FormData();
+            fd.append("image", imgArr[1]);
+            fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+            .then(data => {
+                // console.log("Chima", data);
+                if(data.error == false){
+                    img2 = data.data.imageLink;
 
-                console.log(index, "Image completed");
-                formData.append("images", allimages);
+                    fd = new FormData();
+                    fd.append("image", imgArr[2]);
+                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                    .then(data => {
+                        // console.log("Chima", data);
+                        if(data.error == false){
+                            img3= data.data.imageLink;
 
-                console.log(formData, "The final formData");
+                            fd = new FormData();
+                            fd.append("image", imgArr[3]);
+                            fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                            .then(data => {
+                                // console.log("Chima", data);
+                                if(data.error == false){
+                                    img4 = data.data.imageLink;
 
-                var settings = {
-                    "url": `${liveMobileUrl}/crop/${croptype}/add`,
-                    "method": "POST",
-                    "timeout": 0,
-                    "headers": {
-                        // "Content-Type": "application/json",
-                        "authorization": localStorage.getItem('authToken')
-                    },
-                    "processData": false,
-                    "mimeType": "multipart/form-data",
-                    "contentType": false,
-                    "data": formData
-                };
-            
-                $.ajax(settings).done(function (data) {
-                    // console.log(data);
-                    let response = JSON.parse(data);
-                    EndPageLoader();
-                    if(response.error == true){
-                        // alert(response.message);
-                        // responsemodal("erroricon.png", "Error", response.message);
-                        // responsefullmodal(icon, title, body, page)
-                        responsefullmodal("erroricon.png", response.message, "", "");
-                    }else{
-                        // responsemodal("successicon.png", "Success", response.message);
-                        // setTimeout(()=>{
-                            // $("#addInputForm")[0].reset();
-                            $('.dialogbox').addClass('d-none');
-                            $('.dialogbox').removeClass('d-block');
-                            const activePage = window.location.pathname;
-                            // alert(activePage);
-                            let croptype, goto;
-                            if(activePage=="/dashboard/addcropauction.html"){
-                                croptype = "auction";
-                                goto = '/dashboard/viewusercropsforauction.html';
-                            }else if(activePage=="/dashboard/addcrop.html"){
-                                croptype = "sale";
-                                goto = 'viewusercropsforsale.html';
-                            }else if(activePage=="/dashboard/addcropwanted.html"){
-                                croptype = "wanted";
-                                goto = '/dashboard/cropswanted.html';
-                            }
-                            responsefullmodal("successicon2.png", "Crop Added", "", goto);
-                            // location.assign('viewusercropsforsale.html');
-                        // },2000)
-                        
-                    }
-                });
-                
-                /* ------------------------------ // FORM DATA ------------------------------ */
-            }
-        })
-    }
+                                    fd = new FormData();
+                                    fd.append("image", imgArr[4]);
+                                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                                    .then(data => {
+                                        // console.log("Chima", data);
+                                        if(data.error == false){
+                                            img5 = data.data.imageLink;
+                                            
+                                            //Store form Data
+                                            
+                                            /* ------------------------------ // FORM DATA ------------------------------ */
+                                            //Store form Data
+                                            formData.append("image1", img1);
+                                            formData.append("image2", img2);
+                                            formData.append("image3", img3);
+                                            formData.append("image4", img4);
+                                            formData.append("image5", img5);
+
+                                            console.log(formData, "The final formData");
+
+                                            var settings = {
+                                                "url": `${liveMobileUrl}/crop/${croptype}/add`,
+                                                "method": "POST",
+                                                "timeout": 0,
+                                                "headers": {
+                                                    // "Content-Type": "application/json",
+                                                    "authorization": localStorage.getItem('authToken')
+                                                },
+                                                "processData": false,
+                                                "mimeType": "multipart/form-data",
+                                                "contentType": false,
+                                                "data": formData
+                                            };
+                                        
+                                            $.ajax(settings).done(function (data) {
+                                                // console.log(data);
+                                                let response = JSON.parse(data);
+                                                EndPageLoader();
+                                                if(response.error == true){
+                                                    // alert(response.message);
+                                                    // responsemodal("erroricon.png", "Error", response.message);
+                                                    // responsefullmodal(icon, title, body, page)
+                                                    responsefullmodal("erroricon.png", response.message, "", "");
+                                                }else{
+                                                    // responsemodal("successicon.png", "Success", response.message);
+                                                    // setTimeout(()=>{
+                                                        // $("#addInputForm")[0].reset();
+                                                        $('.dialogbox').addClass('d-none');
+                                                        $('.dialogbox').removeClass('d-block');
+                                                        const activePage = window.location.pathname;
+                                                        // alert(activePage);
+                                                        let croptype, goto;
+                                                        if(activePage=="/dashboard/addcropauction.html"){
+                                                            croptype = "auction";
+                                                            goto = '/dashboard/viewusercropsforauction.html';
+                                                        }else if(activePage=="/dashboard/addcrop.html"){
+                                                            croptype = "sale";
+                                                            goto = 'viewusercropsforsale.html';
+                                                        }else if(activePage=="/dashboard/addcropwanted.html"){
+                                                            croptype = "wanted";
+                                                            goto = '/dashboard/cropswanted.html';
+                                                        }
+                                                        responsefullmodal("successicon2.png", "Crop Added", "", goto);
+                                                        // location.assign('viewusercropsforsale.html');
+                                                    // },2000)
+                                                    
+                                                }
+                                            });
+                                            /* ------------------------------ // FORM DATA ------------------------------ */
+                                        
+                                        }
+                                    })
+                                    // End of 5th image
+                                }
+                            })
+                            // End of 4th image
+                        }
+                    })
+                    // End of 3rd image
+                }
+            })
+            // End of 2nd image
+        }
+    })
     // End of 1st image
                 
 
@@ -4486,45 +4521,14 @@ function populateSingleInputDetails(){
     let imagesLink = input.images;
     console.log("ImagesLink", imagesLink);
     if(imagesLink){
-        var parsedImagesLink = JSON.parse(imagesLink);
-        console.log("parsedImagesLink",parsedImagesLink.length);
-
-        let carousel="";
-        let carouselcontents;
-
         if(imagesLink.includes('/data/products')){
             
-            if(parsedImagesLink.length < 1){
-                $(".swiper-btn-center-lr").hide();
-            }else{
-                for(let i=0; i<parsedImagesLink.length; i++){
-                    carousel +=`
-                    <div class="accordion_li">
-                        <a href="#">
-                            <div class="bg-image">
-                            <img src="https://api.growsel.com/${parsedImagesLink[i]}" class="accordion_img" alt="img">
-                            </div>
-                        </a>
-                    </div>
-                    `;
-                }
-                let swiperBtn = `
-                    <div class="swiper-btn">
-                        <div class="swiper-pagination style-2 flex-1"></div>
-                    </div>
-                `;
-
-                carouselcontents = `
-                    ${carousel}
-                `;
-                
-                $('.owl-carousel-singleproduct-page').html(carouselcontents);
-            }
-
         }else{
-            // var parsedImagesLink = JSON.parse(imagesLink);
-            // console.log("parsedImagesLink",parsedImagesLink.length);
-           
+            var parsedImagesLink = JSON.parse(imagesLink);
+            console.log("parsedImagesLink",parsedImagesLink.length);
+
+            let carousel="";
+            let carouselcontents;
             if(parsedImagesLink.length < 1){
                 $(".swiper-btn-center-lr").hide();
             }else{
@@ -4560,42 +4564,43 @@ function populateSingleInputDetails(){
     }
     /* -------------------------------- CAROUSEL -------------------------------- */
 
-    $('.productName').html(input.subcategory.name);
-    let isverified;
-    // if(thedata.user.is_verified === 0){
-    //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
-    // }else{
-        isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="22px" alt="">`;
-    // }
-    $('.isVerified').html(isverified);
-    $('.product_type').html(input.product_type);
-    $('.manufacture_country').html(input.manufacture_country);
-    $('.manufacture_name').html(capitalizeFirstLetter(input.manufacture_name));
-    $('.manufacture_date').html(input.manufacture_date);
-    $('.expiry_date').html(input.expiry_date);
-    $('.kilograms').html(input.kilograms);
-    $('.packaging').html(input.packaging);
-
     let previouspage = localStorage.getItem('last_input_crop_page');
     if(previouspage == "viewusercropsforsale.html"){
+        $('.productName').html(input.category.name);
         $('.productAmount').html(input.specification.price);
         $('.productDescription').html(input.description);
         $('.usageinstruction').html(input.usage_instruction);
         $('.cropfocus').html(input.crop_focus);
         $('.stock').html(input.stock);
     }else if(!previouspage || previouspage == "viewuseraddedinput.html"){
+        $('.productName').html(input.category.name);
         $('.productAmount').html(input.price);
         $('.productDescription').html(input.description);
         $('.usageinstruction').html(input.usage_instruction);
         $('.cropfocus').html(input.crop_focus);
         $('.stock').html(input.stock);
-    }else if(previouspage == "inputs.html"){    
+    }else if(previouspage == "inputs.html"){
+        $('.productName').html(input.subcategory.name);
         $('.productAmount').html(input.price);
         $('.productDescription').html(input.description);
         $('.usageinstruction').html(input.usage_instruction);
         $('.cropfocus').html(input.crop_focus);
         $('.stock').html(input.stock);
         $('.productOwnerFarmName').html(input.user.first_name+" "+input.user.last_name);
+        let isverified;
+        // if(thedata.user.is_verified === 0){
+        //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
+        // }else{
+            isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="22px" alt="">`;
+        // }
+        $('.isVerified').html(isverified);
+        $('.product_type').html(input.product_type);
+        $('.manufacture_country').html(input.manufacture_country);
+        $('.manufacture_name').html(capitalizeFirstLetter(input.manufacture_name));
+        $('.manufacture_date').html(input.manufacture_date);
+        $('.expiry_date').html(input.expiry_date);
+        $('.kilograms').html(input.kilograms);
+        $('.packaging').html(input.packaging);
     }
 
     
@@ -4722,8 +4727,8 @@ function fetchUserInputCart(){
                         images = JSON.parse(images);
                         // console.log("images",images);
                         let theimage;
-                        if(images[0].includes('/data/products/')){
-                            theimage = `<img src="https://api.growsel.com/${images[0]}" alt="logo">`;
+                        if(images.length<1 || images[0].includes('public/')){
+                            theimage = ``;
                         }else{
                             theimage = `<img src="${images[0]}" alt="logo">`;
                         }
@@ -5933,96 +5938,6 @@ function owlcarouselSettingsForAllProducts(){
                 // items: 2.25,
                 items: getItems(2.25),
                 loop: false
-            },
-            460: {
-                items: 1.75
-            },
-            768: {
-                items: 2.5
-            },
-            900: {
-                items: 3.5
-            },
-            1200: {
-                margin: 0,
-                onInitialized: itemExpanded,
-                onRefresh: itemExpanded,
-                autoWidth: true,
-                mouseDrag: false,
-                items: 5
-            }
-            }
-        });
-    }
-}
-
-
-function owlcarouselInputSettings(){
-    if ($(window).width() > 1200) {
-        function itemSize() {
-            var OwlSlideItem = $(".carousel-accordion .accordion_li"),
-            OwlSlideItemmargin = 10,
-            // itemsLength = 5,
-            owlFullScrnWidth = $(".carousel-accordion").width(),
-            normItemWidth = owlFullScrnWidth / itemsLength - 9;
-
-            OwlSlideItem.stop().animate({ width: normItemWidth + "px" }, 500);
-        }
-        itemSize();
-    }
-
-    function itemExpanded() {
-    var OwlSlidemactive = $(".carousel-accordion .owl-item.active"),
-        // OwlSlideItemmargin = $('.carousel-accordion .owl-item').css('marginRight').replace(/[A-Za-z]/g, ""),
-        itemsLength = 5,
-        owlFullScrnWidth = $(".carousel-accordion").width() - itemsLength,
-        normItemWidth = owlFullScrnWidth / itemsLength - 10,
-        lgItemWidth = normItemWidth * 2 + 20,
-        smItemWidth = (normItemWidth * 3) / 4 - 3;
-
-    OwlSlidemactive.hover(
-        function () {
-        var $this = $(this);
-        $this
-            .addClass("expanded")
-            .removeClass("active")
-            .find(".accordion_li")
-            .stop()
-            .animate({ width: lgItemWidth + "px" }, 500);
-        $(".carousel-accordion .active")
-            .find(".accordion_li")
-            .stop()
-            .animate({ width: smItemWidth + "px" }, 500);
-        },
-        function () {
-        var $this = $(this);
-        $this.removeClass("expanded").addClass("active");
-        $(".carousel-accordion .active")
-            .find(".accordion_li")
-            .stop()
-            .animate({ width: normItemWidth + "px" }, 500);
-        }
-    );
-    }
-    setTimeout(()=>{
-        initialize_owl($(".carousel-accordion"));
-    },2000)
-
-    function initialize_owl(el) {
-        el.owlCarousel({
-            // loop: true,
-            margin: 5,
-            // navText: ["<i class='angle-left'></i>", "<i class='angle-right'></i>"],
-            navText: "",
-            dots: false,
-            autoPlay: true,
-            autoplayTimeout: 5000,
-            autoplayHoverPause: true,
-            nav: false,
-            responsiveClass: true,
-            responsive: {
-            0: {
-                items: 1
             },
             460: {
                 items: 1.75
