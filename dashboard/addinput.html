@@ -193,7 +193,7 @@
                             <select class="form-select" id="inputcropfocus" name="inputtitle">
                                 <!-- <option value="">--Select Subcategory--</option> -->
                                 <option value="">--Select Crop Focus--</option>
-                                <option value="Maize">Maize</option>
+                                <!-- <option value="Maize">Maize</option> -->
                             </select>
                         </div>
                         <div class="w-100 mb-3">
@@ -362,6 +362,7 @@
     sidemenu();
     populateUserDetails();
     fetchInputCategories();
+    fetchInputFocus();
     populateCountryList();
     addInputPage();
 </script>
@@ -628,10 +629,23 @@
                                 "data": form
                             };
 
-                            $.ajax(settings).done(function (data) {
+                            $.ajax(settings).done(function (data, textStatus, jqXHR) {
                                 console.log(data);
                                 let response = JSON.parse(data);
                                 EndPageLoader();
+                                if(textStatus==="timeout") {
+                                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                                    return true;
+                                }
+                                var statusCode = jqXHR.status;
+                                console.log(statusCode);
+                                if(statusCode==403){
+                                    basicmodal("", "Session has ended, Login again");
+                                    setTimeout(()=>{
+                                        logout();
+                                    },3000)
+                                    return true;
+                                }
                                 if(response.error == true){
                                     // alert(response.message);
                                     // responsemodal("erroricon.png", "Error", response.message);

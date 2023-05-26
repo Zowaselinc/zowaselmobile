@@ -4049,6 +4049,82 @@ $('#formpage3').submit(function(e){
  ************************************************************************************/
 
 
+/* ---------------------------- FETCH INPUT FOCUS --------------------------- */
+function fetchInputFocus(){
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/category/crop_focus/getall`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            // "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            $('.loader').addClass('loader-hidden');
+            // console.log(response, "The get all category response");
+            if(response.error == true){
+                // alert(response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+                console.log("erroricon.png", "Error", response.message);
+                $('.loader').addClass('loader-hidden');
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                let rowContent = "";
+                let index;
+                // console.log(thedata, "category data");
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                    //   console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        rowContent += `
+                            <option value="${row.id}">${row.name}</option>
+                        `;   
+                    }
+                    $('#inputcropfocus').append(rowContent);        
+          
+                }else{
+                    // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                }
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                console.log("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }    
+    });
+}
+/* ---------------------------- FETCH INPUT FOCUS --------------------------- */
+
+
+
 /* ------------------------- FETCH INPUT CATEGORY ------------------------- */
 function fetchInputCategories(){
     startPageLoader();
@@ -4095,13 +4171,29 @@ function fetchInputCategories(){
         },
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out");
-            } else {
-                // alert(textstatus);
-                basicmodal("", textstatus);
+                console.log("", "Service timed out <br/>Check your internet connection");
             }
-        }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }    
     });
 }
 /* ------------------------- FETCH PRODUCT CATEGORY ------------------------- */
