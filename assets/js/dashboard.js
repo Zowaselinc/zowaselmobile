@@ -3333,7 +3333,7 @@ const negotiationPage =()=>{
                             "infested_by_weight": "",
                             "curcumin_content": "",
                             "extraneous": "",
-                            "unit": ""
+                            // "unit": ""
 
                     }),
                     success: function(response) { 
@@ -3888,7 +3888,7 @@ $('#formpage3').submit(function(e){
     formData.append("infested_by_weight", insect_defiled_infested.value);
     formData.append("curcumin_content", curcumincontent.value);
     formData.append("extraneous", extaneous.value);
-    formData.append("unit", testweight.value);
+    // formData.append("unit", testweight.value);
     formData.append("country", countryList.value);
     formData.append("state", stateList.value);
     formData.append("zip", zipcode.value);
@@ -5112,6 +5112,7 @@ function fetchUserCropsforSaleByUserID(){
             // alert("efe");
             EndPageLoader();
             // $('.loader').hide();
+            console.log("response", response);
             if(response.error == true){
                 // alert(response.message);
                 responsemodal("erroricon.png", "Error", response.message);
@@ -5236,6 +5237,7 @@ function fetchUserCropsforSaleByUserID(){
             if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
+            console.log(message);
         },
         statusCode: {
             200: function(response) {
@@ -5291,7 +5293,7 @@ function fetchCropsforAuction(){
         gotoProductdetails = `productdetails.html`;
         // currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
     }else if(usertype == "merchant"){
-        theURL = `/crop/auction/userid`;
+        theURL = `crop/auction/userid`;
         gotoProductdetails = `mypersonalproductdetails.html`;
         // currentPage = ``;
     }
@@ -5445,7 +5447,8 @@ function fetchCropsforAuction(){
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
+                // basicmodal("", "Service timed out <br/>Check your internet connection");
+                console.log("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {

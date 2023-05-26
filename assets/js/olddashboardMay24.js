@@ -5022,6 +5022,7 @@ function fetchUserCropsforSaleByUserID(){
             "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
+            console.log(response);
             // alert("efe");
             EndPageLoader();
             // $('.loader').hide();
@@ -5147,7 +5148,8 @@ function fetchUserCropsforSaleByUserID(){
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
             if(textstatus==="timeout") {
-                basicmodal("", "Service timed out <br/>Check your internet connection");
+                // basicmodal("", "Service timed out <br/>Check your internet connection");
+                console.log("", "Service timed out <br/>Check your internet connection");
             }
         },
         statusCode: {
