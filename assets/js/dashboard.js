@@ -4480,6 +4480,7 @@ function fetchCorporateAddedInputs(){
                 // alert(response.message);
                 let thedata = response.data;
                 let rowContent = "";
+                let carouselrowContent = "";
                 let index;
                 console.log(thedata, "User personal Input Products");
                 if(thedata.length > 0){

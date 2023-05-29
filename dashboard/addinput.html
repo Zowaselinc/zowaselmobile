@@ -209,11 +209,17 @@
                         </div>
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Liters(1-50) <span class="required">*</span></label>
-                            <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputliters" style="border:1px solid #ced4da;" />
+                            <!-- <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputliters" style="border:1px solid #ced4da;" /> -->
+                            <select class="form-select ponetofiftypercent" min="1" max="50" id="inputliters" required>
+                                
+                            </select>
                         </div>
                         <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Kilograms(5-50) <span class="required">*</span></label>
-                            <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputkg" style="border:1px solid #ced4da;" />
+                            <!-- <input name="inputtitle" type="number" min="1" max="50" class="form-control" required id="inputkg" style="border:1px solid #ced4da;" /> -->
+                            <select class="form-select ponetofiftypercent" min="1" max="50" id="inputkg" required>
+                                
+                            </select>
                         </div>
                         <!-- <div class="w-100 mb-3">
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0">Grams(5-50) <span class="required">*</span></label>
@@ -418,6 +424,17 @@
                 $('#formpage3').show();
             // }
         })
+
+        // COUNT FOR SELECT
+        let emptyoption = `<option value=""></option>`;
+        let rowContent = "";
+        for(let i=1; i<=50; i++){
+            rowContent += `
+                <option value="${i}">${i}%</option>
+            `;   
+        }
+        $('.ponetofiftypercent').html(emptyoption + rowContent);
+        // COUNT FOR SELECT
         
     });
 

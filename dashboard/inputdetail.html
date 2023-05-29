@@ -235,7 +235,7 @@
 
                 <div class="farmOwnerUserDetails d-none"></div>
 
-                <div class="offerbutton_holder justify-content-center">
+                <div class="offerbutton_holder justify-content-center" style="display:none;">
                     <!-- <a href="#" class="fulfil">Buy now</a> -->
                     <!-- <a onclick="addtoCart()" class="negotiate" >Add to Cart</a> -->
                     <a onclick="addtoCart()" class="fulfil" >Add to Cart</a>
@@ -436,9 +436,11 @@
         if(usertype=="corporate"){
             $('.productownerdetails').hide();
             $('.thequantitynumbering').hide();
+            $('.offerbutton_holder').hide();
         }else if(usertype=="merchant"){
             $('.productownerdetails').show();
             $('.thequantitynumbering').show();
+            $('.offerbutton_holder').show();
         }
     }
     usertypeFunction();
