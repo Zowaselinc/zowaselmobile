@@ -256,16 +256,23 @@ function pageRestriction(){
                 // KYC
                 let key2 = "userdidkyc";
                 let value2 = 1;
-                if(thedata.kyc){
-                    setCookie(key2,value2,0.5);
+                if(thedata){
+                    if(thedata.kyc){
+                        setCookie(key2,value2,0.5);
+                    }else{
+                        setCookie(key2,0,0.5);
+                    }
                 }else{
                     setCookie(key2,0,0.5);
                 }
 
                 let key = "userkycstatus";
                 let value = 1;
-                if(thedata.kyc.verified==1){
-                    setCookie(key,value,0.5);
+
+                if(thedata.kyc){
+                    if(thedata.kyc.verified==1){
+                        setCookie(key,value,0.5);
+                    }else{ setCookie(key,0,0.5); }
                 }else{
                     setCookie(key,0,0.5);
                 }
@@ -1518,17 +1525,17 @@ function fetchAllCropsForSale(){
     let usertype = user.user.type;
 
     let theURL, gotoProductdetails, viewmoreProduts, currentPage;
-    if(usertype == "corporate"){
+    // if(usertype == "corporate"){
         theURL = `crop/getbycropoffer`;
-        viewmoreProduts = `/dashboard/allcropsforsale.html`;
-        gotoProductdetails = `productdetails.html`;
-        currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
-    }else{
-        theURL = `crop/getbycropwanted`;
-        viewmoreProduts = `/dashboard/cropsforsale.html`;
-        gotoProductdetails = `mypersonalproductdetails.html`;
-        // currentPage = ``;
-    }
+    //     viewmoreProduts = `/dashboard/allcropsforsale.html`;
+    //     gotoProductdetails = `productdetails.html`;
+    //     currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
+    // }else{
+    //     theURL = `crop/getbycropwanted`;
+    //     viewmoreProduts = `/dashboard/cropsforsale.html`;
+    //     gotoProductdetails = `mypersonalproductdetails.html`;
+    //     // currentPage = ``;
+    // }
 
     startPageLoader();
     $.ajax({
@@ -1540,7 +1547,7 @@ function fetchAllCropsForSale(){
             "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
-            // alert("efe");
+            alert("efe");
             EndPageLoader();
             // $('.loader').hide();
             console.log(response, "The logged response");
@@ -1549,7 +1556,7 @@ function fetchAllCropsForSale(){
                 responsemodal("erroricon.png", "Error", response.message);
             }else{
                 // alert(response.message);
-                let thedata = response.data.rows;
+                let thedata = response.data;
                 let rowContent = "";
                 let carouselrowContent = "";
                 let index;
