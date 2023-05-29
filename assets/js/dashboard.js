@@ -4719,9 +4719,9 @@ function populateSingleInputDetails(){
     $('.productName').html(input.subcategory.name);
     let isverified;
     // if(thedata.user.is_verified === 0){
-    //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="22px" alt="">`;
+    //     isverified = `Unverified &nbsp;<img src="../logos/unavailable.png" width="12px" alt="">`;
     // }else{
-        isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="22px" alt="">`;
+        isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="12px" alt="">`;
     // }
     $('.isVerified').html(isverified);
     $('.product_type').html(input.product_type);
