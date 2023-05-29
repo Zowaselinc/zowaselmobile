@@ -761,14 +761,16 @@ function startPageLoader(){
 
 function EndPageLoader(){
     const loader = document.querySelector('.loader');
-    loader.classList.add("loader-hidden");
-
+    if(loader){
+        loader.classList.add("loader-hidden");
+    }
 }
 
 window.addEventListener('load', ()=>{
     const loader = document.querySelector('.loader');
-
-    loader.classList.add("loader-hidden");
+    if(loader){
+        loader.classList.add("loader-hidden");
+    }
 
     // loader.addEventListener("transitionend", ()=>{
     //     document.body.removeChild("loader");
