@@ -317,7 +317,6 @@
     pageRestriction();
     
     fetchCropsforAuction();
-    fetchInputs();
 </script>
 
 <script>
@@ -344,9 +343,11 @@
         if(usertype == "merchant"){
             $('.pronoun_crop_offer').html('My ');
             fetchUserCropsforSaleByUserID();
+            fetchInputs();
         }else if(usertype == "corporate"){
             $('.pronoun_inputforsale').html('My ');
             fetchAllCropsForSale();
+            fetchCorporateAddedInputs();
         }
         owlcarouselSettingsForAllProducts();
     }

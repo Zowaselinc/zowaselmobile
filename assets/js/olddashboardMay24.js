@@ -4372,7 +4372,7 @@ function fetchInputs(){
 
 
 // MERCHANT SIDE
-function fetchMerchantAddedInputs(){
+function fetchCorporateAddedInputs(){
 
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);

@@ -395,7 +395,15 @@ function checkifKYCis_verified(){
             if(user.user.account_type=="company"){
                 checkifKYBis_done();
             }
-        } 
+        }
+    }
+
+    if(pathname.includes('dashboard/checkuserverification')){
+        if(userkycstatus == 1){
+            // alert(userkycstatus);
+            $('.complete_kyc_title').html("KYC Verified");
+            $('.proceedtoKYCBTN').hide();
+        }
     }
     
 }
@@ -431,6 +439,15 @@ function checkifKYCis_done(){
         }
         if(userkycDoneStatus == 1){
             checkifKYCis_verified();
+        }
+    }
+
+    if(pathname.includes('dashboard/checkuserverification')){
+        if(userkycDoneStatus == 1){
+            // alert(userkycDoneStatus);
+            checkifKYCis_verified();
+            $('.complete_kyc_title').html("KYC submitted. Please wait while we verify your details");
+            $('.proceedtoKYCBTN').html(`<i class="fa fa-user mb-1"></i> &nbsp;&nbsp;Preview KYC`);
         }
     }
 }
@@ -550,15 +567,15 @@ function proceedtoKYC(){
         console.log(userdetailsHasANullField, companydetailsHasANullField);
         if(userdetailsHasANullField === true){
             if(companydetailsHasANullField === true){
-                basicmodal("", "Please update your account and company details");
+                basicmodal("", "Please update your account and company details before proceeding with KYC");
                 gotoEditAccountDetails();
             }else if(companydetailsHasANullField === false){
-                basicmodal("", "Please update your account details");
+                basicmodal("", "Please update your account details before proceeding with KYC");
                 gotoEditAccountDetails();
             }
         }else if(userdetailsHasANullField === false){
             if(companydetailsHasANullField === true){
-                basicmodal("", "Please update your company details");
+                basicmodal("", "Please update your company details before proceeding with KYB");
                 gotoEditAccountDetails();
             }else{
                 location.assign('/dashboard/kycverification.html');
@@ -566,7 +583,7 @@ function proceedtoKYC(){
         }
     }else{
         if(userdetailsHasANullField === true){
-            basicmodal("", "Please update your account details");
+            basicmodal("", "Please update your account details before proceeding with KYC");
             gotoEditAccountDetails();
         }else{
             location.assign('/dashboard/kycverification.html');
@@ -1525,17 +1542,17 @@ function fetchAllCropsForSale(){
     let usertype = user.user.type;
 
     let theURL, gotoProductdetails, viewmoreProduts, currentPage;
-    // if(usertype == "corporate"){
+    if(usertype == "corporate"){
         theURL = `crop/getbycropoffer`;
         viewmoreProduts = `/dashboard/allcropsforsale.html`;
         gotoProductdetails = `productdetails.html`;
     //     currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
-    // }else{
+    }else{
     //     theURL = `crop/getbycropwanted`;
     //     viewmoreProduts = `/dashboard/cropsforsale.html`;
     //     gotoProductdetails = `mypersonalproductdetails.html`;
     //     // currentPage = ``;
-    // }
+    }
 
     startPageLoader();
     $.ajax({
@@ -4435,8 +4452,8 @@ function fetchInputs(){
 
 
 
-// MERCHANT SIDE
-function fetchMerchantAddedInputs(){
+// CORPORATE SIDE
+function fetchCorporateAddedInputs(){
 
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -4464,7 +4481,7 @@ function fetchMerchantAddedInputs(){
                 let thedata = response.data;
                 let rowContent = "";
                 let index;
-                console.log(thedata, "erfrefre");
+                console.log(thedata, "User personal Input Products");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -4510,12 +4527,51 @@ function fetchMerchantAddedInputs(){
                     </li>
                         `;   
                     }
+
+
+                    // FOR THE INDEX PAGE CAROUSEL
+                    // for (let i = 0; i < 5; i++) {
+                    let looptill;
+                    if(thedata.length>3){looptill=3}else{looptill=thedata.length}
+                    for (let i = 0; i < looptill; i++) {
+                        // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        console.log("ggg",row);
+                        index= i+1;
+
+                        let therow = JSON.stringify(row);
+
+                        let theprice;
+                        if(row.price){ theprice = row.price; }else{ theprice = ""; }
+
+                        carouselrowContent += `
+                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="goToInputDetails1(${row.id})">
+                            <div class="d-none" id="rowdetails${row.id}">${therow}</div>
+                            <a href="#">
+                                <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,10)}</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,20) }</div>
+                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,6)}</div>
+                                <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</div>
+                            </a>
+                        </div>
+                        `; 
+                    }
+
+                    let emptycell = `
+                    <div class="text-center p-2 py-3"">
+                        <!--<a href="#">Click "More" to see others</a>-->
+                    </div>
+                    `;
+
                     $('#inputs').html(rowContent);
-        
-        
-          
+                    $('#p_carouselinputsforsale').html(carouselrowContent + emptycell);
+
+
+                    $('#inputs').html(rowContent);
+         
                 }else{
                     $('#inputs').html("No Input yet");
+                    $('#p_carouselinputsforsale').html("You have no input product");
                 }
                     
             }
@@ -4523,7 +4579,7 @@ function fetchMerchantAddedInputs(){
         error: function(xmlhttprequest, textstatus, message) {
             EndPageLoader();
             // console.log(xmlhttprequest, "Error code");
-            if(textstatus==="timeout" || textstatus=="error") {
+            if(textstatus==="timeout") {
                 basicmodal("", "Service timed out <br/>Check your internet connection");
             }
         },
@@ -4547,7 +4603,7 @@ function fetchMerchantAddedInputs(){
         }
     });
 }
-// MERCHANT SIDE
+// CORPORATE SIDE
 
 
 
