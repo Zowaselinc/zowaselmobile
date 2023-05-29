@@ -1692,8 +1692,13 @@ function fetchAllCropsForSale(){
                     // console.log("carouselrowContent + emptycell", carouselrowContent + emptycell);
 
                 }else{
+                    let nocrop = `
+                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
+                        <a href="#">No Crop For Sale Added Yet</a>
+                    </div>
+                    `;
                     $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop for sale yet</h5></td></tr>");
-                    $('#p_carouselcropsforsale').html("<tr><td colspan='9' class='text-center'><span class='pt-2'>No crop yet</span></td></tr>");
+                    $('#p_carouselcropsforsale').html(nocrop);
                 }
                 
                 lazyLoading();
@@ -4414,8 +4419,13 @@ function fetchInputs(){
                     $('#p_carouselinputsforsale').html(carouselrowContent + emptycell);
 
                 }else{
+                    let noinput = `
+                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
+                        <a href="#">No Input Added Yet</a>
+                    </div>
+                    `;
                     $('#inputs').html("No Input yet");
-                    $('#p_carouselinputsforsale').html("No Input yet");
+                    $('#p_carouselinputsforsale').html(noinput);
                 }
 
                 lazyLoading();
@@ -4571,8 +4581,14 @@ function fetchCorporateAddedInputs(){
                     $('#inputs').html(rowContent);
          
                 }else{
+                    let noinput = `
+                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
+                        <a href="#">No Input Added Yet</a>
+                    </div>
+                    `;
                     $('#inputs').html("No Input yet");
-                    $('#p_carouselinputsforsale').html("You have no input product");
+                    // $('#p_carouselinputsforsale').html("You have no input product");
+                    $('#p_carouselinputsforsale').html(noinput);
                 }
                     
             }
@@ -5287,8 +5303,13 @@ function fetchUserCropsforSaleByUserID(){
                     $('#p_cropsByUserID').html(rowContent);
 
                 }else{
+                    let nocrop = `
+                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
+                        <a href="#">No Crop For Sale Added Yet</a>
+                    </div>
+                    `;
                     $('#p_cropsByUserID').html("No Crop for sale yet");
-                    $('#p_carouselcropsforsale').html("No Crop for sale yet");
+                    $('#p_carouselcropsforsale').html(nocrop);
                 }
 
                 lazyLoading();
@@ -5500,7 +5521,13 @@ function fetchCropsforAuction(){
                     }else if(usertype == "merchant"){
                         $('#p_cropAuctionByUserID').html("No Crop yet");
                     }
-                    $('#p_carouselcropsforauction').html("No Crop yet");
+
+                    let nocrop = `
+                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
+                        <a href="#">No Crop Added Yet</a>
+                    </div>
+                    `;
+                    $('#p_carouselcropsforauction').html(nocrop);
                 }
 
                 lazyLoading();
