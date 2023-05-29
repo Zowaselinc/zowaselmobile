@@ -1527,8 +1527,8 @@ function fetchAllCropsForSale(){
     let theURL, gotoProductdetails, viewmoreProduts, currentPage;
     // if(usertype == "corporate"){
         theURL = `crop/getbycropoffer`;
-    //     viewmoreProduts = `/dashboard/allcropsforsale.html`;
-    //     gotoProductdetails = `productdetails.html`;
+        viewmoreProduts = `/dashboard/allcropsforsale.html`;
+        gotoProductdetails = `productdetails.html`;
     //     currentPage = `localStorage.setItem('last_input_crop_page', 'cropsforsale.html')`;
     // }else{
     //     theURL = `crop/getbycropwanted`;
@@ -1547,7 +1547,7 @@ function fetchAllCropsForSale(){
             "authorization": localStorage.getItem('authToken')
         },
         success: function(response) { 
-            alert("efe");
+            // alert("efe");
             EndPageLoader();
             // $('.loader').hide();
             console.log(response, "The logged response");
@@ -1620,7 +1620,7 @@ function fetchAllCropsForSale(){
                                         <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
                                     </div>
 
-                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="localStorage.setItem('singleproductID',${row.id});
                                     location.assign('${gotoProductdetails}')">
                                         View
                                     </button>
@@ -1653,7 +1653,7 @@ function fetchAllCropsForSale(){
                         if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
 
                         carouselrowContent += `
-                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="localStorage.setItem('singleproductID',${row.id}); ${currentPage}
+                        <div class="singleproduct-crousel-holder text-center p-2 py-3" onclick="localStorage.setItem('singleproductID',${row.id});
                         location.assign('${gotoProductdetails}')">
                             <a href="#">
                                 <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${row.subcategory.name} ${thecolor}</div>
