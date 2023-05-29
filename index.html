@@ -136,6 +136,18 @@
       mobile:       false       // trigger animations on mobile devices (true is default)
     });
     wow.init();	
+
+    function checkifOnboardingScreenisSeen(){
+        let onboardingScreen = localStorage.getItem('onboarding');
+        if(onboardingScreen){
+            if(onboardingScreen=="seen"){
+                setTimeout(()=>{
+                    location.assign('welcome.html');
+                },2100)
+            }
+        }
+    }
+    checkifOnboardingScreenisSeen();
 </script>
 </body>
 </html>
