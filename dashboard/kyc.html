@@ -987,7 +987,12 @@
                                                 location.assign('kyb.html');
                                             },3000)
                                         }else{
-                                            location.assign('/dashboard/kycverification.html');
+                                            pageRestriction();
+                                            startPageLoader();
+                                            setTimeout(()=>{
+                                                location.assign('/dashboard/verification.html');
+                                                EndPageLoader();
+                                            },2000)
                                         }
                                         
                                     },2000)

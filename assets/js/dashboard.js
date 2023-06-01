@@ -1693,8 +1693,8 @@ function fetchAllCropsForSale(){
 
                 }else{
                     let nocrop = `
-                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                        <a href="#">No Crop For Sale Added Yet</a>
+                    <div class="singleproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                        <a href="#">No Crop Added Yet</a>
                     </div>
                     `;
                     $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop for sale yet</h5></td></tr>");
@@ -5304,8 +5304,8 @@ function fetchUserCropsforSaleByUserID(){
 
                 }else{
                     let nocrop = `
-                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                        <a href="#">No Crop For Sale Added Yet</a>
+                    <div class="singleproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                        <a href="#">No Crop Added Yet</a>
                     </div>
                     `;
                     $('#p_cropsByUserID').html("No Crop for sale yet");
@@ -5523,7 +5523,7 @@ function fetchCropsforAuction(){
                     }
 
                     let nocrop = `
-                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
+                    <div class="singleproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
                         <a href="#">No Crop Added Yet</a>
                     </div>
                     `;

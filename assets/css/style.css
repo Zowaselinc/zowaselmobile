@@ -2076,7 +2076,7 @@ textarea.form-control-lg {
   border-bottom-right-radius: 0; }
 
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
-  margin-left: -1px;
+  /* margin-left: -1px; */
   border-top-left-radius: 0;
   border-bottom-left-radius: 0; }
 
@@ -13000,7 +13000,7 @@ button {
   box-shadow: none; }
 
 .dz-stepper {
-  width: 125px; }
+  width: 85px; }
   .dz-stepper small, .dz-stepper .small {
     text-align: center;
     display: block;
@@ -13014,7 +13014,7 @@ button {
     .dz-stepper .bootstrap-touchspin .input-group-btn {
       height: 100%; }
       .dz-stepper .bootstrap-touchspin .input-group-btn .btn {
-        border-radius: 40px;
+        /* border-radius: 40px;
         width: 40px;
         height: 40px;
         padding: 0;
@@ -13022,7 +13022,21 @@ button {
         border: 1px solid var(--border-color);
         font-size: 1.5rem;
         color: var(--title);
-        background-color: transparent; }
+        background-color: transparent; */
+        width: 23.38px;
+        height: 22.42px;
+        left: 0px;
+        top: 1px;
+        background: #515665;
+        border-radius: 3px;
+        color: white;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 21px;
+        padding: 13px;
+        letter-spacing: -0.02em; }
         .dz-stepper .bootstrap-touchspin .input-group-btn .btn:hover {
           background: #E8EFF3;
           border-color: #E8EFF3;
@@ -13030,7 +13044,7 @@ button {
       .dz-stepper .bootstrap-touchspin .input-group-btn:not(:first-child) {
         padding: 0; }
     .dz-stepper .bootstrap-touchspin .form-control {
-      padding: 0 10px;
+      padding: 0 0px;
       height: 100%;
       font-size: 1.125rem;
       font-weight: 500;
