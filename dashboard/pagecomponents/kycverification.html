@@ -183,9 +183,14 @@ socket.on(usersocketchannel,function(data){
                             $('.kyc_city').html(`<span style="text-transform:capitalize;">${user.user.city}</span>`);
                             $('.kyc_idtype').html(iddetail.type);
                             $('.kyc_idnumber').html(iddetail.value);
-
-                            $('#frontImageSrc').attr('src', documents[0].base64);
-                            $('#backImageSrc').attr('src', documents[1].base64);
+                            
+                            if(documents[0].fileName.includes('idcardback')){
+                                $('#frontImageSrc').attr('src', documents[1].base64);
+                                $('#backImageSrc').attr('src', documents[0].base64);
+                            }else{
+                                $('#frontImageSrc').attr('src', documents[0].base64);
+                                $('#backImageSrc').attr('src', documents[1].base64);
+                            }
 
                         }
                     }

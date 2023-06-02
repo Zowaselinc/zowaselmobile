@@ -215,23 +215,31 @@
                         <div class="card-body">
 							<div class="idUploadFormHolder">
                                 <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">ID Front</label>
-                                <!-- <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please snap the front of your Selected id</span> -->
-                                <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please upload the front of your Selected id</span>
+                                <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please snap the front of your Selected id</span>
 								
                                 <!-- Camera -->
                                 <div class="container">
                                     <div class="">
-                                      <!-- <video id="camera-stream-IDFront" autoplay muted playsinline class="cameraBorder w-100">Not available</video> -->
-                                      <label class="upload__btn">
-                                        <!-- <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p> -->
-                                        <img src="../assets/icons/camerasnap.png" id="photo-IDFront" />
-                                        <input type="file" id="cropimages" data-max_length="0" class="upload__inputfile upload__inputfile_frontID" required accept="image/png, image/jpg, image/jpeg">
-                                      </label>
-                                      <div class="upload__img-wrap"></div>
+                                      <video id="camera-stream-IDFront" autoplay muted playsinline class="cameraBorder w-100">Not available</video>
                                     </div>
-                                </div>
+                                    <div class="text-center">
+                                      <!-- <button disabled id="flip-btn-IDFront" class="btn btn-sm btn-warning">
+                                        Flip Camera
+                                      </button> -->
+                                      <button id="capture-camera-IDFront" class="btn btn-sm btn-primary">
+                                        Take photo
+                                      </button>
+                                    </div>
+                                    <div class="mt-3 idFrontOutput">
+                                      <b>Output:</b>
+                                      <br>
+                                      <canvas id="canvas-IDFront" style="display:none" class="bg-light shadow border border-5 border-success">
+                                      </canvas>
+                                      <img id="photo-IDFront" class="captureBorder w-100" alt="The screen capture will appear in this box."> 
+                                    </div>
+                                  </div>
 
-                                <div class="idFrontError text-danger text-center"></div>
+                                  <div class="idFrontError text-danger text-center"></div>
                                 <!-- SNAP -->
 
 								<div class="text-center">
@@ -248,22 +256,31 @@
                         <div class="card-body">
 							<div id="payForm">
                                 <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">ID Back</label>
-                                <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please upload the back of your Selected id</span>
+                                <span style="color:#2c2646d1;font-weight:700;font-size:12px;" class="text-center d-block">Please snap the back of your Selected id</span>
 								
                                 <!-- Camera -->
                                 <div class="container">
                                     <div class="">
-                                      <!-- <video id="camera-stream-IDFront" autoplay muted playsinline class="cameraBorder w-100">Not available</video> -->
-                                      <label class="upload__btn">
-                                        <!-- <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p> -->
-                                        <img src="../assets/icons/camerasnap.png" id="photo-IDBack" />
-                                        <input type="file" id="cropimagesvvv" data-max_length="0" class="upload__inputfile upload__inputfile_backID" required accept="image/png, image/jpg, image/jpeg">
-                                      </label>
-                                      <div class="upload__img-wrap2"></div>
+                                      <video id="camera-stream-IDBack" autoplay muted playsinline class="cameraBorder w-100">Not available</video>
                                     </div>
-                                </div>
+                                    <div class="text-center">
+                                      <!-- <button disabled id="flip-btn-IDBack" class="btn btn-sm btn-warning">
+                                        Flip Camera
+                                      </button> -->
+                                      <button id="capture-camera-IDBack" class="btn btn-sm btn-primary">
+                                        Take photo
+                                      </button>
+                                    </div>
+                                    <div class="mt-3 idBackOutput">
+                                      <b>Output:</b>
+                                      <br>
+                                      <canvas id="canvas-IDBack" style="display:none" class="bg-light shadow border border-5 border-success">
+                                      </canvas>
+                                      <img id="photo-IDBack" class="captureBorder w-100" alt="The screen capture will appear in this box."> 
+                                    </div>
+                                  </div>
 
-                                <div class="idBackError text-danger text-center"></div>
+                                  <div class="idBackError text-danger text-center"></div>
                                 <!-- SNAP -->
 
 								<div class="text-center">
@@ -343,11 +360,11 @@
 
                                 <!-- ID FRONT -->
                                 <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block">ID Front</label>
-                                <img id="photo-IDFront-v" class="captureBorder w-100" alt="The image uploaded will appear in this box.">
+                                <img id="photo-IDFront-v" class="captureBorder w-100" alt="The screen capture will appear in this box.">
 
                                 <!-- ID BACK -->
                                 <label style="color:#2c2646d1;font-weight:700;" class="text-center d-block mt-2">ID Back</label>
-                                <img id="photo-IDBack-v" class="captureBorder w-100" alt="The image uploaded will appear in this box.">
+                                <img id="photo-IDBack-v" class="captureBorder w-100" alt="The screen capture will appear in this box.">
 
 								<div class="text-center">
                                     <button type="button" class="btn border border-dark mt-3" onclick="gobacktoSection(`idTypeandNumberSection`)">Edit</button>
@@ -427,76 +444,120 @@
         $('#dob').attr('max', date.toISOString().split('T')[0]);
 
 
-
-        // <!-- --------------------------- UPLOAD DOCUMENT --------------------------- -->
-        
-        $('.upload__inputfile_frontID').each(function () {
-            var imgWrap = "";
-            var imgArray = [];
-            $(this).on('change', function (e) {
-                // alert("vr");
-                var files = e.target.files;
-                var filesArr = Array.prototype.slice.call(files);
-                console.log("filesArr", filesArr);
-                var iterator = 0;
-                filesArr.forEach(function (f, index) {
-
-                    if (!f.type.match('image.*')) {
-                        return;
-                    }
-                    // console.log("imgArray.length",imgArray.length);     
-                    imgArray.push(f);
-
-                    console.log(imgArray, " image Array");
-                    globalImageArrayLength = imgArray.length;
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById('photo-IDFront').setAttribute('src', e.target.result);
-                        let data = e.target.result;
-                        blobFile_Front = urlToFile(data)
-                        iterator++;
-                    }
-                    reader.readAsDataURL(f);
-                });
-            });
-        });
-
-
-        $('.upload__inputfile_backID').each(function () {
-            var imgWrap = "";
-            var imgArray = [];
-            $(this).on('change', function (e) {
-                // alert("vr");
-                var files = e.target.files;
-                var filesArr = Array.prototype.slice.call(files);
-                console.log("filesArr", filesArr);
-                var iterator = 0;
-                filesArr.forEach(function (f, index) {
-
-                    if (!f.type.match('image.*')) {
-                        return;
-                    }
-                    // console.log("imgArray.length",imgArray.length);     
-                    imgArray.push(f);
-
-                    console.log(imgArray, " image Array");
-                    globalImageArrayLength = imgArray.length;
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById('photo-IDBack').setAttribute('src', e.target.result);
-                        iterator++;
-                        let data = e.target.result;
-                        blobFile_Back = urlToFile(data)
-                    }
-                    reader.readAsDataURL(f);
-                });
-            });
-        });
-        // <!-- --------------------------- UPLOAD DOCUMENT --------------------------- -->
-
-
        
+        // camera stream video element
+        let on_stream_video = document.querySelector('#camera-stream-IDFront');
+        let on_stream_video2 = document.querySelector('#camera-stream-IDBack');
+        // flip button element
+        let flipBtn = document.querySelector('#flip-btn-IDFront');
+        let flipBtn2 = document.querySelector('#flip-btn-IDBack');
 
+        // default user media options
+        let constraints = { audio: false, video: true }
+        let shouldFaceUser = false;
+        // let shouldFaceUser2 = false;
+
+        // check whether we can use facingMode
+        let supports = navigator.mediaDevices.getSupportedConstraints();
+        if( supports['facingMode'] === true ) {
+            // flipBtn.disabled = false;
+            // flipBtn2.disabled = false;
+        }
+
+        let stream = null;
+        let stream2 = null;
+
+        function capture1() {
+            constraints.video = {
+                width: {
+                    min: 192,
+                    ideal: 192,
+                    max: 192,
+                },
+                height: {
+                    min: 192,
+                    ideal: 192,
+                    max: 192
+                },
+                facingMode: shouldFaceUser ? 'environment' : 'environment'
+            }
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(mediaStream) {
+                // console.log(mediaStream, "mediaStream");
+                stream  = mediaStream;
+                on_stream_video.srcObject = stream;
+                on_stream_video.play();
+            })
+            .catch(function(err) {
+                console.log(err)
+            });
+
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(mediaStream) {
+                // console.log(mediaStream, "mediaStream2");
+                
+                stream2  = mediaStream;
+                on_stream_video2.srcObject = stream2;
+                on_stream_video2.play();
+            })
+            .catch(function(err) {
+                console.log(err)
+            });
+        }
+
+        // function capture2() {
+        //     constraints.video = {
+        //         width: {
+        //             min: 192,
+        //             ideal: 192,
+        //             max: 192,
+        //         },
+        //         height: {
+        //             min: 192,
+        //             ideal: 192,
+        //             max: 192
+        //         },
+        //         facingMode: shouldFaceUser ? 'environment' : 'environment'
+        //     }
+        //     navigator.mediaDevices.getUserMedia(constraints)
+        //     .then(function(mediaStream) {
+        //         console.log(mediaStream, "mediaStream");
+                
+        //         stream2  = mediaStream;
+        //         on_stream_video2.srcObject = stream2;
+        //         on_stream_video2.play();
+        //     })
+        //     .catch(function(err) {
+        //         console.log(err)
+        //     });
+        // }
+
+        // flipBtn.addEventListener('click', function(){
+        //     if( stream == null ) return
+        //     // we need to flip, stop everything
+        //     stream.getTracks().forEach(t => {
+        //     t.stop();
+        //     });
+        //     // toggle / flip
+        //     shouldFaceUser = !shouldFaceUser;
+        //     capture1();
+        //     on_stream_video.play();
+        // })
+
+        capture1();
+
+        // <!-- ----------------------------- flip Btn 2 ------------------------------ -->
+        // flipBtn2.addEventListener('click', function(){
+        //     if( stream2 == null ) return
+        //     // we need to flip, stop everything
+        //     stream2.getTracks().forEach(t => {
+        //     t.stop();
+        //     });
+        //     // toggle / flip
+        //     shouldFaceUser2 = !shouldFaceUser2;
+        //     capture1();
+        //     on_stream_video2.play();
+        // })
         
         let blobFile_Front, blobFile_Back;
 
@@ -535,10 +596,113 @@
             // console.log("data",data);
         }
 
-    
+        document.getElementById("capture-camera-IDFront").addEventListener("click", function() {
+            // Elements for taking the snapshot
+            const video = document.querySelectorAll('video')[0];
+            // canvas.width = video.videoWidth;
+            // canvas.height = video.videoHeight;
+            // canvas.getContext('2d').drawImage(video, 0, 0);
+            // alert("Yes");
+
+            let canvas = document.getElementById('canvas-IDFront');
+            let photo = document.getElementById('photo-IDFront');  
+            let photo_v = document.getElementById('photo-IDFront-v');  
+            let context = canvas.getContext('2d');
+            
+            const height = video.videoHeight;
+            const width = video.videoWidth;
+            
+            if (width && height) {    
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);    
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+                photo_v.setAttribute('src', data);
+
+                $('.idFrontOutput').show();
+                $('.idFrontError').html("");
+                // on_stream_video.pause();
+                on_stream_video.play();
+
+                blobFile_Front = urlToFile(data)
+                // console.log(blobFile_Front, "File Front");
+
+            } else {
+                clearphoto();
+            }
+        });
+
+        
+
+        // BackOutput (THIS IS WHERE I PING THE IMAGE UPLOAD)
+        document.getElementById("capture-camera-IDBack").addEventListener("click", function() {
+            // Elements for taking the snapshot
+            const video = document.querySelectorAll('video')[1];
+            // canvas.width = video.videoWidth;
+            // canvas.height = video.videoHeight;
+            // canvas.getContext('2d').drawImage(video, 0, 0);
+            // alert("Big boy");
+
+            let canvas = document.getElementById('canvas-IDBack');
+            let photo = document.getElementById('photo-IDBack');  
+            let photo_v = document.getElementById('photo-IDBack-v');  
+            let context = canvas.getContext('2d');
+            
+            const height = video.videoHeight;
+            const width = video.videoWidth;
+            
+            if (width && height) {    
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);    
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+                photo_v.setAttribute('src', data);
+
+                $('.idBackOutput').show();
+                $('.idBackError').html("");
+                // on_stream_video2.pause();
+                on_stream_video2.play();
+
+                blobFile_Back = urlToFile(data)
+                // console.log(blobFile_Back, "File Back");
+                // sessionStorage.setItem("blobFile_Back",blobFile_Back);
+
+            } else {
+                clearphoto2();
+            }
+        });
+
+
+        function clearphoto() {
+            // let canvas = document.getElementById('canvas');
+            // let photo = document.getElementById('photo');
+
+            let canvas = document.getElementById('canvas-IDBack');
+            let photo = document.getElementById('photo-IDBack'); 
+            let context = canvas.getContext('2d');
+            
+            context.fillStyle = "#AAA";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            var data = canvas.toDataURL('image/png');
+            photo.setAttribute('src', data);
+        }
+
+        function clearphoto2(){
+            let canvas2 = document.getElementById('canvas-IDFront');
+            let photo2 = document.getElementById('photo-IDFront'); 
+            let context2 = canvas2.getContext('2d');
+            
+            context2.fillStyle = "#AAA";
+            context2.fillRect(0, 0, canvas2.width, canvas2.height);
+            var data2 = canvas2.toDataURL('image/png');
+            photo2.setAttribute('src', data2);
+        }
+
 
         // SWITCH PAGE SECTIONS 
-        // let frontIDLink, backIDLink;
+        let frontIDLink, backIDLink;
         $('#idTypeandNumber').submit(function(e){
             e.preventDefault();
             $('#idTypeandNumberSection').hide();
@@ -548,20 +712,14 @@
             e.preventDefault();
             
             var photo_IDFrontSrc  = document.getElementById("photo-IDFront").src;
-            console.log(photo_IDFrontSrc);
             if(!photo_IDFrontSrc){
-                $('.idFrontError').html("&#9888; Upload front ID");
-            }else if(photo_IDFrontSrc.includes("assets/icons")){
-                $('.idFrontError').html("&#9888; Upload front ID");
+                $('.idFrontError').html("&#9888; Snap front ID");
             }else{
                 $('.idFrontError').html("");
                 $('.dialogbox').addClass('d-none');
                 $('.dialogbox').removeClass('d-block');
                 $('#frontIDSection').hide();
                 $('#backIDSection').show();
-
-                let frontPhoto_v = document.getElementById('photo-IDFront-v');
-                frontPhoto_v.setAttribute('src',photo_IDFrontSrc);
 
                 // <!-- ------------------------ PING IMAGE UPLOAD URL ------------------------ -->
                 // let user = localStorage.getItem('zowaselUser');
@@ -614,9 +772,7 @@
 
             var photo_IDBackSrc  = document.getElementById("photo-IDBack").src;
             if(!photo_IDBackSrc){
-                $('.idBackError').html("&#9888; Upload back ID");
-            }else if(photo_IDBackSrc.includes("assets/icons")){
-                $('.idBackError').html("&#9888; Upload back ID");
+                $('.idBackError').html("&#9888; Snap back ID");
             }else{
                 $('.idBackError').html("");
                 $('.dialogbox').addClass('d-none');
@@ -625,10 +781,6 @@
                 let idnumber = document.getElementById('idnumber').value;
                 $('.idType-v').html(idType);
                 $('.idnumber-v').html(idnumber);
-
-                // console.log("photo_IDBackSrc",photo_IDBackSrc);
-                let backPhoto_v = document.getElementById('photo-IDBack-v');
-                backPhoto_v.setAttribute('src',photo_IDBackSrc);
 
                 let user = localStorage.getItem('zowaselUser');
                 user = JSON.parse(user);
@@ -755,7 +907,7 @@
             startPageLoader();
             let img1,img2;
 
-            // console.log(blobFile_Front, "yeye");
+            console.log(blobFile_Front, "yeye");
             var fd = new FormData();  
             // fd.append( 'file', input.files[0] );
             fd.append("image", blobFile_Front);
@@ -789,7 +941,7 @@
                             formData.append("gender", gender);
                             formData.append("bvn", bvn);
                             formData.append("img1", img1);
-                            formData.append("img2", img2);
+                            formData.append("img2", bvn);
                             formData.append("front", blobFile_Front, `idfrontcard${userid}.${blobFile_Front.type.split("/")[1]}`);
                             // // form.append("front", fileInput.files[0], "idcard.png");
                             formData.append("back", blobFile_Back, `idcardback${userid}.${blobFile_Back.type.split("/")[1]}`);
