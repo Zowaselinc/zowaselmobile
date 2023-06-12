@@ -33,86 +33,82 @@
     <!-- Animte -->
     <link rel="stylesheet" href="assets/vendor/wow/css/libs/animate.css">
     <link rel="stylesheet" href="bypass.css"/>
+
+    <!-- Public CSS -->
+    <linK rel="stylesheet" href="assets/css/font.css" />
+    <linK rel="stylesheet" href="assets/css/style2.css" />
 </head>   
-<body class="bg-white">
+<!-- <body class="bg-white"> -->
+<body class="">
 
     <!-- splash -->        
     <div class="loader-screen " id="splashscreen">
-        <div class="main-screen">
+        <div class="main-screen zowasel-splashgray-bg">
             <!-- <div class="circle-1">                
                 <img src="assets/images/food1.png" alt="food-image">
-            </div> -->
+            </div>
             <div class="circle-2"></div>
             <div class="circle-3"></div>
             <div class="circle-4"></div>
             <div class="circle-5"></div>
             <div class="circle-6"></div>
-            <!-- <div class="circle-7">
+            <div class="circle-7">
                 <img src="assets/images/food2.png" alt="food-image">
             </div> -->
-            <div class="brand-logo">
+            <div class="brand-logo text-center">
                 
-                <img src="logos/white logo.png" class="brand-title text-white mt-3"/>
+                <img src="logos/zowasellogo (512X512).png" width="113px" height="99px" class="box zowasel-splashLogo"/>
+                <div class="zowasel-color fontFamily1 fw-600 f-16 lh-36 mt-2">Simplifying Tomorrow</div>
             </div>
         </div>                                        
     </div>                                        
     <!-- splash-->
     
-<div class="page-wraper">
+<div class="container page-wraper">
     <!-- Page Content -->
     <div id="main" class="page-content page page-onboading">
         <!-- Onboading Start -->
-        <div class="started-swiper-box">
-            <div class="swiper-container get-started">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="slide-info">
-                            <div class="dz-media">
-                                <img src="logos/vegees.svg" width="180px" alt="image"/>
-                            </div>
-                        </div>
+        <div class="onboarding wrapper">
+            <!-- Slides Area -->
+            <section class="slides-area">
+                <article class="slide slides-area__slide">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="logos/zowasellogo (512X512).png" width="47px" height="41px" style="filter: drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.15));margin-bottom: 60px;" />
+                        <img src="assets/icons/onboardingcrop.png" alt="illustration" width="255px" height="255px">
                     </div>
-                    <div class="swiper-slide">
-                        <div class="slide-info">
-                            <div class="dz-media">
-                                <img src="assets/images/truck.png" alt="image"/>
-                            </div>
-                        </div>
+
+                    <div class="mt-4">
+                        <p class="slide__paragraph">One-stop shop for all purchase orders and listings</p>
                     </div>
-                    <!-- <div class="swiper-slide">
-                        <div class="slide-info">
-                            <div class="dz-media">
-                                <img src="assets/images/stock.svg" alt="image"/>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <div class="swiper-slide">
-                        <div class="slide-info">
-                            <div class="dz-media">
-                                <img src="assets/images/delivery.png" alt="image"/>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-            <div class="swiper-btn">
-                <div class="swiper-pagination style-1 flex-1"></div>
-            </div>
-            <div class="slide-content">
-                <h1 class="brand-title">Global Crop and  Input Marketplace.</h1>
-                <p>Access High Quality Inputs and Crops on the Zowasel Global Market Place and get Delivery at your preferred locations.</p>
-            </div>
-        </div>
+                </article>
+                <article class="slide slides-area__slide">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="logos/zowasellogo (512X512).png" width="47px" height="41px" style="filter: drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.15));margin-bottom: 60px;" />
+                        <img src="assets/icons/onboardingnetwork.png" alt="illustration" width="298px" height="223px">
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="slide__paragraph">Access a verified network of buyers and sellers</p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Paginations Area -->
+            <section class="paginations-area"></section>
+            <!-- Next Button -->
+            <button class="button-next zowasel-bg btn-block mt-4 text-white" aria-label="to get next slide">Next</button>
+            <button class="button-previous btn-block mt-2 zowasel-color d-none" aria-label="to get previous slide">Back</button>
+          </div>
         <!-- Onboading End-->    
     </div>
     <!-- Page Content End-->
     
     <!-- Footer -->
-    <footer class="footer border-0">
+    <!-- <footer class="footer border-0">
         <div class="container">
-            <a href="welcome.html" class="btn btn-success btn-rounded d-block">LET'S START</a>
+            <a href="javascript:void(0)" class="btn btn-success btn-rounded d-block" onclick="ddd()">LET'S START</a>
         </div>
-    </footer>
+    </footer> -->
     <!-- Footer End-->
 </div>    
 <!--**********************************
@@ -143,12 +139,217 @@
             if(onboardingScreen=="seen"){
                 setTimeout(()=>{
                     // alert("seen");
-                    location.assign('login.html');
+                    let onboardingUsertype = localStorage.getItem('userType');
+                    if(onboardingUsertype){
+                        location.assign('login.html');
+                    }else{
+                        location.assign('welcome.html');
+                    }
                 },2100)
             }
         }
     }
     checkifOnboardingScreenisSeen();
+
+
+    var swiper = new Swiper(".swiper-container", {
+//   pagination: ".swiper-pagination",
+  paginationClickable: true,
+  parallax: true,
+  speed: 600,
+//   autoplay: 3500,
+  loop: false,
+  grabCursor: true,
+  navigation: {
+				nextEl: '.swiper-btn-next',
+				prevEl: '.swiper-btn-prev',
+            },
+			pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+			},
+});
+
+function ddd(){
+   // Select Body
+const bodyElement = document.body;
+
+// Select Wrapper
+const wrapper = document.querySelector('.wrapper');
+
+// Select Slides Area
+const slidesArea = document.querySelector('.slides-area');
+
+// Set Up Slides-Count
+const slidesCount = slidesArea.childElementCount;
+
+// Set Up Slides-Count-Minus-One
+const slidesCountMinusOne = slidesCount - 1;
+
+// Select Next-Button
+const nextButton = document.querySelector('.button-next');
+
+// Select Prev-Button
+const prevButton = document.querySelector('.button-previous');
+
+// Select Paginations Area
+const paginationsArea = document.querySelector('.paginations-area');
+
+// Set Up Slide-Position
+let slidePosition = 0;
+
+// Set Up Move-Value
+let moveValue = 0;
+
+// Set Up Unit 
+let unit = 'px';
+
+// Functions Definition
+let updateWrapperWidth;
+let createPaginationItems;
+
+// When (nextButton) Has (click) Event
+nextButton.addEventListener('click', (event) => {
+  // Call Function
+  moveToNextSlide();
+});
+
+// When (nextButton) Has (click) Event
+prevButton.addEventListener('click', (event) => {
+  // Call Function
+  moveToPrevSlide();
+});
+
+// When Window Has (resize) Event
+window.addEventListener('resize', (event) => {
+  // Call Function
+  updateWrapperWidth(wrapper.offsetWidth);
+});
+
+// Start Animate Function
+function moveToNextSlide() {
+  // If Slide-Position Is Equal To Slides-area Children Count Minus One
+  if(slidePosition == slidesCountMinusOne) {
+    // Call Function
+    getStartedActions();
+    // alert("rgrt");
+  }else { // Else
+    // Increase Slide Position
+    slidePosition++;
+
+    // Add On Move-value The Wrapper Width Value 
+    moveValue += wrapper.offsetWidth;
+  }
+
+  // Move The Slides-Area To Left
+  slidesArea.style.marginLeft = `-${moveValue}${unit}`;
+
+  // Call Functions
+  updateNextButton();
+  createPaginationItems();
+};
+
+// Start Animate Function
+function moveToPrevSlide() {
+  // If Slide-Position Is Equal To Slides-area Children Count Minus One
+  if(slidePosition == slidesCountMinusOne) {
+    // Decrease Slide Position
+    slidePosition--;
+    // Add On Remove-value The Wrapper Width Value 
+    moveValue -= wrapper.offsetWidth;
+  }else { // Else
+    // Call Function
+    getStartedActions();
+  }
+
+  // Move The Slides-Area To Left
+  slidesArea.style.marginLeft = `-${moveValue}${unit}`;
+
+  // Call Functions
+  updateNextButton();
+  createPaginationItems();
+};
+
+// Update Wrapper Width Function
+(updateWrapperWidth = function (width) {
+  // Add Alternate Value For The (width) Param
+  width = width || wrapper.offsetWidth;
+
+  // Update The Slides-Area Width
+  slidesArea.style.width = `${width * slidesCount}${unit}`;
+  
+  // If Slide Position Value Bigger Than 0
+  if(slidePosition > 0) {
+    // Update Move-value
+    moveValue = width;
+
+    // Move The Slides-Area To Left
+    slidesArea.style.marginLeft = `-${width}${unit}`;
+
+    // If Slide-Position Is Equal To Slides-area Children Count Minus One
+    if(slidePosition === slidesCountMinusOne) {
+      // Move The Slides-Area To Left
+      slidesArea.style.marginLeft = `-${width * slidesCountMinusOne}${unit}`;
+    }
+  }
+})();
+
+// Update Next Button Function
+function updateNextButton() {
+  // Add Class (button-next--fade) 
+  nextButton.classList.add('button-next--fade');
+
+  // After 500 milliseconds
+  setTimeout(() => {
+    // Remove Class (button-next--fade)
+    nextButton.classList.remove('button-next--fade');
+  }, 500);
+
+  // After 550 milliseconds
+  setTimeout(() => {
+    // If Slide-Position Is Equal To Slides-area Children Count Minus One
+    if(slidePosition == slidesCountMinusOne) {
+      // Chnage (nextButton) Text Content
+      nextButton.textContent = 'Get Started';
+      $('.button-previous').removeClass('d-none').addClass('d-block');
+    }else { // Else
+      // Chnage (nextButton) Text Content
+      nextButton.textContent = 'Next';
+      $('.button-previous').removeClass('d-block').addClass('d-none');
+    }
+  }, 550);
+};
+
+// Create Pagination Items Function
+(createPaginationItems = function () {
+  // Empty The Paginations-Area Content
+  paginationsArea.innerHTML = '';
+
+  // Loop On All Slides-Area Children Count
+  for (let i = 0; i < slidesCount; i++) {
+    // Create Pagination Item
+    const paginationItem = '<span class="paginations-area__item"></span>';
+
+    // Add Inner The Pagination-Area The Pagination-Item
+    paginationsArea.innerHTML += paginationItem;
+  };
+
+  // Add Class "paginations-area__item--current" In The Active Item
+  paginationsArea.children[slidePosition].classList.add('paginations-area__item--current');
+})();
+
+// Get Started Actions Function
+function getStartedActions() {
+    // alert("fv");
+    location.assign('welcome.html');
+  // Chnage Background-color
+  bodyElement.style.backgroundColor = 'var(--color-dark)';
+
+  // Add Class (wrapper--has-fade)
+  wrapper.classList.add('wrapper--has-fade');
+};
+}
+ddd();
 </script>
 </body>
 </html>

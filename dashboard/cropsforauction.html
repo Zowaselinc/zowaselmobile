@@ -37,6 +37,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .form-select-sortby {
+            height: 48px;
+            background: #FFFFFF;
+            border: 1px solid #05B050;
+            border-radius: 4px;
+            padding: 0px 0px 0px 20px;
+        }
+        .form-control, textarea, .ck-editor{
+            background-color: #EFEFEF;
+            border-radius: 8px;
+            border: 1px solid #EAE9F0;
+        }
+    </style>
 
 </head>   
 <!-- <body class="bg-white"> -->
@@ -52,8 +67,11 @@
                     <div class="header-content">
                         <div class="left-content  w-auto">
                             <a href="javascript:void(0);" class="d-block d-flex align-items-center">
-                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
-                                <span class="fw-bold mx-3">Crops For Auction</span>
+                                <img class="back-btn notforFilter" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
+                                <span class="fw-bold mx-3 notforFilter">Crops For Auction</span>
+
+                                <img class="forFilter d-none" src="../assets/icons/cancelwhite.png" onclick="closecropFilter()" style="width:16px;height:16px;" /> 
+                                <span class="fw-bold mx-3 forFilter d-none">Filter By</span>
                             </a>
                             <br/><br/>
                         </div>
@@ -61,6 +79,9 @@
                         </div>
                         <div class="right-content">
                             <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
+                            <button class="btn notforFilter zowasel-bg text-white btn-sm p-2 px-2" onclick="filterproduct('cropsforauction')">
+                                Filter <img src="../assets/icons/filter.png" width="16px" class="ms-2" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -99,7 +120,7 @@
 
     
     <!-- Page Content -->
-    <div id="main" class="page-content bottom-content ">
+    <div id="main" class="notforFilter page-content bottom-content ">
         <div class="container">
             
              <!-- TITLE -->
@@ -175,6 +196,14 @@
 
 
 
+    <!-- Filter Page Content -->
+    <div id="cropfilterPage" class="forFilter page-content">
+        
+    </div>
+    <!-- Filter Page Content -->
+
+
+
 
     <!-- ------------------------------- LOADER -------------------------------- -->
     <div class="loader">
@@ -217,6 +246,10 @@
     sidemenu();
     populateUserDetails();
     fetchCropsforAuction();
+    // The click on the filter button at the head section would trigger all these functions
+    // filterpage();
+    // customRangeSettings();
+    // buttomaddreset_applyfilter();
 </script>
 
 <script>

@@ -11,9 +11,12 @@
     --white-color: #fff;
     --zowasel-darkblue: #262C3F;
     --zowasel-lightdark: rgba(6, 15, 39, 0.63);
+    --zowasel-thickdark: #3E4347;
+    --zowasel-notthickdark:rgba(38, 44, 63, 0.79);
     --zowasel-white: #fff;
     --zowasel-gray: #B2B7C7;
     --zowasel-lightgray: #FCFCFD;
+    --zowasel-splash-gray: #F4F5FA;
 
     /* Box Shadow */
     --header-box-shadow: 0px 4px 12px 4px rgba(0, 0, 0, 0.14);
@@ -44,6 +47,12 @@
 .zowasel-red-bg{
   background-color: var(--zowasel-red);
 }
+.zowasel-thickdark-color{
+  color: var(--zowasel-thickdark);
+}
+.zowasel-notthickdark-color{
+  color: var(--zowasel-notthickdark);
+}
 .zowasel-darkblue-bg{
   background-color: var(--zowasel-darkblue);
 }
@@ -64,6 +73,12 @@
 }
 .zowasel-gray-color{
   color: var(--zowasel-gray);
+}
+.zowasel-splashgray-bg{
+  background-color: var(--zowasel-splash-gray);
+}
+.zowasel-spashLogo{
+  filter: drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.15));
 }
 .overflowauto{
     overflow: auto;
@@ -88,7 +103,7 @@
 .restyled_label{
     display: block;
     /* background: red; */
-    min-height: 80px;
+    /* min-height: 80px; */
 } 
 
 
@@ -126,6 +141,13 @@
   border: 1px solid white;
 }
 /* ---------------------------- PULL TO REFERESH ---------------------------- */
+
+
+/* ---------------------------------- FORM ---------------------------------- */
+.form-button{
+  box-shadow: 0px 25px 40px -10px rgba(0, 0, 0, 0.06);
+}
+/* ---------------------------------- FORM ---------------------------------- */
 
 
 /*==========================Create Password Page============================*/
@@ -1042,8 +1064,10 @@
   right: 0;
   /* padding: 3px 6px; */
   /* background-color: rgba(192, 57, 43, 0.85); */
-  width: 23.38px;
-  height: 22.42px;
+  /* width: 23.38px;
+  height: 22.42px; */
+  /* width: 18px; */
+  height: 18px;
 }
 .updatecartBtn{
   position: absolute;
@@ -1051,8 +1075,8 @@
   right: 35px;
   /* padding: 3px 6px; */
   /* background-color: #05B050; */
-  width: 23.38px;
-  height: 22.42px;
+  /* width: 23.38px; */
+  height: 18px;
 }
 /* ---------------------------------- CART ---------------------------------- */
 
@@ -1420,6 +1444,78 @@
   top: -60px; */
 }
 /* -------------------------------- KYC PAGE -------------------------------- */
+
+
+
+/* Check Box Input */
+/* The container */
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1.5px solid #D1D1D1;;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #fff;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: green;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 
 
 

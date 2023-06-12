@@ -108,90 +108,9 @@
 
     
     <!-- Page content -->
-    <div id="main" class="page-content container">
-        <div class="container bottom-content"> 
+    <div id="main" class="page-content container" style="padding-bottom:0px !important;padding-top:0px !important;">
+        <div class="container bottom-content" style="padding-top: 0px !important;"> 
             <div class="item-list style-2">
-
-                <ul id="inputs">
-                    <li class="cardholder p-3 fontFamily1 lazy" style="">
-                        <div class="d-flex align-items-center">
-                            <!-- LEFT SIDE -->
-                            <div class="me-3">
-                                <img src="https://filesapi.growsel.com/files/ZOWADOC6474d430e2224fertilizer.jpeg" alt="logo" width="70px" height="123px">
-                            </div>
-
-                            <!-- RIGHT SIDE -->
-                            <div>
-                                <!-- Top Right -->
-                                <div class="d-flex">
-                                    <div class="item-inner">
-                                        <h6 class="item-title zowasel-darkblue-color f-18 lh-17 fw-700 fontFamily2">Urea</h6>
-                                        <h6 class="me-3 mb-0 zowasel-gray-color fontFamily2 lh-17 fw-700"><i class="fa fa-user f-13 me-1"></i> Ruth</h6>
-                                        <h6 class="zowasel-darkblue-color f-18 lh-21 fw-700 fontFamily">NGN  2,300</h6>
-                                    </div>
-                                    <div class="item-inner d-flex flex-column justify-content-center position-relative">
-                                        <div>
-                                            <img src="../assets/icons/edit2.png" role="button" class="updatecartBtn" onclick="updateCart(8,14,100,'100')" />
-                                            <img src="../assets/icons/cancel.png" role="button" class="deletecartBtn" onclick="deleteCart(8)" />
-                                        </div>
-                                        <div>
-                                            <div class="dz-stepper border-1">
-                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                    <span class="input-group-btn input-group-prepend">
-                                                        <button class="btn btn-primary bootstrap-touchspin-down" onclick="decrement(8,100)" type="button">-</button>
-                                                    </span>
-                                                    <input class="stepper form-control" type="text" id="quantity8" value="1" min="1" name="demo3">
-                                                    <span class="input-group-btn input-group-append">
-                                                        <button class="btn btn-primary bootstrap-touchspin-up" onclick="increment(8,100)" type="button">+</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Bottom Right -->
-                                <div>
-                                    Sub Total    NGN 4,600
-                                </div>
-                            </div>
-                    
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="https://filesapi.growsel.com/files/ZOWADOC6474d430e2224fertilizer.jpeg" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Chicken Briyani Haji Mahmud</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 4.0</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1">
-                                            <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                <span class="input-group-btn input-group-prepend">
-                                                    <button class="btn btn-primary bootstrap-touchspin-down" type="button">-</button>
-                                                </span>
-                                                <input class="stepper form-control" type="text" value="3" name="demo3" />
-                                                <span class="input-group-btn input-group-append">
-                                                    <button class="btn btn-primary bootstrap-touchspin-up" type="button">+</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-
 
                 <ul id="pUserInputCart">
                     <!-- <li>
@@ -228,9 +147,9 @@
                     </li> -->
                 </ul>    
             </div>
-            <div class="view-title">
-                <h5>Order Summary</h5>
-                <ul>
+            <div class="view-title" style="border-top:1px dashed rgba(38, 44, 63, 0.77) !important;">
+                <h5 class="fontFamily2 f-14 fw-700 lh-17">Order Summary</h5>
+                <ul class="fontFamily2 f-14 fw-700 lh-17">
 					<li>
                         <span style="width: 70%;">Items in Cart</span>
                         <input type="hidden" class="total_items_inCart" id="totalcartitem" />

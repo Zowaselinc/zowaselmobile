@@ -1,0 +1,169 @@
+<div class="container bottom-content">
+    <form id="filterForm" class="mb-4">
+        <!-- Product Type -->
+        <div class="cardholder p-3">
+            <!-- Product type filter -->
+            <div class="filter-item d-flex flex-column row-1"  id="producttype">
+                <div class="rowz d-flex align-items-center mb-3">
+                    <h2 class="f-16 fw-600">Product Type</h2>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Grains
+                        <input type="checkbox" value="1">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Cash Crops
+                        <input type="checkbox" value="2">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Spices
+                        <input type="checkbox" value="3">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Vegetables
+                        <input type="checkbox" value="4">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Legumes
+                        <input type="checkbox" value="5">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <!-- End Product type filter -->
+        </div>
+
+        <!-- Quality -->
+        <div class="cardholder p-3 mt-3">
+            <!-- Product type filter -->
+            <div class="filter-item d-flex flex-column row-1">
+                <div class="rowz d-flex align-items-center mb-3">
+                    <h2 class="f-16 fw-600">Quality</h2>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label  class="checkbox-container f-16 zowasel-darkblue-color">
+                        Hybrid
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Normal
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Organic
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <!-- End Product type filter -->
+        </div>
+        <!-- Quality -->
+
+        <!-- Shipping Method -->
+        <div class="cardholder p-3 mt-3">
+            <!-- Product type filter -->
+            <div class="filter-item d-flex flex-column row-1">
+                <div class="rowz d-flex align-items-center mb-3">
+                    <h2 class="f-16 fw-600">Shipping method</h2>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Zowasel
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <!-- checkbox component -->
+                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                        Self transport
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <!-- End Product type filter -->
+        </div>
+        <!-- Shipping Method -->
+
+        <!-- Sort By -->
+        <div class="cardholder p-3 mt-3">
+            <!-- Product type filter -->
+            <div class="filter-item d-flex flex-column row-1">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="f-16 fw-600 w-50">Sort by</h2>
+                    <select class="form-select-sortby" id="" name="">
+                        <option value="">Best net price</option>
+                    </select>
+                </div>
+                <!-- price -->
+                <div class="rowz d-flex align-items-center mb-2 mt-3">
+                    <div class="ms-3 check-words-price">Price</div>
+                </div>
+                <!-- range -->
+                <div class="range-slider">
+                    <span class="rangeValues"></span>
+                    <input value="0" min="0" max="50000" step="500" type="range">
+                    <input value="50000" min="0" max="50000" step="500" type="range">
+                </div>
+                <div class="mt-4 d-flex justify-content-between align-items-center" style="gap:1rem;">
+                    <div class="form_control_container flex-grow-1">
+                        <div class="float-start">Min</div>
+                        <br/>
+                        <input id="fromPrice" required class="form-control w-100" type="number" min="0" max="50000">
+                    </div>
+                    <div class="form_control_container flex-grow-1">
+                        <div class="float-start">Max</div>
+                        <br/>
+                        <input id="toPrice" required class="form-control w-100" type="number" min="0" max="50000">
+                    </div>
+                </div>
+            </div>
+            <!-- End Product type filter -->
+        </div>
+        <!-- Sort By -->
+
+
+        <!-- Menubar -->
+        <div class="menubar-area" id="buttommenuforFilter">
+            
+        </div>
+        <!-- Menubar -->
+    </form>
+
+</div>
+
+
+<script>
+    customRangeSettings();
+    buttomaddreset_applyfilter();
+</script>

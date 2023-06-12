@@ -686,7 +686,12 @@ function LoginScreen(){
                 400: function(response) {
                     console.log('ajax.statusCode: 400');
                     // console.log(response);
-                    responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                    let errors = response.responseJSON.errors;
+                    if(errors.length>0){
+                        responsemodal("erroricon.png", "Error", `${errors[0].msg} <br/> Parameter: ${errors[0].param}`);
+                    }else{
+                        responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                    }
                 },
                 403: function(response) {
                     console.log('ajax.statusCode: 403');

@@ -141,7 +141,7 @@ function truncate(str, length) {
                         }else { cardBg = ""; timeColor = "text-dark"; }
                    
                         rowContent += `
-                        <a href="javascript:void(0)" class="notification ${cardBg}" onclick="gotoNotificationDestination(${row.id},'${row.model}','${row.model_id}')">
+                        <a href="javascript:void(0)" class="notification ${cardBg}" onclick="gotoNotificationDestination(${row.id},'${row.model}','${row.model_id}','${row.message}')">
                             <div class="notification-content item-list">
                                 <div class="item-content">
                                     <div class="item-inner">
@@ -201,7 +201,7 @@ function truncate(str, length) {
 
 
 
-function gotoNotificationDestination(id, model, model_id){
+function gotoNotificationDestination(id, model, model_id, message){
 
     // UPDATE SINGLE NOTIFICATION TO SEEN
     startPageLoader();
@@ -229,7 +229,11 @@ function gotoNotificationDestination(id, model, model_id){
                 // GO TO NOTIFICATION DESTINATION
                 if(model=="order"){
                     localStorage.setItem('orderHash', model_id);
-                    location.assign('/dashboard/order/ordersummary.html');
+                    if(message=="Offer accepted without negotiation"){
+                        location.assign('/dashboard/order/ordersummarydirect.html');
+                    }else{
+                        location.assign('/dashboard/order/ordersummary.html');
+                    }
                 }
                 if(model=="conversation"){
                     //localStorage.setItem('orderHash', model_id);

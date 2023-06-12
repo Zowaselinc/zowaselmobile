@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,30 +48,29 @@
 		<div class="container vh-100">
 			<div class="welcome-area">
 				<div class="welcome-logo">
-                    <img src="logos/white logo.png" class="brand-title text-white mt-3"/>
-         
-					
+                    <img src="logos/white logo.png" class="brand-title text-white mt-3"  
+					style="width:115.41px;height:20.23px;"/>
 				</div>
 				<div class="join-area overflowauto">
 					<div class="started">
-						<h2 class="text-white">Continue as</h2>
-						<p>Please Choose A User Type that best describes you.</p>
+						<div class="text-white text-center fontFamily1 f-22 lh-38 fw-600">Select Account Type</div>
+						<!-- <p>Please Choose A User Type that best describes you.</p> -->
 					</div>
-					<a href="login.html" onclick="userType('corporate')" class="welcome-box h-auto">
+					<a href="login.html" onclick="userType('corporate')" class="welcome-box h-auto fontFamily1">
 						<div class="d-flex align-items-center">
-							<img src="logos/office-building.png" alt="">
+							<img src="assets/icons/homeround.png" width="76px" height="76px" alt="">
 							<div class="ms-2">
-								<h5 class="text-success">CORPORATE</h5>
-								<p>Buy Crops or List Input for Sale.</p>
+								<div class="zowasel-thickdark-color fw-600 f-19 lh-38">Corporate</div>
+								<p>A new way to source crops and buy farm inputs to save time and money</p>
 							</div>
 						</div>
 					</a>
-                    <a href="login.html" onclick="userType('merchant')" class="welcome-box h-auto">
+                    <a href="login.html" onclick="userType('merchant')" class="welcome-box h-auto fontFamily1">
 						<div class="d-flex align-items-center">
-							<img src="logos/grocery-store.png" alt="">
+							<img src="assets/icons/officeround.png" width="76px" height="76px" alt="">
 							<div class="ms-2">
-								<h5  class="text-success">MERCHANT</h5>
-								<p>Upload Crops for Sale, for Auction and Purchase Inputs</p>
+								<div class="zowasel-thickdark-color fw-600 f-19 lh-38">Merchant</div>
+								<p>Create offers, negotiate, match, ship today, and receive payment in 48Hrs</p>
 							</div>
 						</div>
 					</a>

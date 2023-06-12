@@ -109,6 +109,16 @@ const buttomaddnewinput =(page)=>{
     }
 }
 
+const buttomaddreset_applyfilter =(page)=>{
+    if(page){
+        
+    }else{
+        $.get( "components/buttomaddreset_applyfilter.html", function( data ) {
+            $( "#buttommenuforFilter" ).html( data );
+        })
+    }
+}
+
 
 
 
@@ -1535,6 +1545,7 @@ function checkifActiveB4GoingtoSinglePage(rowID, isActive, gotoProductdetails){
 
 /* ------------------------------ FETCH ALL CROPS FOR SALE ----------------------------- */
 // CORPORATE
+let globalCropsforSale;
 function fetchAllCropsForSale(){
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
@@ -1578,6 +1589,7 @@ function fetchAllCropsForSale(){
                 let carouselrowContent = "";
                 let index;
                 console.log(theURL, thedata, "the Product URL type");
+                globalCropsforSale = thedata;
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -1693,12 +1705,12 @@ function fetchAllCropsForSale(){
 
                 }else{
                     let nocrop = `
-                    <div class="singleproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
-                        <a href="#">No Crop Added Yet</a>
+                    <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Crop Added Yet</span>
                     </div>
                     `;
                     $('#p_allcropsforsale').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>No crop for sale yet</h5></td></tr>");
-                    $('#p_carouselcropsforsale').html(nocrop);
+                    $('#p_before_carouselcropsforsale').html(nocrop);
                 }
                 
                 lazyLoading();
@@ -4420,12 +4432,12 @@ function fetchInputs(){
 
                 }else{
                     let noinput = `
-                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                        <a href="#">No Input Added Yet</a>
+                    <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet</span>
                     </div>
                     `;
                     $('#inputs').html("No Input yet");
-                    $('#p_carouselinputsforsale').html(noinput);
+                    $('#p_before_carouselinputsforsale').html(noinput);
                 }
 
                 lazyLoading();
@@ -4897,51 +4909,53 @@ function fetchUserInputCart(){
                         if(images[0].includes('/data/products/')){
                             theimage = `<img src="https://api.growsel.com/${images[0]}" alt="logo">`;
                         }else{
-                            theimage = `<img src="${images[0]}" alt="logo">`;
+                            theimage = `<img src="${images[0]}" alt="logo" width="70px" height="123px" >`;
                         }
 
                         rowContent += `
-                        <li>
-                            <div class="item-content single-cart-item">
-
-                            <button type="button" class="btn text-white updatecartBtn" onclick="updateCart(${row.id},${row.input_id},${row.price},'${100}')"><i class="fas fa-edit"></i></button>
-                            <button type="button" class="btn text-white deletecartBtn" onclick="deleteCart(${row.id})">x</button>
-
-                                <div class="item-media media media-60">
+                        <li class="cardholder p-3 fontFamily1 lazy" style="">
+                            <div class="d-flex align-items-center justify-content-between">
+                                
+                                <div class="me-3" style="width:25%;">
                                     ${theimage}
                                 </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row mb-0 mt-3">
-                                        <h6 class="item-title"><a">${row.input.subcategory.name}</a></h6>
-                                        <div class="item-subtitle">${row.input.user.first_name+" "+row.input.user.last_name}</div>
-                                    </div>
-                                    <div class="item-footer mb-0">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">${row.input.currency} ${toCommas(row.price)}</h6>
+
+                            
+                                <div style="width:75%;">
+                                
+                                    <div class="d-flex justify-content-between">
+                                        <div class="item-inner" style="width: 73%;">
+                                            <h6 class="item-title zowasel-darkblue-color f-18 lh-17 fw-700 fontFamily2">${truncate(row.input.subcategory.name,21)}</h6>
+                                            <h6 class="me-3 mb-0 zowasel-gray-color fontFamily2 lh-17 fw-700"><i class="fa fa-user f-13 me-1"></i> ${truncate(row.input.user.first_name+" "+row.input.user.last_name, 14)}</h6>
+                                            <h6 class="zowasel-darkblue-color f-18 lh-21 fw-700 fontFamily">${row.input.currency} ${toCommas(row.price)}</h6>
                                             <input type="hidden" value="${row.input.stock}" id="stock${row.id}" />
-                                        </div>    
-                                        <div class="d-flex align-items-center">
-                                            <div class="dz-stepper border-1">
-                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                    <span class="input-group-btn input-group-prepend">
-                                                        <button class="btn btn-primary bootstrap-touchspin-down" onclick="decrement(${row.id},${row.price})" type="button">-</button>
-                                                    </span>
-                                                    <input class="stepper form-control" type="text" id="quantity${row.id}" value="${row.quantity}" min="1" name="demo3" />
-                                                    <span class="input-group-btn input-group-append">
-                                                        <button class="btn btn-primary bootstrap-touchspin-up" onclick="increment(${row.id},${row.price})" type="button">+</button>
-                                                    </span>
+                                        </div>
+                                        <div style="width:27%;" class="d-flex justify-content-center align-items-end position-relative">
+                                            <div class="d-flex justify-content-between">
+                                                <img src="../assets/icons/edit2.png" role="button" class="updatecartBtn" onclick="updateCart(${row.id},${row.input_id},${row.price},'${100}')" />
+                                                <!-- <span>&nbsp;</span> -->
+                                                <img src="../assets/icons/cancel.png" role="button" class="deletecartBtn" onclick="deleteCart(${row.id})" />
+                                            </div>
+                                            <div>
+                                                <div class="dz-stepper border-1 w-100 mb-2">
+                                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                        <span class="input-group-btn input-group-prepend">
+                                                            <button class="btn btn-primary bootstrap-touchspin-down" onclick="decrement(${row.id},${row.price})" type="button">-</button>
+                                                        </span>
+                                                        <input class="stepper form-control fontFamily1" type="text" id="quantity${row.id}" value="${row.quantity}" min="1" name="demo3">
+                                                        <span class="input-group-btn input-group-append">
+                                                            <button class="btn btn-primary bootstrap-touchspin-up" onclick="increment(${row.id},${row.price})" type="button">+</button>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="d-flex">
-                                        <div class="w-50">
-                                            <h6 class="">Sub total</h6>
-                                        </div>    
-                                        <div class="w-50">
-                                            <span>NGN <span id="subtotal${row.id}">${eval(row.price * row.quantity)}</span></span>
-                                        </div>
+                                    <div class="fw-700 f-14 fontFamily1">
+                                        Sub Total <span class="zowasel-darkblue-color">
+                                        <span>NGN <span id="subtotal${row.id}">${eval(row.price * row.quantity)}</span></span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -5304,12 +5318,12 @@ function fetchUserCropsforSaleByUserID(){
 
                 }else{
                     let nocrop = `
-                    <div class="singleproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                    <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
                         <a href="#">No Crop Added Yet</a>
                     </div>
                     `;
-                    $('#p_cropsByUserID').html("No Crop for sale yet");
-                    $('#p_carouselcropsforsale').html(nocrop);
+                    $('#p_cropsByUserID').html("No Crop Added Yet");
+                    $('#p_before_carouselcropsforsale').html(nocrop);
                 }
 
                 lazyLoading();
@@ -5363,6 +5377,7 @@ function goToMyPersonalCropDetails1(n){
 
 
 /* --------------------- FETCH CROPS FOR AUCTION BY USERID --------------------- */
+let globalCropsforAuction;
 // function fetchUserCropsforAuctionByUserID(){
 function fetchCropsforAuction(){
     startPageLoader();
@@ -5405,6 +5420,7 @@ function fetchCropsforAuction(){
                 let carouselrowContent = "";
                 let index;
                 console.log(thedata, "erfrefre");
+                globalCropsforAuction = thedata;
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -5523,11 +5539,11 @@ function fetchCropsforAuction(){
                     }
 
                     let nocrop = `
-                    <div class="singleproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
-                        <a href="#">No Crop Added Yet</a>
+                    <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Crop Added Yet</span>
                     </div>
                     `;
-                    $('#p_carouselcropsforauction').html(nocrop);
+                    $('#p_before_carouselcropsforauction').html(nocrop);
                 }
 
                 lazyLoading();
@@ -6389,3 +6405,331 @@ $(document).on('click', '.save-modal', function (ev) {
     });
   });
 /* ---------------------------- PROFILE PIC EDIT ---------------------------- */
+
+
+
+
+/* -------------------------- CUSTOM RANGE SETTINGS ------------------------- */
+function customRangeSettings(){
+    // window.onload = function(){
+        // alert("frev");
+        // Initialize Sliders
+        let sliderSections = document.getElementsByClassName("range-slider");
+        for( let x = 0; x < sliderSections.length; x++ ){
+            let sliders = sliderSections[x].getElementsByTagName("input");
+            for( let y = 0; y < sliders.length; y++ ){
+                if( sliders[y].type ==="range" ){
+                    sliders[y].oninput = getVals;
+                    // Manually trigger event first time to display values
+                    sliders[y].oninput();
+                }
+            }
+        }
+    // }
+}
+
+function getVals(){
+    // Get slider values
+    let parent = this.parentNode;
+    let slides = parent.getElementsByTagName("input");
+    let slide1 = parseFloat( slides[0].value );
+    let slide2 = parseFloat( slides[1].value );
+    // Neither slider will clip the other, so make sure we determine which is larger
+    if( slide1 > slide2 ){ let tmp = slide2; slide2 = slide1; slide1 = tmp; }
+    
+    // let displayElement = parent.getElementsByClassName("rangeValues")[0];
+    // displayElement.innerHTML = "$" + slide1 + " - $" + slide2;
+    $('#fromPrice').val(slide1);
+    $('#toPrice').val(slide2);
+}
+/* -------------------------- CUSTOM RANGE SETTINGS ------------------------- */
+
+
+
+
+
+/* ------------------------------- FILTER FORM ------------------------------ */
+function filterproduct(filtercroppage){
+    if(filtercroppage=="cropsforauction" || filtercroppage=="cropsforsale"){
+        $.get( "./components/cropfilter.html", function( data ) {
+            $("#cropfilterPage").html( data );
+            $('#cropfilterPage').removeClass('d-none').addClass('d-block');
+            $('#main').removeClass('d-block').addClass('d-none');
+
+            $('.forFilter').removeClass('d-none').addClass('d-block');
+            $('.notforFilter').removeClass('d-block').addClass('d-none');
+        })
+        setTimeout(()=>{
+            filterpage(filtercroppage);
+        },1000)
+    }
+}
+
+function closecropFilter(){
+    $('.notforFilter').removeClass('d-none').addClass('d-block');
+    $('.forFilter').removeClass('d-block').addClass('d-none');
+}
+
+let filteredDataCropsforAuction, filteredDataCropsforSale;
+function filterpage(currentPagetoFilter){
+    document.getElementById('filterForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var checkboxes = document.querySelectorAll('#filterForm #producttype input[type="checkbox"]');
+        var checkedCount = 0;
+        // console.log("checkboxes", checkboxes.length);
+        var fromPrice = $('#fromPrice').val();
+        var toPrice = $('#toPrice').val();
+        
+        var selectedProducts = [];
+        for (var i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].checked) {
+            checkedCount++;
+            selectedProducts.push(checkboxes[i].value);
+          }
+        }
+      
+        if (checkedCount === 0) {
+          basicmodal('','Please select at least one product type.');
+          event.preventDefault(); // Prevent form submission
+          return false;
+        }
+
+        console.log("selectedProducts", selectedProducts);
+
+        
+        // Sample JSON data
+        // var data = [
+        //     { id: 1, name: 'Item 1' },{ id: 2, name: 'Item 2' },{ id: 3, name: 'Item 3' },{ id: 4, name: 'Item 4' },
+        // ];
+        // List of items to filter by
+        // var filterItems = [2, 4];
+        // Filtering the data based on the list of items
+        // var filteredData = data.filter(function(item) {
+        //     return filterItems.includes(item.id);
+        // });
+                
+        if(currentPagetoFilter=="cropsforauction"){
+            console.log("globalCropsforAuction", globalCropsforAuction);
+            // Filtering out items(globalCropsforAuction) with specific conditions
+            let filteredProducttype = globalCropsforAuction.filter(function(item) {
+                // Filter condition: Exclude items with ID 2 and 4
+                // return item.id !== 2 && item.id !== 4;
+                return selectedProducts.includes(item.category_id);
+            });
+            // Filtering Price Out of Product type filtered result
+            filteredDataCropsforAuction = filteredProducttype.filter(function(item){
+                return item.specification.price >= fromPrice && item.specification.price <= toPrice;
+            }) 
+            console.log(filteredDataCropsforAuction);
+            populateCropforAuctionFilter();
+        }
+        
+        if(currentPagetoFilter=="cropsforsale"){
+            // alert(currentPagetoFilter);
+            console.log("globalCropsforSale", globalCropsforSale);
+            // Filtering out items(globalCropsforSale) with specific conditions
+            let filteredProducttype = globalCropsforSale.filter(function(item) {
+                // Filter condition: Exclude items with ID 2 and 4
+                // return item.id !== 2 && item.id !== 4;
+                return selectedProducts.includes(item.category_id);
+            });
+            // Filtering Price Out of Product type filtered result
+            filteredDataCropsforSale = filteredProducttype.filter(function(item){
+                return item.specification.price >= fromPrice && item.specification.price <= toPrice;
+            }) 
+            console.log(filteredDataCropsforSale);
+            populateCropforSaleFilter();
+        }
+
+    });
+}
+/* ------------------------------- FILTER FORM ------------------------------ */
+
+
+
+
+/* --------------------- POPULATE CROP FOR AUCTION FILTER -------------------- */
+function populateCropforAuctionFilter(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    let theURL, gotoProductdetails;
+    if(usertype == "corporate"){
+        theURL = `crop/getbycropauction`;
+        gotoProductdetails = `productdetails.html`;
+    }else if(usertype == "merchant"){
+        theURL = `crop/auction/userid`;
+        gotoProductdetails = `mypersonalproductdetails.html`;
+    }
+
+    let thedata = filteredDataCropsforAuction;
+    let rowContent = "";
+    if(thedata.length > 0){
+        for (let i = 0; i < thedata.length; i++) {
+            // console.log('Hello World', + i);
+            let row = thedata[i];
+            index= i+1;
+
+            let therow = JSON.stringify(row);
+
+            let activeProductClass, negotiationProductClass;
+            if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+            if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
+            // CHECK IF AUCTIONED CROP HAS ANY BID
+            let crophasBid;
+            if(row.bid.length){
+            crophasBid = `<img src="../assets/icons/bid.png" style="width:22px;" />`;
+            }else{ crophasBid = ``; }
+
+            let thecolor, theprice, thetest_weight;
+            let specification = row.specification;
+            if(specification){
+                if(specification.color){ thecolor = "- "+ row.specification.color; }else{ thecolor = ""; }
+                if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+            }else{
+                thecolor = "";
+                theprice = "";
+            }
+
+
+            rowContent += `
+            <li class="lazy cardholder p-3 fontFamily1">
+            <div class="d-none" id="rowdetails${row.id}">${therow}</div>
+            <div class="d-flex justify-content-between">
+                <div class="item-inner">
+                    <div class="item-title-row mb-0">
+                        <h6 class="item-title zowasel-darkblue-color f-18"><a>${truncate(row.subcategory.name,15)} ${thecolor}</a></h6>
+                        <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
+                    </div>
+                    <div class="item-footer">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3 mb-0 f-12">${truncate(row.description,19)}</div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="item-inner">
+                    <a href="javascript:void(0);" class="item-bookmark icon-2">
+                        <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)}/${thetest_weight}</h6>
+                    </a>
+                    <div class="d-flex align-items-center my-2">
+                        <span class="cropstatus cropActive ${activeProductClass}"></span>
+                        ${crophasBid}
+                    </div>
+                    <button class="btn zowasel-darkblue-bg text-white w-100 py-2" onclick="localStorage.setItem('singleproductID',${row.id}); 
+                    location.assign('${gotoProductdetails}')">
+                        View
+                    </button> 
+                </div>
+            </div>
+        </li>
+            `;   
+        }
+
+        if(usertype == "corporate"){
+            $('#p_allCropAuction').html(rowContent);
+        }else if(usertype == "merchant"){
+            $('#p_cropAuctionByUserID').html(rowContent);
+        }
+    }else{
+        if(usertype == "corporate"){
+            $('#p_allCropAuction').html("Filtered item not found");
+        }else if(usertype == "merchant"){
+            $('#p_cropAuctionByUserID').html("Filtered item not found");
+        }
+    }
+    lazyLoading();
+    $('.notforFilter').removeClass('d-none').addClass('d-block');
+    $('.forFilter').removeClass('d-block').addClass('d-none');
+}
+/* --------------------- POPULATE CROP FOR AUCTION FILTER -------------------- */
+
+
+
+
+/* --------------------- POPULATE CROP FOR SALE FILTER -------------------- */
+function populateCropforSaleFilter(){
+    // alert("vfvf ev");
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    let theURL, gotoProductdetails, viewmoreProduts, currentPage;
+    let rowContent = "";
+    if(usertype == "corporate"){
+        theURL = `crop/getbycropoffer`;
+        viewmoreProduts = `/dashboard/allcropsforsale.html`;
+        gotoProductdetails = `productdetails.html`;
+    }
+
+    let thedata = filteredDataCropsforSale;
+    if(thedata.length > 0){
+        for (let i = 0; i < thedata.length; i++) {
+            // console.log('Hello World', + i);
+            let row = thedata[i];
+            index= i+1;
+
+            let thecolor, theprice, thetest_weight;
+            let specification = row.specification;
+            if(specification){
+                if(specification.color){ thecolor = "- "+row.specification.color; }else{ thecolor = ""; }
+                if(specification.price){ theprice = row.specification.price; }else{ theprice = ""; }
+                if(specification.test_weight){ thetest_weight = row.specification.test_weight; }else{ thetest_weight = ""; }
+            }else{
+                thecolor = "";
+                theprice = "";
+            }
+
+            let activeProductClass, negotiationProductClass;
+            if(parseInt(row.active)==1){ activeProductClass = "bg-success"; }else if(parseInt(row.active)==0){ activeProductClass = "bg-danger" }
+            if(parseInt(row.is_negotiable)==1){ negotiationProductClass = "bg-primary"; }else if(parseInt(row.is_negotiable)==0){ negotiationProductClass = "bg-warning" }
+
+            rowContent += `
+            <li class="lazy cardholder p-3 fontFamily1">
+                <div class="d-flex justify-content-between">
+                    <div class="item-inner"> 
+                        <div class="item-title-row  mb-0">
+                            <h6 class="item-title zowasel-darkblue-color f-18"><a href="javascript:void(0)">${row.subcategory.name} ${thecolor}</a></h6>
+                            <div class="text-truncate zowasel-color fw-bold f-18">${row.category.name}</div>
+                        </div>
+                        <div class="item-footer">
+                            <div class="">
+                                <h6 class="me-3 mb-0 f-12"><i class="fa fa-user f-12 me-1"></i> ${row.user.first_name}</h6>
+                                <h6 class="me-3 mb-0 f-12">${truncate(row.description,20)}</h6>
+                            </div>    
+                        </div>
+                    </div>
+
+                    <div class="item-inner">
+                        <a href="javascript:void(0);" class="item-bookmark icon-2">
+                            <h6 class="mb-0 zowasel-color f-18">₦${toCommas(theprice)} / ${thetest_weight}</h6>
+                        </a>
+
+                        <div class="d-flex mt-3">
+                            <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
+                            <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
+                        </div>
+
+                        <button class="btn zowasel-darkblue-bg text-white w-100 py-2 mt-2" onclick="localStorage.setItem('singleproductID',${row.id});
+                        location.assign('${gotoProductdetails}')">
+                            View
+                        </button>
+                    </div>
+                </div>
+            </li>
+            `;   
+        }
+        $('#p_allcropsforsale').html(rowContent);
+    }else{
+        $('#p_allcropsforsale').html("Filtered item not found");
+    }
+    
+    lazyLoading();
+    $('.notforFilter').removeClass('d-none').addClass('d-block');
+    $('.forFilter').removeClass('d-block').addClass('d-none');
+}
+/* --------------------- POPULATE CROP FOR SALE FILTER -------------------- */

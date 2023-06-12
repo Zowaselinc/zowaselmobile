@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font.css">  
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +33,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="bypass.css"/>
     <script src="./assets/js/accessauthentication_onboarding.js"></script>
+
+    <style>
+        .form-input-general{
+            background: #EFEFEF !important;
+            font-family: 'DM Sans' !important;
+            font-style: normal !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
+            line-height: 28px !important;
+            color: rgba(44, 38, 70, 0.63) !important;
+            padding-left: 10px !important;
+        }
+        .form-input-noicon{
+            border-radius: 8px !important;
+            border: 1px solid #EAE9F0 !important;
+        }
+        .form-input-righticon{
+            border-top-right-radius: 0px !important;
+            border-bottom-right-radius: 0px !important;
+            border: 1px 0 1px 1px solid #EAE9F0 !important;
+        }
+        .show-pass{
+            border-top-right-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+        }
+    </style>    
 </head>   
 <body class="bg-white">
 <div class="page-wraper">
@@ -46,40 +73,52 @@
     <div id="main" class="page-content">
         
         <!-- Banner -->
-        <div class="banner-wrapper">
+        <!-- <div class="banner-wrapper">
             <div class="circle-1"></div>
             <div class="container inner-wrapper">
                 <h1 class="dz-title">       <img src="logos/white logo.png" width="180px" class="brand-title text-white mt-2"/>
                 </h1>
               
             </div>
-        </div>
+        </div> -->
         <!-- Banner End -->
         
         <div class="account-box">
             <div class="container">
                 <div class="account-area">
-                    <h3 class="title">Create your account</h3>
-                    <p>Get connected with your network of vetted growers</p>
+                    <div class="container inner-wrapper text-center">
+                        <h1 class="dz-title">       
+                            <img src="logos/zowasel-grey-logo.png" width="179px" height="62px" class="brand-title text-white mt-2"/>
+                        </h1>
+                    </div>
+
+                    <div class="fontFamily1 fw-600 f-23 zowasel-notthickdark-color">Create an Account</div>
 					<form class="input-style" id="form">
+                        <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">First Name</label>
 						<div class="input-group input-mini mb-3">
-							<span class="input-group-text"><i class="fa fa-user"></i></span>
-							<input id="firstname" type="text" class="form-control" placeholder="First Name">
+							<!-- <span class="input-group-text"><i class="fa fa-user"></i></span> -->
+							<input id="firstname" type="text" class="form-control form-input-general form-input-noicon" placeholder="Firstname">
                             <small class="input_response">Error Message</small>
 						</div>
+
+                        <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Lastname</label>
                         <div class="input-group input-mini mb-3">
-							<span class="input-group-text"><i class="fa fa-user"></i></span>
-							<input id="lastname" type="text" class="form-control" placeholder="Last Name">
+							<!-- <span class="input-group-text"><i class="fa fa-user"></i></span> -->
+							<input id="lastname" type="text" class="form-control form-input-general form-input-noicon" placeholder="Lastname">
                             <small class="input_response">Error Message</small>
 						</div>
-						<div class="mb-3 input-group input-mini">
-							<span class="input-group-text"><i class="fa fa-at"></i></span>
-							<input id="email" type="email" class="form-control" placeholder="Email">
-                            <small class="input_response">Error Message</small>
-						</div>
+						
+                        <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Email</label>
                         <div class="mb-3 input-group input-mini">
-							<span class="input-group-text"><i class="fa fa-phone"></i></span>
-							<input id="phonenumber" maxlength="11" minlength="11" type="number" class="form-control" placeholder="Phone Number">
+							<!-- <span class="input-group-text"><i class="fa fa-at"></i></span> -->
+							<input id="email" type="email" class="form-control form-input-general form-input-noicon" placeholder="example@email.com">
+                            <small class="input_response">Error Message</small>
+						</div>
+                        
+                        <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Phone Number</label>
+                        <div class="mb-3 input-group input-mini">
+							<!-- <span class="input-group-text"><i class="fa fa-phone"></i></span> -->
+							<input id="phonenumber" maxlength="11" minlength="11" type="number" class="form-control form-input-general form-input-noicon" placeholder="Phonenumber">
                             <small class="input_response">Error Message</small>
 						</div>
                         
@@ -96,34 +135,45 @@
 
                         <!-- -------------- ADD COMPANY DETAILS IF YOU HAVE A COMPANY -------------- -->
                         <div class="row mb-3 companyForm" style="display: none;">
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Name</label>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                <input id="company_name" type="text" class="form-control companyRequired" placeholder="Company name">
+                                <!-- <span class="input-group-text"><i class="fa fa-building"></i></span> -->
+                                <input id="company_name" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company name">
                                 <small class="input_response">Error Message</small>
                             </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Address</label>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
-                                <input id="company_address" type="text" class="form-control companyRequired" placeholder="Company address">
+                                <!-- <span class="input-group-text"><i class="fa fa-location-dot"></i></span> -->
+                                <input id="company_address" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company address">
                                 <small class="input_response">Error Message</small>
                             </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company State</label>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-location-dot"></i></span>
-                                <input id="company_state" type="text" class="form-control companyRequired" placeholder="Company state">
+                                <!-- <span class="input-group-text"><i class="fa fa-location-dot"></i></span> -->
+                                <input id="company_state" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company state">
                                 <small class="input_response">Error Message</small>
                             </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">RC Number</label>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
-                                <input id="rc_number" type="text" class="form-control companyRequired" placeholder="RC number">
+                                <!-- <span class="input-group-text"><i class="fa fa-hashtag"></i></span> -->
+                                <input id="rc_number" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="RC number">
                                 <small class="input_response">Error Message</small>
                             </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Email</label>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-at"></i></span>
-                                <input id="company_email" type="text" class="form-control companyRequired" placeholder="Company email">
+                                <!-- <span class="input-group-text"><i class="fa fa-at"></i></span> -->
+                                <input id="company_email" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company email">
                                 <small class="input_response">Error Message</small>
                             </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Phone</label>
                             <div class="input-group input-mini mb-3">
-                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                                <input id="company_phone" type="number" maxlength="11" minlength="11" class="form-control companyRequired" placeholder="Company phone">
+                                <!-- <span class="input-group-text"><i class="fa fa-phone"></i></span> -->
+                                <input id="company_phone" type="number" maxlength="11" minlength="11" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company phone">
                                 <small class="input_response">Error Message</small>
                             </div>
                         </div>
@@ -131,21 +181,27 @@
 
 						
                         <!--sss-->
-						<div class="input-group">
-                            <span class="company_response text-danger text-capitalize"></span>
-							<button type="submit" class="btn mt-2 btn-success w-100 btn-rounded">SIGN UP</button>
-						</div>
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="form-check">
-								<input class="form-check-input" required type="checkbox" value="" id="flexCheckChecked" checked>
-								<label class="form-check-label text-dark restyled_label" for="flexCheckChecked">
-									By tapping “Sign Up” you have read and accepted the <a href="javascript:void(0);" class="text-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom2" aria-controls="offcanvasBottom">privacy policy</a>
+						<div class="mt-0">
+							<div class="form-check d-inline fontFamily1 f-12 lh-25">
+                                <label  class="checkbox-container f-16 zowasel-darkblue-color">
+                                    <input type="checkbox" required type="checkbox" value="" id="flexCheckChecked" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+								<label class="form-check-label text-dark restyled_label" for="flexCheckChecked" style="margin-left:25px;">
+									I have read and accepted the <a href="javascript:void(0);" class="zowasel-color fw-600" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom2" aria-controls="offcanvasBottom">Privacy Policy</a>
 								</label>
 							</div>
 						</div>
-					</form>  
-                    <div class="text-center mb-auto p-tb20">
-                        <a href="login.html" class="saprate text-dark">Already have account?</a>
+                        <div class="input-group-new mt-3">
+                            <span class="company_response text-danger text-capitalize"></span>
+							<button type="submit" class="btn zowasel-bg text-white w-100">Sign Up</button>
+						</div>
+					</form> 
+                    
+                    <div class="text-center mt-3 fontFamily1 f-15 lh-25">
+                        <span class="saprate text-dark" style="display:contents;">
+                            Already have account? <a href="login.html" class="d-inline zowasel-color">Sign In</a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -154,12 +210,12 @@
     <!-- Page Content End -->
     
     <!-- Footer -->
-    <footer class="footer fixed">
+    <!-- <footer class="footer fixed">
         <div class="container">
             <a class="saprate text-dark">Already have an account?</a>
             <a href="login.html" class="btn btn-transparent btn-rounded d-block">SIGN IN</a>
         </div>
-    </footer>
+    </footer> -->
     <!-- Footer End -->
     
 	<!-- CART -->
@@ -168,8 +224,603 @@
 			<i class="fa-solid fa-xmark"></i>
 		</button>
         <div class="offcanvas-body">
-			<h4 class="title border-bottom pb-2 mb-2">Terms & Condition</h4>
-			<p class="mb-0">Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const.</p>
+			<h4 class="title border-bottom pb-2 mb-2">Privacy Policy</h4>
+			<!-- <p class="mb-0">Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const Lorem ipsum dolor sit amet const.</p> -->
+            <div class="container-fluid knowledge-cont-main">
+                <p class="text-justify" style="font-size: 14px !important;">   A. Commitment to your privacy <br>
+                
+                Zowasel Inc. (“we,” “our” or “us”) recognize/s that your privacy is very important to you and we are committed to
+                protecting your (“your,” “you’) Personal Data.
+
+                <br>
+                <br>
+
+               “Personal Data” means any information relating to an identified or identifiable natural person; an identifiable natural
+                person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name,
+                an identification number, location data, an online identifier or to one or more factors specific to the physical,
+                physiological, genetic, mental, economic, cultural or social identity of that natural person.
+
+                <br>
+                <br>
+
+               Zowasel, which is connecting crop sellers with buyers offers bid to growers through Zowasel Marketplace to purchase
+                quantities of the crop that meet certain quality specifications, as more fully described in your Zowasel Marketplace
+                Agreement or Zowasel Standard Quality Crop Specification (“Zowasel Marketplace”).
+
+                <br>
+                <br>
+
+               This privacy policy (the “Privacy Policy”) applies to Personal Data we receive and handle about participants in
+                connection with:</p>
+
+                <ul class="line-text pt-2 defaultFontSize px-4">
+                    <li><a class="list-font  text-justify " style="font-size: 14px !important;">Your use of this website and mobile applications (each, the “Site”);</a></li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Participation in Zowasel Marketplace;</a>
+                    </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Communication-related to Zowasel Marketplace;</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Participation in the Zowasel services of binding contract offers and acceptances, market data, price information,
+                    messaging;</a>
+                    </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Offers of Zowasel Marketplace of crops;</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Offers of Zowasel Transport of crops;</a>
+                    </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Offers of Zowasel Finance of crops;</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Offers of Zowasel Certified Crops;</a>
+                    </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Grower offers;</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Use of information to improve the flow of the transaction;</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Market data;</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Ability to connect with Zowasel representatives or grain market Trustees, Facilitators</a> </li>
+                    <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Use of the APIs, SMS, USSD, and other platforms through which Zowasel makes the Services (as defined below) available.</a> </li>
+    
+                </ul>
+                
+
+                <p class="text-justify" style="font-size: 14px !important;"> “Systems” are any of the existing and future electronic systems, APIs,
+                    USSD, SMS platforms, and other platforms through
+                    which Zowasel and its affiliates make the Services available to you. “Services” are any of the existing and future
+                    services offered by Zowasel or its affiliates and any content including, without limitation, USSD and SMS-based
+                    preliminary indications, indication acceptances, binding contract offers and acceptances, market data, price
+                    information, connectivity, contract confirmation, and messaging.
+
+                    <br>
+                    <br>
+                
+                 By participating in the Zowasel Marketplace or accessing our Sites,
+                    Systems and/or Services (collectively, the
+                    “Marketplace Platform”), you agree to be bound by the terms of this Privacy Policy.
+                    <br>
+                    <br>
+                
+                This policy also includes our credit reporting policy, that is, it
+                    additionally covers how we manage your Personal Data
+                    collected in connection with a credit application, such as details relating to your credit history, credit standing,
+                    credit capacity, and creditworthiness (“credit information”).
+                    A separate policy applies to the collection and use of Personal Data of Zowasel employees, contractors, and other
+                    staff.
+
+                    <br>
+                    <br>
+
+
+
+                 B. The kinds of information that we process 
+                <br>
+                <br>
+                
+                    The kinds of Personal Data we collect and process, by or on behalf of us, may include:
+                    
+                    Contact Information: such as your name, home or business address, email address, telephone number,
+                    
+                    Personal Details Information: such as your name, date of birth, employer, profession, and job title.
+
+                    <br>
+                    <br>
+
+
+                    Technical Information: such as technical data collected about your interaction with our websites, mobile applications
+                    and email communications including IP address; log files; unique device identifiers; pages viewed; date and time of
+                    access; content of request; username; password; usage data; device type; browser type and settings; language settings;
+                    aggregate statistical information; the transferred volume of data; and website requesting access.
+
+                    <br>
+                    <br>
+
+                   Marketing Data: such as cookie data; browsing history; advertising interests; responses to direct marketing and opt-outs
+                    from direct marketing.
+
+                    <br>
+                    <br>
+                    
+                    Grower Data: such as grower offers; transport offers; crop data; agronomic data; land data; satellite imagery data, and
+                    grower management data.
+
+                    <br>
+                    <br>
+                    
+                    Financial Information: such as payment information; bank details; card details; purchase interests and purchase history.
+
+                    <br>
+                    <br>
+
+                    Credit Information: If applicable, as based upon your participation in Zowasel Marketplace, we may collect credit
+                    information. By applying for our services, you agree that we may obtain this credit information from you or from a
+                    credit reporting body. This information may include: </p>
+
+                 
+             
+
+
+                    <ul class="line-text pt-2 defaultFontSize px-4">
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Default information;</a></li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Credit infringement information;</a>
+                        </li>
+                        <li><a class="list-font  text-justify terms-p " style="font-size: 14px !important;">Personal solvency information (e.g. bankruptcy information);</a> </li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Court proceedings information (e.g. any default judgments entered against you); and</a>
+                        </li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Repayment history information.</a>
+                        </li>
+                    </ul>
+              
+          
+
+
+                    <p class="text-justify" style="font-size: 14px !important;"> C. How we collect Personal Data
+                    <br>
+                    
+                    Generally, we collect Personal Data from:
+                    
+                    Direct Interactions: such as when you contact us, inquire about our product or services, provide us with information in
+                    connection with our services, participate in surveys or questionnaires. 
+                    <br>
+                    <br>
+
+                   Mobile Applications: such as when you download or use one of our apps. Some apps may have specific privacy statements
+                    that include more specific information that you should review.
+                    <br>
+                    <br>
+                    
+                    Cookies and Automated Technologies: such as when you visit or interact with our Site(s) or click on links on emails.
+
+                    <br>
+                    <br>
+                    Public Sources: such as when we need to collect Personal Data from publicly available sources including, land registries
+                    and government agencies.
+                    <br>
+                    <br>
+                    
+                    Social Media: such as Personal Data that you make available by linking to social media platforms using social media
+                    plug-ins, or your social media profile(s).
+                    <br>
+                    <br>
+                    
+                    Technologies: such as when you use or receive any service offerings that include, any agronomic, data recording, mapping
+                    or satellite technologies, USSD SMS, etc.
+                    <br>
+                    <br>
+                    
+                    Partners: such as when you provide Personal Data to an authorized Zowasel partner, distributor, or reseller.
+                    <br>
+                    <br>
+                    
+                    Private Third-Party Sources: such as when third parties provide information to us. 
+
+                    <br>
+                    <br>
+
+                    D. Cookies
+                    <br>
+                    <br>
+                    
+                    With regard to Marketplace Platform use, components of our Marketplace Platform may use “cookies” (these are files that
+                    are implanted in your hard drive by some websites to store information about your web use patterns) to enhance or
+                    personalize our Marketplace Platform. Cookies allow for the collection information such as: </p>
+                    
+
+                    <ul class="line-text pt-2 defaultFontSize px-4">
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">browser type;</a></li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">time spent on the Site;</a>
+                        </li>
+                        <li><a class="list-font  text-justify terms-p " style="font-size: 14px !important;">pages visited;</a> </li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">language preferences</a>
+                        </li> 
+                    </ul>
+
+                    <p class="text-justify" style="font-size: 14px !important;"> These cookies may also be used to collect and store information about your usage of certain components of our
+                    Marketplace Platform. We or our service providers may, in any case, collect anonymous information that allows us to
+                    review information about the date, time and duration of visits to our components of our Marketplace Platform without
+                    identifying you.
+                    <br>
+                    <br>
+                    
+                    Pixel tags, web beacons, clear GIFs, or other similar technologies may be used in connection with our Marketplace
+                    Platform to track the way you use our Marketplace Platform and to compile statistics about site usage and response
+                    rates. This information is generally automatically provided to us by your web browser.
+
+                    <br>
+                    <br>
+                      
+                    You may choose to refuse cookies by turning them off in the browser; however, if you do not accept them, you may
+                    experience some difficulty in your use of certain components of our Marketplace Platform.
+
+                    <br>
+                    <br>
+
+                    We may use cookies to: </p>
+
+                    <ul class="line-text pt-2 defaultFontSize px-4">
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Improve the functionality of our Site;</a></li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Process your purchase orders;</a>
+                        </li>
+                        <li><a class="list-font  text-justify terms-p " style="font-size: 14px !important;">Display information more effectively;</a> </li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Personalize your experience while using our Site;</a>
+                        </li>
+                        <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Gather information about how our Site is used and compile anonymous and aggregate statistics.</a>
+                        </li>
+                    </ul>
+
+                    <p class="text-justify" style="font-size: 14px !important;">
+                        E. How we use Personal Data
+                        <br>
+                        <br>
+                        
+                        The primary purpose(s) we collect your Personal Data is to:</p>
+                        <ul class="line-text pt-2 defaultFontSize px-4">
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">enable the creation of bids and offers in Zowasel Marketplace;</a></li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">enable the availability of purchase orders, prices and bid offers</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p " style="font-size: 14px !important;">enable crop sampling, including crop quality and specifications;</a> </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">verify your identity;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">respond to your queries;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">maintain our relationship with you;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">provide our products and services to you;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">send you statements and invoices;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">collect payments from you;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">provide payments to you</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">provide you with information about our products and services;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">update you on changes to our Marketplace Platform terms, conditions, policies and other administrative information;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">conduct research for our own internal purposes;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">request credit information from a credit-reporting body;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">send you communications and contact you about our goods and services, programs, events, campaigns, functions or news
+                            updates that may be relevant or of interest to you;</a>
+                            </li>
+                            <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">administering, maintaining, and monitoring Site performance and usage.</a>
+                            </li>
+                            
+                        </ul>
+
+                        <p class="text-justify" style="font-size: 14px !important;">You agree that we may use your Personal Data for any of these purposes.
+
+                            <br>
+                            <br>
+                            F. Legal basis for Processing Personal Data
+
+                            <br>
+                            <br>
+                            
+                            The legal basis for processing your Personal Data in connection with the purposes may, depending on the circumstances,
+                            rely on any of the following legal bases:</p>
+
+                            <ul class="line-text pt-2 defaultFontSize px-4">
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">The processing is necessary for connection with a contract entered into with you, or for your benefit;</a></li>
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">We or a partner has obtained your prior written consent to the processing;</a>
+                                </li>
+                                <li><a class="list-font  text-justify terms-p " style="font-size: 14px !important;">The processing is required by all laws, statutes or regulations applicable to the respective Zowasel affiliate(s);</a> </li>
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">We have a legitimate interest in carrying out the processing (including our legitimate interest in providing good and
+                                services to you, maintaining or improving our products or services, operating our business, alerting you to other
+                                products or services that may be of interest to you) and there is no undue risk to your right, freedoms or interests;</a>
+                                </li>
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">The processing is necessary to protect the vital interests of any individual;</a>
+                                </li>
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Any other lawful basis.</a>
+                                </li>
+                            </ul>
+
+                           
+                        
+
+
+                        <p class="text-justify" style="font-size: 14px !important;">   G. How we use credit information
+                            <br>
+                            <br>
+                            
+                            To the extent applicable for your participation in Zowasel Marketplace, we use the credit information that we obtain
+                            from you or a credit reporting body and information we derive from such information strictly for the purpose of
+                            assessing your application for credit. If you do not authorize us to obtain credit information about you, we may be
+                            unable to assess your creditworthiness and therefore your suitability for our prepayment under our model agreement. In
+                            such circumstances, your request for credit may be refused.
+                            <br>
+                            <br>
+                            
+                            
+                            
+                            To the extent applicable for your participation in Zowasel Marketplace, we may disclose your Personal Data to credit
+                            reporting bodies where we are permitted to do so by law, for example, in circumstances where you fail to meet your
+                            payment obligations in relation to consumer credit. These credit reporting bodies may include any such information in
+                            reports provided to other credit providers to assist them to assess your creditworthiness.
+                            <br>
+                            <br>
+                            
+                            
+                            
+                            H. The circumstances in which we may disclose Personal Data
+                            <br>
+                            
+                            So that we may use your information for the purposes identified above, we may disclose it to external providers of
+                            services, for example, entities providing crop analysis, providers of security, marketing, financial credit, and IT
+                            services. We may also outsource certain functions of our business.
+                            <br>
+                            <br>
+                            
+                            We may disclose Personal Data to related entities and you may receive communications directly from these entities. These
+                            communications may include information and marketing communications about their products and services. We use reasonable
+                            endeavors to ensure that these companies do not breach any U.S. laws, however, we disclaim all liability for any
+                            unlawful use of your Personal Data by an affiliated or associated company.
+                            <br>
+                            <br>
+                            
+                            
+                            
+                            We may disclose your Personal Data to the extent that we are required to do so by law, including in connection with any
+                            legal proceedings, anticipated legal proceedings or regulatory administrative matters, or in order to comply with any
+                            legal obligation or to establish, exercise or defend our legal rights. We may sell, transfer, or otherwise disclose our
+                            database of Personal Data to an actual or potential successor entity, purchaser, or investor in connection with a
+                            corporate merger, consolidation, sale of our assets or a substantial part of our assets, share sale, investment
+                            transaction or another corporate rearrangement.
+
+                            <br>
+                            <br>
+                            
+                            We may disclose your Personal Data to a prospective seller or buyer in the event that we sell, merge, or transfer all or
+                            a portion of our business or assets.
+                            <br>
+                            <br>
+
+                            If you make a payment via one of our Sites or one of our apps or directly to us or one of our dealers your Personal Data
+                            may need to be provided to third parties for the purpose of processing such payments.
+                            <br>
+                            <br>
+
+                            
+                            You agree that we may disclose your Personal Data in any of these circumstances. We disclaim all liability for any
+                            privacy breaches by third parties to whom we have disclosed your Personal Data in accordance with this policy.
+                            <br>
+                            <br>
+
+                            
+                            Zowasel will assure that any third-party service provider that Zowasel shares or discloses information with will legally
+                            be required to provide the same or equal protection of user data as provided by Zowasel.
+                            <br>
+                            <br>
+
+                            
+                            You may withdraw your consent to use or disclose your Personal Data at any time. To withdraw this consent please contact
+                            us at the details below. Please note that withdrawing your consent may mean that we are unable to provide you with any
+                            services.
+                            <br>
+                            <br>
+
+                            
+                            
+                            
+                            I. International Transfer of Personal Data
+                            <br>
+                            <br>
+                            
+                            Personal Data that we collect may be transferred and stored in a jurisdiction other than the jurisdiction in which your
+                            Personal Data was originally collected and transferred between any of the countries in which we, our related entities or
+                            our service providers or international distributors operate. We do not take any responsibility for the actions of
+                            overseas third-party recipients of personal information. It is not practicable to specify all the countries in which
+                            overseas recipients may be located. Your Personal Data may also be transferred to an entity located overseas.
+                            <br>
+                            <br>
+
+                            
+                            
+                            Your Personal Data may be transferred overseas if we sell, transfer, or disclose our database of Personal Data to an
+                            actual or potential successor entity, purchaser, or investor who is located or has offices overseas. It is not
+                            practicable to specify the likely countries in which recipients of information may be located in this regard.
+                            <br>
+                            <br>
+
+                            These transfers of Personal Data are necessary in order to provide our products and services to you in an effective and
+                            efficient manner. The Personal Data will be transferred for the operation of any Site(s) or in connection with any of
+                            the processing purposes set forth in this Privacy Policy.
+                            
+                            <br>
+                            <br>
+
+                            
+                            J. Security of your Personal Data
+                            <br>
+                            <br>
+
+                            
+                            Once in our possession, we take all reasonable precautions to protect the personal and credit information we hold about
+                            you from misuse, interference, and loss, and unauthorized access, modification, or disclosure.
+                            <br>
+                            <br>
+
+                            
+                            Whilst we endeavor to provide a secure online environment, there are inherent risks associated with the transmission of
+                            information via the internet and no data transmission over the internet can be guaranteed to be completely secure. We,
+                            therefore, cannot warrant the security of any information you provide to us over the internet and you do so at your own
+                            risk.
+                            <br>
+                            <br>
+
+                            We encourage you to play an important role in keeping your Personal Data secure, by maintaining the confidentiality of
+                            any passwords and account details used on our Marketplace Platform. It is your sole responsibility to maintain such
+                            confidentiality and we will not be liable for any damage, loss, or expense suffered due to such disclosure.
+                            <br>
+                            <br>
+
+                            Zowasel processes Personal Data in a manner that ensures appropriate security of the personal information, including
+                            protection against unauthorized or unlawful processing and against accidental loss, destruction or damage, using
+                            appropriate technical or organizational measures. Additionally:</p>
+
+                            <ul class="line-text pt-2 defaultFontSize px-4">
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">ImZowasel has imposed disciplinary measures for violations of the comprehensive information security program rules;</a></li>
+                                <li><a class="list-font  text-justify terms-p" style="font-size: 14px !important;">Zowasel performs regular monitoring to determine if the information security program is operating in a manner to prevent
+                                unauthorized access to or unauthorized use of personal information.</a>
+                                </li>
+                               
+                            </ul>
+
+                        <p class="text-justify" style="font-size: 14px !important;">   K. Third parties
+                            <br>
+                            <br>
+
+                            
+                            With regard to your use of certain components of the Marketplace Platform, certain components of our Marketplace
+                            Platform may contain links to third-party websites and social media features that are hosted by a third party. Links to
+                            other websites do not constitute sponsorship, endorsement, or approval of the information found on those websites. You
+                            should evaluate the accuracy, relevance, and suitability for your purposes of any such information. We are not
+                            responsible for the privacy policies or practices of third party websites, and your interactions with any social media
+                            features are governed by the privacy policies and practices of the hosting entities.
+                            
+                            <br>
+                            <br>
+
+                            
+                            L. Access to and correction of your information
+                            <br>
+                            <br>
+                            
+                            We aim to ensure that your personal and credit information is accurate, complete, and up to date. To assist us, please
+                            contact us via the details below if any of your details provided have changed or if you believe that the information we
+                            hold is inaccurate.
+                            <br>
+                            <br>
+                            
+                            You may request us to provide you with access to the personal or credit information we hold about you at any time. We
+                            will respond to your access request as soon as possible, however, prior to disclosing any such information it may be
+                            necessary for you to satisfactorily verify your identity.
+                            <br>
+                            <br>
+
+                            
+                            There are exceptional circumstances where access to or correction of your personal or credit information may be refused
+                            by us such as where access would be unlawful. We will advise you of such circumstances if they arise.
+                            <br>
+                            <br>
+
+                            
+                            
+                            M. How You Can Manage Your Privacy
+                            <br>
+                            <br>
+                            
+                            You may limit the collection of certain website information by deleting or disabling cookies. Most computers' Internet
+                            browsers enable you to erase stored cookies, block all cookies, or receive a warning before a cookie is stored.
+                            Disabling cookies may prevent you from using specific features on the Site or other websites, such as ordering products
+                            or services and maintaining an online account.
+                            <br>
+                            <br>
+
+
+
+                            
+                            Please note that many opt outs use browser cookies or device controls and are specific to the device, or browser, you
+                            are using. If you buy a new computer, change web browsers or devices, or delete the cookies on your computer, you may
+                            need to opt-out again.
+                            <br>
+                            <br>
+                            
+                            
+                            
+                            N. Privacy of Children
+                            <br>
+                            <br>
+                            
+                            We do not knowingly intend to collect information from or direct Zowasel services to children age 16 and under. If
+                            Zowasel learns that information has been received from a child under 16, then Zowasel will delete such information.
+                            
+                            <br>
+                            <br>
+
+                            
+                            O. Retention of Information
+                            <br>
+                            <br>
+
+                            
+                            Zowasel Inc. retains Your Personal Data only for the period necessary to fulfill the purposes outlined in this Privacy
+                            Policy unless a longer retention period is required or allowed by law or to otherwise fulfill a legal obligation. For
+                            the purpose of business continuity, Zowasel backs up your data within the Zowasel infrastructure. As soon as these
+                            retention periods are complete, the data will be deleted or properly anonymized in order that you may no longer be
+                            identified from it.
+                            <br>
+                            <br>
+
+                            
+                            
+                            
+                            P. Marketing
+
+                            <br>
+                            <br>
+
+                            
+                            Zowasel may contact you by email, text, or via other electronic communication to provide You with marketing materials
+                            about Zowasel products or services that may be of interest to You. If you do not wish to receive such communications,
+                            you may follow the unsubscribe options provided in such marketing communications.
+                            <br>
+                            <br>
+
+                            
+                            
+                            Q. Privacy Policy Updates
+                            <br>
+                            <br>
+
+                            
+                            From time to time, we may change and post revisions to this Privacy Policy and such changes to this Privacy Policy will
+                            become effective upon the posting of the revised Privacy Policy on the Site. Your use of the Site following these
+                            changes means that You accept the revised Privacy Policy.
+
+
+                            <br>
+                            <br>
+
+                            
+                            
+                            
+                            
+                            
+                            R. Contact Us
+
+                            <br>
+                            <br>
+
+                            
+                            If you have any questions or complaints about this Privacy Policy or our treatment of your personal or credit
+                            information, or if you would like to access or amend your personal information, please contact us:
+                            <br>
+                            <br>
+
+                            
+                            Email address: legal@zowasel.com
+                            <br>
+                            <br>
+
+                            
+                            This policy will be reviewed from time to time to take account of new laws and/or changes to our operations. Any
+                            information we hold about you will be governed by our most current policy. We recommend that you periodically review
+                            this policy for any changes.</p>
+         
+            </div>
         </div>
     </div>
 	<!-- CART -->

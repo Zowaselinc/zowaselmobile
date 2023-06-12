@@ -995,7 +995,8 @@ function fetchUserOrdersByUserID(){
                 $('.loader').addClass('loader-hidden');
             }else{
                 // alert(response.message);
-                let thedata = (response.data).reverse();
+                // let thedata = (response.data).reverse();
+                let thedata = (response.data);
                 let rowContent = "";
                 let index;
                 // console.log(thedata, "category data");
