@@ -4434,10 +4434,13 @@ function fetchInputs(){
                     let noinput = `
                     <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
                         <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet</span>
-                    </div>\
+                    </div>
                     `;
                     $('#inputs').html("No Input yet");
-                    $('#p_before_carouselinputsforsale').html(noinput);
+                    $('#p_carouselinputsforsale').hide();
+                    setTimeout(()=>{
+                        $('#p_before_carouselinputsforsale').html(noinput);
+                    },500)
                 }
 
                 lazyLoading();
