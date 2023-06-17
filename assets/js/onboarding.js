@@ -750,9 +750,102 @@ function LoginScreen(){
 
     });
 
-
 }
 // LOGIN
+
+// FORGOT PASSWORD
+function ForgotpasswordScreen(){
+    const forgotpasswordform = document.getElementById('forgotpasswordform');
+    const email = document.getElementById('email');
+
+    //Event Listeners
+    forgotpasswordform.addEventListener('submit',function(e) {
+        e.preventDefault();
+        startPageLoader();
+
+        // alert("ef");
+        $.ajax({
+            url: `${liveGlobalBaseUrl}/password/email`,
+            type: "POST",
+            "timeout": 25000,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "email": email.value
+            }),
+            success: function(response) { 
+                EndPageLoader();
+                if(response.error == true){
+                    // alert(response.message);
+                    responsemodal("erroricon.png", "Error", response.message);
+                }else{
+                    // alert(response.message);
+                    console.log(response, "response");
+                    responsemodal("successicon.png", "Success", "Email Sent");
+                    setTimeout(()=>{
+                        localStorage.setItem('resetEmail',email.value);
+                        location.href="checkemail.html";
+                    },2000)      
+                }
+            },
+            error: function(xmlhttprequest, textstatus, message) {
+                EndPageLoader();
+                // console.log(xmlhttprequest, "Error code");
+                if(textstatus==="timeout") {
+                    basicmodal("", "Service timed out <br/>Check your internet connection");
+                }
+            },
+            statusCode: {
+                200: function(response) {
+                    console.log('ajax.statusCode: 200');
+                },
+                400: function(response) {
+                    console.log('ajax.statusCode: 400');
+                    console.log(response);
+                    let error = response.responseJSON.message;
+                    if(error){
+                        responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                        return false;
+                    }
+                    let errors = response.responseJSON.errors;
+                    if(errors.length>0){
+                        responsemodal("erroricon.png", "Error", `${errors[0].msg} <br/> Parameter: ${errors[0].param}`);
+                    }else{
+                        responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                    }
+                },
+                403: function(response) {
+                    console.log('ajax.statusCode: 403');
+                    basicmodal("", "Session has ended, Login again");
+                    setTimeout(()=>{
+                        logout();
+                    },3000)
+                },
+                404: function(response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function(response) {
+                    console.log('ajax.statusCode: 500');
+                }
+            }
+        });
+    });
+}
+// FORGOT PASSWORD
+
+
+// checkEmailScreen
+function checkEmailScreen(){
+    let resetEmail = localStorage.getItem('resetEmail');
+    if(resetEmail){
+        $('.resetEmail').val(resetEmail);
+        $('.resetEmail').html(resetEmail);
+    }else{
+        location.assign('login.html');
+    }
+}
+// checkEmailScreen
 
 
 

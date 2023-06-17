@@ -779,7 +779,7 @@ const waybillDetailsPage =()=>{
                 // alert(response.message);
                 responsemodal("successicon.png", "Success", response.message);
                 setTimeout(()=>{
-                    location.assign('ordertracking.html');
+                    // location.assign('ordertracking.html');
                 },2500)      
             }
         },

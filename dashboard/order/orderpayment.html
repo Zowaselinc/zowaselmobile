@@ -138,6 +138,12 @@
                 </div>
                 <!-- PAY BUTTON -->
             </form>
+
+            <!-- VIEW WaYBILL DOCUMENT BEFORE PAYING -->
+            <div class="w-100 mt-2">
+                <button class="btn zowaselBlue text-white my-3 w-100" onclick="showWaybillDocument('waybilldocument')">View waybill document</button>
+            </div>
+            <!-- VIEW WaYBILL DOCUMENT BEFORE PAYING -->
           
         </div>  
         <!-- ---------------------- Pricing Details Container ---------------------- -->
@@ -146,6 +152,163 @@
 
     </div>
     <!-- Page content End -->
+
+
+
+
+
+    <!-- Page content FOR WAYBILL DOCUMENT -->
+    <div class="page-content slide waybilldocument" style="background-color: whitesmoke;display:none;">
+       
+        <div class="container">
+            <!-- --------------------------- WAYBILL DOCUMENT --------------------------- -->
+            <div class="tracking-container-wrapper">
+                <!-- Arrow back -->
+                <div class="waybills w-100">
+                    <a class="arrow-left-img" onclick="hideWaybillDocument('pricingDetails_Container')"><img class="img-fluid" style="filter: brightness(50%);" src="../../logos/ArrowLeft.svg" width="20px"/></a>
+                    &nbsp;&nbsp;
+                    <span style="color: black;font-weight: 700;">Waybill Document</span>
+                </div>
+                <!-- Arrow back -->
+
+
+                <!-- WAYBILL RECEIPT -->
+                <div class="receipt-wrapper mt-4 p-1">
+                    <!-- logo -->
+                    <div class="logo-wrapper"><img class="img-fluid" src="../../logos/zowasel-grey-logo.png" alt="zowasel-logo" /></div>
+                    <!-- address -->
+                    <address>
+                        <p>69A, Abba Johnson, Adeniyi Jones Av</p>
+                        <p>Ikeja, Lagos, NIGERIA</p>
+                        <p>Waybil Number: #<span class="order_hash"></span></p>
+                    </address>
+                    <div class="form-wrapper">
+                        <!-- grid -->
+                        <div class="container text-center">
+                            <div class="row"><div class="col row-item-1">DISPATCH SECTION</div></div>
+                            <div class="row row-main">
+                                <div class="col-6 col-item-1">FROM: <span class="waybilldata w_from"></span></div>
+                                <div class="col-6 col-item-2">To: <span class="waybilldata w_to"></span></div>
+                            </div>
+                            <div class="row row-main">
+                                <div class="col-4 col-item-1">DATE: <span class="waybilldata w_date"></span> </div>
+                                <div class="col-4 col-item-2">COSIGNEE: <span class="waybilldata w_cosignee"></span> </div>
+                                <div class="col-4 col-item-2">Truck No./Trailer No: <span class="waybilldata w_truckno"></span> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 row-item-general">S/No.</div>
+                                <div class="col-4 row-item-general">DESCRIPTION</div>
+                                <div class="col-4 row-item-general">QUANTITY</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 row-item-general">1</div>
+                                <div class="col-4 row-item-general">
+                                    <span class="waybilldata w_crop1"></span>
+                                </div>
+                                <div class="col-4 row-item-general">
+                                    <span class="waybilldata w_crop1qty"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 row-item-general">2</div>
+                                <div class="col-4 row-item-general"></div>
+                                <div class="col-4 row-item-general"></div>
+                            </div>
+                            <div class="row row-main"><div class="col col-item-1">REMARKS: <span class="waybilldata w_remark"></span> </div></div>
+                            <div class="row row-main">
+                                <div class="col col-item-1">Driver's Name: <span class="waybilldata w_drivername"></span> </div>
+                                <div class="col-6 col-item-2">Seller's Representative: <span class="waybilldata w_sellerRepname"></span> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 row-item-general">Driving License/Permit <span class="waybilldata w_drivingicense"></span> </div>
+                                <div class="col-6 row-item-general">Title: <span class="waybilldata w_sellertitle"></span> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 row-item-general">Signature and Date: <span class="waybilldata w_todaydate"></span> </div>
+                                <div class="col-6 row-item-general">Signature and Date: <span class="waybilldata w_todaydate"></span></div>
+                            </div>
+                            <div class="row"><div class="col row-item-1">RECEIPT SECTION</div></div>
+                            <div class="row">
+                                <div class="col-4 row-item-general">S/No.</div>
+                                <div class="col-4 row-item-general">DESCRIPTION</div>
+                                <div class="col-4 row-item-general">QUANTITY</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 row-item-general">1</div>
+                                <div class="col-4 row-item-general">
+                                    <span class="waybilldata w_crop1"></span>
+                                </div>
+                                <div class="col-4 row-item-general">
+                                    <span class="waybilldata w_crop1qty"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 row-item-general">2</div>
+                                <div class="col-4 row-item-general"></div>
+                                <div class="col-4 row-item-general"></div>
+                            </div>
+                            <div class="row row-main"><div class="col col-item-1">REMARKS: <span class="waybilldata w_receiptremark"></span> </div></div>
+                            <div class="row row-main">
+                                <div class="col-6 col-item-2">Seller's Representative: <span class="waybilldata w_receipt_sellerRep"></span> </div>
+                                <div class="col col-item-1">Received by: <span class="waybilldata w_receipt_receiveBy"></span> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 row-item-general">Title: <span class="waybilldata w_receipt_sellerTitle"></span> </div>
+                                <div class="col-6 row-item-general">Title: <span class="waybilldata w_receipt_receiverTitle"></span> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 row-item-general">Signature and Date: <span class="waybilldata w_todaydate"></span></div>
+                                <div class="col-6 row-item-general">Signature and Date: <span class="waybilldata w_todaydate"></span></div>
+                            </div>
+                            <p class="way-bill mt-5 mb-4">
+                                The <strong>way bill</strong> puts the person in charge of the conveyance carrying the consignment of said amount of goods to the stated destination. It is a mandatory document that is generated from
+                                zowasel portal by registered sellers or transporters who undertake movement of commodities and must be presented at point of delivery in the corporate.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="btn-group w-100 gap-4 mt-3">
+                        <a href="javascript:void(0)" onclick="downloadwaybillDocument()" class="btn zowaselBlue text-white w-100" type="button">Download document</a>
+                    </div>
+                    <!-- Buttons -->
+
+                </div>              
+                <!-- WAYBILL RECEIPT --> 
+               
+            </div>
+
+            <div id="editor"></div>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.js" integrity="sha512-vNrhFyg0jANLJzCuvgtlfTuPR21gf5Uq1uuSs/EcBfVOz6oAHmjqfyPoB5rc9iWGSnVE41iuQU4jmpXMyhBrsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- --
+                function downloadwaybillDocument(){
+                    const waybillReceipt = document.getElementById("waybillReceipt");
+                    // waybillReceipt.style.marginTop = "-100px";
+                    console.log(waybillReceipt);
+                    // console.log(window);
+                    var opt = {
+                    margin:       [1,1],
+                    filename:     'waybill.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    // html2canvas:  { scale:1, scrollY:0 },
+                    html2canvas:  { scale: 1, scrollY:90, logging: true, dpi: 192, letterRendering: true },
+                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+                    // format: [10000, 60]
+                    };
+                    html2pdf().from(waybillReceipt).set(opt).save();
+                    // .from() -> .toContainer() -> .toCanvas() -> .toImg() -> .toPdf() -> .save()
+                    
+                };
+            </script>
+            <!-- --------------------------- WAYBILL DOCUMENT --------------------------- -->
+
+        </div>
+      
+    </div>
+    <!-- Page content FOR WAYBILL DOCUMENT -->
 
 
 
@@ -240,6 +403,30 @@
         }
 
 
+    }
+
+
+
+    function showWaybillDocument(switchname){
+        $('.pricingDetails_Container').hide();
+
+        // alert(switchname);
+        if(switchname){
+            $('.'+switchname).show();
+            // location.href="#";
+        }else {
+            consle.log("No slide name found");
+        }
+    }
+
+    function hideWaybillDocument(switchname){
+        $('.waybilldocument').show();
+        if(switchname){
+            $('.'+switchname).show();
+            // location.href="#";
+        }else {
+            consle.log("No slide name found");
+        }
     }
 
 
