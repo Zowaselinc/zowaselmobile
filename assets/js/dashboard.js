@@ -4600,7 +4600,7 @@ function fetchCorporateAddedInputs(){
                     `;
                     $('#inputs').html("No Input yet");
                     // $('#p_carouselinputsforsale').html("You have no input product");
-                    $('#p_carouselinputsforsale').html(noinput);
+                    $('#p_before_carouselinputsforsale').html(noinput);
                 }
                     
             }
