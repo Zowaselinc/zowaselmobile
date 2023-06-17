@@ -4433,14 +4433,11 @@ function fetchInputs(){
                 }else{
                     let noinput = `
                     <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
-                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet ihiu</span>
+                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet</span>
                     </div>
                     `;
                     $('#inputs').html("No Input yet");
-                    $('#p_carouselinputsforsale').hide();
-                    setTimeout(()=>{
-                        $('#p_before_carouselinputsforsale').html(noinput);
-                    },500)
+                    $('#p_before_carouselinputsforsale').html(noinput);
                 }
 
                 lazyLoading();
@@ -4597,8 +4594,8 @@ function fetchCorporateAddedInputs(){
          
                 }else{
                     let noinput = `
-                    <div class="singleproduct-crousel-holder text-center p-2 py-3">
-                        <a href="#">No Input Added Yet</a>
+                    <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
+                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet</span>
                     </div>
                     `;
                     $('#inputs').html("No Input yet");
