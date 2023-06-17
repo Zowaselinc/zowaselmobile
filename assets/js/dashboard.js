@@ -4433,7 +4433,7 @@ function fetchInputs(){
                 }else{
                     let noinput = `
                     <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
-                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet</span>
+                        <span class="fontFamily1 f-15 fw-600 lh-21 zowasel-gray-color">No Input Added Yet ihiu</span>
                     </div>
                     `;
                     $('#inputs').html("No Input yet");
