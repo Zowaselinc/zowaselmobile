@@ -38,6 +38,8 @@
 .border-radius-13{ border-radius: 13px; }
 .border-radius-14{ border-radius: 14px; }
 
+.mt-minus40{ margin-top: -40px !important; }
+
 .zowasel-bg{
   background-color: var(--zowasel-green);
 }

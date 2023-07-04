@@ -169,9 +169,10 @@ socket.on(usersocketchannel,function(data){
                             let phoneNumber;
 
                             let applicant = data.applicant;
-                            let iddetail = data.applicant.idNumbers[0];
-                            let documents = data.documents;
-                            $('.kyc_name').html(applicant.firstName+" "+applicant.lastName);
+                            let iddetail = data.kyc;
+                            let documents = JSON.parse(data.documents);
+                            console.log("documents ", documents);
+                            $('.kyc_name').html(applicant.first_name+" "+applicant.last_name);
                             $('.kyc_gender').html(`<span style="text-transform:capitalize;">${user.user.gender}</span>`);
                             $('.kyc_phoneno').html(applicant.phoneNumber);
                             $('.kyc_address').html(applicant.address);
@@ -181,15 +182,19 @@ socket.on(usersocketchannel,function(data){
                             $('.kyc_address').html(`<span style="text-transform:capitalize;">${user.user.primary_address}</span>`);
                             $('.kyc_state').html(`<span style="text-transform:capitalize;">${user.user.state}</span>`);
                             $('.kyc_city').html(`<span style="text-transform:capitalize;">${user.user.city}</span>`);
-                            $('.kyc_idtype').html(iddetail.type);
-                            $('.kyc_idnumber').html(iddetail.value);
+                            $('.kyc_idtype').html(iddetail.id_type);
+                            $('.kyc_idnumber').html(iddetail.id_number);
                             
-                            if(documents[0].fileName.includes('idcardback')){
-                                $('#frontImageSrc').attr('src', documents[1].base64);
-                                $('#backImageSrc').attr('src', documents[0].base64);
+                            if(documents.back.includes('idcardback')){
+                                // $('#frontImageSrc').attr('src', documents[1].base64);
+                                // $('#backImageSrc').attr('src', documents[0].base64);
+                                $('#frontImageSrc').attr('src', documents.back);
+                                $('#backImageSrc').attr('src', documents.front);
                             }else{
-                                $('#frontImageSrc').attr('src', documents[0].base64);
-                                $('#backImageSrc').attr('src', documents[1].base64);
+                                // $('#frontImageSrc').attr('src', documents[0].base64);
+                                // $('#backImageSrc').attr('src', documents[1].base64);
+                                $('#frontImageSrc').attr('src', documents.front);
+                                $('#backImageSrc').attr('src', documents.back);
                             }
 
                         }

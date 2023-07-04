@@ -24,6 +24,9 @@
 	<!-- PWA Version -->
 	<!-- <link rel="manifest" href="manifest.json"> -->
     
+    <link rel="stylesheet" href="dist/css/dialog-mobile.css">
+    <script src="dist/mcx-dialog.js"></script> 
+
     <!-- Stylesheets -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
     <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
@@ -193,6 +196,15 @@
                 </div>
             </div> -->
 
+            <div class="container d-flex w-100 align-items-center justify-content-between inputActiveStatus-v mt-2">
+                <!-- <div>
+                    <span>Active input &nbsp;</span>
+                    <span class="cropstatus2 cropActive d-block bg-success"></span>
+                </div>
+                <button class="btn btn-danger" onclick="deactivateInput(13)">Deactivate</button>
+                <button class="btn zowasel-darkblue-bg text-white" onclick="editInput(13)">Edit</button> -->
+            </div>
+
             <!-- ------------------------------ CAROUSEL ------------------------------- -->
             <div class="container carousel-accordion owl-carousel owl-carousel-singleproduct-page mt-0">
                 <!--   if you add more than 5 slides, then they active carousel navigations -->
@@ -280,6 +292,13 @@
                     <!-- table -->
                     <table class="table borderlesstable">
                         <tbody>
+                            <tr class="borderBottom2">
+                                <td colspan="2" class="pb-2">
+                                    <div class="boldtableContent f-14 fw-normal">Catalog</div>
+                                    <div class="catalog fw-bold zowasel-darkblue-color f-20"><!--Herbicides--></div>
+                                </td>
+                            </tr>
+
                             <tr class="borderBottom2">
                                 <td class="pb-2">
                                     <div class="boldtableContent f-14 fw-normal">Crop focus</div>
@@ -457,7 +476,6 @@
         user = JSON.parse(user);
         let usertype = user.user.type;
         if(usertype=="corporate"){
-
             $('.after-a-fixed1-header').css({'top':'170px'})
         }
     })

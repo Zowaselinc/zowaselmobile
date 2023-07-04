@@ -143,9 +143,10 @@
 									<span class="input-group-text"><i class="fas fa-money-check"></i></span>
 									<select required id="idType" class="form-control">
                                         <option value="">Select ID Type</option>
-                                        <option value="identity_card">Identity Card</option>
-                                        <option value="driving_licence">Driver's Licence</option>
-                                        <option value="voter_id">Voter's Card</option>
+                                        <option value="vnin">Virtual NIN</option>
+                                        <option value="driver_license">Driver's Licence</option>
+                                        <option value="voter_card">Voter's Card</option>
+                                        <!-- <option value="identity_card">Identity Card</option> -->
                                         <option value="passport">Passport</option>
                                     </select>
 								</div>
@@ -541,6 +542,57 @@
         // let frontIDLink, backIDLink;
         $('#idTypeandNumber').submit(function(e){
             e.preventDefault();
+            let idType = document.getElementById('idType').value;
+            let idnumber = document.getElementById('idnumber').value;
+            if(idType=="vnin"){
+                console.log(idnumber.length);
+                if(idnumber.length === 16){
+                    $('#idTypeandNumberSection').hide();
+                    $('#frontIDSection').show();
+                }else if (idnumber.length > 16) {
+                    basicmodal("","IDNumber must be shorter than or equal to 16 characters");
+                    return false;
+                }else if (idnumber.length < 16) {
+                    basicmodal("","IDNumber must be greater than or equal to 16 characters");
+                    return false;
+                }
+            }
+            if(idType=="driver_license"){
+                if(idnumber.length === 10){
+                    $('#idTypeandNumberSection').hide();
+                    $('#frontIDSection').show();
+                }else if (idnumber.length > 12) {
+                    basicmodal("","IDNumber must be shorter than or equal to 12 characters");
+                    return false;
+                }else if (idnumber.length < 10) {
+                    basicmodal("","IDNumber must be greater than or equal to 10 characters");
+                    return false;
+                }
+            }
+            if(idType=="voter_card"){
+                if(idnumber.length === 17){
+                    $('#idTypeandNumberSection').hide();
+                    $('#frontIDSection').show();
+                }else if (idnumber.length > 17) {
+                    $('#idTypeandNumberSection').hide();
+                    $('#frontIDSection').show();
+                }else if (idnumber.length < 17 || idnumber.length < 20) {
+                    basicmodal("","IDNumber must be greater than or equal to 17 characters");
+                    return false;
+                }
+            }
+            if(idType=="passport"){
+                if(idnumber.length === 7){
+                    $('#idTypeandNumberSection').hide();
+                    $('#frontIDSection').show();
+                }else if (idnumber.length > 7) {
+                    basicmodal("","IDNumber must be shorter than or equal to 7 characters");
+                    return false;
+                }else if (idnumber.length < 7) {
+                    basicmodal("","IDNumber must be greater than or equal to 7 characters");
+                    return false;
+                }
+            }
             $('#idTypeandNumberSection').hide();
             $('#frontIDSection').show();
         })

@@ -49,6 +49,7 @@
             border-radius: 8px;
             border: 1px solid #EAE9F0;
             color: rgba(24, 19, 43, 0.63);
+
         }
         .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
             background-color: #EFEFEF;
@@ -69,7 +70,7 @@
                         <div class="left-content  w-auto">
                             <a href="javascript:void(0);" class="d-block d-flex align-items-center">
                                 <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
-                                <span class="fw-bold mx-3">Add Inputs for Sale</span>
+                                <span class="fw-bold mx-3">Edit Inputs for Sale</span>
                             </a>
                             <br/><br/>
                         </div>
@@ -157,7 +158,7 @@
                     </script> -->
 					
                     <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
-                    <form class="form" id="addInputForm">
+                    <form class="form" id="editInputForm">
                         <p aria-hidden="true" id="required-description">
                             <span class="required"><strong>*</strong></span> Required field
                         </p>
@@ -285,12 +286,15 @@
                             <div class="w-100 mb-3">
                                 <label for="exampleInputEmail1" class="form-label mb-0">Product image (maximum of 1) <span class="required">*</span></label>
                                 <div class="upload__btn-box">
-                                <label class="upload__btn">
-                                    <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p>
-                                    <input type="file" id="inputimages" data-max_length="0" class="upload__inputfile" accept="image/png, image/jpg, image/jpeg">
-                                </label>
+                                    <label class="upload__btn">
+                                        <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p>
+                                        <input type="file" id="inputimages" data-max_length="0" class="upload__inputfile" accept="image/png, image/jpg, image/jpeg">
+                                    </label>
                                 </div>
-                                <div class="upload__img-wrap"></div>
+                                <input type="hidden" id="DBimagesToEdit" />
+
+                                <span class="text-primary d-block" id="noimageUploadedResponse"><i>No new image uploaded yet</i></span>
+                                <div class="upload__img-wrap py-2" id="images-for-edit-preview" style="background-color: #dbdbdb;"></div>
                             </div>
                         </div>
                         <div class="w-100 mb-3">
@@ -298,10 +302,12 @@
                             <input name="inputtitle" type="text" class="form-control" id="videourl" style="border:1px solid #ced4da;" />
                         </div>
                         <div class="w-100 editor-wrapper">
+                            <input type="hidden" id="inputDescriptionHidden" />
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Quality description <span class="required">*</span></label>
                             <textarea name="cropdescription" id="editor"></textarea>
                         </div>
                         <div class="w-100 editor-wrapper">
+                            <input type="hidden" id="inputUsageInstructionHidden" />
                             <label for="exampleInputEmail1" class="form-label text-dark mb-0 lh-28 fw-700">Usage instruction <span class="required">*</span></label>
                             <textarea name="cropdescription" id="usageinstruction"></textarea>
                         </div>
@@ -311,7 +317,7 @@
 
 
                         <div class="input-group">
-                            <button type="submit" id="addCrop" class="btn mt-2 btn-success w-100 btn-rounded">Save</button>
+                            <button type="submit" class="btn mt-2 btn-success w-100 btn-rounded">Save</button>
                         </div>
 
                     </form>
@@ -375,19 +381,48 @@
     fetchInputCategories();
     fetchInputFocus();
     populateCountryList();
-    addInputPage();
+    // addInputPage();
+    setTimeout(()=>{
+        populateSingleInputDetails();
+    },1000)
+    setTimeout(()=>{
+        addInputPage();
+        populateSingleInputDetails();
+    },2000)
 </script>
 
 <script>
-    var myClassicEditor;
+    var myClassicEditor1, myClassicEditor2;
     ClassicEditor.create( document.querySelector( '#editor' ) )
-        .then(editor => {myClassicEditor = editor;})
+        .then(editor => {
+            myClassicEditor1 = editor;
+            // Insert HTML content into the CKEditor instance
+            // myClassicEditor.setData('<p>This is <strong>HTML</strong> content.</p>');
+            $(document).ready(()=>{
+                setTimeout(()=>{
+                    let inputDescriptionHidden = $('#inputDescriptionHidden').val();
+                    console.log("inputDescriptionHidden ",inputDescriptionHidden);
+                    myClassicEditor1.setData(inputDescriptionHidden);
+                },2000)
+            })
+        })
         .catch( error => {
             console.error( error );
         } );
 
     ClassicEditor.create( document.querySelector( '#usageinstruction' ) )
-        .then(editor => {myClassicEditor = editor;})
+        .then(editor => {
+            myClassicEditor2 = editor;
+            // Insert HTML content into the CKEditor instance
+            // myClassicEditor.setData('<p>This is <strong>HTML</strong> content.</p>');
+            $(document).ready(()=>{
+                setTimeout(()=>{
+                    let inputUsageInstructionHidden = $('#inputUsageInstructionHidden').val();
+                    // console.log("inputUsageInstructionHidden ",inputUsageInstructionHidden);
+                    myClassicEditor2.setData(inputUsageInstructionHidden);
+                },2000)
+            })
+        })
         .catch( error => {
             console.error( error );
         } );
@@ -397,52 +432,6 @@
     
     
     $(document).ready(function(){
-        // CKEDITOR.replace( 'cropdescription' );
-        // $("#addCrop").click(function(){
-        //     // var objEditor1 = CKEDITOR.instances["cropdescription"];
-        //     alert(myClassicEditor.getData());
-        // })
-
-        $('#windowFrom, #windowTo').attr('min', new Date().toISOString().split('T')[0]);
-
-        $('#formpage1').submit(function(e){
-            e.preventDefault();
-            // alert($('#editor').val());
-            let form_slide1_response = document.getElementById('form_slide1_response');
-            let cropdescription = document.getElementById('editor');
-            let usageinstruction = document.getElementById('usageinstruction');
-
-            if (inputfilesToUpload.length < 1) {
-                basicmodal("", "Please enter at least 1 image");
-                return;
-            }
-            if(cropdescription.value==""||cropdescription.value===null){
-                form_slide1_response.innerHTML = `<span class="text-danger"><i>* Enter crop description</i></span>`;
-                return;
-            }
-            if(usageinstruction.value==""||usageinstruction.value===null){
-                alert("rrevr");
-                form_slide1_response.innerHTML = `<span class="text-danger"><i>* Enter usage instructions</i></span>`;
-                return;
-            }
-            // else{
-                $('#formpage1').hide();
-                $('#formpage2').show();
-            // }
-        })
-
-        $('#formpage2').submit(function(e){
-            e.preventDefault();
-            let form_slide2_response = document.getElementById('form_slide2_response');
-            // let cropdescription = document.getElementById('editor');
-            // if(cropdescription.value==""||cropdescription.value===null){
-            //     form_slide1_response.innerHTML = `<span class="text-danger"><i>* Enter crop description</i></span>`
-            // }else{
-                $('#formpage1,#formpage2').hide();
-                $('#formpage3').show();
-            // }
-        })
-
         // COUNT FOR SELECT
         let emptyoption = `<option value=""></option>`;
         let rowContent = "";
@@ -453,19 +442,7 @@
         }
         $('.ponetofiftypercent').html(emptyoption + rowContent);
         // COUNT FOR SELECT
-        
     });
-
-
-    const gotoFormSlide2 =()=>{
-        $('#formpage1,#formpage3').hide();
-        $('#formpage2').show();
-    }
-    const gotoFormSlide1 =()=>{
-        $('#formpage2,#formpage3').hide();
-        $('#formpage1').show();
-    }
-
 
     // <!-- ---------------------------- IMAGE UPLOAD ----------------------------- -->
     let globalImageArrayLength = 0;
@@ -480,49 +457,95 @@
 
         $('.upload__inputfile').each(function () {
             $(this).on('change', function (e) {
-            imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
-            var maxLength = $(this).attr('data-max_length');
-
-            var files = e.target.files;
-            var filesArr = Array.prototype.slice.call(files);
-            var iterator = 0;
-            filesArr.forEach(function (f, index) {
-
-                if (!f.type.match('image.*')) {
-                    return;
+                // alert("vr");
+                const divElement = document.getElementById('images-for-edit-preview');
+                const elementsWithClassCount = divElement.getElementsByClassName('upload__img-box').length;
+                console.log("elementsWithClassCount ", elementsWithClassCount);
+                if(elementsWithClassCount>0){
+                    basicmodal("","Maximum required number of image is 1");
+                    return false;
                 }
+                imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+                var maxLength = $(this).attr('data-max_length');
 
-                if (imgArray.length > maxLength) {
-                    return false
-                } else {
-                    var len = 0;
-                    for (var i = 0; i < imgArray.length; i++) {
-                        if (imgArray[i] !== undefined) {
-                        len++;
-                        }
+                var files = e.target.files;
+                var filesArr = Array.prototype.slice.call(files);
+                console.log("filesArr", filesArr);
+                var iterator = 0;
+                filesArr.forEach(function (f, index) {
+
+                    if (!f.type.match('image.*')) {
+                        return;
                     }
-                    if (len > maxLength) {
-                        return false;
+                    // console.log("imgArray.length",imgArray.length);
+                    // console.log("maxLength",maxLength);
+                    if (imgArray.length > maxLength) {
+                        return false
                     } else {
-                        imgArray.push(f);
-
-                        console.log(imgArray, " image Array");
-                        globalImageArrayLength = imgArray.length;
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                        var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
-                        imgWrap.append(html);
-                        iterator++;
+                        var len = 0;
+                        for (var i = 0; i < imgArray.length; i++) {
+                            if (imgArray[i] !== undefined) {
+                            len++;
+                            }
                         }
-                        reader.readAsDataURL(f);
+                        if (len > maxLength) {
+                            return false;
+                        } else {
+                            imgArray.push(f);
+
+                            console.log(imgArray, " image Array");
+                            globalImageArrayLength = imgArray.length;
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                            var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+                            imgWrap.append(html);
+                            iterator++;
+                            }
+                            reader.readAsDataURL(f);
+                        }
                     }
+                });
+
+                console.log("globalImageArrayLength ", globalImageArrayLength);
+                if(globalImageArrayLength==0){
+                    $('#noimageUploadedResponse').removeClass('d-none').addClass('d-block');
+                }else{
+                    $('#noimageUploadedResponse').removeClass('d-block').addClass('d-none');
                 }
-            });
             });
         });
 
         $('body').on('click', ".upload__img-close", function (e) {
+           // console.log(this.id);
+           let cancelbuttonID = this.id;
+            let productImgNumber = cancelbuttonID.replace('close', '');
+
+            // :begin IF IT WAS IMAGE FROM DB
+            let DBimagesToEdit = $('#DBimagesToEdit').val();
+            if(DBimagesToEdit){
+                // Split the string into an array
+                let DBimagesToEditArray = DBimagesToEdit.split(",");
+
+                // Img URL to remove
+                var backgroundImageUrl = $('.upload__img-box #thebgImage'+productImgNumber+'').css('background-image');
+                console.log("backgroundImageUrl ", backgroundImageUrl);
+                let urlToRemove = backgroundImageUrl.replace('url("', '').replace('")', '');
+                urlToRemove = urlToRemove.toString();
+                console.log("urlToRemove ",urlToRemove);
+
+                // Remove the desired URL from the array
+                DBimagesToEditArray = DBimagesToEditArray.filter(url => url !== urlToRemove);
+
+                // Join the array back into a string
+                DBimagesToEdit = DBimagesToEditArray.join(",");
+                console.log("Final DBimagesToEdit ", DBimagesToEdit);
+
+                $('#DBimagesToEdit').val(DBimagesToEdit);
+            }
+            // :end IF IT WAS IMAGE FROM DB
+
             var file = $(this).parent().data("file");
+            console.log("the file to be deleted", file);
             for (var i = 0; i < imgArray.length; i++) {
                 if (imgArray[i].name === file) {
                     imgArray.splice(i, 1);
@@ -532,6 +555,12 @@
             console.log(imgArray, " image Array After Delete");
             globalImageArrayLength = imgArray.length;
             $(this).parent().parent().remove();
+
+            if(globalImageArrayLength==0){
+                $('#noimageUploadedResponse').removeClass('d-none').addClass('d-block');
+            }else{
+                $('#noimageUploadedResponse').removeClass('d-block').addClass('d-none');
+            }
         });
         
     }
@@ -554,7 +583,24 @@
     });
 
 
-    $('#addInputForm').submit(function(e){
+    const timeoutDuration = 20000; // Timeout duration in milliseconds
+
+    const timeoutPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // reject(new Error('Request timeout'));
+            EndPageLoader();
+            console.log("", "Service timed out");
+        }, timeoutDuration);
+    });
+
+    const fetchDataWithTimeout = (url, options) => {
+        const fetchDataPromise = fetch(url, options);
+
+        return Promise.race([fetchDataPromise, timeoutPromise]);
+    };
+
+
+    $('#editInputForm').submit(function(e){
         e.preventDefault();
 
         console.log(inputfilesToUpload," console.log(inputfilesToUpload);");
@@ -565,9 +611,10 @@
 
      
 
-        if(inputfilesToUpload.length < 1){
-            form_slide1_response.innerHTML = `<span class="text-danger"><i>* Input image is needed</i></span>`;
-        }else if(cropdescription.value==""||cropdescription.value===null){
+        // if(inputfilesToUpload.length < 1){
+        //     form_slide1_response.innerHTML = `<span class="text-danger"><i>* Input image is needed</i></span>`;
+        // }else 
+        if(cropdescription.value==""||cropdescription.value===null){
             form_slide1_response.innerHTML = `<span class="text-danger"><i>* Enter crop description</i></span>`;
         }else if(usageinstruction.value==""||usageinstruction.value===null){
             form_slide1_response.innerHTML = `<span class="text-danger"><i>* Enter usage instructions</i></span>`;
@@ -624,107 +671,200 @@
 
             console.log("globalImageArrayLength",globalImageArrayLength);
             // cropimages.files.length
-            if (globalImageArrayLength < 1) {
-                basicmodal("", "Please enter at least 1 image");
-            }else{
+            
                 
-                startPageLoader();
-                let img, index=0; 
-                var fd = new FormData(); 
-                let allimages = [];
-                let imagecompleted;
-                for (var i = 0; i < inputfilesToUpload.length; i++) {
-                    var file = inputfilesToUpload[i];
-                    var filename = inputfilesToUpload[i].name;
-                    // form.append("image"+i, file, filename);
-                    index = i+1;
-                    
-                    fd = new FormData(); 
-                    // fd.append( 'file', input.files[0] );
-                    fd.append("image", file);
-                    fetch('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
-                    .then(data => {
-                        // console.log("Chima", data);
-                        if(data.error == false){
-                            img = data.data.imageLink;
-                            console.log(img, "img"+index);
+            // startPageLoader();
+            let img, index=0; 
+            var fd = new FormData(); 
+            console.log(inputfilesToUpload, "The Input Image Array to Upload");
+
+            const activePage = window.location.pathname;
+
+            let imgArr = [];
+            //Loop through array of file and append formData Data
+            for (var i = 0; i < inputfilesToUpload.length; i++) {
+                var file = inputfilesToUpload[i];
+                var filename = inputfilesToUpload[i].name;
+                // formData.append("image"+i, file, filename);
+                imgArr.push(file);
+            }
+
+            const divElement = document.getElementById('images-for-edit-preview');
+            const elementsWithClassCount = divElement.getElementsByClassName('upload__img-box').length;
+            console.log("elementsWithClassCount ", elementsWithClassCount);
+            if (elementsWithClassCount < 1) {
+                basicmodal("", "Please enter at least 1 images");
+                return;
+            }
+            if(elementsWithClassCount>1){
+                basicmodal("","Maximum required number of images must be 1");
+                return;
+            }
+
+            // FOR INPUT EDIT PAGE
+            let allDBEditImages = [];
+            if(activePage.includes('/edit')){
+                let DBimagesToEditList = $('#DBimagesToEdit').val();
+
+                // If there is no newly added image uploaded for edit
+                if(imgArr.length==0){
+                    allDBEditImages.push(DBimagesToEditList);
+                    form.append("images", allDBEditImages);
+
+                    console.log(form, "The final formData");
+                    let input_id = localStorage.getItem('singleInputID');
+
+                    var settings = {
+                        "url": `${liveMobileUrl}/input/edit/${input_id}`,"method": "POST", "timeout": 20000,
+                        "headers": {// "Content-Type": "application/json",
+                            "authorization": localStorage.getItem('authToken')
+                        },
+                        "processData": false, "mimeType": "multipart/form-data", "contentType": false, 
+                        "data": form,
+
+                        // Using error property within settings
+                        error: function (xhr, textStatus, errorMessage) {
+                            console.error(errorMessage);
+                            // Error callback
+                            console.error(errorMessage);
+                            EndPageLoader();
+                            $('.loader').addClass('loader-hidden');
+                            if(textStatus==="timeout") {
+                                basicmodal("", "Service timed out");
+                            } else {
+                                // alert(textstatus);
+                                basicmodal("", textStatus);
+                            }
                         }
-                        allimages.push(img);
-                        if(allimages.length==globalImageArrayLength){
-                            imagecompleted = true;
+                    };
 
-                            console.log(index, "Image completed");
-                            form.append("images", allimages);
+                    $.ajax(settings).done(function (data) {
+                        // console.log(data);
+                        let response = JSON.parse(data);
+                        EndPageLoader();
+                        if(response.error == true){
+                            responsemodal("erroricon.png", "Error", response.message);
+                            // responsefullmodal("erroricon.png", response.message, "", "");
+                        }else{
+                            $('.dialogbox').addClass('d-none');
+                            $('.dialogbox').removeClass('d-block');
 
-                            var settings = {
-                                "url": `${liveBaseUrl}/input/add`,
-                                "method": "POST",
-                                "timeout": 25000,
-                                "headers": {
-                                    "Authorization": `${localStorage.getItem('authToken')}`
-                                },
-                                "processData": false,
-                                "mimeType": "multipart/form-data",
-                                "contentType": false,
-                                "data": form
-                            };
-
-                            $.ajax(settings).done(function (data, textStatus, jqXHR) {
-                                console.log(data);
-                                let response = JSON.parse(data);
-                                EndPageLoader();
-                                if(textStatus==="timeout") {
-                                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                                    return true;
-                                }
-                                var statusCode = jqXHR.status;
-                                console.log(statusCode);
-                                if(statusCode==403){
-                                    basicmodal("", "Session has ended, Login again");
-                                    setTimeout(()=>{
-                                        logout();
-                                    },3000)
-                                    return true;
-                                }
-                                if(response.error == true){
-                                    // alert(response.message);
-                                    // responsemodal("erroricon.png", "Error", response.message);
-                                    responsefullmodal("erroricon.png", response.message, "", "");
-                                }else{
-                                    // responsemodal("successicon.png", "Success", response.message);
-                                    let goto = "/dashboard/viewuseraddedinput.html";
-                                    responsefullmodal("successicon2.png", "Input Added", "", goto);
-                                    // location.assign('')
-                                    setTimeout(()=>{
-                                        $("#addInputForm")[0].reset();
-                                        // $('.dialogbox').addClass('d-none');
-                                        // $('.dialogbox').removeClass('d-block');
-                                        // location.assign('viewuseraddedinput.html');
-                                    },2000)
-                                    
-                                }
-                            });
+                            let goto;
+                            goto = '/dashboard/viewuseraddedinput.html';
+                            responsefullmodal("successicon2.png", "Input Edited", "", goto);
                         }
                     })
-                    
                 }
 
-                // console.log("allimages", allimages);
-                // for(var i=0; i<globalImageArrayLength; i++){
-                //     form.append("images", JSON.stringify(allimages));
-                // }
+                // If there is a newly added image uploaded for edit
+                if(imgArr.length>0){
+                    // If there's still a value inside DBimagesToEditList hidden input
+                    if(DBimagesToEditList){
+                        allDBEditImages.push(DBimagesToEditList);
+                        // formData.append("images", allDBEditImages);
+                    }
 
-                // console.log("allimages length", allimages.length);
-                // console.log("String allimages length", JSON.stringify(allimages));
-                // form.append("images", JSON.stringify(allimages));
-
-                // if(allimages.length){
                     
-                // }else{
-                //     console.log(allimages.length,"images.length");
-                // }
+                    let crop_id = localStorage.getItem('singleproductID');
+
+                    // Start of image upload to fileServer
+                    let allimages = [];
+                    let imagecompleted;
+                    for (var i = 0; i < imgArr.length; i++) {
+                        var file = imgArr[i];
+                        var filename = imgArr[i].name;
+                        // form.append("image"+i, file, filename);
+                        index = i+1;
+                
+                        fd = new FormData(); 
+                        // fd.append( 'file', input.files[0] );
+                        
+                        startPageLoader();
+                        fd.append("image", file);
+                        fetchDataWithTimeout('https://filesapi.growsel.com/upload.php', {method: 'POST',body: fd}).then(response => response.json())
+                        .then(data => {
+                            // console.log("Chima", data);
+                            if(data.error == false){
+                                img = data.data.imageLink;
+                                console.log(img, "img"+index);
+                            }
+                            allimages.push(img);
+                            if(allimages.length==imgArr.length){
+                                imagecompleted = true;
+                
+                                console.log(index, "Image completed");
+                                // Carry the One remaining in the hidden input DB Images and append the newly added ones
+                                allDBEditImages.push(allimages);
+                                form.append("images", allDBEditImages);
+                
+                                console.log(form, "The final formData");
+                                
+                                let serverURL;
+                                let input_id = localStorage.getItem('singleInputID');
+                                serverURL = `${liveMobileUrl}/input/edit/${input_id}`;
+                
+                                var settings = {
+                                    "url": `${serverURL}`,
+                                    "method": "POST",
+                                    "timeout": 20000,
+                                    "headers": {
+                                        // "Content-Type": "application/json",
+                                        "authorization": localStorage.getItem('authToken')
+                                    },
+                                    "processData": false,
+                                    "mimeType": "multipart/form-data",
+                                    "contentType": false,
+                                    "data": form,
+                
+                                    // Using error property within settings
+                                    error: function (xhr, textStatus, errorMessage) {
+                                        console.error(errorMessage);
+                                        // Error callback
+                                        console.error(errorMessage);
+                                        EndPageLoader();
+                                        $('.loader').addClass('loader-hidden');
+                                        if(textStatus==="timeout") {
+                                            basicmodal("", "Service timed out");
+                                        } else {
+                                            // alert(textstatus);
+                                            basicmodal("", textStatus);
+                                        }
+                                    }
+                                };
+                
+                                $.ajax(settings).done(function (data) {
+                                    // console.log(data);
+                                    let response = JSON.parse(data);
+                                    EndPageLoader();
+                                    if(response.error == true){
+                                        // alert(response.message);
+                                        // responsefullmodal(icon, title, body, page)
+                                        responsemodal("erroricon.png", "Error", response.message);
+                                        // responsefullmodal("erroricon.png", response.message, "", "");
+                                    }else{
+                                        // responsemodal("successicon.png", "Success", response.message);
+                                            // $("#editInputForm")[0].reset();
+                                            $('.dialogbox').addClass('d-none');
+                                            $('.dialogbox').removeClass('d-block');
+                                            let goto;
+                                            goto = '/dashboard/viewuseraddedinput.html';
+                                            responsefullmodal("successicon2.png", "Input Edited", "", goto);
+                                        
+                                    }
+                                })
+                                
+                                /* ------------------------------ // FORM DATA ------------------------------ */
+                            }
+                        }).catch((error) => {
+                            // Handle error
+                            console.error('An error occurred:', error);
+                        });
+                    }
+                    // End of image upload to fileServer
+                }
+            }else{
+
             }
-            // End of globalImageArrayLength
         }
 
     })

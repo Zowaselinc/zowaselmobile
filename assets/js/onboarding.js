@@ -848,6 +848,124 @@ function checkEmailScreen(){
 // checkEmailScreen
 
 
+// ResetpasswordScreen
+function resetpasswordScreen(){
+    const resetpasswordform = document.getElementById('resetpasswordform');
+    const code = document.getElementById('code');
+    const password = document.getElementById('password');
+    const password2 = document.getElementById('confirmpassword');
+            
+    //Event Listeners
+    resetpasswordform.addEventListener('submit',function(e) {
+        e.preventDefault();
+
+        if(password.value != password2.value){
+            // responsemodal("erroricon.png", "Input Error", "Passwords do not match");
+            $('.incorrectMsg').show();
+            $('#confirmPassword').addClass('shake invalidPass')
+            password2.blur(function() {
+            // (triggers whenever the password field is unselected)
+                $('#confirmPassword').trigger('reset');
+                $('.incorrectMsg').hide();
+                $('#confirmPassword').removeClass('shake').removeClass('invalidPass');
+            });
+        }else{
+            $('#confirmPassword').trigger('reset');
+            $('.incorrectMsg').hide();
+            $('#confirmPassword').removeClass('shake').removeClass('invalidPass');
+    
+            var pswd = password.value;
+            if(pswd.length >= 8 && pswd.match(/[a-z]/) && pswd.match(/[A-Z]/) && pswd.match(/\d/) && pswd.match(/[$&+,:;=?@#|'<>.^*()%!-]/) ) {
+                // alert("Good to go");
+                $('.incorrectMsg').hide();
+                $('.incorrectMsg').html('Passwords do not match!');
+
+
+                startPageLoader();
+
+                // alert("ef");
+                /********* DB CONNECTION **********/
+                $.ajax({
+                    url: `${liveGlobalBaseUrl}/password/reset`,
+                    type: "POST",
+                    "timeout": 25000,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "token": code.value,
+                        "password": password.value
+                    }),
+                    success: function(response) { 
+                        EndPageLoader();
+                        if(response.error == true){
+                            // alert(response.message);
+                            responsemodal("erroricon.png", "Error", response.message);
+                        }else{
+                            // alert(response.message);
+                            console.log(response, "response");
+                            responsemodal("successicon.png", "Success", response.message);
+                            setTimeout(()=>{
+                                localStorage.removeItem('resetEmail');
+                                location.href="login.html";
+                            },2000)      
+                        }
+                    },
+                    error: function(xmlhttprequest, textstatus, message) {
+                        EndPageLoader();
+                        // console.log(xmlhttprequest, "Error code");
+                        if(textstatus==="timeout") {
+                            basicmodal("", "Service timed out <br/>Check your internet connection");
+                        }
+                    },
+                    statusCode: {
+                        200: function(response) {
+                            console.log('ajax.statusCode: 200');
+                        },
+                        400: function(response) {
+                            console.log('ajax.statusCode: 400');
+                            console.log(response);
+                            let error = response.responseJSON.message;
+                            if(error){
+                                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                                return false;
+                            }
+                            let errors = response.responseJSON.errors;
+                            if(errors.length>0){
+                                responsemodal("erroricon.png", "Error", `${errors[0].msg} <br/> Parameter: ${errors[0].param}`);
+                            }else{
+                                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                            }
+                        },
+                        403: function(response) {
+                            console.log('ajax.statusCode: 403');
+                            basicmodal("", "Session has ended, Login again");
+                            setTimeout(()=>{
+                                logout();
+                            },3000)
+                        },
+                        404: function(response) {
+                            console.log('ajax.statusCode: 404');
+                        },
+                        500: function(response) {
+                            console.log('ajax.statusCode: 500');
+                        }
+                    }
+                });
+                /********* DB CONNECTION **********/
+
+            }else{
+                $('.incorrectMsg').show();
+                $('.incorrectMsg').html('Invalid password');
+                $('.pswd_info').fadeIn('slow');
+            }
+        }
+    })   
+
+}
+// ResetpasswordScreen
+
+
 
 
 /* --------------------------------- LOADER --------------------------------- */

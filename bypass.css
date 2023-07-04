@@ -136,14 +136,14 @@ table tbody td{
 
 
 /* ------------------------------- CROP STATUS ------------------------------ */
-.cropstatus{
+.cropstatus, .inputstatus{
     width: 15px;
     height: 15px;
     /* background-color: #54D969; */
     border: 3px solid #fff;
     border-radius: 50px;
 }
-.cropstatus2 {
+.cropstatus2, .inputstatus2 {
     width: 23px;
     height: 23px;
     /* background-color: #54D969; */
