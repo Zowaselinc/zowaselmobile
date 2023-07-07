@@ -330,9 +330,18 @@
 </script>
 
 <script>
-    setTimeout(()=>{
+    // Load index.html only once
+    if (!localStorage.getItem('indexPageLoaded')) {
+        localStorage.setItem('indexPageLoaded', true);
+        // location.reload();
         owlcarouselSettingsForAllProducts();
-    },1000);
+    } else {
+        // Redirect to a different page or perform any other action
+        // window.location.href = '/another-page.html';
+        localStorage.removeItem('indexPageLoaded');
+    }
+
+
     setTimeout(()=>{
         owlcarouselSettingsForAllProducts();
     },4000);

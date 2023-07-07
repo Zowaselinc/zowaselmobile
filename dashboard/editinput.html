@@ -285,16 +285,23 @@
                         <div class="upload__box">
                             <div class="w-100 mb-3">
                                 <label for="exampleInputEmail1" class="form-label mb-0">Product image (maximum of 1) <span class="required">*</span></label>
-                                <div class="upload__btn-box">
-                                    <label class="upload__btn">
-                                        <p style="margin:0px;padding-top:11px;color:#7e7e7e;" class="fw-bold">Upload images +</p>
-                                        <input type="file" id="inputimages" data-max_length="0" class="upload__inputfile" accept="image/png, image/jpg, image/jpeg">
-                                    </label>
-                                </div>
+                               
                                 <input type="hidden" id="DBimagesToEdit" />
 
                                 <span class="text-primary d-block" id="noimageUploadedResponse"><i>No new image uploaded yet</i></span>
-                                <div class="upload__img-wrap py-2" id="images-for-edit-preview" style="background-color: #dbdbdb;"></div>
+                                <div class="upload__img-wrap py-2" id="images-for-edit-preview"></div>
+
+                                <div class="upload__btn-box">
+                                    <label class="upload__btn py-2">
+                                        <p style="margin:0px;color:#7e7e7e;" class="fw-bold">
+                                            <img src="../assets/icons/carbon_add-filled.png" />
+                                            <br/>
+                                            Upload images +
+                                        </p>
+                                        <input type="file"
+                                        id="cropimages" data-max_length="4" class="upload__inputfile" accept="image/png, image/jpg, image/jpeg">
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="w-100 mb-3">

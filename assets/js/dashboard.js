@@ -5975,6 +5975,14 @@ function fetchUserCropsforSaleByUserID(){
 
                     $('#p_cropsByUserID').html(rowContent);
 
+                    if(thedata.length>0){
+                        // alert("carouselrowContent");
+                        owlcarouselSettingsForAllProducts();
+                        setTimeout(()=>{
+                            owlcarouselSettingsForAllProducts();
+                        },2000)
+                    }
+
                 }else{
                     let nocrop = `
                     <div class="emptyproduct-crousel-holder d-flex align-items-center text-center p-2 py-3">
@@ -6735,37 +6743,37 @@ function owlcarouselSettingsForAllProducts(){
     }
 
     function itemExpanded() {
-    var OwlSlidemactive = $(".carousel-accordion .owl-item.active"),
-        // OwlSlideItemmargin = $('.carousel-accordion .owl-item').css('marginRight').replace(/[A-Za-z]/g, ""),
-        itemsLength = 10,
-        owlFullScrnWidth = $(".carousel-accordion").width() - itemsLength,
-        normItemWidth = owlFullScrnWidth / itemsLength - 10,
-        lgItemWidth = normItemWidth * 2 + 20,
-        smItemWidth = (normItemWidth * 3) / 4 - 3;
+        var OwlSlidemactive = $(".carousel-accordion .owl-item.active"),
+            // OwlSlideItemmargin = $('.carousel-accordion .owl-item').css('marginRight').replace(/[A-Za-z]/g, ""),
+            itemsLength = 10,
+            owlFullScrnWidth = $(".carousel-accordion").width() - itemsLength,
+            normItemWidth = owlFullScrnWidth / itemsLength - 10,
+            lgItemWidth = normItemWidth * 2 + 20,
+            smItemWidth = (normItemWidth * 3) / 4 - 3;
 
-    OwlSlidemactive.hover(
-        function () {
-        var $this = $(this);
-        $this
-            .addClass("expanded")
-            .removeClass("active")
-            .find(".accordion_li")
-            .stop()
-            .animate({ width: lgItemWidth + "px" }, 500);
-        $(".carousel-accordion .active")
-            .find(".accordion_li")
-            .stop()
-            .animate({ width: smItemWidth + "px" }, 500);
-        },
-        function () {
-        var $this = $(this);
-        $this.removeClass("expanded").addClass("active");
-        $(".carousel-accordion .active")
-            .find(".accordion_li")
-            .stop()
-            .animate({ width: normItemWidth + "px" }, 500);
-        }
-    );
+        OwlSlidemactive.hover(
+            function () {
+            var $this = $(this);
+            $this
+                .addClass("expanded")
+                .removeClass("active")
+                .find(".accordion_li")
+                .stop()
+                .animate({ width: lgItemWidth + "px" }, 500);
+            $(".carousel-accordion .active")
+                .find(".accordion_li")
+                .stop()
+                .animate({ width: smItemWidth + "px" }, 500);
+            },
+            function () {
+            var $this = $(this);
+            $this.removeClass("expanded").addClass("active");
+            $(".carousel-accordion .active")
+                .find(".accordion_li")
+                .stop()
+                .animate({ width: normItemWidth + "px" }, 500);
+            }
+        );
     }
     setTimeout(()=>{
         initialize_owl($(".carousel-accordion"));
