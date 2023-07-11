@@ -214,6 +214,28 @@ function capitalizeFirstLetter(text){
 /* ---------------------- CAPITALIZE EVERY FIRST LETTER --------------------- */
 
 
+
+function callSocket(){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    // initialize the Socket.IO client and establish a connection with the server
+    // const socket = io(`${socketURL}`);
+    const socket = io(`https://api.growsel.com`);
+
+    socket.on("connect", () => {
+    console.log(socket.id, "Socket ID");
+
+    socket.emit("registerSocket", {
+        // user_id: this.userData.user.id,
+        user_id: user.user.id,
+        socket_id: socket.id,
+    });
+    });
+    // Store socket in global window object
+    window.AppSocket = socket;
+}
+
+
 function pageRestriction(){
     // alert("page restriction");
     let user = localStorage.getItem('zowaselUser');
@@ -360,6 +382,7 @@ function pageRestriction(){
     //     console.log(data, "DB Socket data");
     //     // alert("SOcket entered")
     // })
+
 }
 
 function setCookie(key,value,time){
@@ -413,6 +436,7 @@ function checkifKYCis_verified(){
             if(user.user.account_type=="company"){
                 checkifKYBis_done();
             }
+
         }
     }
 

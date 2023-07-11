@@ -32,12 +32,274 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+
+    <!-- Flickity CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flickity@2.2.2/dist/flickity.min.css" />
+    <!-- Flickity JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/flickity@2.2.2/dist/flickity.pkgd.min.js"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    
+    <style>
+        .form-select {
+            background-color: #EFEFEF;
+            border-radius: 8px;
+            border: 1px solid #EAE9F0;
+        }
+        .form-control, textarea, .ck-editor{
+            background-color: #EFEFEF;
+            border-radius: 8px;
+            border: 1px solid #EAE9F0;
+        }
+        .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
+            background-color: #EFEFEF;
+        }
+
+        .fixedheader{
+            height: 230px;
+        }
+        .after-a-fixed1-header{
+            height: calc(100vh - 235px);
+            position: fixed;
+        }
+        .dashboard-area{
+            height: calc(100vh - 320px);
+            overflow: auto;
+            /* background-color: #00e509; */
+        }
+        /* no circle */
+        .flickity-button {
+        
+        background: transparent;
+        }
+        .flickity-button:hover {
+        
+        background: transparent;
+        color: black;
+        }
+
+        .flickity-prev-next-button {
+        width: 100px;
+        height: 100px;
+        }
+        .flickity-button-icon {
+        /* fill: white; */
+        fill: var(--zowasel-darkblue-color);
+        }
+        .flickity-button:disabled {
+        display: none;
+        }
+        .flickity-viewport{
+            height: 100% !important;
+        }
+        .flickity-prev-next-button .flickity-button-icon {
+            left: -10%;
+            top: -9%;
+            width: 27%;
+            /* background: red; */
+            height: 111%;   
+            opacity: 0;
+        }
+        .flickity-prev-next-button.next {
+            right: -83px;
+        }
+
+        .carousel {
+        font-family: Arial, Helvetica, sans-serif;
+        margin:auto;
+        max-width: 680px;
+        /* height: 400px; */
+        height: 148px;
+        border-radius: 20%;
+        /* bottom: 188px; */
+        /* background: red; */
+        position: relative;
+        top: -74px;
+        }
+        .carousel-cell {
+        margin-right: 35px;
+        margin-bottom: 35px;
+        float: right;
+        /* max-width: 246px !important; */
+        max-width: 70% !important;
+        width: 100%;
+        /* height: 335px; */
+        /* height: 129px; */
+        border-radius: 15px;
+        counter-increment: carousel-cell;
+        transition: all .3s ease;
+        /* opacity: 0.3; */
+        background: #B2B7C7;
+        /* filter: blur(6px); */
+        
+        }
+        .carousel-cell.is-selected {
+        filter: blur(0);
+        opacity: 1;
+        background: var(--zowasel-green);
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        
+        /* name */
+        .carousel-cell .n {
+        font-size: 18px;
+        margin-top: 15px;
+        text-align: center;
+        color:black;
+        counter-increment: carousel-cell;
+        }
+        
+        /* button */
+        .carousel-cell .b {
+        cursor: pointer;
+        margin: auto;
+        width: 180px;
+        padding: 1px;
+        background: green;
+        border: 1px solid green;
+        border-radius: 15px;
+        font-size: 15px;
+        color: white;
+        text-align: center;
+        counter-increment: carousel-cell;
+        transition: all .3s ease;
+        }
+
+        /* picture */
+        .carousel-cell .p {
+        border-radius: 15px;
+        width: 201px;
+        height: 250px;
+        counter-increment: carousel-cell;
+        }
+        
+        .carousel-cell .b:hover {
+        background: #00e509;
+        transform: scale(1.03);
+        font-size: 16px;
+        }
+        
+        .carousel-cell .b:active {
+        background: white;
+        color: green;
+        transform: scale(0.9);
+        font-size: 16px;
+        }
+        
+        .carousel-cell .b-selected {
+        cursor: pointer;
+        margin: auto;
+        width: 180px;
+        padding: 1px;
+        background: white;
+        border: 1px solid green;
+        border-radius: 15px;
+        font-size: 15px;
+        color: green;
+        text-align: center;
+        counter-increment: carousel-cell;
+        transition: all .3s ease;
+        }
+        .flickity-slider{
+        /* left: -37px !important; */
+        }
+
+        /* <!-- -------------------------- CARD RADIO BUTTON -------------------------- --> */
+        :root {
+            --card-line-height: 1.2em;
+            --card-padding: 1em;
+            --card-radius: 0.5em;
+            --color-green: #558309;
+            --color-gray: #e2ebf6;
+            --color-dark-gray: #c4d1e1;
+            --radio-border-width: 2px;
+            --radio-size: 1.5em;
+        }
+
+        .wallet-radio {
+            font-size: inherit;
+            margin: 0;
+            position: absolute;
+            /* right: calc(var(--card-padding) + var(--radio-border-width)); */
+            /* top: calc(var(--card-padding) + var(--radio-border-width)); */
+            top: 20;
+            width: 20px !important;
+            height: 20px !important;
+        }
+        .wallet-card{
+            top: 7px !important;
+        }
+        .wallet-card .wallet-title{
+            position: relative;
+            left: 25px;
+        }
+
+        @supports(-webkit-appearance: none) or (-moz-appearance: none) { 
+            .wallet-radio {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background: #fff;
+                border: var(--radio-border-width) solid var(--color-gray);
+                border-radius: 50%;
+                cursor: pointer;
+                height: var(--radio-size);
+                outline: none;
+                transition: 
+                background 0.2s ease-out,
+                border-color 0.2s ease-out;
+                width: var(--radio-size); 
+            }
+
+            .wallet-radio::after {
+                content: '';
+                border-radius: 100%;
+                background-color: white;
+                display: block;
+                height: 0.75rem;
+                width: 69%;
+                margin: 1.5px auto;
+            }
+
+            .wallet-radio:checked {
+                background: var(--color-green);
+                border-color: var(--color-green);
+            }
+            
+            .wallet-card:hover .wallet-radio {
+                border-color: var(--color-dark-gray);
+            }
+                
+            .wallet-card:hover .wallet-radio:checked {
+                border-color: var(--color-green);
+            }
+        }
+        /* <!-- -------------------------- CARD RADIO BUTTON -------------------------- --> */
+
+
+
+        .account-details .cards-row1, .account-details .cards-row2 {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            border-bottom: 2px dashed rgba(0, 0, 0, 0.21);
+        }
+        .account-details .each-card {
+            border-right: 2px dashed rgba(0, 0, 0, 0.21);
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            padding-top: 20px;
+            padding-bottom: 10px;
+        }
+        .account-details .each-card.no-border {
+            border-right: none;
+        }
+   </style>
 
 </head>   
 <body class="">
@@ -54,7 +316,7 @@
                         <div class="left-content  w-auto">
                             <a href="javascript:void(0);" class="d-block d-flex align-items-center">
                                 <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
-                                <span class="fw-bold mx-3">Wallet   </span>
+                                <span class="fw-bold mx-3">Wallets   </span>
                             </a>
                             <br/><br/>
                         </div>
@@ -75,19 +337,65 @@
         </div> -->
         <!-- Preloader end-->
 
+
+        <!-- Wallet Flick Carousel -->
+        <div class="carousel">
+            <div class="carousel-cell wallet-card p-2" id="virtual-wallet-card" onclick="currentWalletCard('virtual')">
+                <div class="main-balance">
+                    <div class="d-flex align-items-center justify-content-between zowasel-white-color">
+                        <input name="wallettype" class="wallet-radio" type="radio" id="virtual" checked />
+                        <span class="wallet-title fw-700 f-16 fontFamily1">Virtual Wallet</span>
+                    </div>
+                    <h1 class="zowasel-white-color f-23 d-flex align-items-center">
+                        <div class="show-balance">₦<span class="wallet_balance mx-2"></span></div>
+                        <img src="../assets/icons/eyeslash.png"  style="height:16px;margin-top:-5px;" role="button" onclick="togglebalance()" />
+                    </h1>
+
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="text-white f-16 fw-500">4556778890</span>
+                        <button class="withdrawbtn fw-bold zowasel-color f-14">
+                            Withdraw <img src="../assets/icons/withdraw.png" style="margin-top:-3px;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="carousel-cell wallet-card p-2" id="vfd-wallet-card" onclick="currentWalletCard('vfd')">
+                <div class="main-balance">
+                    <div class="d-flex align-items-center justify-content-between zowasel-white-color">
+                        <input name="wallettype" class="wallet-radio" type="radio" id="vfd" />
+                        <span class="wallet-title fw-700 f-16 fontFamily1">Vfd Wallet</span>
+                    </div>
+                    <h1 class="zowasel-white-color f-23 d-flex align-items-center">
+                        <div class="show-balance">₦<span class="wallet_balance mx-2"></span></div>
+                        <img src="../assets/icons/eyeslash.png"  style="height:16px;margin-top:-5px;" role="button" onclick="togglebalance()" />
+                    </h1>
+
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="text-white f-16 fw-500">4556778890</span>
+                        <button class="withdrawbtn fw-bold zowasel-color f-14">
+                            Withdraw <img src="../assets/icons/withdraw.png" style="margin-top:-3px;" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Wallet Flick Carousel -->
+
+
+
+        
+
         <!-- Wallet Card -->
-        <div class="wallet-card" id="main">
+        <!-- <div class="wallet-card" id="main">
             <div class="container">
+
                 <div class="main-balance">
                     <div class="d-flex align-items-center justify-content-between zowasel-white-color">
                         <span class="wallet-title">Wallet Balance</span>
-                        <!-- <span class="wallet-link fw-bold d-flex align-items-center">
-                            <span class="d-block me-2">Wallet</span> 
-                            <img src="../assets/icons/rightarrow.png" role="button" style="width:11.77px;height:20px;" onclick="location.assign('/dashboard/wallet.html')" />
-                        </span> -->
                     </div>
                     <h1 class="zowasel-white-color d-flex align-items-center">
-                        <div class="show-balance">₦<span class="wallet_balance mx-2"></span><!--4,879,496--></div>
+                        <div class="show-balance">₦<span class="wallet_balance mx-2"></span></div>
                         <img src="../assets/icons/eyeslash.png"  style="height:16px;margin-top:-5px;" role="button" onclick="togglebalance()" />
                     </h1>
 
@@ -95,8 +403,9 @@
                         Withdraw <img src="../assets/icons/withdraw.png" style="margin-top:-3px;" />
                     </button>
                 </div>
+
             </div>
-        </div>
+        </div> -->
         <!-- Wallet Card -->
     </div>
     <!-- Fixd Header -->
@@ -122,26 +431,28 @@
     <!-- Banner End -->
     
     <!-- Page Content -->
-    <div class="page-content after-a-fixed1-header">
+    <div class="page-content container p-0 after-a-fixed1-header" id="main">
         
         <div class="content-inner pt-0">
-			<div class="fb">
+            <!-- ----------------------- Virtual Wallet Section ------------------------ -->
+			<div class="fb virtualwallet-section">
 
                 <!-- Switch Tabs -->
                 <div class="container p-2">
                     <div class="switch-tab d-flex align-items-center justify-content-between">
-                        <div class="btn transactionhistoryTab recentTransactionTab active" onclick="gotoRecentTransactionSection()">Recent Transactions</div>
+                        <div class="btn transactionhistoryTab recentTransactionTab active" onclick="gotoRecentTransactionSection()">Account Summary</div>
                         <span> | </span>
-                        <div class="btn transactionhistoryTab fundingHistoryTab" onclick="gotoFundingHistorySection()">Funding History</div>
+                        <div class="btn transactionhistoryTab fundingHistoryTab" onclick="gotoFundingHistorySection()">Account Details</div>
                     </div>
                 </div>
                 
                 <!-- Dashboard Area -->
                 <div class="container dashboard-area mt-4">
 
-                    <!-- Transaction Overview -->
+                    <!-- Account Overview -->
                     <div class="transaction-overview col-12 m-auto fontFamily1">
-                        <div class="container row" id="recentTransactions" style="margin-top: -25px;">
+                        <!-- ------------------------- RECENT TRANSACTION -------------------------- -->
+                        <div class="container row transaction-contents" id="recentTransactions" style="margin-top: -25px;">
                             <!-- <div class="row col-12 my-3 f-14">
                                 <div class="col-7">
                                     <span>Payment</span>
@@ -152,10 +463,11 @@
                                 </div>
                             </div> -->
                         </div>
+                        <!-- ------------------------- RECENT TRANSACTION -------------------------- -->
+                        
 
                         <!-- --------------------------- FUNDING HISTORY --------------------------- -->
-
-                        <div class="container row" id="fundingHistory" style="margin-top: -25px;display:none;">
+                        <div class="container row transaction-contents" id="fundingHistory" style="margin-top: -25px;display:none;">
                             <div class="row col-12 my-3 f-14">
                                 <div class="col-7">
                                     <span>Bank Transfer</span>
@@ -166,11 +478,129 @@
                                 </div>
                             </div>
                         </div>
-                      </div>
+                        <!-- --------------------------- FUNDING HISTORY --------------------------- -->
+                    </div>
                     <!-- Account Overview -->
 
 				</div>
-			</div>    
+			</div>  
+            <!-- ----------------------- Virtual Wallet Section ------------------------ -->
+            
+            <!-- ------------------------- VFD Wallet Section -------------------------- -->
+            <div class="fb vfdwallet-section" style="display: none;">
+
+                <!-- Switch Tabs -->
+                <div class="container p-2">
+                    <div class="switch-tab d-flex align-items-center justify-content-between">
+                        <div class="btn lh-23 transactionhistoryTab vfdAccSummaryTab active" onclick="gotoVfdAccSummary()">Account Summary</div>
+                        <span> | </span>
+                        <div class="btn lh-23 transactionhistoryTab vfdAccDetailsTab" onclick="gotoVfdAccDetails()">Account Details</div>
+                        <span> | </span>
+                        <div class="btn lh-23 transactionhistoryTab vfdTransferTab" onclick="gotoVfdTransfer()">Transfer</div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Area -->
+                <div class="container dashboard-area mt-4">
+
+                    <!-- Account Overview -->
+                    <div class="transaction-overview col-12 m-auto fontFamily1">
+                        <!-- ------------------------- VFD ACCOUNT SUMMARY -------------------------- -->
+                        <div class="container row transaction-contents p-0" id="vfdAccSummary" style="margin-top: -25px;">
+                            <div class="my-3 f-14">
+                                <div class="col-7">
+                                    <span>Payment</span>
+                                    <span class="d-block f-10">28th June; 4pm</span>
+                                </div>
+                                <div class="col-5 px-0" style="text-align:right;">
+                                    <span class="zowasel-darkblue-color fw-bold">₦ 445,445,445</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ------------------------- VFD ACCOUNT SUMMARY -------------------------- -->
+                        
+
+                        <!-- --------------------------- VFD ACCOUNT DETAILS --------------------------- -->
+                        <div class="container row transaction-contents p-0" id="vfdAccDetails" style="margin-top: -25px;display:none;">
+                            <div class="my-3 f-14">
+                                
+                                <div class="account-details">
+                                    <div class="cards-row1">
+                                        <div class="col-6 px-2 each-card">
+                                            <h4 class="f-14 fw-700 lh-16 fontFamily1">Account Number</h4>
+                                            <p class="f-14 fw-500 lh-21">9646401710</p>
+                                        </div>
+                                        <div class="col-6 px-2 each-card no-border">
+                                            <h4 class="f-14 fw-700 lh-16 fontFamily1">Date Of Creation</h4>
+                                            <p class="f-14 fw-500 lh-21">07 July 2023</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="cards-row2">
+                                        <div class="col-6 px-2 ps-2 each-card outflow text-danger">
+                                            <h4 class="f-14 fw-700 lh-16 fontFamily1 text-danger">Outflow</h4>
+                                            <p class="f-14 fw-500 lh-21">NGN 0.00</p>
+                                        </div>
+                                        <div class="col-6 px-2 each-card inflow zowasel-color no-border">
+                                            <h4 class="f-14 fw-700 lh-16 fontFamily1 zowasel-color">Inflow</h4>
+                                            <p class="f-14 fw-500 lh-21">NGN 0.00</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row cards-row3">
+                                        <div class="col-6 px-2 each-card" style="padding-left:23px !important;">
+                                            <h4 class="f-14 fw-700 lh-16 fontFamily1">Transactions</h4>
+                                            <p class="f-14 fw-500 lh-21">0</p>
+                                        </div>
+                                        <div class="col-6 px-2 each-card no-border">
+                                            <h4 class="f-14 fw-700 lh-16 fontFamily1">Total Deposits</h4>
+                                            <p class="f-14 fw-500 lh-21">NGN 0.00</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- --------------------------- VFD ACCOUNT DETAILS --------------------------- -->
+
+
+                        <!-- --------------------------- VFD TRANSFER --------------------------- -->
+                        <div class="container row transaction-contents p-0" id="vfdTransfer" style="margin-top: -25px;display:none;">
+                            <div class="my-3 f-14">
+                                <form action="">
+                                    <div class="w-100 mb-3">
+                                        <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Select Bank <span class="required">*</span></label>
+                                        <select class="form-control" id="quantity" required="">
+                                            <option value="">Choose...</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-100 mb-3">
+                                        <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Account Number <span class="required">*</span></label>
+                                        <input type="number" class="form-control" id="account_number" placeholder="1234 5678 90" required="" />
+                                    </div>
+                                    <div class="w-100 mb-3">
+                                        <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Amount <span class="required">*</span></label>
+                                        <input type="number" class="form-control" id="amount" placeholder="Amount" required="" />
+                                    </div>
+                                    <div class="w-100 mb-3">
+                                        <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Account Name <span class="required">*</span></label>
+                                        <input type="number" class="form-control" readonly id="account_name" placeholder="Account Name" required="" />
+                                    </div>
+
+                                    <button type="submit" class="btn mt-2 btn-success w-50 btn-rounded">Transfer</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- --------------------------- VFD TRANSFER --------------------------- -->
+
+                    </div>
+                    <!-- Account Overview -->
+
+				</div>
+			</div>
+            <!-- ------------------------- VFD Wallet Section -------------------------- -->
+
 		</div>
         
     </div>    
@@ -233,20 +663,96 @@
     pageRestriction();
 </script>
 
+
 <script>
-    const gotoFundingHistorySection =()=>{
+    $(document).ready(function(){
+        $(".b").click(function(){
+            $(this).toggleClass("b");
+            $(this).toggleClass("b-selected");
+        });
+    });
+
+    var elem = document.querySelector('.carousel');
+    var flkty = new Flickity( elem, {
+        // options
+        cellalign: 'right',
+        pageDots: false,
+        groupCells: '20%',
+        selectedAttraction: 0.03,
+        friction: 0.15
+    });
+    var flkty = new Flickity( '.carousel', {
+    // options
+    });
+
+    function currentWalletCard(cardtype){
+        // alert(cardtype);
+        if(cardtype=="virtual"){
+            $('.wallet-radio').attr('checked',false)
+            $('input#virtual').attr('checked',true)
+        }
+        if(cardtype=="vfd"){
+            $('.wallet-radio').attr('checked',false)
+            $('input#vfd').attr('checked',true)
+        }
+    }
+
+    // $('.flickity-button').click(function(){
+    //     $('.wallet-card .main-balance .wallet-radio').attr('checked',false)
+    //     $('.wallet-card.is-selected .main-balance .wallet-radio').attr('checked',true)
+    // })
+    setInterval(()=>{
+        $('.wallet-card .main-balance .wallet-radio').attr('checked',false)
+        $('.wallet-card.is-selected .main-balance .wallet-radio').attr('checked',true)
+
+        if($("#virtual-wallet-card").hasClass('is-selected')){
+            // alert("virtual");
+            $('.virtualwallet-section').show();
+            $('.vfdwallet-section').hide();
+        }
+        if($("#vfd-wallet-card").hasClass('is-selected')){
+            // alert("vfd");
+            $('.virtualwallet-section').hide();
+            $('.vfdwallet-section').show();
+        }
+    },1000)
+
+</script>
+
+<script>
+    function gotoRecentTransactionSection(){
+        $('.transactionhistoryTab').removeClass('active');
+        $('.recentTransactionTab').addClass('active');
+        $('#fundingHistory').hide();
+        $('#recentTransactions').show();
+    }
+    function gotoFundingHistorySection(){
         $('.transactionhistoryTab').removeClass('active');
         $('.fundingHistoryTab').addClass('active');
         $('#recentTransactions').hide();
         $('#fundingHistory').show();
     }
 
-    const gotoRecentTransactionSection =()=>{
+    // <!-- ------------------------------ VFD TABS ------------------------------- -->
+    function gotoVfdAccSummary(){
         $('.transactionhistoryTab').removeClass('active');
-        $('.recentTransactionTab').addClass('active');
-        $('#fundingHistory').hide();
-        $('#recentTransactions').show();
+        $('.vfdAccSummaryTab').addClass('active');
+        $('.transaction-contents').hide();
+        $('#vfdAccSummary').show();
     }
+    function gotoVfdAccDetails(){
+        $('.transactionhistoryTab').removeClass('active');
+        $('.vfdAccDetailsTab').addClass('active');
+        $('.transaction-contents').hide();
+        $('#vfdAccDetails').show();
+    }
+    function gotoVfdTransfer(){
+        $('.transactionhistoryTab').removeClass('active');
+        $('.vfdTransferTab').addClass('active');
+        $('.transaction-contents').hide();
+        $('#vfdTransfer').show();
+    }
+    // <!-- ------------------------------ VFD TABS ------------------------------- -->
 </script>
 
 </body>
