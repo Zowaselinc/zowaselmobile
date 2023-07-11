@@ -220,7 +220,7 @@ function callSocket(){
     user = JSON.parse(user);
     // initialize the Socket.IO client and establish a connection with the server
     // const socket = io(`${socketURL}`);
-    const socket = io(`https://api.growsel.com`);
+    const socket = io(`${socketProductionURL}`);
 
     socket.on("connect", () => {
     console.log(socket.id, "Socket ID");
