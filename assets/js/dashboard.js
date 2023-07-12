@@ -223,13 +223,13 @@ function callSocket(){
     const socket = io(`${socketProductionURL}`);
 
     socket.on("connect", () => {
-    console.log(socket.id, "Socket ID");
+        console.log(socket.id, "Socket ID");
 
-    socket.emit("registerSocket", {
-        // user_id: this.userData.user.id,
-        user_id: user.user.id,
-        socket_id: socket.id,
-    });
+        socket.emit("registerSocket", {
+            // user_id: this.userData.user.id,
+            user_id: user.user.id,
+            socket_id: socket.id,
+        });
     });
     // Store socket in global window object
     window.AppSocket = socket;
@@ -1129,6 +1129,25 @@ const populateWalletDetails=()=>{
                     $('.show-balance').html(`<span class="mt-3 me-2">**********</span>`);
                 }
 
+                let vfd = response.vfd;
+                if(vfd){
+                    if(showbalance==false||showbalance=="false"){
+                        $('.show-vfdbalance').html(`<span class="mt-3 me-2">**********</span>`);
+                    }
+                    if(showbalance==true||showbalance=="true"){
+                        $('.show-vfdbalance').html(`₦<span class='wallet_balance mx-2 mt-2'>${0}</span>`);
+                    }
+                    $('.vfd_acc_number').html(vfd.account_number);
+                    let created_at = vfd.created_at;
+                    const date = new Date(created_at);
+                    const formattedDate = date.toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    });
+                    $('.vfd_acc_created_at').html(formattedDate);
+                }
+
                 
             }
         },
@@ -1174,14 +1193,17 @@ const togglebalance=()=>{
     // alert(showbalance);
     if(showbalance==null||showbalance=="null"){ // not saved in cookies or false
         $('.show-balance').html(`<span class="mt-3 me-2">**********</span>`);
+        $('.show-vfdbalance').html(`<span class="mt-3 me-2">**********</span>`);
         setCookie(key,value,0.5);
     }
     if(showbalance==true||showbalance=="true"){
         $('.show-balance').html(`<span class="mt-3 me-2">**********</span>`);
+        $('.show-vfdbalance').html(`<span class="mt-3 me-2">**********</span>`);
         setCookie(key,false,0.5);
     }
     if(showbalance==false||showbalance=="false"){
         $('.show-balance').html(`₦<span class='wallet_balance mx-2 mt-2'>${globalWalletBalance}</span>`);
+        $('.show-vfdbalance').html(`<span class="wallet_balance mx-2 mt-2">${0}</span>`);
         setCookie(key,true,365);
     }
     

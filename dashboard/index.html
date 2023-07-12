@@ -42,6 +42,7 @@
     
     <link rel="stylesheet" href="../assets/owlcarousel/owlcarousel.min.css">
     <link rel="stylesheet" href="../assets/owlcarousel/owltheme.default.min.css">  
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 
     <!-- <script src="../assets/js/plugins/push.min.js"></script>
     <script src="../assets/js/plugins/serviceworker.min.js"></script> -->
@@ -358,6 +359,58 @@
             owlcarouselSettingsForAllProducts();
         },2000);
     })
+
+
+    // Define the initial state
+    let notifications = [];
+    let notify = false;
+    let newNotification = false; 
+  
+
+    let userr = localStorage.getItem('zowaselUser');
+    userr = JSON.parse(userr);
+    // initialize the Socket.IO client and establish a connection with the server
+    // const socket = io(`${socketURL}`);
+    const socket = io(`${socketProductionURL}`);
+
+
+    socket.on("connect", () => {
+        console.log(socket.id, "Socket ID");
+
+        socket.emit("registerSocket", {
+            // user_id: this.userData.user.id,
+            user_id: userr.user.id,
+            socket_id: socket.id,
+        });
+
+        // Subscribe to the "notification" event
+        socket.emit("notification", (data) => {
+            console.log(data, "NOTIFICATION DATA");
+            alert(22);
+
+            // Add the new notification to the array
+            notifications.push(data);
+
+            // Update the newNotification flag
+            newNotification = true;
+
+            // Play the notifyAudio audio element
+            // const notifyAudio = document.querySelector("#notify-audio");
+            // if (notifyAudio) {
+            //     notifyAudio.play();
+            // }
+        })
+    });
+    // Store socket in global window object
+    window.AppSocket = socket;
+
+
+     
+
+//     socket.on("notification", (data) => {
+//     console.log("Received notification:", data);
+//     // Rest of the code to handle the notification
+//   });
 </script>
 
 <script>
