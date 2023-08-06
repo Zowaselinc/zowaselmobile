@@ -16,7 +16,7 @@
 	<meta name="format-detection" content="telephone=no">
 	
     <!-- Favicons Icon -->
-	<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon.png" />
+	<link rel="shortcut icon" type="image/x-icon" href="../logos/zowaselICO.png" />
     
     <!-- Title -->
 	<title>Zowasel Mobile Web</title>
@@ -344,7 +344,7 @@
                 <div class="main-balance">
                     <div class="d-flex align-items-center justify-content-between zowasel-white-color">
                         <input name="wallettype" class="wallet-radio" type="radio" id="virtual" checked />
-                        <span class="wallet-title fw-700 f-16 fontFamily1">Virtual Wallet</span>
+                        <span class="wallet-title fw-700 f-16 fontFamily1"><!--Virtual Wallet-->My Account</span>
                     </div>
                     <h1 class="zowasel-white-color f-23 d-flex align-items-center">
                         <div class="show-balance">₦<span class="wallet_balance mx-2"></span></div>
@@ -364,7 +364,7 @@
                 <div class="main-balance">
                     <div class="d-flex align-items-center justify-content-between zowasel-white-color">
                         <input name="wallettype" class="wallet-radio" type="radio" id="vfd" />
-                        <span class="wallet-title fw-700 f-16 fontFamily1">Vfd Wallet</span>
+                        <span class="wallet-title fw-700 f-16 fontFamily1">Vfd Account</span>
                     </div>
                     <h1 class="zowasel-white-color f-23 d-flex align-items-center">
                         <div class="show-vfdbalance">₦<span class="wallet_balance mx-2">0</span></div>
@@ -440,9 +440,9 @@
                 <!-- Switch Tabs -->
                 <div class="container p-2">
                     <div class="switch-tab d-flex align-items-center justify-content-between">
-                        <div class="btn transactionhistoryTab recentTransactionTab active" onclick="gotoRecentTransactionSection()">Account Summary</div>
+                        <div class="btn transactionhistoryTab recentTransactionTab active" onclick="gotoRecentTransactionSection()">Recent Transactions</div>
                         <span> | </span>
-                        <div class="btn transactionhistoryTab fundingHistoryTab" onclick="gotoFundingHistorySection()">Account Details</div>
+                        <div class="btn transactionhistoryTab fundingHistoryTab" onclick="gotoFundingHistorySection()">Withdrawal History</div>
                     </div>
                 </div>
                 
@@ -468,7 +468,7 @@
 
                         <!-- --------------------------- FUNDING HISTORY --------------------------- -->
                         <div class="container row transaction-contents" id="fundingHistory" style="margin-top: -25px;display:none;">
-                            <div class="row col-12 my-3 f-14">
+                            <!-- <div class="row col-12 my-3 f-14">
                                 <div class="col-7">
                                     <span>Bank Transfer</span>
                                     <span class="d-block f-10">28th June; 4pm</span>
@@ -476,7 +476,7 @@
                                 <div class="col-5 px-0" style="text-align:right;">
                                     <span class="zowasel-darkblue-color fw-bold">₦ 445,445,445</span>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- --------------------------- FUNDING HISTORY --------------------------- -->
                     </div>
@@ -507,13 +507,18 @@
                     <div class="transaction-overview col-12 m-auto fontFamily1">
                         <!-- ------------------------- VFD ACCOUNT SUMMARY -------------------------- -->
                         <div class="container row transaction-contents p-0" id="vfdAccSummary" style="margin-top: -25px;">
-                            <div class="my-3 f-14">
+                            <!-- <div class="my-3 f-14">
                                 <div class="col-7">
                                     <span>Payment</span>
                                     <span class="d-block f-10">28th June; 4pm</span>
                                 </div>
                                 <div class="col-5 px-0" style="text-align:right;">
                                     <span class="zowasel-darkblue-color fw-bold">₦ 445,445,445</span>
+                                </div>
+                            </div> -->
+                            <div class="my-3 f-14">
+                                <div class="col-12">
+                                    <span>No Account Summary</span>
                                 </div>
                             </div>
                         </div>
@@ -571,7 +576,7 @@
                                 <form action="">
                                     <div class="w-100 mb-3">
                                         <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Select Bank <span class="required">*</span></label>
-                                        <select class="form-control" id="quantity" required="">
+                                        <select class="form-control" id="selectedbank" required="">
                                             <option value="">Choose...</option>
                                         </select>
                                     </div>
@@ -659,6 +664,7 @@
     populateUserDetails();
     populateWalletDetails();
     fetchRecentTransactions();
+    fetchWithdrawalHistory();
     // buttommenu();
     pageRestriction();
 </script>
@@ -747,6 +753,7 @@
         $('#vfdAccDetails').show();
     }
     function gotoVfdTransfer(){
+        fetchAllBanks();
         $('.transactionhistoryTab').removeClass('active');
         $('.vfdTransferTab').addClass('active');
         $('.transaction-contents').hide();

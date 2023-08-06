@@ -1130,6 +1130,7 @@ const populateWalletDetails=()=>{
                 }
 
                 let vfd = response.vfd;
+                // console.log("vfd => ", vfd);
                 if(vfd){
                     if(showbalance==false||showbalance=="false"){
                         $('.show-vfdbalance').html(`<span class="mt-3 me-2">**********</span>`);
@@ -1411,6 +1412,192 @@ function grabSingleTransaction(){
     });
 }
 /* ------------------------- GRAB SINGLE TRANSACTION ------------------------ */
+
+
+
+/* ------------------------ FETCH WITHDRAWAL HISTORY ------------------------ */
+function fetchWithdrawalHistory(){
+    $.ajax({
+        url: `${liveMobileUrl}/wallet/virtual/allwithdrawalhistory`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            // console.log(response, "The recent transactions response");
+            if(response.error == true){
+                // alert(response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+                $('#fundingHistory').html("<h5 class='text-center'>"+response.message+"</h5>");
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                let rowContent = "";
+                let index;
+                // console.log(thedata, "All Recent transactions");
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                      // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        let date = row.created_at;
+                        let dateFormat = moment(date, "YYYY-MM-DD h:mm:ss").fromNow();
+
+                        let priceClass;
+                        if(row.status=="completed"){
+                            priceClass = "text-success";
+                        }else if(row.status=="pending"){
+                            priceClass = "text-warning";
+                        }else{
+                            priceClass = "text-danger";
+                        }
+
+                        rowContent += `
+                        <div class="row col-12 my-3 f-14">
+                            <div class="col-7">
+                                <span class="zowasel-darkblue-color fw-bold price">₦${toCommas(row.amount)}</span>
+                                <span class="d-block f-10">${dateFormat}</span>
+                            </div>
+                            <div class="col-5 px-0" style="text-align:right;">
+                                <span class="text-capitalize ${priceClass}">${row.status}</span>
+                            </div>
+                        </div>
+                        `;   
+                    }
+                    $('#fundingHistory').html(rowContent);
+          
+                }else{
+                    $('#fundingHistory').html("<h5 class='text-center'>No withdrawal history</h5>");
+                }
+
+                lazyLoading();
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                // console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                // responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                $('#fundingHistory').html("<h5 class='text-center'>"+response.responseJSON.message+"</h5>");
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+}
+/* ------------------------ FETCH WITHDRAWAL HISTORY ------------------------ */
+
+
+
+/* ------------------- CALL FLUTTERWAVE FETCH ALL BANK API ------------------ */
+function fetchAllBanks(){
+    startPageLoader();
+    $.ajax({
+        url: `https://api.flutterwave.com/v3/banks/NG`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": "BEARER FLWSECK_TEST-SANDBOXDEMOKEY-X"
+        },
+        "crossDomain": true,
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            // console.log(response, "The recent transactions response");
+            if(response.status !== "success"){
+                // alert(response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+                console.log(response.message);
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                let rowContent = "";
+                let index;
+                // console.log(thedata, "All Recent transactions");
+                if(thedata.length > 0){
+                    for (let i = 0; i < thedata.length; i++) {
+                      // console.log('Hello World', + i);
+                        let row = thedata[i];
+                        index= i+1;
+
+                        rowContent += `
+                            <option value="${row.name}">${row.name}</option>
+                        `;   
+                    }
+                    $('#selectedbank').append(rowContent);
+          
+                }else{
+                    console.log("No bank found from third party");
+                }
+
+                lazyLoading();
+                    
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                // console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                // responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                $('#fundingHistory').html("<h5 class='text-center'>"+response.responseJSON.message+"</h5>");
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+}
+/* ------------------- CALL FLUTTERWAVE FETCH ALL BANK API ------------------ */
 
 
 
@@ -2645,6 +2832,10 @@ function populateSingleProductDetails(){
                 }
 
                 /* -------------------------------- EDIT CROP ------------------------------- */
+
+                /* -------------------- getNotificationSubscriptionStatus ------------------- */
+                getNotificationSubscriptionStatus(thedata.user_id, thedata.subcategory_id);
+                /* -------------------- getNotificationSubscriptionStatus ------------------- */
             }
         },
         error: function(xmlhttprequest, textstatus, message) {
@@ -2674,6 +2865,207 @@ function populateSingleProductDetails(){
         }
     })
 }
+
+
+function getNotificationSubscriptionStatus(usertype_id, subcategorytype_id){
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/notificationsubscription/status/${usertype_id}/${subcategorytype_id}`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            setTimeout(()=>{
+                EndPageLoader();
+            },1500)
+            console.log(response, "The logged response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                console.log(response.message, "getNotificationSubscriptionStatus");
+                let thedata = response.data;
+                // console.log(thedata);
+                if(thedata.subscribedtouser){
+                    $('.p_userSubscriptionButton').html(`
+                        <button class="btn btn-sm text-white border-white f-14 p-2 py-1" style="background:#0065FF;"
+                        onclick="notificationUnSubscribe('user', ${thedata.subscribedtouser_id})">
+                            Subscribed
+                        </button>
+                    `);
+                }else{
+                    $('.p_userSubscriptionButton').html(`
+                        <button class="btn btn-sm bg-white border-primary f-14 p-2 py-1" style="color:#0065FF;"
+                        onclick="notificationSubscribe('user', ${usertype_id})">
+                            Subscribe
+                        </button>
+                    `);
+                }
+
+                if(thedata.subscribedtosubcategory){
+                    $('.p_subCategorySubscriptionButton').html(`
+                        <button class="btn btn-sm text-white border-white f-14 p-2 py-1" style="background:#0065FF;" 
+                        onclick="notificationUnSubscribe('subcategory', ${thedata.subscribedtosubcategory_id})">
+                            Subscribed
+                        </button>
+                    `);
+                }else{
+                    $('.p_subCategorySubscriptionButton').html(`
+                        <button class="btn btn-sm bg-white border-primary f-14 p-2 py-1" style="color:#0065FF;"
+                        onclick="notificationSubscribe('subcategory', ${subcategorytype_id})">
+                            Subscribe
+                        </button>
+                    `);
+                }
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    })
+}
+
+
+/* ------------------- Notification Subscribe/Unsubscribe ------------------- */
+function notificationSubscribe(subscriptionType, subscriptiontype_id){
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/notificationsubscription/${subscriptionType}/${subscriptiontype_id}`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            setTimeout(()=>{
+                EndPageLoader();
+            },1500)
+            console.log(response, "The logged response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                console.log(response.message, "notificationSubscribe message");
+                responsemodal("successicon2.png", response.message, "");
+                setTimeout(()=>{
+                    location.reload();
+                },1500)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    })
+}
+
+function notificationUnSubscribe(subscriptionType, subscriptiontype_id){
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/notificationunsubscription/${subscriptionType}/${subscriptiontype_id}`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // alert("efe");
+            setTimeout(()=>{
+                EndPageLoader();
+            },1500)
+            console.log(response, "The logged response");
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                console.log(response.message, "notificationSubscribe message");
+                responsemodal("successicon2.png", response.message, "");
+                setTimeout(()=>{
+                    location.reload();
+                },1500)
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    })
+}
+/* ------------------- Notification Subscribe/Unsubscribe ------------------- */
 
 
 function gotoNegotiation(){
@@ -5891,6 +6283,7 @@ function confirmaccepted(section, section_id){
 
 
 /* --------------------- FETCH CROPS FOR SALE BY USERID --------------------- */
+let globalUserCropsforSaleByUserID = "";
 function fetchUserCropsforSaleByUserID(){
     startPageLoader();
 
@@ -5918,6 +6311,7 @@ function fetchUserCropsforSaleByUserID(){
             }else{
                 // alert(response.message);
                 let thedata = response.data.rows;
+                globalUserCropsforSaleByUserID = thedata;
                 let rowContent = "";
                 let carouselrowContent = "";
                 let index;
@@ -7165,7 +7559,8 @@ function getVals(){
 // When you click on the filter button at the header section, we collect the filter page props
 // When clicked call the function filterpage(filterproductpage)
 function filterproduct(filterproductpage){
-    if(filterproductpage=="cropsforauction" || filterproductpage=="cropsforsale"){
+    if(filterproductpage=="cropsforauction" || filterproductpage=="cropsforsale" 
+    || filterproductpage=="viewusercropsforsale" || filterproductpage=="viewusercropsforauction"){
         $.get( "./components/cropfilter.html", function( data ) {
             $("#cropfilterPage").html( data );
             $('#cropfilterPage').removeClass('d-none').addClass('d-block');
@@ -7211,6 +7606,7 @@ let filteredDataCropsforAuction, filteredDataCropsforSale;
 let filteredDataInputs;
 // filterpage() is called immediately the filter button is clicked at the header which has d function filterproduct()
 function filterpage(currentPagetoFilter){
+    // alert(currentPagetoFilter);
     document.getElementById('filterForm').addEventListener('submit', function(event) {
         event.preventDefault();
         var checkboxes = document.querySelectorAll('#filterForm #producttype input[type="checkbox"]');
@@ -7311,8 +7707,13 @@ function filterpage(currentPagetoFilter){
         //     return filterItems.includes(item.id);
         // });
                 
-        if(currentPagetoFilter=="cropsforauction"){
+        if(currentPagetoFilter=="cropsforauction" || currentPagetoFilter=="viewusercropsforauction"){
             console.log("globalCropsforAuction", globalCropsforAuction);
+            // alert(currentPagetoFilter);
+            // let globalCropsforAuction_For_Usertype;
+            // if(currentPagetoFilter=="cropsforauction"){ globalCropsforAuction_For_Usertype = globalCropsforAuction; }
+            // if(currentPagetoFilter=="viewusercropsforsale"){ globalCropsforAuction_For_Usertype = globalCropsforAuction; }
+            // console.log("globalCropsforAuction_For_Usertype", globalCropsforAuction_For_Usertype);
             // Filtering out items(globalCropsforAuction) with specific conditions
             let filteredProducttype = globalCropsforAuction.filter(function(item) {
                 // Filter condition: Exclude items with ID 2 and 4
@@ -7327,11 +7728,14 @@ function filterpage(currentPagetoFilter){
             populateCropforAuctionFilter();
         }
         
-        if(currentPagetoFilter=="cropsforsale"){
+        if(currentPagetoFilter=="cropsforsale" || currentPagetoFilter=="viewusercropsforsale"){
             // alert(currentPagetoFilter);
-            console.log("globalCropsforSale", globalCropsforSale);
+            let globalCropsforSale_For_Usertype;
+            if(currentPagetoFilter=="cropsforsale"){ globalCropsforSale_For_Usertype = globalCropsforSale; }
+            if(currentPagetoFilter=="viewusercropsforsale"){ globalCropsforSale_For_Usertype = globalUserCropsforSaleByUserID; }
+            console.log("globalCropsforSale_For_Usertype", globalCropsforSale_For_Usertype);
             // Filtering out items(globalCropsforSale) with specific conditions
-            let filteredProducttype = globalCropsforSale.filter(function(item) {
+            let filteredProducttype = globalCropsforSale_For_Usertype.filter(function(item) {
                 // Filter condition: Exclude items with ID 2 and 4
                 // return item.id !== 2 && item.id !== 4;
                 return selectedProductTypes.includes(item.category_id);
@@ -7576,8 +7980,10 @@ function populateCropforSaleFilter(){
             `;   
         }
         $('#p_allcropsforsale').html(rowContent);
+        $('#p_cropsByUserID').html(rowContent);
     }else{
         $('#p_allcropsforsale').html("Filtered item not found");
+        $('#p_cropsByUserID').html("Filtered item not found");
     }
     
     lazyLoading();

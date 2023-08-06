@@ -52,8 +52,11 @@
                     <div class="header-content">
                         <div class="left-content  w-auto">
                             <a href="javascript:void(0);" class="d-block d-flex align-items-center">
-                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
-                                <span class="fw-bold mx-3">My Crops For Sale</span>
+                                <img class="back-btn notforFilter" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
+                                <span class="fw-bold mx-3 notforFilter">My Crops For Sale</span>
+
+                                <img class="forFilter d-none" src="../assets/icons/cancelwhite.png" onclick="closecropFilter()" style="width:16px;height:16px;" /> 
+                                <span class="fw-bold mx-3 forFilter d-none">Filter By</span>
                             </a>
                             <br/><br/>
                         </div>
@@ -61,7 +64,7 @@
                         </div>
                         <div class="right-content d-flex align-items-center">
                             <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
-                            <button class="btn notforFilter zowasel-bg text-white btn-sm p-2 px-2" onclick="filterproduct('cropsforsale')">
+                            <button class="btn notforFilter zowasel-bg text-white btn-sm p-2 px-2" onclick="filterproduct('viewusercropsforsale')">
                                 Filter <img src="../assets/icons/filter.png" width="16px" class="ms-2" />
                             </button>
                             <img src="../assets/icons/homegray.png" class="ms-2" onclick="location.assign('/dashboard/index.html')" />
@@ -103,7 +106,7 @@
 
     
     <!-- Page Content -->
-    <div id="main" class="page-content bottom-content ">
+    <div id="main" class="notforFilter page-content bottom-content ">
         <div class="container">
             
             <!-- TITLE -->
@@ -170,11 +173,11 @@
                 </ul>
                     
 
-                 <div class="saprater"></div>  
+                <div class="saprater"></div>
 
-                 <!-- LOAD MORE -->
-                 <div id="more" class="text-center">Load More</div>
-                 <!-- LOAD MORE -->
+                <!-- LOAD MORE -->
+                <div id="more" class="text-center">Load More</div>
+                <!-- LOAD MORE -->
 
       
              </div>
@@ -184,8 +187,18 @@
     </div>
     <!-- Page Content End-->
 
+
+
+    <!-- Filter Page Content -->
+    <div id="cropfilterPage" class="forFilter page-content">
+        
+    </div>
+    <!-- Filter Page Content -->
+
+
+
     <!-- Menubar -->
-	<div class="menubar-area" id="buttommenu" style="background: transparent !important;box-shadow:none;">
+	<div class="notforFilter menubar-area" id="buttommenu" style="background: transparent !important;box-shadow:none;">
 		
 	</div>
 	<!-- Menubar -->
