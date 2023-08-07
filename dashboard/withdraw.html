@@ -12,11 +12,11 @@
 	<meta name="description" content="Zowasel"/>
 	<meta property="og:title" content="Zowasel" />
 	<meta property="og:description" content="Zowasel" />
-	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
+	<meta property="og:image" content="https://zowasel.com/images/logos/white%20logo.png"/>
 	<meta name="format-detection" content="telephone=no">
 	
     <!-- Favicons Icon -->
-	<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon.png" />
+	<link rel="shortcut icon" type="image/x-icon" href="../logos/zowaselICO.png" />
     
     <!-- Title -->
 	<title>Zowasel Mobile Web</title>
@@ -24,12 +24,14 @@
 	<!-- PWA Version -->
 	<!-- <link rel="manifest" href="manifest.json"> -->
     
-    <!-- Stylesheets -->
+     <!-- Stylesheets -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
     <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
-    <!-- <link rel="stylesheet" type="text/css" href="../bypass.css"> -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,28 +42,38 @@
 <body class="bg-white">
 <div class="page-wraper">
     
-    <!-- Header -->
-    <header class="header">
-        <div class="main-bar">
-            <div class="container">
-                <div class="header-content">
-                    <div class="left-content">
-                        <a href="javascript:void(0);" class="back-btn">
-                            <svg width="18" height="18" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M9.03033 0.46967C9.2966 0.735936 9.3208 1.1526 9.10295 1.44621L9.03033 1.53033L2.561 8L9.03033 14.4697C9.2966 14.7359 9.3208 15.1526 9.10295 15.4462L9.03033 15.5303C8.76406 15.7966 8.3474 15.8208 8.05379 15.6029L7.96967 15.5303L0.96967 8.53033C0.703403 8.26406 0.679197 7.8474 0.897052 7.55379L0.96967 7.46967L7.96967 0.46967C8.26256 0.176777 8.73744 0.176777 9.03033 0.46967Z" fill="#a19fa8"/>
-							</svg>
-                        </a>
-                        <h5 class="mb-0 ms-2">Withdraw</h5>
-                    </div>
-                    <div class="mid-content">
-                    </div>
-                    <div class="right-content">
+    <!-- Fixd Header -->
+    <div class="fixedheader">
+        <!-- Header -->
+        <header class="header header-type2">
+            <div class="main-bar5">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="left-content  w-auto">
+                            <a href="javascript:void(0);" class="d-block d-flex align-items-center">
+                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
+                                <span class="fw-bold mx-3">Withdraw</span>
+                            </a>
+                            <br/><br/>
+                        </div>
+                        <div class="mid-content">
+                        </div>
+                        <div class="right-content">
+                            <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
-    <!-- Header End -->
+        </header>
+        <!-- Header End -->
+        
+        <!-- Preloader -->
+        <!-- <div id="preloader">
+            <div class="spinner"></div>
+        </div> -->
+        <!-- Preloader end-->
+    </div>
+    <!-- Fixd Header -->
     
     <!-- Preloader -->
 	<!-- <div id="preloader">
@@ -77,12 +89,12 @@
     
    
     <!-- Banner -->
-	<!-- <div class="author-notification">
+	<div class="author-notification">
 		<div class="container inner-wrapper">
 			
 				
 		</div>
-	</div> -->
+	</div>
     <!-- Banner End -->
 
     
@@ -110,30 +122,31 @@
 									<input type="text" class="form-control" placeholder="300,000">
 								</div>
 
-                                <label style="color:#4a4754">Bank</label>
+                                <label style="color:#4a4754">OTP</label>
 								<div class="mb-3 input-group">
-									<span class="input-group-text"><i class="fa fa-bank"></i></span>
-									<!-- <select class="form-control">
-                                        <option>UBA</option>
-                                        <option>UBA</option>
-                                        <option>UBA</option>
-                                        <option>UBA</option>
-                                        <option>UBA</option>
-                                    </select> -->
-                                    <input type="text" class="form-control" placeholder="Bank Name">
+									<span class="input-group-text"><i class="fas fa-key"></i></span>
+									<input type="text" class="form-control" placeholder="Enter 6 digit OTP sent to mail">
 								</div>
 
-                                <label style="color:#4a4754">Account Number</label>
+                                <span class="zowasel-color fw-500" role="button">Resend OTP</span>
+
+                                <!-- <label style="color:#4a4754">Bank</label>
+								<div class="mb-3 input-group">
+									<span class="input-group-text"><i class="fa fa-bank"></i></span>
+                                    <input type="text" class="form-control" placeholder="Bank Name">
+								</div> -->
+
+                                <!-- <label style="color:#4a4754">Account Number</label>
 								<div class="mb-3 input-group">
 									<span class="input-group-text"><i class="fas fa-credit-card"></i></span>
 									<input type="number" class="form-control" placeholder="1234 5443 5544 6543">
-								</div>
+								</div> -->
 
-                                <label style="color:#4a4754">Account Name</label>
+                                <!-- <label style="color:#4a4754">Account Name</label>
 								<div class="mb-3 input-group">
 									<span class="input-group-text"><i class="fas fa-credit-card"></i></span>
 									<input type="text" class="form-control" placeholder="Firstname Othernames">
-								</div>
+								</div> -->
 																
 								<a href="javascript:void(0);" class="btn btn-success mt-3  btn-block">PROCEED</a>
 							</form>

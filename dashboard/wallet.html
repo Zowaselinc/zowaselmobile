@@ -12,7 +12,7 @@
 	<meta name="description" content="Zowasel"/>
 	<meta property="og:title" content="Zowasel" />
 	<meta property="og:description" content="Zowasel" />
-	<meta property="og:image" content="https://makaanlelo.com/tf_products_007/foodia/xhtml/social-image.png"/>
+	<meta property="og:image" content="https://zowasel.com/images/logos/white%20logo.png"/>
 	<meta name="format-detection" content="telephone=no">
 	
     <!-- Favicons Icon -->
@@ -208,6 +208,10 @@
         .flickity-slider{
         /* left: -37px !important; */
         }
+        .flickity-prev-next-button.previous {
+            left: 0px;
+            width: 16px;
+        }
 
         /* <!-- -------------------------- CARD RADIO BUTTON -------------------------- --> */
         :root {
@@ -353,7 +357,7 @@
 
                     <div class="d-flex align-items-center justify-content-between">
                         <!-- <span class="text-white f-16 fw-500">4556778890</span> -->
-                        <button class="withdrawbtn fw-bold zowasel-color f-14">
+                        <button class="withdrawbtn fw-bold zowasel-color f-14" onclick="location.assign('withdraw.html')">
                             Withdraw <img src="../assets/icons/withdraw.png" style="margin-top:-3px;" />
                         </button>
                     </div>
@@ -371,11 +375,12 @@
                         <img src="../assets/icons/eyeslash.png"  style="height:16px;margin-top:-5px;" role="button" onclick="togglebalance()" />
                     </h1>
 
-                    <div class="d-flex align-items-center justify-content-between">
-                        <span class="text-white f-16 fw-500 vfd_acc_number"><!--4556778890--></span>
-                        <button class="withdrawbtn fw-bold zowasel-color f-14">
+                    <div class="d-flex align-items-center">
+                        <span class="text-white f-14 fw-500 me-1">Account Number</span>
+                        <span class="text-white f-18 fw-600 vfd_acc_number"><!--4556778890--></span>
+                        <!-- <button class="withdrawbtn fw-bold zowasel-color f-14">
                             Withdraw <img src="../assets/icons/withdraw.png" style="margin-top:-3px;" />
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -665,6 +670,7 @@
     populateWalletDetails();
     fetchRecentTransactions();
     fetchWithdrawalHistory();
+    fetchAllBanks();
     // buttommenu();
     pageRestriction();
 </script>
@@ -708,6 +714,7 @@
     //     $('.wallet-card.is-selected .main-balance .wallet-radio').attr('checked',true)
     // })
     setInterval(()=>{
+        // Any card that has is-selected class, mark as checked
         $('.wallet-card .main-balance .wallet-radio').attr('checked',false)
         $('.wallet-card.is-selected .main-balance .wallet-radio').attr('checked',true)
 
@@ -753,13 +760,15 @@
         $('#vfdAccDetails').show();
     }
     function gotoVfdTransfer(){
-        fetchAllBanks();
+        // fetchAllBanks();
         $('.transactionhistoryTab').removeClass('active');
         $('.vfdTransferTab').addClass('active');
         $('.transaction-contents').hide();
         $('#vfdTransfer').show();
     }
     // <!-- ------------------------------ VFD TABS ------------------------------- -->
+
+
 </script>
 
 </body>

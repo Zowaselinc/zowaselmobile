@@ -1521,12 +1521,12 @@ function fetchWithdrawalHistory(){
 function fetchAllBanks(){
     startPageLoader();
     $.ajax({
-        url: `https://api.flutterwave.com/v3/banks/NG`,
+        url: `${liveMobileUrl}/wallet/fetchallbanks`,
         type: "GET",
         "timeout": 25000,
         "headers": {
             "Content-Type": "application/json",
-            "authorization": "BEARER FLWSECK_TEST-SANDBOXDEMOKEY-X"
+            "authorization": localStorage.getItem('authToken')
         },
         "crossDomain": true,
         success: function(response) { 
@@ -1534,7 +1534,7 @@ function fetchAllBanks(){
             EndPageLoader();
             // $('.loader').hide();
             // console.log(response, "The recent transactions response");
-            if(response.status !== "success"){
+            if(response.error === true){
                 // alert(response.message);
                 // responsemodal("erroricon.png", "Error", response.message);
                 console.log(response.message);
@@ -1543,7 +1543,7 @@ function fetchAllBanks(){
                 let thedata = response.data;
                 let rowContent = "";
                 let index;
-                // console.log(thedata, "All Recent transactions");
+                // console.log(thedata, "All flw banks in NG");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
