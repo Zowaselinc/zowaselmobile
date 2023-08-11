@@ -4540,16 +4540,17 @@ $('#formpage3').submit(function(e){
     }else{
         
     }
-
+    
     let deliveryWindowValue, countryList, stateList, zipcode;
     if(activePage=="/dashboard/addcropwanted.html" || activePage=="/dashboard/editcropwanted.html"){
         countryList = document.getElementById('countryList');
         stateList = document.getElementById('stateList');
         zipcode = document.getElementById('zipcode');
-
+        warehouse_address_value = document.getElementById('deliveryaddress').value;
+        
         let windowFrom = document.getElementById('windowFrom').value;
         let windowTo = document.getElementById('windowTo').value;
-
+        
         // format from M/D/YYYY to YYYYMMDD
         // let windowFromValue = windowFrom.replaceAll("-", "/");
         // let windowToValue = windowTo.replaceAll("-", "/");
@@ -4564,7 +4565,7 @@ $('#formpage3').submit(function(e){
     }else{
         deliveryWindowValue = null;
     }
-
+    
     // console.log("deliveryWindowValue ",JSON.stringify(deliveryWindowValue));
     deliveryWindowValue = JSON.stringify(deliveryWindowValue);
 
@@ -4584,7 +4585,6 @@ $('#formpage3').submit(function(e){
     let quantity = document.getElementById('quantity');
     let amount = document.getElementById('amount');
     let videourl = document.getElementById('videourl');
-    let deliveryaddress = document.getElementById('deliveryaddress');
     let brokengrains = document.getElementById('brokengrains');
     let weevil = document.getElementById('weevil');
     let hardness = document.getElementById('hardness');
@@ -4685,7 +4685,7 @@ $('#formpage3').submit(function(e){
     formData.append("delivery_method", "Delivery");
     // formData.append("delivery_date", "2023/02/12");
     // formData.append("delivery_window", windowFrom+" - "+windowTo);
-    formData.append("warehouse_address", deliveryaddress.value);
+    formData.append("warehouse_address", warehouse_address_value);
     formData.append("moisture_content", moisturecontent.value);
 
     // formData.append("file", fileInput.files[0], "cornproduct_resize.jpg");
