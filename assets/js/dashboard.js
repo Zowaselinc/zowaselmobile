@@ -2830,7 +2830,46 @@ function populateSingleProductDetails(){
                     $('#end_date').val(thedata.auction.end_date);
                     $('#minimum_bid').val(thedata.auction.minimum_bid);
                 }
+                if(thepathname.includes('dashboard/editcropwanted')){
+                    let crop_request = thedata.crop_request;
+                    let delivery_window = crop_request.delivery_window;
+                    delivery_window = JSON.parse(delivery_window);
+                    console.log("delivery-window",delivery_window);
+                    $('#windowFrom').val(delivery_window.from);
+                    $('#windowTo').val(delivery_window.to);
+                    $('#countryList').val(crop_request.country);
+                    $('#deliveryaddress').val(crop_request.address);
+                    
+                    
+                    // Fecth DB State From DB Country and then Insert the value of the state into the state select
+                    var listItems = '';
+                    var emptylistItems = '<option value="">- Select state -</option>';
 
+                    /* --------------------- CHECK INDEX OF OBJECT IN ARRAY --------------------- */
+                    if(crop_request.country){
+                        let countryvalue = crop_request.country;
+                        let indexofCountry = countrylist.findIndex(item => { return item.country == countryvalue});
+                        // alert(indexofCountry);
+                        console.log(indexofCountry, ' indexofCountry');
+                        let stateList = countrylist[indexofCountry].states;
+                        // console.log(stateList);
+                        // console.log(stateList.length);
+                        for (var i=0;i<stateList.length;i++){
+                            // console.log(stateList[i]);;      
+                            listItems+=`<option value='${stateList[i]}'>${stateList[i]}</option>`;     
+                        }
+                        // console.log(listItems);
+                        
+                        // add to DOM
+                        $('#stateList').html(emptylistItems+listItems);
+                        setTimeout(()=>{
+                            $('#stateList').val(crop_request.state);
+                        },1500)
+                    }
+                    /* --------------------- CHECK INDEX OF OBJECT IN ARRAY --------------------- */
+                    // Fecth DB State From DB Country and then Insert the value of the state into the state select
+                }
+                
                 /* -------------------------------- EDIT CROP ------------------------------- */
 
                 /* -------------------- getNotificationSubscriptionStatus ------------------- */
@@ -4490,12 +4529,12 @@ $('#formpage3').submit(function(e){
     let category = document.getElementById('category');
     let subcategory = document.getElementById('subcategory');
     let color = document.getElementById('color');
-    let warehouse_address_value = document.getElementById('warehouse_address').value;
     
-    let application, manufacture_name, packaging;
+    let application, manufacture_name, packaging, warehouse_address_value;
     if(activePage=="/dashboard/addcropauction.html"||activePage=="/dashboard/addcrop.html"
     || activePage=="/dashboard/editcropauction.html"||activePage=="/dashboard/editcrop.html"){
         // application = document.getElementById('application');
+        warehouse_address_value = document.getElementById('warehouse_address').value;
         packaging = document.getElementById('packaging');
         manufacture_name = document.getElementById('manufacture_name');
     }else{
@@ -4607,7 +4646,6 @@ $('#formpage3').submit(function(e){
         formData.append("country", countryList.value);
         formData.append("state", stateList.value);
         formData.append("zip", zipcode.value);
-        formData.append("address", deliveryaddress.value);
         formData.append("delivery_window", deliveryWindowValue);
     }
     
@@ -4647,7 +4685,7 @@ $('#formpage3').submit(function(e){
     formData.append("delivery_method", "Delivery");
     // formData.append("delivery_date", "2023/02/12");
     // formData.append("delivery_window", windowFrom+" - "+windowTo);
-    formData.append("warehouse_address", warehouse_address_value);
+    formData.append("warehouse_address", deliveryaddress.value);
     formData.append("moisture_content", moisturecontent.value);
 
     // formData.append("file", fileInput.files[0], "cornproduct_resize.jpg");
@@ -5298,7 +5336,8 @@ function fetchInputs(){
                 responsemodal("erroricon.png", "Error", response.message);
             }else{
                 // alert(response.message);
-                let thedata = response.data.reverse();
+                // let thedata = response.data.reverse();
+                let thedata = response.data;
                 let rowContent = "";
                 let carouselrowContent = "";
                 let index;
@@ -5850,6 +5889,11 @@ function populateSingleInputDetails(){
                     
                 }
                 /* ------------------------------- EDIT INPUT ------------------------------- */
+
+
+                /* -------------------- getNotificationSubscriptionStatus ------------------- */
+                getNotificationSubscriptionStatus(input.user_id, input.subcategory_id);
+                /* -------------------- getNotificationSubscriptionStatus ------------------- */
 
             }
         },

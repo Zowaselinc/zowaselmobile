@@ -31,12 +31,15 @@
         if(paramString == "viewusercropsforsale.html"){
             location.assign("/dashboard/addcrop.html");
         }
-
         if(paramString == "viewusercropsforauction.html"){
             location.assign("/dashboard/addcropauction.html");
         }
+        if(paramString == "cropswanted.html"){
+            location.assign("/dashboard/addcropwanted.html");
+        }
     }
     
+    // Set active tab 
     if(paramString == "index.html"){
         $('.homeLink').addClass('active');
     }

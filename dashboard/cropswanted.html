@@ -120,6 +120,17 @@
                         <span>Inactive crop &nbsp;</span> 
                     </div>
                 </div>
+
+                <div class="row col-12">
+                    <div class="col-6">
+                        <span class="cropstatus cropNegotiable d-inline-block bg-primary"></span>
+                        <span>Negotiable &nbsp;</span>
+                    </div>
+                    <div class="col-6">
+                        <span class="cropstatus cropNotnegotiable d-inline-block bg-warning"></span>
+                        <span>Non Negotiable </span>
+                    </div>
+                </div>
             </div>
             <!-- STATUS COLOR -->
 
@@ -160,7 +171,7 @@
 
 
     <!-- Menubar -->
-	<div class="menubar-area" id="buttommenu">
+	<div class="notforFilter menubar-area" id="buttommenu" style="background: transparent !important;box-shadow:none;">
 		
 	</div>
 	<!-- Menubar -->
@@ -209,7 +220,16 @@
     sidemenu();
     populateUserDetails();
     fetchWantedCrops();
-    buttommenu();
+
+    function userTypeFunction(){
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let usertype = user.user.type;
+        if(usertype=="merchant"){
+            buttommenu();
+        }else{ buttomaddnewcrop(); }
+    }
+    userTypeFunction();
 </script>
 
 <script>
