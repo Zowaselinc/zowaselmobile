@@ -415,7 +415,7 @@
     // populateUserDetails();
     fundWalletPage();
     populateCountryList();
-    pageRestriction();
+    // pageRestriction(); KYC RESTRICTION COMMENTED OUT
 </script>
 
 <script>
@@ -887,7 +887,7 @@
                                                 location.assign('kyb.html');
                                             },3000)
                                         }else{
-                                            pageRestriction();
+                                            // pageRestriction(); KYC RESTRICTION COMMENTED OUT
                                             startPageLoader();
                                             setTimeout(()=>{
                                                 location.assign('/dashboard/verification.html');
