@@ -58,6 +58,18 @@
         .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
             background-color: #EFEFEF;
         }
+        .input-container {
+        position: relative;
+        }
+
+        .error-message {
+            position: absolute;
+            bottom: 0;
+            right: 8px;
+            color: red;
+            font-size: 13px;
+            display: none;
+        }
 
         .fixedheader{
             height: 230px;
@@ -587,7 +599,10 @@
                                     </div>
                                     <div class="w-100 mb-3">
                                         <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Account Number <span class="required">*</span></label>
-                                        <input type="number" class="form-control" id="account_number" placeholder="1234 5678 90" required="" />
+                                        <div class="input-container">
+                                            <input type="number" class="form-control" id="account_number" placeholder="1234 5678 90" required pattern="\d{10}" title="Please enter exactly 10 digits" />
+                                            <div class="error-message" id="account_number_validation">Please enter exactly 10 digits</div>
+                                        </div>
                                     </div>
                                     <div class="w-100 mb-3">
                                         <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Amount <span class="required">*</span></label>
@@ -595,10 +610,10 @@
                                     </div>
                                     <div class="w-100 mb-3">
                                         <label for="formGroupExampleInput" class="form-label text-dark mb-0 lh-28 fw-700">Account Name <span class="required">*</span></label>
-                                        <input type="number" class="form-control" readonly id="account_name" placeholder="Account Name" required="" />
+                                        <input type="text" class="form-control"  id="account_name" readonly placeholder="Account Name" required="" />
                                     </div>
 
-                                    <button type="submit" class="btn mt-2 btn-success w-50 btn-rounded">Transfer</button>
+                                    <button type="button" class="btn mt-2 btn-success w-50 btn-rounded">Transfer</button>
                                 </form>
                             </div>
                         </div>
@@ -668,11 +683,11 @@
     sidemenu();
     populateUserDetails();
     populateWalletDetails();
+    // buttommenu();
+    pageRestriction(); //KYC RESTRICTION COMMENTED OUT
+    fetchAllBanks();
     fetchRecentTransactions();
     fetchWithdrawalHistory();
-    fetchAllBanks();
-    // buttommenu();
-    // pageRestriction(); KYC RESTRICTION COMMENTED OUT
 </script>
 
 
@@ -767,6 +782,30 @@
         $('#vfdTransfer').show();
     }
     // <!-- ------------------------------ VFD TABS ------------------------------- -->
+
+
+    
+    let selectedbank = document.getElementById('selectedbank');
+    let account_number = document.getElementById('account_number');
+    let errorMessage = document.querySelector('#account_number_validation');
+    
+    account_number.addEventListener('input', () => {
+        // console.log("typing");
+        let account_number_value = account_number.value;
+        console.log(account_number_value);
+        if (account_number_value.length !== 10) {
+            errorMessage.style.display = "block";
+            $('#account_name').val('--');
+        } else {
+            errorMessage.style.display = "none";
+            if(selectedbank.value && account_number.value){
+                // console.log("Go ahead, "+account_number.value);
+                getBeneficiaryEnquiry(selectedbank.value, account_number.value);
+            }
+        }
+        
+    })
+    
 
 
 </script>

@@ -121,11 +121,11 @@
              <!-- STATUS COLOR -->
              <div class="shadowedBox1 p-1">
                 <div class="row col-12">
-                    <div class="col-6">
+                    <div class="col-6 cropActiveStatus">
                         <span class="cropstatus cropActive d-inline-block bg-success"></span>
                         <span>Active crop &nbsp;</span>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 cropActiveStatus">
                         <span class="cropstatus cropInactive d-inline-block bg-danger"></span>
                         <span>Inactive crop &nbsp;</span> 
                     </div>
@@ -277,6 +277,16 @@
         $('#more').hide();
         }
     });
+
+    $(document).ready(function() {
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        console.log("ZowaselUser ", user);
+        let usertype = user.user.type;
+        if(usertype=="corporate"){
+            $('.cropActiveStatus').hide(); 
+        }
+    })
 </script>
 
 </body>

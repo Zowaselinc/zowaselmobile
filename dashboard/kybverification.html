@@ -168,7 +168,7 @@
 <script src="../index.js" defer></script>
 <script>
     populateUserDetails();
-    // pageRestriction(); KYC RESTRICTION COMMENTED OUT
+    pageRestriction(); //KYC RESTRICTION COMMENTED OUT
 </script>
 
 <script>
@@ -187,8 +187,8 @@
         if(userdidkyc != 1){
             basicmodal("","Please Complete your KYC");
             setTimeout(()=>{
-                location.assign('kybverification.html');
-            },3000)
+                location.assign('verification.html');
+            },300000)
         }
     }
     checkifKYCisDone();

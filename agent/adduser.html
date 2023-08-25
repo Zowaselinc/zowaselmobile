@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript"  src="../assets/js/accessauthentication_dashboard.js"></script>
+    <!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://zowasel.com/images/logos/white%20logo.png"/>
+	<meta name="format-detection" content="telephone=no">
+    
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="../logos/zowaselICO512by512.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile Web</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+    <style>
+        .form-input-general{
+            background: #EFEFEF !important;
+            font-family: 'DM Sans' !important;
+            font-style: normal !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
+            line-height: 28px !important;
+            color: rgba(44, 38, 70, 0.63) !important;
+            padding-left: 10px !important;
+        }
+        .form-input-noicon{
+            border-radius: 8px !important;
+            border: 1px solid #EAE9F0 !important;
+        }
+        .form-input-righticon{
+            border-top-right-radius: 0px !important;
+            border-bottom-right-radius: 0px !important;
+            border: 1px 0 1px 1px solid #EAE9F0 !important;
+        }
+        .show-pass{
+            border-top-right-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+        }
+    </style>    
+</head>   
+<body class="">
+<script src="../assets/js/darkmode.js"></script>
+    <div class="page-wraper">
+
+        <!-- Fixd Header -->
+        <div class="fixedheader">
+            <!-- Header -->
+            <header class="header header-type2">
+                <div class="main-bar5">
+                    <div class="container">
+                        <div class="header-content pt-2">
+                            <div class="left-content  w-auto">
+                                <a href="javascript:void(0);" class="d-block">
+                                    Register Users
+                                </a>
+                                <br/><br/>
+                            </div>
+                            <div class="mid-content">
+                            </div>
+                            <div class="right-content d-flex justify-content-between">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Header End -->
+            
+            <!-- Preloader -->
+            <!-- <div id="preloader">
+                <div class="spinner"></div>
+            </div> -->
+            <!-- Preloader end-->
+        </div>
+        <!-- Fixd Header -->
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+        
+        </div>
+        <!-- Sidebar End -->
+
+        <!-- Banner -->
+        <div class="author-notification">
+            <div class="container inner-wrapper">
+                    
+            </div>
+        </div>
+        <!-- Banner End -->
+        
+
+        <!-- Page Content -->
+        <div id="main" class="container page-content bottom-content ">
+            <div class="account-box">
+                <div class="container">
+                    <div class="account-area fontFamily3">
+
+
+                        <!-- ---------------------------- FORM SLIDE 1 ----------------------------- -->
+                        <form class="form" id="formpage1">
+                        
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">User Type</label>
+                            <div class="input-group input-mini mb-3">
+                                <!-- <span class="input-group-text"><i class="fa fa-user"></i></span> -->
+                                <select id="user_type" type="text" required class="form-control form-input-general form-input-noicon">
+                                    <option value="">--Select User Type--</option>
+                                    <option value="merchant">Merchant</option>
+                                    <option value="corporate">Corporate</option>
+                                </select>
+                                <small class="input_response">Error Message</small>
+                            </div>
+                            
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">First Name</label>
+                            <div class="input-group input-mini mb-3">
+                                <!-- <span class="input-group-text"><i class="fa fa-user"></i></span> -->
+                                <input id="firstname" type="text" required class="form-control form-input-general form-input-noicon" placeholder="Firstname">
+                                <small class="input_response">Error Message</small>
+                            </div>
+    
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Lastname</label>
+                            <div class="input-group input-mini mb-3">
+                                <!-- <span class="input-group-text"><i class="fa fa-user"></i></span> -->
+                                <input id="lastname" type="text" required class="form-control form-input-general form-input-noicon" placeholder="Lastname">
+                                <small class="input_response">Error Message</small>
+                            </div>
+                            
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Email</label>
+                            <div class="mb-3 input-group input-mini">
+                                <!-- <span class="input-group-text"><i class="fa fa-at"></i></span> -->
+                                <input id="email" type="email" required class="form-control form-input-general form-input-noicon" oninput="checkEmail()" placeholder="example@email.com">
+                                <small class="input_response">Error Message</small>
+                            </div>
+                            
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Phone Number</label>
+                            <div class="mb-3 input-group input-mini">
+                                <!-- <span class="input-group-text"><i class="fa fa-phone"></i></span> -->
+                                <input id="phonenumber" maxlength="11" minlength="11" type="number" required class="form-control form-input-general form-input-noicon" placeholder="Phonenumber">
+                                <small class="input_response">Error Message</small>
+                            </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">User Password</label>
+                            <div class="mb-3 input-group input-mini">
+                                <!-- <span class="input-group-text"><i class="fa fa-phone"></i></span> -->
+                                <input id="password" type="password" minlength="5" required class="form-control form-input-general form-input-noicon companyRequired" placeholder="User Password">
+                                <small class="input_response">Error Message</small>
+                            </div>
+
+                            <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Re-enter Password</label>
+                            <div class="mb-3 input-group input-mini">
+                                <!-- <span class="input-group-text"><i class="fa fa-phone"></i></span> -->
+                                <input id="c_password" type="password" minlength="5" required class="form-control form-input-general form-input-noicon companyRequired" placeholder="Re-enter User Password">
+                                <small class="input_response">Error Message</small>
+                            </div>
+                            
+                            <div class="row mb-3 mx-1">
+                                <div class="col-6 radios accounttype">
+                                    <input type="radio" class="form-radio-input" required name="account_type" value="individual">
+                                    <label for="">Individual Account</label>
+                                </div>
+                                <div class="col-6 radios accounttype">
+                                    <input type="radio" class="form-radio-input" required name="account_type" value="company">
+                                    <label for="">Company Account</label>
+                                </div>
+                            </div>
+    
+                            <!-- -------------- ADD COMPANY DETAILS IF YOU HAVE A COMPANY -------------- -->
+                            <div class="row mb-3 companyForm" style="display: none;">
+                                <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Name</label>
+                                <div class="input-group input-mini mb-3">
+                                    <!-- <span class="input-group-text"><i class="fa fa-building"></i></span> -->
+                                    <input id="company_name" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company name">
+                                    <small class="input_response">Error Message</small>
+                                </div>
+    
+                                <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Address</label>
+                                <div class="input-group input-mini mb-3">
+                                    <!-- <span class="input-group-text"><i class="fa fa-location-dot"></i></span> -->
+                                    <input id="company_address" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company address">
+                                    <small class="input_response">Error Message</small>
+                                </div>
+    
+                                <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company State</label>
+                                <div class="input-group input-mini mb-3">
+                                    <!-- <span class="input-group-text"><i class="fa fa-location-dot"></i></span> -->
+                                    <input id="company_state" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company state">
+                                    <small class="input_response">Error Message</small>
+                                </div>
+    
+                                <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">RC Number</label>
+                                <div class="input-group input-mini mb-3">
+                                    <!-- <span class="input-group-text"><i class="fa fa-hashtag"></i></span> -->
+                                    <input id="rc_number" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="RC number">
+                                    <small class="input_response">Error Message</small>
+                                </div>
+    
+                                <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Email</label>
+                                <div class="input-group input-mini mb-3">
+                                    <!-- <span class="input-group-text"><i class="fa fa-at"></i></span> -->
+                                    <input id="company_email" type="text" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company email">
+                                    <small class="input_response">Error Message</small>
+                                </div>
+    
+                                <label class="fw-700 f-14 lh-28 zowasel-notthickdark-color mt-2">Company Phone</label>
+                                <div class="input-group input-mini mb-3">
+                                    <!-- <span class="input-group-text"><i class="fa fa-phone"></i></span> -->
+                                    <input id="company_phone" type="number" maxlength="11" minlength="11" class="form-control form-input-general form-input-noicon companyRequired" placeholder="Company phone">
+                                    <small class="input_response">Error Message</small>
+                                </div>
+                            </div>
+                            <!-- -------------- ADD COMPANY DETAILS IF YOU HAVE A COMPANY -------------- -->
+    
+                            
+                            <!--sss-->
+                            <div class="input-group-new mt-3">
+                                <span class="company_response text-danger text-capitalize"></span>
+                                <button type="submit" class="btn zowasel-bg text-white w-100">Sign Up</button>
+                            </div>
+                        </form> 
+                        <!-- FORM -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Content -->
+
+
+        <!-- ------------------------------- LOADER -------------------------------- -->
+        <div class="loader">
+            
+        </div>
+        <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+        <!-- ------------------------------- MODAL -------------------------------- -->
+        <div class="mymodal">
+            
+        </div>
+        <!-- ------------------------------- MODAL -------------------------------- -->
+
+
+    </div>
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/settings.js"></script>
+<!-- Put script type as module to allow import and export  -->
+<!-- <script type="module" src="./assets/js/onboarding.js"></script>  -->
+<script src="../assets/js/custom.js"></script>
+<script src="../assets/js/modal.js"></script>
+<script src="../assets/lib/pulltorefresh.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/modal.js"></script>
+<script src="../assets/js/agent.js"></script> 
+
+<script src="../index.js" defer></script>
+<script>
+    RegisterScreen();
+</script>
+
+<script>
+    $(document).ready(function() {
+        let userType = localStorage.getItem('userType');
+        if(userType == "agent"){
+            $('.accounttype').hide();
+            localStorage.setItem('account_type', 'company');
+            $('.companyForm').show();
+            $('.companyRequired').attr("required","");
+        }
+
+        $('.accounttype input[type="radio"]').click(function(){
+            var inputValue = $(this).attr("value");
+            console.log(inputValue, "Radio Input Value");
+            // $("." + inputValue).toggle();
+            localStorage.setItem('account_type', inputValue);
+            if(inputValue=="company"){
+                $('.companyForm').show();
+                $('.companyRequired').attr("required","");
+            }else{
+                $('.companyForm').hide();
+                $('.companyRequired').removeAttr("required");
+            }
+        });
+    })
+</script>
+</body>
+</html>

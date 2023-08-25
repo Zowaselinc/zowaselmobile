@@ -222,7 +222,7 @@
     // sidemenu();
     // populateUserDetails();
     populateCountryList();
-    // pageRestriction(); KYC RESTRICTION COMMENTED OUT
+    pageRestriction(); //KYC RESTRICTION COMMENTED OUT
 </script>
 
 <script>
@@ -283,7 +283,7 @@
                             cacFile = imgArray1;
                             var reader = new FileReader();
                             reader.onload = function (e) {
-                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close1").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close1'></div></div></div>";
+                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + "); height:230px;' data-number='" + $(".upload__img-close1").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close1'></div></div></div>";
                             imgWrap1.append(html);
                             iterator++;
                             }
@@ -327,7 +327,7 @@
                             financialStatementFile = imgArray2;
                             var reader = new FileReader();
                             reader.onload = function (e) {
-                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close2").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close2'></div></div></div>";
+                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + "); height:230px;' data-number='" + $(".upload__img-close2").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close2'></div></div></div>";
                             imgWrap2.append(html);
                             iterator++;
                             }
@@ -371,7 +371,7 @@
                             mouFile = imgArray3;
                             var reader = new FileReader();
                             reader.onload = function (e) {
-                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close3").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close3'></div></div></div>";
+                            var html = "<div class='kyb_upload__img-box'><div style='background-image: url(" + e.target.result + "); height:230px;' data-number='" + $(".upload__img-close3").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close3'></div></div></div>";
                             imgWrap3.append(html);
                             iterator++;
                             }

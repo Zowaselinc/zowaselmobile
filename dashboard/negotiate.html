@@ -89,8 +89,10 @@
         let negotiationpage_type = localStorage.getItem('negotiationpage_type');
         if(usertype=="corporate"){
             if(negotiationpage_type=="cropwanted"||negotiationpage_type=="wanted"){
-                $('.open_offer_form').hide();
-                // alert(4354);
+                setTimeout(()=>{
+                    $('.open_offer_form').hide();
+                    // alert(4354);
+                },1500)
             }
             
         }

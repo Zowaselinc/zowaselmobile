@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <script type="text/javascript"  src="../../assets/js/accessauthentication_dashboard.js"></script>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://zowasel.com/images/logos/white%20logo.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="../logos/zowaselICO512by512.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile Web</title>
+	
+	<!-- PWA Version -->
+	<!-- <link rel="manifest" href="manifest.json"> -->
+    
+    <!-- Stylesheets -->
+	<link rel="stylesheet" href="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/font.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/stylev3.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> -->
+</head>   
+<body class="bg-white">
+<div class="page-wraper">
+    
+    
+    <!-- Page content  -->
+    <div id="main" class="page-content">
+        
+        <div class="modal fade modal-full dialogbox d-block" style="opacity:1;" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-icon text-success">
+                        <img src="../../logos/successicon3.png" />
+                    </div>
+                    <div class="modal-header mt-1">
+                        <h5 class="modal-title zowasel-darkblue-color fontFamily1 fw-600 f-24 lh-36">Payment Confirmed</h5>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer" style="border-top:0;">
+                        <div class="btn-inline">
+                            <a onclick="location.assign('/dashboard/order/orders.html')" class="btn zowasel-darkblue-bg text-white f-14" data-bs-dismiss="modal" style="padding: 9px 50px;line-height: 28px;">
+                                Go to Order History
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+    <!-- Page content End -->
+
+
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+
+
+
+
+
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="../../assets/js/jquery.js"></script>
+<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../../assets/js/settings.js"></script>
+<script src="../../assets/js/custom.js"></script>
+<script src="../../assets/js/modal.js"></script>
+<script src="../../assets/lib/pulltorefresh.js"></script>
+<script src="../../assets/js/env.js"></script> 
+<script src="../../assets/js/order.js"></script>
+
+<!-- Js PDF -->
+<script src="../../assets/js/jspdf.min.js"></script>
+<!-- Js PDF Auto Table -->
+<script src="../../assets/js/jspdf.plugin.autotable.min.js"></script>
+
+<script src="../../index.js" defer></script>
+<script>
+    $(".stepper").TouchSpin();
+</script>
+<script>
+    // sidemenu();
+    // populateUserDetails();
+    populateOrderSummaryDetails();
+</script>
+
+<script>
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+
+    if(usertype == "corporate"){
+        $('.merchantSideOnly').hide();
+    }else{
+        $('.merchantSideOnly').show()
+    }
+
+
+    const switchtab =(switchname)=>{
+        // alert(switchname);
+        $('.price-details, .full-spec, .purchase-order').removeClass('active-Tab');
+
+        if(switchname=="pricingDetails"){
+            $('.fullSpecifications_Container, .purchaseOrder_Container').hide();
+            $('.pricingDetails_Container').show();
+            $('.price-details').addClass('active-Tab');
+        }else if(switchname=="fullSpecification"){
+            $('.pricingDetails_Container, .purchaseOrder_Container').hide();
+            $('.fullSpecifications_Container').show();
+            $('.full-spec').addClass('active-Tab');
+        }else if(switchname=="purchaseOrder"){
+            $('.fullSpecifications_Container, .pricingDetails_Container').hide();
+            $('.purchaseOrder_Container').show();
+            $('.purchase-order').addClass('active-Tab');
+        }
+
+
+    }
+
+
+
+    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
+    var doc = new jsPDF('p','pt','a4','letter'); // create new jsPDF() function
+    var specialElementHandlers = { 
+    '#editor': function(element, renderer) { // this is where the specific content of our PDF will be rendered
+        return true;
+    }
+    };
+
+    // Download Full Specification
+    $('.downloadFullSpecification').click(function() { // upon clicking the downloadFullSpecification button, perform the following function
+        doc.fromHTML(
+            $('.content').html() // take HTML from the .content section
+            , 15 // margin from the left
+            , 15 // margin from the top
+            , { 
+                'width': 170, // max width of content in PDF
+                'elementHandlers': specialElementHandlers // include are handler from above
+            }
+        );
+        doc.save('productquality_specification.pdf'); // save pdf to a file with name content.pdf
+    });
+    // Download Full Specification
+
+
+
+
+    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
+
+</script>
+</body>
+</html>

@@ -124,11 +124,11 @@
                         
                         <div class="row mb-3 mx-1">
                             <div class="col-6 radios accounttype">
-                                <input type="radio" required class="form-radio-input" name="account_type" value="individual">
+                                <input type="radio" class="form-radio-input" name="account_type" value="individual">
                                 <label for="">Individual Account</label>
                             </div>
                             <div class="col-6 radios accounttype">
-                                <input type="radio" required class="form-radio-input" name="account_type" value="company">
+                                <input type="radio" class="form-radio-input" name="account_type" value="company">
                                 <label for="">Company Account</label>
                             </div>
                         </div>
@@ -861,6 +861,14 @@
 
 <script>
     $(document).ready(function() {
+        let userType = localStorage.getItem('userType');
+        if(userType == "agent"){
+            $('.accounttype').hide();
+            localStorage.setItem('account_type', 'company');
+            $('.companyForm').show();
+            $('.companyRequired').attr("required","");
+        }
+
         $('.accounttype input[type="radio"]').click(function(){
             var inputValue = $(this).attr("value");
             console.log(inputValue, "Radio Input Value");

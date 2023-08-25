@@ -38,7 +38,10 @@ const RegisterScreen =()=>{
     const lastname = document.getElementById('lastname');
     const email = document.getElementById('email');
     const phonenumber = document.getElementById('phonenumber');
-    const account_type = form.elements["account_type"];
+    let account_type;
+    if(userType !== "agent"){
+        account_type = form.elements["account_type"];
+    }
     const privacy_policy = document.getElementById('privacy_policy');
    
   
@@ -72,8 +75,10 @@ const RegisterScreen =()=>{
         if(re.test(input.value.trim())) {
             showSucces(input);
             showError(input,'');
+            return "valid";
         }else {
-            showError(input,'Email is not invalid');
+            showError(input,'Email is invalid');
+            return "invalid";
         }
     }
     
@@ -185,6 +190,9 @@ const RegisterScreen =()=>{
                 // checkPasswordMatch(password, password2);
                 
                 // alert("Good to Go");
+                let userType = localStorage.getItem('userType');
+                let account_typeValue;
+    
                 
                 let registerData = {} // make an empty object
                 /* --- Add Things To The Object --- */
@@ -192,8 +200,15 @@ const RegisterScreen =()=>{
                 registerData['last_name'] = lastname.value;
                 registerData['email'] = email.value;
                 registerData['phone'] = phonenumber.value;
-                registerData['account_type'] = account_type.value;
-                if(account_type.value=="company"){
+                if(userType !== "agent"){
+                    registerData['account_type'] = account_type.value;
+                    account_typeValue = account_type.value;
+                }else{
+                    registerData['account_type'] = "company";
+                    account_typeValue = "company";
+                }
+                
+                if(account_typeValue=="company"){
                     console.log("company", "Account type");
                     registerData['has_company'] = true;
 
@@ -222,14 +237,14 @@ const RegisterScreen =()=>{
 
 
                 // var data = registerData.email;
-                // alert(account_type.value);
+                // alert(account_typeValue);
                 // alert(document.getElementById('company_phone').value);
 
                 /* ------------------------------ DB CONNECTION ----------------------------- */
-                if(account_type.value=="company" && document.getElementById('company_phone').value.length<11){
+                if(account_typeValue=="company" && document.getElementById('company_phone').value.length<11){
                     $('.company_response').html("Company phone number should not be less than 11 digits");
                     // alert("Less than");
-                }else if(account_type.value=="company" && document.getElementById('company_phone').value.length>11){
+                }else if(account_typeValue=="company" && document.getElementById('company_phone').value.length>11){
                     $('.company_response').html("Company phone number should not be more than 11 digits");
                     // alert("greater than");
                 }else{
@@ -667,8 +682,15 @@ function LoginScreen(){
                     responsemodal("successicon.png", "Success", response.message);
                     localStorage.setItem('authToken', "Bearer "+response.token);
                     localStorage.setItem('zowaselUser', JSON.stringify(response.user));
+
+                    let user = response.user;
+                    let usertype = user.user.type;
                     setTimeout(()=>{
-                        location.href="dashboard/index.html";
+                        if(usertype == "agent"){
+                            location.href="agent/index.html";
+                        }else{
+                            location.href="dashboard/index.html";
+                        }
                     },2000)      
                 }
             },

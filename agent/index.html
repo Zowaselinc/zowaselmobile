@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <script type="text/javascript"  src="../assets/js/accessauthentication_dashboard.js"></script>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Zowasel"/>
+	<meta property="og:title" content="Zowasel" />
+	<meta property="og:description" content="Zowasel" />
+	<meta property="og:image" content="https://zowasel.com/images/logos/white%20logo.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+    <!-- Favicons Icon -->
+	<!-- <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon.png" /> -->
+    <link rel="shortcut icon" type="image/x-icon" href="../logos/zowaselICO512by512.png" />
+    
+    <!-- Title -->
+	<title>Zowasel Mobile Web</title>
+	
+	<!-- PWA Version -->
+	<!-- <link rel="manifest" href="manifest.json"> -->
+    
+    <!-- Stylesheets -->
+	<link rel="stylesheet" href="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+    <link rel="stylesheet" href="../assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="../bypass.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/style2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/stylev3.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="../assets/owlcarousel/owlcarousel.min.css">
+    <link rel="stylesheet" href="../assets/owlcarousel/owltheme.default.min.css">  
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+    <!-- <script src="../assets/js/plugins/push.min.js"></script>
+    <script src="../assets/js/plugins/serviceworker.min.js"></script> -->
+
+    <script>
+        // Push.create("Hello World");
+
+        // Push.create("Hello world!", {
+        //     body: "How's it hangin'?",
+        //     icon: '/icon.png',
+        //     timeout: 4000,
+        //     onClick: function () {
+        //         window.focus();
+        //         this.close();
+        //     }
+        // });
+    </script>
+
+</head>   
+<body class="">
+<script src="../assets/js/darkmode.js"></script>
+<div class="page-wraper">
+    
+    <!-- Fixd Header -->
+    <div class="fixedheader">
+        <!-- Header -->
+        <header class="header header-type2">
+            <div class="main-bar5">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="left-content  w-auto">
+                            <a href="javascript:void(0);" class="d-block d-flex align-items-center">
+                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
+                                <span class="fw-bold mx-3">Add Crop for Sale</span>
+                            </a>
+                            <br/><br/>
+                        </div>
+                        <div class="mid-content">
+                        </div>
+                        <div class="right-content">
+                            <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header End -->
+        
+        <!-- Preloader -->
+        <!-- <div id="preloader">
+            <div class="spinner"></div>
+        </div> -->
+        <!-- Preloader end-->
+    </div>
+    <!-- Fixd Header -->
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+    
+    </div>
+    <!-- Sidebar End -->
+
+    <!-- Banner -->
+	<!-- <div class="author-notification">
+		<div class="container inner-wrapper">
+				
+		</div>
+	</div> -->
+    <!-- Banner End -->
+
+
+    
+    <!-- Page Content -->
+    <div id="main" class="page-content after-a-fixed2-header">
+        <!-- Market Place Tabs List -->
+        <div class="pt-2">
+			<div class="fb">
+            
+                
+                <!-- Dashboard Area -->
+                <div class="dashboard-area">
+                    
+                    <div class="container">
+                        <div class="row col-12 mb-4 m-auto">
+                            
+                            <div class="col-12 mb-4 corporateview">
+                                <div class="cardholder text-center" onclick="location.assign('/agent/adduser.html')">
+                                    <img src="../assets/icons/add.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">Register a User</span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-6 mb-4">
+                                <div class="cardholder text-center" onclick="location.assign('/agent/merchants.html')">
+                                    <img src="../assets/icons/cropwanted.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">My Merchants</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6 mb-4">
+                                <div class="cardholder text-center" onclick="location.assign('/agent/corportes.html')">
+                                    <img src="../assets/icons/cropwanted.png" />
+                                    <span class="d-block mt-2 card-title fw-bold">My Corporates</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row col-12 mb-4 m-auto">
+                            
+                            
+                        </div>
+                    </div>
+
+				</div>
+			</div>    
+		</div>           
+        <!-- Market Place Tabs List -->
+    </div>
+    <!-- Page Content End-->
+    
+    <!-- Menubar -->
+	<div class="menubar-area" id="buttommenu">
+		
+	</div>
+	<!-- Menubar -->
+	
+
+
+
+
+
+
+    <!-- ------------------------------- LOADER -------------------------------- -->
+    <div class="loader">
+        
+    </div>
+    <!-- ------------------------------- LOADER -------------------------------- -->
+
+
+    <!-- ------------------------------- MODAL -------------------------------- -->
+    <div class="mymodal">
+        
+    </div>
+    <!-- ------------------------------- MODAL -------------------------------- -->
+	
+	
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="../assets/owlcarousel/owl.carousel.min.js"></script>
+<script src="../assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="../assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/custom.js"></script>
+<script src="../assets/js/modal.js"></script>
+<script src="../assets/lib/pulltorefresh.js"></script>
+<script src="../assets/js/env.js"></script> 
+<script src="../assets/js/dashboard.js"></script>
+
+
+
+<!-- <script src="index.js" defer></script> -->
+<script>
+    $(".stepper").TouchSpin();
+</script>
+<script>
+    populateUserDetails();
+    populateWalletDetails();
+    // headermenu();
+    sidemenu();
+    buttommenu();
+    // pageRestriction(); KYC RESTRICTION COMMENTED OUT
+    
+    fetchCropsforAuction();
+</script>
+
+<script>
+    // Load index.html only once
+    if (!localStorage.getItem('indexPageLoaded')) {
+        localStorage.setItem('indexPageLoaded', true);
+        // location.reload();
+        owlcarouselSettingsForAllProducts();
+    } else {
+        // Redirect to a different page or perform any other action
+        // window.location.href = '/another-page.html';
+        localStorage.removeItem('indexPageLoaded');
+    }
+
+
+    setTimeout(()=>{
+        owlcarouselSettingsForAllProducts();
+    },4000);
+    $(document).ready(()=>{
+        // $(".owl-carousel").owlCarousel({
+            //     navigation : true
+            // });
+            
+        owlcarouselSettingsForAllProducts();
+        setTimeout(()=>{
+            owlcarouselSettingsForAllProducts();
+        },1500);
+        setTimeout(()=>{
+            owlcarouselSettingsForAllProducts();
+        },2000);
+    })
+
+
+    // Define the initial state
+    let notifications = [];
+    let notify = false;
+    let newNotification = false; 
+  
+
+    let userr = localStorage.getItem('zowaselUser');
+    userr = JSON.parse(userr);
+    // initialize the Socket.IO client and establish a connection with the server
+    // const socket = io(`${socketURL}`);
+    const socket = io(`${socketProductionURL}`);
+
+
+    socket.on("connect", () => {
+        console.log(socket.id, "Socket ID");
+
+        socket.emit("registerSocket", {
+            // user_id: this.userData.user.id,
+            user_id: userr.user.id,
+            socket_id: socket.id,
+        });
+
+        // Subscribe to the "notification" event
+        socket.emit("notification", (data) => {
+            console.log(data, "NOTIFICATION DATA");
+            alert(22);
+
+            // Add the new notification to the array
+            notifications.push(data);
+
+            // Update the newNotification flag
+            newNotification = true;
+
+            // Play the notifyAudio audio element
+            // const notifyAudio = document.querySelector("#notify-audio");
+            // if (notifyAudio) {
+            //     notifyAudio.play();
+            // }
+        })
+    });
+    // Store socket in global window object
+    window.AppSocket = socket;
+
+
+     
+
+//     socket.on("notification", (data) => {
+//     console.log("Received notification:", data);
+//     // Rest of the code to handle the notification
+//   });
+</script>
+
+<script>
+    function userSpecificFunction(){
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let usertype = user.user.type;
+        if(usertype == "merchant"){
+            $('.pronoun_crop_offer').html('My ');
+            fetchUserCropsforSaleByUserID();
+            fetchInputs();
+        }else if(usertype == "corporate"){
+            $('.pronoun_inputforsale').html('My ');
+            fetchAllCropsForSale();
+            fetchCorporateAddedInputs();
+        }
+        owlcarouselSettingsForAllProducts();
+    }
+    userSpecificFunction();
+    
+
+    const viewmoreProducts=(n)=>{
+        let user = localStorage.getItem('zowaselUser');
+        user = JSON.parse(user);
+        let usertype = user.user.type;
+
+        let theURL, gotoProductdetails, viewmoreProduts, currentPage;
+        if(usertype == "corporate"){
+            // Corporate should see all crops for sale
+            if(n=="cropsforsale"){ location.assign('/dashboard/cropsforsale.html'); }
+            if(n=="cropsforauction"){ location.assign('/dashboard/cropsforauction.html'); }
+            if(n=="inputsforsale"){ location.assign('/dashboard/viewuseraddedinput.html'); }
+        }else if(usertype == "merchant"){
+            // Merchant should see only his crops for sale
+            if(n=="cropsforsale"){ location.assign('/dashboard/viewusercropsforsale.html'); }
+            if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html'); }
+            if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html'); }
+
+            // if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html');
+            // }else{  }
+
+            // if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html');
+            // }else{  }
+        }
+    }
+</script>
+
+</body>
+</html>

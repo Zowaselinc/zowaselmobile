@@ -253,7 +253,7 @@
 
                 
                                 <!-- <button class="btn btn-success w-100 mt-4" onclick="location.assign('inputcartcheckout.html')">Proceed to Checkout</button> -->
-                                <button class="btn btn-success w-100 mt-4" onclick="proceedtoPayment()">Proceed to Payment</button>
+                                <button class="btn btn-success w-100 mt-4" onclick="proceedtoInputPayment()">Proceed to Payment</button>
                             </div>
 						</div>
                     </div>
@@ -333,7 +333,7 @@
 
 
     // <!-- ------------------------- PROCEED TO PAYMENT -------------------------- -->
-    const proceedtoPayment=()=>{
+    const proceedtoInputPayment=()=>{
         let waybill_address = $('#waybill_address').val();
         let waybill_country = $('#countryList').val();
         let waybill_state = $('#stateList').val();
@@ -344,7 +344,7 @@
             console.log(waybill_address, "-",waybill_country, "-",waybill_state, "-",waybill_city, "-",waybill_zip);
         }else{
 
-            makePayment();
+            makeInputPayment();
         }
     }
     // <!-- ------------------------- PROCEED TO PAYMENT -------------------------- -->

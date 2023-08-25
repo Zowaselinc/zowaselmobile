@@ -28,8 +28,20 @@ const createCartOrder =()=>{
                 // alert(response.message);
                 responsemodal("successicon.png", "Success", response.message);  
                 let data = response.data;
+                var allOrdersHash = [];
+                for(let i=0; i< data.length; i++){
+                    allOrdersHash.push(data[i]);
+                }
+                let finaldata = {
+                    orders: data,
+                    total: $('.total_price_count').html()
+                }
+
                 setTimeout(()=>{
-                    location.assign(`inputcartcheckout.html?ORD=${data.order_hash}`);
+                    // location.assign(`inputcartcheckout.html?ORD=${data.order_hash}`);
+                    location.assign(`inputcartcheckout.html`);
+                    console.log(JSON.stringify(finaldata));
+                    localStorage.setItem('inputcartcheckoutOrdersHash', JSON.stringify(finaldata));
                 },2000)    
             }
         },
@@ -77,9 +89,13 @@ function grabSingleOrderDetails(){
     $('#order_hash').val(order_hash);
     // console.log(order_hash, "order_hash");
 
+    let inputcartcheckoutOrdersHash = localStorage.getItem('inputcartcheckoutOrdersHash');
+    let order = JSON.parse(inputcartcheckoutOrdersHash);
+    let inputorder_hash = order.orders[0].order_hash;
+
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/order/${order_hash}`,
+        url: `${liveMobileUrl}/order/${inputorder_hash}`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -199,66 +215,74 @@ const updateDeliveryAddress=()=>{
         let pathname = window.location.search;
         let queryString = new URLSearchParams(pathname);
         let order_hash = queryString.get("ORD");
-        $.ajax({
-            url: `${liveMobileUrl}/order/${order_hash}/delivery`,
-            type: "POST",
-            "timeout": 25000,
-            "headers": {
-                "Content-Type": "application/json",
-                "authorization": localStorage.getItem('authToken')
-            },
-            "data": JSON.stringify({
-                "address": waybill_address,
-                "country": waybill_country,
-                "state": waybill_state,
-                "city": waybill_city,
-                "zip": waybill_zip
-            }),
-            success: function(response) { 
-                EndPageLoader();
-                console.log(response);
-                if(response.error === true){
-                    // alert(response.message);
-                    responsemodal("erroricon.png", "Error", response.message);
-                }else{
-                    // alert(response.message);
-                    responsemodal("successicon.png", "Success", response.message);  
-                    grabSingleOrderDetails();       
-                    $('#delivery-address-details, #openDeliveryAddressField_Button').show();
-                    $('#deliveryAddressForm').hide();     
+
+        let inputcartcheckoutOrdersHash = localStorage.getItem('inputcartcheckoutOrdersHash');
+        let order = JSON.parse(inputcartcheckoutOrdersHash);
+        let theorder = order.orders;
+
+        for(let i=0; i<theorder.length; i++){
+            let order_hash = theorder[i].order_hash;
+            $.ajax({
+                url: `${liveMobileUrl}/order/${order_hash}/delivery`,
+                type: "POST",
+                "timeout": 25000,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem('authToken')
+                },
+                "data": JSON.stringify({
+                    "address": waybill_address,
+                    "country": waybill_country,
+                    "state": waybill_state,
+                    "city": waybill_city,
+                    "zip": waybill_zip
+                }),
+                success: function(response) { 
+                    EndPageLoader();
+                    console.log(response);
+                    if(response.error === true){
+                        // alert(response.message);
+                        responsemodal("erroricon.png", "Error", response.message);
+                    }else{
+                        // alert(response.message);
+                        responsemodal("successicon.png", "Success", response.message);  
+                        grabSingleOrderDetails();       
+                        $('#delivery-address-details, #openDeliveryAddressField_Button').show();
+                        $('#deliveryAddressForm').hide();     
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    EndPageLoader();
+                    // console.log(xmlhttprequest, "Error code");
+                    if(textstatus==="timeout") {
+                        basicmodal("", "Service timed out <br/>Check your internet connection");
+                    }
+                },
+                statusCode: {
+                    200: function(response) {
+                        console.log('ajax.statusCode: 200');
+                    },
+                    400: function(response) {
+                        console.log('ajax.statusCode: 400');
+                        // console.log(response);
+                        responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                    },
+                    403: function(response) {
+                        console.log('ajax.statusCode: 403');
+                        basicmodal("", "Session has ended, Login again");
+                        setTimeout(()=>{
+                            logout();
+                        },3000)
+                    },
+                    404: function(response) {
+                        console.log('ajax.statusCode: 404');
+                    },
+                    500: function(response) {
+                        console.log('ajax.statusCode: 500');
+                    }
                 }
-            },
-            error: function(xmlhttprequest, textstatus, message) {
-                EndPageLoader();
-                // console.log(xmlhttprequest, "Error code");
-                if(textstatus==="timeout") {
-                    basicmodal("", "Service timed out <br/>Check your internet connection");
-                }
-            },
-            statusCode: {
-                200: function(response) {
-                    console.log('ajax.statusCode: 200');
-                },
-                400: function(response) {
-                    console.log('ajax.statusCode: 400');
-                    // console.log(response);
-                    responsemodal("erroricon.png", "Error", response.responseJSON.message);
-                },
-                403: function(response) {
-                    console.log('ajax.statusCode: 403');
-                    basicmodal("", "Session has ended, Login again");
-                    setTimeout(()=>{
-                        logout();
-                    },3000)
-                },
-                404: function(response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function(response) {
-                    console.log('ajax.statusCode: 500');
-                }
-            }
-        });
+            });
+        }
     }
 }
 /* ------------------------- UPDATE DELIVERY ADDRESS ------------------------ */
@@ -266,7 +290,7 @@ const updateDeliveryAddress=()=>{
 
 
 /* ----------------------------- // INPUT PAYMENT ---------------------------- */
-function makePayment() {
+function makeInputPayment() {
 
     let amount  = document.querySelector('#total_price');
     let user = localStorage.getItem('zowaselUser');
@@ -318,11 +342,13 @@ function makePayment() {
                 let transaction_id = data.transaction_id;
                 let transaction_reference = data.tx_ref;
                 if(data.status=="successful"){
-                    alert("Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
-                    // responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
+                    // alert("Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
+                    responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
+                    console.log("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                     setTimeout(()=>{
                         verifyTransaction(`${transaction_id}`, transaction_reference);
-                        alert("Crediting the enduser");
+                        // alert("Crediting the enduser");
+                        console.log("Verify transaction so that we can go to Crediting the enduser");
                     },2000)
                 }
                 
@@ -334,7 +360,8 @@ function makePayment() {
 
 
 function verifyTransaction(trans_id, trans_ref){
-    alert("Verify Transaction "+trans_id+" - Reference "+trans_ref);
+    // alert("Verify Transaction "+trans_id+" - Reference "+trans_ref);
+    console.log("Verify Transaction "+trans_id+" - Reference "+trans_ref);
     startPageLoader();
     // setTimeout(()=>{
     //     console.log($('#order_details').val(), "ORDER DETAILS");
@@ -344,18 +371,23 @@ function verifyTransaction(trans_id, trans_ref){
     user = JSON.parse(user);
     
     let user_id = user.user.id;
-    let userPaymentType = user.type;
-    let partial;
-    if(userPaymentType == "red-hot"){
-        partial = false;
-    }else{
-        partial = true;
-    }
+    // Merchant does not hav payment type
+    // let userPaymentType = user.type;
+    // let partial;
+    // if(userPaymentType == "red-hot"){
+    //     partial = false;
+    // }else{
+    //     partial = true;
+    // }
     
     let amount  = document.getElementById('total_price');
     let order_type  = document.getElementById('order_type');
     let order_type_id  = document.getElementById('order_type_id');
-    let order_hash = document.getElementById('order_hash');
+    // let order_hash = document.getElementById('order_hash');
+    let input_order_hash = localStorage.getItem('inputcartcheckoutOrdersHash');
+    input_order_hash = JSON.parse(input_order_hash);
+    let orders = input_order_hash.orders;
+
     
     $.ajax({
         url: `${liveMobileUrl}/transaction/verify`,
@@ -368,8 +400,8 @@ function verifyTransaction(trans_id, trans_ref){
         "data": JSON.stringify({
             "transaction_id": trans_id,
             "transaction_ref": trans_ref,
-            "order": order_hash.value,
-            "partial": partial
+            "order": JSON.stringify(orders),
+            "partial": false
         }),
         success: function(response) { 
             EndPageLoader();
@@ -379,7 +411,13 @@ function verifyTransaction(trans_id, trans_ref){
                 responsemodal("erroricon.png", "Error", response.message);
             }else{
                 // alert(response.message);
-                responsemodal("successicon.png", "Success", response.message);      
+                // responsemodal("successicon.png", "Success", response.message);
+                let goto = "/dashboard/order/orders.html";   
+                setTimeout(()=>{
+                    responsefullmodal("successicon3.png", "Payment Confirmed", "", goto);
+                    location.assign("/dashboard/order/paymentconfirmed.html");
+                    // alert("Time to redirect to paymentsconfirmed page");
+                },2000)      
             }
         },
         error: function(xmlhttprequest, textstatus, message) {

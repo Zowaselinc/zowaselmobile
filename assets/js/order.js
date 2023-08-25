@@ -75,6 +75,21 @@ function truncate(str, length) {
 }
 
 
+// I used this for delivery window in ordersummarydirect.html where I have {"from":"2023-08-12","to":"2023-08-20"}
+// and trying to convert to Aug 12 2023 - Aug 20 2023
+function formatDateRange(input) {
+    const fromDate = new Date(input.from);
+    const toDate = new Date(input.to);
+
+    const fromMonth = fromDate.toLocaleString('default', { month: 'short' });
+    const toMonth = toDate.toLocaleString('default', { month: 'short' });
+
+    const formattedDate = `${fromMonth} ${fromDate.getDate()} ${fromDate.getFullYear()} - ${toMonth} ${toDate.getDate()} ${toDate.getFullYear()}`;
+
+    return formattedDate;
+}
+
+
 
 /************************************************************************************
  * /* -------------------- // POPULATE ORDER DETAILS ------------------- *
@@ -318,7 +333,11 @@ function truncate(str, length) {
                     
                     if(croprequest){
                         if(croprequest.delivery_window){
-                            $('.delivery_window').html(croprequest.delivery_window);
+                            let dateRangeInput = croprequest.delivery_window;
+                            let parsedDataRangeInput = JSON.parse(dateRangeInput);
+                            let formattedDateRange = formatDateRange(parsedDataRangeInput);
+                            // console.log(formattedDateRange);
+                            $('.delivery_window').html(formattedDateRange);
                         }else{ $('.delivery_window').html("-"); }
                     }else{
                         function addWeeks(date, weeks) {
@@ -377,7 +396,7 @@ function truncate(str, length) {
                         if(thedata.tracking_details){
                             $('.ordertracking_button').show();
                         }
-
+                      
                         if(!thedata.waybill_details){
                             $('.waybilldetails_button').show();
                             $('.ordertracking_button').hide();
@@ -779,7 +798,7 @@ const waybillDetailsPage =()=>{
                 // alert(response.message);
                 responsemodal("successicon.png", "Success", response.message);
                 setTimeout(()=>{
-                    // location.assign('ordertracking.html');
+                    location.assign('ordertracking.html');
                 },2500)      
             }
         },
@@ -1205,11 +1224,12 @@ const orderPaymentPage=()=>{
                     let transaction_id = data.transaction_id;
                     let transaction_reference = data.tx_ref;
                     if(data.status=="successful"){
-                        alert("Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
+                        // alert("Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         // responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + transaction_reference);
                         setTimeout(()=>{
                             verifyTransaction(`${transaction_id}`, transaction_reference);
-                            alert("Crediting the enduser");
+                            // alert("Crediting the enduser");
+                            console.log("Crediting the enduser");
                         },2000)
                     }
                     
@@ -1221,7 +1241,8 @@ const orderPaymentPage=()=>{
 
 
     function verifyTransaction(trans_id, trans_ref){
-        alert("Verify Transaction "+trans_id+" - Reference "+trans_ref);
+        // alert("Verify Transaction "+trans_id+" - Reference "+trans_ref);
+        console.log("Verify Transaction "+trans_id+" - Reference "+trans_ref);
         startPageLoader();
         // setTimeout(()=>{
         //     console.log($('#order_details').val(), "ORDER DETAILS");
@@ -1266,7 +1287,13 @@ const orderPaymentPage=()=>{
                     responsemodal("erroricon.png", "Error", response.message);
                 }else{
                     // alert(response.message);
-                    responsemodal("successicon.png", "Success", response.message);      
+                    // responsemodal("successicon.png", "Success", response.message); 
+                    let goto = "/dashboard/order/orders.html";   
+                    setTimeout(()=>{
+                        responsefullmodal("successicon3.png", "Payment Confirmed", "", goto);
+                        location.assign("/dashboard/order/paymentconfirmed.html")
+                        // alert("Time to redirect to paymentsconfirmed page");
+                    },2000)  
                 }
             },
             error: function(xmlhttprequest, textstatus, message) {

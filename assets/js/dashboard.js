@@ -219,22 +219,35 @@ function callSocket(){
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     // initialize the Socket.IO client and establish a connection with the server
-    // const socket = io(`${socketURL}`);
-    const socket = io(`${socketProductionURL}`);
+    const socket = io(`${socketURL}`);
+    // const socket = io(`${socketProductionURL}`);
+    socket.emit('checkifconnected',"We are connected to server");
 
     socket.on("connect", () => {
         console.log(socket.id, "Socket ID");
 
+        // Emitting data to the server
+        // socket.emit('eventName', { key: 'value' });
+        // In frontend emit event you want to see at backend, eg socket.emit('event', 100);
         socket.emit("registerSocket", {
             // user_id: this.userData.user.id,
             user_id: user.user.id,
             socket_id: socket.id,
         });
     });
+
+    
     // Store socket in global window object
     window.AppSocket = socket;
 }
 
+
+// listen to CropRequest
+function nn(){
+    window.AppSocket.on("notification", (data) => {
+      console.log("Notification Socket App Socket Listen to Crop Request ",data);
+    });
+}
 
 function pageRestriction(){
     // alert("page restriction");
@@ -244,12 +257,13 @@ function pageRestriction(){
     // alert(`${socketURL}`);
     const socket = io(`${socketURL}`);
 
-    socket.emit('isconnected',"We are connected");
+    // This Socket code now works well in ~providers/Socket.js no longer services/socket.js
+    socket.emit('isconnected',"We are connected to front end");
     const usersocketchannel="ZWSL"+user_id;
     socket.emit("kycperson",{"userid":user_id})
     socket.on(usersocketchannel,function(data){
 
-        // console.log(data, "KYC/KYB Socket data");
+        console.log(data, "KYC/KYB Socket data");
         // alert("SOcket entered")
 
         // COOKIES
@@ -378,10 +392,10 @@ function pageRestriction(){
         // alert("SOcket entered")
     })
 
-    // socket.on("db",function(data){
-    //     console.log(data, "DB Socket data");
-    //     // alert("SOcket entered")
-    // })
+    socket.on("db",function(data){
+        console.log(data, "DB Socket data");
+        // alert("SOcket entered")
+    })
 
 }
 
@@ -467,14 +481,15 @@ function checkifKYCis_done(){
         
     }
 
-    if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
-    ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
-    ||pathname.includes('dashboard/checkuserkybverification')
-    ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
-    ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
-    ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
+    // if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
+    // ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+    // ||pathname.includes('dashboard/checkuserkybverification')
+    // ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
+    // ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
+    // ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
 
-    }else{
+    // }else{
+    if(pathname.includes('dashboard/wallet')){
         if(userkycDoneStatus == 0){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/checkuserverification.html');
@@ -545,13 +560,16 @@ function checkifKYBis_verified(){
     ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')){
 
     }else{
+        // alert(userkybstatus.toLowerCase());
         if(userkybstatus.toLowerCase() == "pending" || userkybstatus.toLowerCase() == "failed"){
             // console.log(window.location)
             location.assign(window.location.origin+'/dashboard/checkuserkybverification.html');
-        }else{
-            console.log("KYB is verified");
-            // THE END OF USER VERIFICATION IF THE USER HAS A COMPANY
         }
+        if(userkybstatus.toLowerCase() === "complete"){
+            console.log("KYB is verified");
+            // alert("KYB is verified");
+        }
+        // THE END OF USER VERIFICATION IF THE USER HAS A COMPANY
     }
     
 }
@@ -1250,7 +1268,8 @@ const fetchRecentTransactions=()=>{
                 let index;
                 // console.log(thedata, "All Recent transactions");
                 if(thedata.length > 0){
-                    for (let i = 0; i < thedata.length; i++) {
+                    // for (let i = 0; i < thedata.length; i++) {
+                    for (let i = thedata.length-1; i >= 0; i--) {
                       // console.log('Hello World', + i);
                         let row = thedata[i];
                         index= i+1;
@@ -1521,7 +1540,8 @@ function fetchWithdrawalHistory(){
 function fetchAllBanks(){
     startPageLoader();
     $.ajax({
-        url: `${liveMobileUrl}/wallet/fetchallbanks`,
+        // url: `${liveMobileUrl}/wallet/fetchallbanks`,
+        url: `${liveMobileUrl}/vfdwallet/banklist`,
         type: "GET",
         "timeout": 25000,
         "headers": {
@@ -1533,28 +1553,36 @@ function fetchAllBanks(){
             // alert("efe");
             EndPageLoader();
             // $('.loader').hide();
-            // console.log(response, "The recent transactions response");
+            console.log(response, "The recent transactions response");
             if(response.error === true){
                 // alert(response.message);
                 // responsemodal("erroricon.png", "Error", response.message);
                 console.log(response.message);
             }else{
                 // alert(response.message);
-                let thedata = response.data;
+                let thedata = response.data.response.bank;
                 let rowContent = "";
-                let index;
+                let index, bankname;
                 // console.log(thedata, "All flw banks in NG");
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
+                        // let row = thedata[i];
                         let row = thedata[i];
+                        bankname = row.name;
+                        bankcode = row.code;
+                        banklogo = row.logo;
                         index= i+1;
 
                         rowContent += `
-                            <option value="${row.name}">${row.name}</option>
+                            <option value="${bankcode}" data-logo="${banklogo}">${bankname}</option>
                         `;   
                     }
                     $('#selectedbank').append(rowContent);
+                    // Sort the options alphabetically
+                    if(rowContent){
+                        // sortBanksAlphabetically();
+                    }
           
                 }else{
                     console.log("No bank found from third party");
@@ -1599,6 +1627,103 @@ function fetchAllBanks(){
 }
 /* ------------------- CALL FLUTTERWAVE FETCH ALL BANK API ------------------ */
 
+
+
+/* ------------------ SORT BANKS OPTION LIST ALPHABETICALLY ----------------- */
+function sortBanksAlphabetically(){
+    // Get the select element
+    const bankSelect = document.getElementById('selectedbank');
+
+    // Get all the option elements within the select
+    const options = Array.from(bankSelect.options);
+
+    // Sort the options alphabetically
+    options.sort((a, b) => a.text.localeCompare(b.text));
+
+    // Clear the select element
+    bankSelect.innerHTML = '';
+
+    // Append the sorted options back to the select element
+    options.forEach(option => {
+        bankSelect.appendChild(option);
+    });
+}
+/* ------------------ SORT BANKS OPTION LIST ALPHABETICALLY ----------------- */
+
+
+
+
+/* ------------------------ GET BENEFICIARY ENQUIRIES ----------------------- */
+function getBeneficiaryEnquiry(bankcode, account_number){
+    // console.log(bankcode, " ", account_number);
+    $('#account_name').val('--Searching for Account Name--');
+    $.ajax({
+        url: `${liveMobileUrl}/vfdwallet/beneficiarydetails`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "account_number": account_number,
+            "bank_code": bankcode
+        }),
+        "crossDomain": true,
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            console.log(response, "Get Beneficiary Enquiry");
+            if(response.error === true){
+                // alert(response.message);
+                // responsemodal("erroricon.png", "Error", response.message);
+                console.log(response.message);
+            }else{
+                // alert(response.message);
+                console.log(response);
+                let thedata = response.data.response;
+                $('#account_name').val(thedata.name);
+                let account_name = document.getElementById('account_name');
+                account_name.value = thedata.name;
+                // alert(thedata.name);
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                // console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                // responsemodal("erroricon.png", "Error", response.responseJSON.message);
+                $('#fundingHistory').html("<h5 class='text-center'>"+response.responseJSON.message+"</h5>");
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+
+}
+/* ------------------------ GET BENEFICIARY ENQUIRIES ----------------------- */
 
 
 
@@ -1886,7 +2011,7 @@ function fetchAllCropsForSale(){
                                     </a>
 
                                     <div class="d-flex mt-3">
-                                        <span class="cropstatus cropActive CropActive2hide_show ${activeProductClass}"></span>
+                                        <span class="cropstatus cropActive cropActiveStatus CropActive2hide_show ${activeProductClass}"></span>
                                         <span class="cropstatus cropNegotiable ${negotiationProductClass}"></span>
                                     </div>
 
@@ -2270,7 +2395,7 @@ function activate_deactivateInput(input_id, activate_deactivate){
           //   alert("Ewo");
           startPageLoader();
             $.ajax({
-                url: `${liveMobileUrl}/input/${input_id}/${activate_deactivate_action}`,
+                url: `${liveMobileUrl}/input/activation/${input_id}/${activate_deactivate_action}`,
                 type: "POST",
                 "timeout": 25000,
                 "headers": {
@@ -2742,7 +2867,7 @@ function populateSingleProductDetails(){
 
                 // INPUT VALUES
                 $('#productAmount').val(thedata.specification.price);
-                $('#productAmount').attr("max",thedata.specification.price);
+                // $('#productAmount').attr("max",thedata.specification.price);
                 $('#productPackaging').val(thedata.packaging);
                 $('#productCategory').html(thedata.category.name);
                 $('#testWeight').val(thedata.specification.test_weight);
@@ -3244,8 +3369,11 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             
                             if(usertype == "merchant"){
                                 // alert(row[x].status);
+                                // alert(negotiationpage_type);
                                 if(row[x].status == "declined"){
-                                    $('.open_offer_form').show();
+                                    setTimeout(()=>{
+                                        $('.open_offer_form').show();
+                                    },2500)
                                 }
                                 if(row[x].type == "merchant"){
                                     chatboxClass = `user`;
@@ -3260,7 +3388,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
                                     $('.open_offer_form').show();
-                                }else if(negotiationpage_type=="cropwanted"){
+                                }else if(negotiationpage_type=="wanted"){
                                     accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
                                 }else if(negotiationpage_type=="offer"){
                                     accept_decline_checkbox = `
@@ -3289,7 +3417,7 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                     accept_decline_checkbox = `Offer accepted. <span style="color:#30BD6E;" class="fw-bolder" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">Proceed to payment.</span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger">Offer declined.</span>`;
-                                }else if(negotiationpage_type=="cropwanted"){
+                                }else if(negotiationpage_type=="wanted"){
                                     accept_decline_checkbox = `
                                         <form>
                                             <div class="d-flex justify-content-between">
@@ -3314,12 +3442,14 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                             // console.log(timeInAmPm, "timeInAmPm");
 
                             let themessagetype = row[x].messagetype;
+                            // alert(themessagetype);
+                            
                             if(usertype=="merchant"&&negotiationpage_type=="offer"){
                                 $('.open_offer_form').hide();
                             }
                             if(themessagetype == "offer"){
                                 // Hide Send offer button if an offer has been sent already
-                                $('.open_offer_form').hide();
+                                // $('.open_offer_form').hide();
                                 // Hide Send offer button if an offer has been sent already
                             }
                             // let themessageandType;
@@ -3343,8 +3473,12 @@ const populateUserandFarmOwnerNegotiationMessages =()=>{
                                                 <hr />
                                                 <div class="white-line"></div>
                                                 <div class="each-item">
-                                                    <p>Required Item</p>
-                                                    <h4>${offerbox.qty}${offerbox.test_weight}</h4>
+                                                    <p>Required Item(s)</p>
+                                                    <h4>${offerbox.qty}</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Test Weight</p>
+                                                    <h4>${offerbox.test_weight}</h4>
                                                 </div>
                                                 <div class="each-item">
                                                     <p>Offer Price</p>
@@ -3571,7 +3705,7 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                     accept_decline_checkbox = `<span class="fw-bolder">Offer accepted <span style="color:#30BD6E;" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">See Order Summary</span></span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger fw-bolder">Offer declined.</span>`;
-                                }else if(negotiationpage_type=="cropwanted"){
+                                }else if(negotiationpage_type=="wanted"){
                                     accept_decline_checkbox = `We will let you know when corporate accepts/declines offer.`;
                                 }else if(negotiationpage_type=="offer"){
                                     accept_decline_checkbox = `
@@ -3597,7 +3731,7 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                     accept_decline_checkbox = `Offer accepted. <span style="color:#30BD6E;" class="fw-bolder" onclick="gotoOrderSummary('${row[x].order.order_hash.toString()}')">Proceed to payment.</span>`;
                                 }else if(row[x].status == "declined"){
                                     accept_decline_checkbox = `<span class="text-danger">Offer declined.</span>`;
-                                }else if(negotiationpage_type=="cropwanted"){
+                                }else if(negotiationpage_type=="wanted"){
                                     accept_decline_checkbox = `
                                         <form>
                                             <div class="d-flex justify-content-between">
@@ -3627,7 +3761,7 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                             }
                             if(themessagetype == "offer"){
                                 // Hide Send offer button if an offer has been sent already
-                                $('.open_offer_form').hide();
+                                // $('.open_offer_form').hide();
                                 // Hide Send offer button if an offer has been sent already
                             }
                             // let themessageandType;
@@ -3651,8 +3785,12 @@ const populateUserandFarmOwnerNegotiationMessages2 =()=>{
                                                 <hr />
                                                 <div class="white-line"></div>
                                                 <div class="each-item">
-                                                    <p>Required Item</p>
-                                                    <h4>${offerbox.qty}${offerbox.test_weight}</h4>
+                                                    <p>Required Item(s)</p>
+                                                    <h4>${offerbox.qty}</h4>
+                                                </div>
+                                                <div class="each-item">
+                                                    <p>Test Weight</p>
+                                                    <h4>${offerbox.test_weight}</h4>
                                                 </div>
                                                 <div class="each-item">
                                                     <p>Offer Price</p>
@@ -3837,7 +3975,7 @@ function acceptoffer(negotiation_id){
 /* ------------------------------ DECLINE OFFER ------------------------------ */
 function declineoffer(negotiation_id){
     // alert("Decline offer "+negotiation_id);
-    mcxDialog.confirm("I accept this offer with the price and specification", {
+    mcxDialog.confirm("I accept to decline this offer", {
         sureBtnClick: function(){
           // callback
           //   alert("Ewo");
@@ -5644,7 +5782,7 @@ function goToInputDetails1(n){
     location.assign('inputdetail.html');
     let singleInputDetails = $('#rowdetails'+n).text();
     // alert(singleInputDetails);
-    // localStorage.setItem('singleInputDetails', singleInputDetails);
+    localStorage.setItem('singleInputDetails', singleInputDetails);
     localStorage.setItem('singleInputID', n);
     localStorage.setItem('last_input_crop_page',"inputs.html");
 }
@@ -5779,6 +5917,7 @@ function populateSingleInputDetails(){
                     isverified = `Verified &nbsp;<img src="../assets/icons/check.png" width="12px" alt="">`;
                 // }
                 $('.isVerified').html(isverified);
+                $('.productCategory').html(truncate(input.category.name, 10));
                 $('.catalog').html(input.category.name);
                 $('.product_type').html(input.product_type);
                 $('.manufacture_country').html(input.manufacture_country);
@@ -6160,10 +6299,11 @@ function decrement(n, price){
 }
 
 function increment(n, price){
+    console.log(n, price);
     let qty = document.getElementById('quantity'+n);
     // alert(qty.value);
     let stock = document.getElementById('stock'+n);
-    // alert(stock.value);
+    alert(stock.value);
     let subtotal = document.getElementById('subtotal'+n);
     if(parseInt(qty.value) >= parseInt(stock.value)){
         
