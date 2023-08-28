@@ -34,7 +34,7 @@ const createCartOrder =()=>{
                 }
                 let finaldata = {
                     orders: data,
-                    total: $('.total_price_count').html()
+                    // total: $('.total_price_count').html()
                 }
 
                 setTimeout(()=>{
@@ -91,7 +91,7 @@ function grabSingleOrderDetails(){
 
     let inputcartcheckoutOrdersHash = localStorage.getItem('inputcartcheckoutOrdersHash');
     let order = JSON.parse(inputcartcheckoutOrdersHash);
-    let inputorder_hash = order.orders[0].order_hash;
+    let inputorder_hash = order.orders.orders[0].order_hash;
 
     startPageLoader();
     $.ajax({
@@ -218,7 +218,7 @@ const updateDeliveryAddress=()=>{
 
         let inputcartcheckoutOrdersHash = localStorage.getItem('inputcartcheckoutOrdersHash');
         let order = JSON.parse(inputcartcheckoutOrdersHash);
-        let theorder = order.orders;
+        let theorder = order.orders.orders;
 
         for(let i=0; i<theorder.length; i++){
             let order_hash = theorder[i].order_hash;
@@ -349,6 +349,15 @@ function makeInputPayment() {
                         verifyTransaction(`${transaction_id}`, transaction_reference);
                         // alert("Crediting the enduser");
                         console.log("Verify transaction so that we can go to Crediting the enduser");
+
+                        // I have to put the page successful here for good user experience
+                        // let goto = "/dashboard/order/orders.html";   
+                        setTimeout(()=>{
+                            // responsefullmodal("successicon3.png", "Payment Confirmed", "", goto);
+                            location.assign("/dashboard/order/paymentconfirmed.html");
+                            // alert("Time to redirect to paymentsconfirmed page");
+                        },100) 
+
                     },2000)
                 }
                 
@@ -386,7 +395,12 @@ function verifyTransaction(trans_id, trans_ref){
     // let order_hash = document.getElementById('order_hash');
     let input_order_hash = localStorage.getItem('inputcartcheckoutOrdersHash');
     input_order_hash = JSON.parse(input_order_hash);
-    let orders = input_order_hash.orders;
+    let orders = input_order_hash.orders.orders;
+
+    var orderHashes = [];
+    orders.forEach((order) => {
+        orderHashes.push(order.order_hash);
+    });
 
     
     $.ajax({
@@ -400,7 +414,7 @@ function verifyTransaction(trans_id, trans_ref){
         "data": JSON.stringify({
             "transaction_id": trans_id,
             "transaction_ref": trans_ref,
-            "order": JSON.stringify(orders),
+            "order": orderHashes,    
             "partial": false
         }),
         success: function(response) { 
@@ -411,13 +425,16 @@ function verifyTransaction(trans_id, trans_ref){
                 responsemodal("erroricon.png", "Error", response.message);
             }else{
                 // alert(response.message);
-                // responsemodal("successicon.png", "Success", response.message);
-                let goto = "/dashboard/order/orders.html";   
+                responsemodal("successicon.png", "Success", response.message);
+                // let goto = "/dashboard/order/orders.html";   
                 setTimeout(()=>{
-                    responsefullmodal("successicon3.png", "Payment Confirmed", "", goto);
-                    location.assign("/dashboard/order/paymentconfirmed.html");
+                    // responsefullmodal("successicon3.png", "Payment Confirmed", "", goto);
+                    // location.assign("/dashboard/order/paymentconfirmed.html");
+                    // localStorage.removeItem('inputcartcheckoutOrdersHash');
+                    // localStorage.removeItem('singleInputDetails');
+                    // localStorage.removeItem('orderHash');
                     // alert("Time to redirect to paymentsconfirmed page");
-                },2000)      
+                },500)      
             }
         },
         error: function(xmlhttprequest, textstatus, message) {

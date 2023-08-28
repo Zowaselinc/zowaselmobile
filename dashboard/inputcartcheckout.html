@@ -309,6 +309,14 @@
 <script>
     $(".stepper").TouchSpin();
 </script>
+
+<script>
+    let inputcartcheckoutOrdersHash = localStorage.getItem('inputcartcheckoutOrdersHash');
+    if(!inputcartcheckoutOrdersHash){
+        location.assign('/dashboard/inputs.html');
+    }
+</script>
+
 <script>
     sidemenu();
     populateUserDetails();

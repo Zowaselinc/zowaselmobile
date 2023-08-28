@@ -115,80 +115,13 @@
 <script src="../../assets/js/jspdf.plugin.autotable.min.js"></script>
 
 <script src="../../index.js" defer></script>
-<script>
-    $(".stepper").TouchSpin();
-</script>
-<script>
-    // sidemenu();
-    // populateUserDetails();
-    populateOrderSummaryDetails();
-</script>
+
 
 <script>
-    let user = localStorage.getItem('zowaselUser');
-    user = JSON.parse(user);
-    let userid = user.user.id;
-    let usertype = user.user.type;
-
-
-    if(usertype == "corporate"){
-        $('.merchantSideOnly').hide();
-    }else{
-        $('.merchantSideOnly').show()
-    }
-
-
-    const switchtab =(switchname)=>{
-        // alert(switchname);
-        $('.price-details, .full-spec, .purchase-order').removeClass('active-Tab');
-
-        if(switchname=="pricingDetails"){
-            $('.fullSpecifications_Container, .purchaseOrder_Container').hide();
-            $('.pricingDetails_Container').show();
-            $('.price-details').addClass('active-Tab');
-        }else if(switchname=="fullSpecification"){
-            $('.pricingDetails_Container, .purchaseOrder_Container').hide();
-            $('.fullSpecifications_Container').show();
-            $('.full-spec').addClass('active-Tab');
-        }else if(switchname=="purchaseOrder"){
-            $('.fullSpecifications_Container, .pricingDetails_Container').hide();
-            $('.purchaseOrder_Container').show();
-            $('.purchase-order').addClass('active-Tab');
-        }
-
-
-    }
-
-
-
-    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
-    var doc = new jsPDF('p','pt','a4','letter'); // create new jsPDF() function
-    var specialElementHandlers = { 
-    '#editor': function(element, renderer) { // this is where the specific content of our PDF will be rendered
-        return true;
-    }
-    };
-
-    // Download Full Specification
-    $('.downloadFullSpecification').click(function() { // upon clicking the downloadFullSpecification button, perform the following function
-        doc.fromHTML(
-            $('.content').html() // take HTML from the .content section
-            , 15 // margin from the left
-            , 15 // margin from the top
-            , { 
-                'width': 170, // max width of content in PDF
-                'elementHandlers': specialElementHandlers // include are handler from above
-            }
-        );
-        doc.save('productquality_specification.pdf'); // save pdf to a file with name content.pdf
-    });
-    // Download Full Specification
-
-
-
-
-    // <!-- --------------------------- DOWNLOAD AS PDF --------------------------- -->
-
+    localStorage.removeItem('inputcartcheckoutOrdersHash');
+    localStorage.removeItem('singleInputDetails');
+    localStorage.removeItem('orderHash');
 </script>
+
 </body>
 </html>
