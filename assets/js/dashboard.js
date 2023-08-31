@@ -1099,6 +1099,9 @@ const fundWalletPage=()=>{
                     let reference = data.tx_ref;
                     // alert("Payment was successfully completed! \nTransaction Reference:" + reference);
                     responsemodal("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + reference);
+                    console.log("successicon.png", "Success", "Payment was successfully completed! \nTransaction Reference:" + reference);
+                
+                
                 }
             });
 
@@ -2192,6 +2195,19 @@ function populateSingleMyPersonalProductDetails(){
                 let auction_details;
                 if(thedata.auction){
                     let auction = thedata.auction;
+
+                    // CHECK FOR AUCTION REMAINING AND END DATE
+                    let daysRemaining = daysDifferenceday(new Date(), auction.end_date);
+                    let daysLeft;
+                    if(daysRemaining === 0){
+                        daysLeft = "<span class='bg-primary text-white d-block m-auto px-3 py-2 btn'>1 day left, Bid ends today</span>";
+                    }else if(daysRemaining < 0){
+                        daysLeft = "<span class='bg-danger text-white d-block m-auto px-3 py-2 btn'>Bid duration has ended</span>";
+                    }else{
+                        daysLeft = "<span class='bg-warning text-white d-block m-auto px-3 py-2 btn'>"+Math.round(daysRemaining)+" days remaining for auction bids </span>";
+                    }
+                    // CHECK FOR AUCTION REMAINING AND END DATE
+
                     auction_details = `
                         <h5>Auction Details</h5>
                         <div class="row col-12">
@@ -2201,7 +2217,7 @@ function populateSingleMyPersonalProductDetails(){
                             </div>
                             <div class="col-6">
                                 <h6>End Date:</h6>
-                                <span>${auction.end_date}</span>
+                                <span id="auction_end_date">${auction.end_date}</span>
                             </div>
                         </div>
 
@@ -2214,6 +2230,10 @@ function populateSingleMyPersonalProductDetails(){
                                 <h6>Created Date:</h6>
                                 <span>${auction.created_at.split(" ")[0]}</span>
                             </div>
+                        </div>
+
+                        <div class="row mt-4 mb-5">
+                            <div class="daysRemaining">${daysLeft}</div>
                         </div>
                     `;
 
@@ -2476,7 +2496,8 @@ function editInput(input_id){
 
 function openallAuctionBids(crop_id){
     startPageLoader();
-
+    console.log("mypersonalproductdetails.html Page");
+    
     $.ajax({
         url: `${liveMobileUrl}/crop/${crop_id}/bid`,
         type: "GET",
@@ -2495,20 +2516,62 @@ function openallAuctionBids(crop_id){
             }else{
                 // responsemodal("successicon.png", "Success", response.message);
                 $('.p_bid_table').show();
-                // console.log(response);
+                console.log("Error False ",response);
                 let thedata = response.data;
                 thedata.reverse();
-                let bid_data;
                 // console.log(thedata.length)
+
+                let auctionEndDate = $('#auction_end_date').html();
+                let daysRemaining = daysDifferenceday(new Date(), auctionEndDate);
+                // CHECK FOR AUCTION REMAINING AND END DATE
+                let auctionStatus;
+                if(daysRemaining < 0){
+                    auctionStatus = "ended";
+                }else{
+                    auctionStatus = "ongoing"
+                }
+                // CHECK FOR AUCTION REMAINING AND END DATE
+
+                let highestAmount = -1; // Initialize with a negative value
+                let highestAmountIndex = -1;
+
+                thedata.forEach((item, index) => {
+                    const amount = parseFloat(item.amount); // Convert to a number for comparison
+                    if (amount > highestAmount) {
+                        highestAmount = amount;
+                        highestAmountIndex = index;
+                    }
+                });
+                
+                let bid_data;
                 for(let i=0; i<thedata.length; i++){
                     let user = thedata[i].user;
+                    
                     bid_data +=`
-                    <tr>
-                        <td id="" style="display:none;">${thedata[i]}</td>
-                        <th scope="row">${thedata[i].created_at}</th>
-                        <td>${user.first_name+" "+user.last_name}</td>
-                        <td>${thedata[i].amount}</td>
-                    </tr>
+                        <tr style=${
+                            i === highestAmountIndex && auctionStatus === "ended"
+                            ? "background:#d3d3d3;":''
+                        }>
+                            <td id="" style="display:none;">${thedata[i]}</td>
+                            <th scope="row">${thedata[i].created_at}</th>
+                            <td>${user.first_name+" "+user.last_name}</td>
+                            <td>${thedata[i].amount}</td>
+                            <td>
+                                ${
+                                    i === highestAmountIndex && auctionStatus === "ended"
+                                    ?
+                                    `<button class="btn btn-sm zowasel-bg text-white" id="notifybtn${thedata[i].crop_id}" onclick="notifyHighestBidder('auction',${thedata[i].crop_id},${thedata[i].amount},${thedata[i].user_id})">
+                                        Notify Buyer
+                                    </button>
+                                    <button class="btn btn-sm zowasel-darkblue-bg text-white" style="display:none;" id="disabled_notifybtn${thedata[i].crop_id}">
+                                        Noitfication Sent
+                                    </button>
+                                    `
+                                    :
+                                    ''
+                                }
+                            </td>
+                        </tr>
                     `;
                 }
                 $('#p_bids').html(bid_data);
@@ -6892,21 +6955,50 @@ function goToMyPersonalCropDetails2(n){
 
 
 
-/* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
-function acceptOfferDirectly(){
+/* -------------------------- ACCEPT OFFER DIRECTLY / PROCEED FOR AUCTION HIGHEST BIDDER ------------------------- */
+function acceptOfferDirectly(type, cropid, amount){
     
     let user = localStorage.getItem('zowaselUser');
     user = JSON.parse(user);
     let userid = user.user.id;
     let usertype = user.user.type;
-    let crop_DBQuantity = $('.productQuantity').text();
-    let accepted_quantity = parseInt($('#accepted_quantity').val());
+
+    let singleproductID;
+    let accepted_quantity;
+    let the_payload;
+
+    if(!(type && cropid && amount)){
+        singleproductID = localStorage.getItem('singleproductID');
+
+        let crop_DBQuantity = $('.productQuantity').text();
+        accepted_quantity = parseInt($('#accepted_quantity').val());
+        if(accepted_quantity > crop_DBQuantity){
+            responsemodal("erroricon.png", "", "Quantity exeeds offer quantity");
+            return;
+        }
+
+        the_payload = JSON.stringify({
+            "quantity": accepted_quantity,
+            "user_id": userid,
+            "user_type": usertype
+        })
+    }
+
+    if(type && cropid && amount){
+        singleproductID = cropid;
+        accepted_quantity = 1;
+        // alert(type+", "+singleproductID+" and "+amount);
+        the_payload = JSON.stringify({
+            "quantity": accepted_quantity,
+            "user_id": userid,
+            "user_type": usertype,
+            "amount": amount
+        })
+    }
+
     
-    let singleproductID = localStorage.getItem('singleproductID');
-    
-    if(accepted_quantity > crop_DBQuantity){
-        responsemodal("erroricon.png", "", "Quantity exeeds offer quantity");
-    }else{
+
+    // else{
         startPageLoader();
         $.ajax({
             url: `${liveMobileUrl}/crop/${singleproductID}/fulfil`,
@@ -6916,11 +7008,7 @@ function acceptOfferDirectly(){
                 "Content-Type": "application/json",
                 "authorization": localStorage.getItem('authToken')
             },
-            "data": JSON.stringify({
-                "quantity": parseInt($('#accepted_quantity').val()),
-                "user_id": userid,
-                "user_type": usertype
-            }),
+            "data": the_payload,
             success: function(response) { 
                 // alert("efe");
                 EndPageLoader();
@@ -6951,6 +7039,10 @@ function acceptOfferDirectly(){
                 400: function(response) {
                     console.log('ajax.statusCode: 400');
                     // console.log(response);
+                    if(response.responseJSON.data == "order found"){
+                        basicmodal("", response.responseJSON.message);
+                        return;
+                    }
                     responsemodal("erroricon.png", "Error", response.responseJSON.message);
                 },
                 403: function(response) {
@@ -6968,9 +7060,98 @@ function acceptOfferDirectly(){
                 }
             }
         });
-    }
+    // }
 }
-/* -------------------------- ACCEPT OFFER DIRECTLY ------------------------- */
+/* -------------------------- ACCEPT OFFER DIRECTLY / PROCEED FOR AUCTION HIGHEST BIDDER ------------------------- */
+
+
+
+
+/* ----------------------- SEND MAIL TO HIGHEST BIDDER ---------------------- */
+function notifyHighestBidder(type, cropid, amount, bidder_id){
+    let user = localStorage.getItem('zowaselUser');
+    user = JSON.parse(user);
+    let userid = user.user.id;
+    let usertype = user.user.type;
+
+    let singleproductID;
+    let accepted_quantity;
+    let the_payload;
+
+    if(type && cropid && amount){
+        singleproductID = cropid;
+        accepted_quantity = 1;
+        // alert(type+", "+singleproductID+" and "+amount);
+        the_payload = JSON.stringify({
+            "quantity": accepted_quantity,
+            "user_id": userid,
+            "user_type": usertype,
+            "amount": amount,
+            "bidder_id": bidder_id
+        })
+    }
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/crop/${singleproductID}/notify_highest_bidder`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": the_payload,
+        success: function(response) { 
+            // alert("efe");
+            EndPageLoader();
+            // $('.loader').hide();
+            if(response.error == true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                $(`#notifybtn${cropid}`).hide();
+                $(`#disabled_notifybtn${cropid}`).show();
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                if(response.responseJSON.data == "order found"){
+                    basicmodal("", response.responseJSON.message);
+                    return;
+                }
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+}
+/* ----------------------- SEND MAIL TO HIGHEST BIDDER ---------------------- */
 
 
 
@@ -7068,6 +7249,10 @@ function fetchAuctionBidsByCropID(){
     let crop_id = queryString.get("crop");
     // console.log(crop_id);
 
+    let user = JSON.parse(localStorage.getItem('zowaselUser'));
+    let user_id = user.user.id;
+    // alert(user_id);
+
     if(!crop_id){
         $('#p_bids').html("<tr><td colspan='9' class='text-center'><h5 class='pt-2'>Crop not identified</h5></td></tr>");
     }else{
@@ -7092,10 +7277,32 @@ function fetchAuctionBidsByCropID(){
                 }else{
                     // alert(response.message);
                     let thedata = (response.data).reverse();
+                    console.log(thedata, "Bid data");
+
+                    let auctionEndDate = thedata[0].auction.end_date;
+                    let daysRemaining = daysDifferenceday(new Date(), auctionEndDate);
+                    // CHECK FOR AUCTION REMAINING AND END DATE
+                    let auctionStatus;
+                    if(daysRemaining < 0){
+                        auctionStatus = "ended";
+                    }else{
+                        auctionStatus = "ongoing"
+                    }
+                    // CHECK FOR AUCTION REMAINING AND END DATE
+
+                    let highestAmount = -1; // Initialize with a negative value
+                    let highestAmountIndex = -1;
+
+                    thedata.forEach((item, index) => {
+                        const amount = parseFloat(item.amount); // Convert to a number for comparison
+                        if (amount > highestAmount) {
+                            highestAmount = amount;
+                            highestAmountIndex = index;
+                        }
+                    });
+
                     let rowContent = "";
                     let index;
-                    // console.log(thedata, "category data");
-                    // console.log(JSON.parse(thedata[7].tracking_details).transit.length);
                     if(thedata.length > 0){
                         for (let i = 0; i < thedata.length; i++) {
                         //   console.log('Hello World', + i);
@@ -7103,11 +7310,26 @@ function fetchAuctionBidsByCropID(){
                             index= i+1;
 
                             rowContent += `
-                            <tr>
+                            <tr style=${
+                                i === highestAmountIndex && auctionStatus === "ended"
+                                ? "background:#d3d3d3;":''
+                            }>
                             <td id='' style="display:none;">${JSON.stringify(row)}</td>
                                 <th scope="row">${row.created_at}</th>
                                 <td>${row.user.first_name+" "+row.user.last_name}</td>
                                 <td>${row.amount}</td>
+                                <td>
+                                    ${
+                                        i === highestAmountIndex && auctionStatus === "ended" && row.user_id === user_id
+                                        ?
+                                        `<button class="btn btn-sm zowasel-bg text-white" onload="checkIfOrderIsCreated()"
+                                        onclick="acceptOfferDirectly('auction',${thedata[i].crop_id},${row.amount})">
+                                            Proceed
+                                        </button>`
+                                        :
+                                        ''
+                                    }
+                                </td>
                             </tr>
                             `;   
                         }
@@ -7163,6 +7385,13 @@ function gotoViewBids(){
     }
 }
 /* ---------------------- GO TO SEE ALL BIDS BY USER ID --------------------- */
+
+
+
+
+function checkIfOrderIsCreated(){
+    alert("rfgr");
+}
 
 
 

@@ -162,12 +162,21 @@ function formatDateRange(input) {
                         if(InputProduct){
 
                         }else{
-                            let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
+                            let get_acceptedprice, get_quantity;
+                            if(JSON.parse(thedata.products)[0].type=="auction"){
+                                get_acceptedprice = eval(thedata.total);
+                                get_quantity = JSON.parse(thedata.products)[0].specification.qty;
+                            }else{
+                                get_acceptedprice = JSON.parse(thedata.products)[0].specification.price
+                                let totalprice = parseInt(thedata.total);
+                                get_quantity = totalprice/acceptedprice;
+                            }
+
+                            let acceptedprice = get_acceptedprice;
                             let totalprice = parseInt(thedata.total);
-                            let quantity =  totalprice/acceptedprice;
 
                             $('.accepted_price').html("NGN "+acceptedprice);
-                            $('.confirmed_quantity').html(quantity);
+                            $('.confirmed_quantity').html(get_quantity);
                             $('.total_price').html("NGN "+totalprice);
                             $('#total_price').val(totalprice); 
                         }
@@ -323,9 +332,20 @@ function formatDateRange(input) {
                             $('.crop_quantity').html(JSON.parse(thedata.negotiation.message).qty);
                         }else{ $('.crop_quantity').html("-"); }
                     }else{
-                        let acceptedprice = JSON.parse(thedata.products)[0].specification.price;
-                        let totalprice = parseInt(thedata.total);
-                        let quantity =  totalprice/acceptedprice;
+                
+                        let get_acceptedprice, get_quantity;
+                        if(JSON.parse(thedata.products)[0].type=="auction"){
+                            get_acceptedprice = eval(thedata.total);
+                            get_quantity = JSON.parse(thedata.products)[0].specification.qty;
+                        }else{
+                            get_acceptedprice = JSON.parse(thedata.products)[0].specification.price
+                            let totalprice = parseInt(thedata.total);
+                            get_quantity = totalprice/acceptedprice;
+                        }
+
+                        let acceptedprice = get_acceptedprice;
+                        let quantity =  get_quantity;
+
                         if(quantity){
                             $('.crop_quantity').html(quantity);
                         }else{ $('.crop_quantity').html("-"); }
@@ -1195,7 +1215,7 @@ const orderPaymentPage=()=>{
         //     // tx_ref: transaction reference (unique) check developer.flutterwave.com/docs/flutterwave-standard 
         //     // After their modal for payment has appeared, we can make use of their test cards in developer.flutterwave.com/docs/test-cards
         //     // Type	Card number	CVV	PIN	Expiry	OTP
-        //     // MasterCard PIN authentication	5531886652142950	564	3310	09/32	12345
+        //     // MasterCard PIN authentication	c	564	3310	09/32	12345
 
             FlutterwaveCheckout({
                 public_key: `${FLW_PUBLIC_KEY}`,

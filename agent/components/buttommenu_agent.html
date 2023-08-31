@@ -1,0 +1,40 @@
+<div class="toolbar-inner menubar-nav">
+    <a href="/agent/index.html" class="nav-link homeLink">
+        <!-- <i class="fas fa-home"></i> -->
+        <img src="../../assets/icons/home.png" />
+        <span class="d-block f-12 zowasel-gray-color fontFamily1">Home</span>
+    </a>
+
+    <a  class="nav-link">
+        
+    </a>
+
+    <a  class="nav-link">
+        
+    </a>
+    
+    <a href="/agent/settings.html" class="nav-link settingsLink">
+        <!-- <i class="fas fa-wallet"></i> -->
+        <img src="../../assets/icons/settingsgray.png" />
+        <span class="d-block f-12 zowasel-gray-color fontFamily1">Settings</span>
+    </a>
+</div>
+
+
+<script>
+    // const urlString = window.location.href;
+    const urlString = window.location.pathname;
+    // console.log(urlString);
+
+    let paramString = urlString.split('agent/')[1];
+    // console.log(paramString);
+
+    $('.nav-link').removeClass('active');
+ 
+    if(paramString == "index.html"){
+        $('.homeLink').addClass('active');
+    }
+    if(paramString == "settings.html"){
+        $('.settingsLink').addClass('active');
+    }
+</script>    

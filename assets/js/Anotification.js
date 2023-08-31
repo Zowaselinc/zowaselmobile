@@ -239,6 +239,9 @@ function gotoNotificationDestination(id, model, model_id, message){
                     //localStorage.setItem('orderHash', model_id);
                     location.assign('/dashboard/negotiations.html');
                 }
+                if(model=="viewbid"){
+                    location.assign('/dashboard/viewbids.html?crop='+model_id);
+                }
                 // GO TO NOTIFICATION DESTINATION
             }
         },

@@ -73,18 +73,16 @@
         <header class="header header-type2">
             <div class="main-bar5">
                 <div class="container">
-                    <div class="header-content">
+                    <div class="header-content pt-2">
                         <div class="left-content  w-auto">
-                            <a href="javascript:void(0);" class="d-block d-flex align-items-center">
-                                <img class="back-btn" src="../assets/icons/leftarrow.png" style="width:8px;height:16px;" /> 
-                                <span class="fw-bold mx-3">Add Crop for Sale</span>
+                            <a href="javascript:void(0);" class="d-block">
+                                Welcome <span class="fw-bold first_name"><!--Favour--></span> 👋🏾 
                             </a>
                             <br/><br/>
                         </div>
                         <div class="mid-content">
                         </div>
-                        <div class="right-content">
-                            <!-- <img src="../assets/icons/bell.png" onclick="location.assign('/dashboard/notification.html')" /> -->
+                        <div class="right-content d-flex justify-content-between">
                         </div>
                     </div>
                 </div>
@@ -97,6 +95,7 @@
             <div class="spinner"></div>
         </div> -->
         <!-- Preloader end-->
+       
     </div>
     <!-- Fixd Header -->
 
@@ -136,7 +135,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-6 mb-4">
+                            <!-- <div class="col-6 mb-4">
                                 <div class="cardholder text-center" onclick="location.assign('/agent/merchants.html')">
                                     <img src="../assets/icons/cropwanted.png" />
                                     <span class="d-block mt-2 card-title fw-bold">My Merchants</span>
@@ -148,7 +147,7 @@
                                     <img src="../assets/icons/cropwanted.png" />
                                     <span class="d-block mt-2 card-title fw-bold">My Corporates</span>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
 
@@ -207,152 +206,13 @@
 <script src="../assets/js/modal.js"></script>
 <script src="../assets/lib/pulltorefresh.js"></script>
 <script src="../assets/js/env.js"></script> 
-<script src="../assets/js/dashboard.js"></script>
-
-
-
-<!-- <script src="index.js" defer></script> -->
-<script>
-    $(".stepper").TouchSpin();
-</script>
-<script>
-    populateUserDetails();
-    populateWalletDetails();
-    // headermenu();
-    sidemenu();
-    buttommenu();
-    // pageRestriction(); KYC RESTRICTION COMMENTED OUT
-    
-    fetchCropsforAuction();
-</script>
+<script src="../assets/js/agent.js"></script>
 
 <script>
-    // Load index.html only once
-    if (!localStorage.getItem('indexPageLoaded')) {
-        localStorage.setItem('indexPageLoaded', true);
-        // location.reload();
-        owlcarouselSettingsForAllProducts();
-    } else {
-        // Redirect to a different page or perform any other action
-        // window.location.href = '/another-page.html';
-        localStorage.removeItem('indexPageLoaded');
-    }
-
-
-    setTimeout(()=>{
-        owlcarouselSettingsForAllProducts();
-    },4000);
-    $(document).ready(()=>{
-        // $(".owl-carousel").owlCarousel({
-            //     navigation : true
-            // });
-            
-        owlcarouselSettingsForAllProducts();
-        setTimeout(()=>{
-            owlcarouselSettingsForAllProducts();
-        },1500);
-        setTimeout(()=>{
-            owlcarouselSettingsForAllProducts();
-        },2000);
-    })
-
-
-    // Define the initial state
-    let notifications = [];
-    let notify = false;
-    let newNotification = false; 
-  
-
-    let userr = localStorage.getItem('zowaselUser');
-    userr = JSON.parse(userr);
-    // initialize the Socket.IO client and establish a connection with the server
-    // const socket = io(`${socketURL}`);
-    const socket = io(`${socketProductionURL}`);
-
-
-    socket.on("connect", () => {
-        console.log(socket.id, "Socket ID");
-
-        socket.emit("registerSocket", {
-            // user_id: this.userData.user.id,
-            user_id: userr.user.id,
-            socket_id: socket.id,
-        });
-
-        // Subscribe to the "notification" event
-        socket.emit("notification", (data) => {
-            console.log(data, "NOTIFICATION DATA");
-            alert(22);
-
-            // Add the new notification to the array
-            notifications.push(data);
-
-            // Update the newNotification flag
-            newNotification = true;
-
-            // Play the notifyAudio audio element
-            // const notifyAudio = document.querySelector("#notify-audio");
-            // if (notifyAudio) {
-            //     notifyAudio.play();
-            // }
-        })
-    });
-    // Store socket in global window object
-    window.AppSocket = socket;
-
-
-     
-
-//     socket.on("notification", (data) => {
-//     console.log("Received notification:", data);
-//     // Rest of the code to handle the notification
-//   });
+    buttommenuForAgent();
+    populateAgentDetails();
 </script>
 
-<script>
-    function userSpecificFunction(){
-        let user = localStorage.getItem('zowaselUser');
-        user = JSON.parse(user);
-        let usertype = user.user.type;
-        if(usertype == "merchant"){
-            $('.pronoun_crop_offer').html('My ');
-            fetchUserCropsforSaleByUserID();
-            fetchInputs();
-        }else if(usertype == "corporate"){
-            $('.pronoun_inputforsale').html('My ');
-            fetchAllCropsForSale();
-            fetchCorporateAddedInputs();
-        }
-        owlcarouselSettingsForAllProducts();
-    }
-    userSpecificFunction();
-    
-
-    const viewmoreProducts=(n)=>{
-        let user = localStorage.getItem('zowaselUser');
-        user = JSON.parse(user);
-        let usertype = user.user.type;
-
-        let theURL, gotoProductdetails, viewmoreProduts, currentPage;
-        if(usertype == "corporate"){
-            // Corporate should see all crops for sale
-            if(n=="cropsforsale"){ location.assign('/dashboard/cropsforsale.html'); }
-            if(n=="cropsforauction"){ location.assign('/dashboard/cropsforauction.html'); }
-            if(n=="inputsforsale"){ location.assign('/dashboard/viewuseraddedinput.html'); }
-        }else if(usertype == "merchant"){
-            // Merchant should see only his crops for sale
-            if(n=="cropsforsale"){ location.assign('/dashboard/viewusercropsforsale.html'); }
-            if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html'); }
-            if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html'); }
-
-            // if(n=="cropsforauction"){ location.assign('/dashboard/viewusercropsforauction.html');
-            // }else{  }
-
-            // if(n=="inputsforsale"){ location.assign('/dashboard/inputs.html');
-            // }else{  }
-        }
-    }
-</script>
 
 </body>
 </html>

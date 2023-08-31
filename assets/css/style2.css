@@ -62,10 +62,16 @@
   color: var(--zowasel-darkblue) !important;
 }
 .theme-dark .zowasel-darkblue-color{
-  color: var(--zowasel-darkblue);
+  color: var(--zowasel-white);
 }
 .theme-dark .account-area.zowasel-darkblue-color{
-  color: var(--zowasel-white);
+  color: var(--zowasel-white) !important;
+}
+.theme-dark .notforFilter.page-content{
+  color: black;
+}
+.theme-dark .notforFilter .item-inner a .zowasel-color{
+  color: black;
 }
 .zowasel-white-color{
   color: var(--zowasel-white);
