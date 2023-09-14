@@ -289,6 +289,79 @@ const updateDeliveryAddress=()=>{
 
 
 
+/* ------------------------- UPDATE PICKUP LOCATION ------------------------- */
+const updatePickupLocation =()=>{
+    let order_hash = localStorage.getItem('orderHash');
+
+    startPageLoader();
+    $.ajax({
+        url: `${liveMobileUrl}/order/${order_hash}/trackingdetails`,
+        type: "POST",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        "data": JSON.stringify({
+            "tracking_details": {
+                "pickup_location": $('#fullmodal_pickup_location').val(),
+                "transit": [],
+                "delivery_location": localStorage.getItem('input_orderWaybillAddress')
+            }
+        }),
+        success: function(response) { 
+            EndPageLoader();
+            console.log(response);
+            if(response.error === true){
+                // alert(response.message);
+                responsemodal("erroricon.png", "Error", response.message);
+            }else{
+                // alert(response.message);
+                responsemodal("successicon.png", "Success", response.message);
+                localStorage.removeItem('input_orderWaybillAddress');
+                setTimeout(()=>{
+                    $('.modal-full').removeClass('d-block').addClass('d-none');
+                    $('.modal-full').hide();
+                    populateOrderSummaryDetails();
+                },1500)      
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+                responsemodal("erroricon.png", "Error", response.responseJSON.message);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+}
+/* ------------------------- UPDATE PICKUP LOCATION ------------------------- */
+
+
+
 /* ----------------------------- // INPUT PAYMENT ---------------------------- */
 function makeInputPayment() {
 

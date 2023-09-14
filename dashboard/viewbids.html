@@ -90,7 +90,11 @@
         <div class="container">
             
              <!-- TITLE -->
-             <h4 class="title text-success">Bids</h4>
+             <div class="d-flex align-items-center justify-content-between">
+                <h4 class="title text-success">Bids</h4>
+                <!-- seeProductBiddedFor() Function is on this file -->
+                <button class="btn zowasel-darkblue-bg btn-sm text-white" onclick="seeProductBiddedFor()">See Product</button>
+             </div>
              <!-- TITLE -->
              
 
@@ -182,6 +186,16 @@
 
 <script>
     $('#bidProductName').text(localStorage.getItem('bidProductName'));
+
+    function seeProductBiddedFor(){
+        let pathname = window.location.search;
+        let queryString = new URLSearchParams(pathname);
+        let crop_id = queryString.get("crop");
+        if(crop_id){
+            localStorage.setItem('singleproductID', crop_id);
+            location.assign('/dashboard/productdetails.html');
+        }
+    }
 
     $(document).ready(function() {
         $('.lazy').hide();

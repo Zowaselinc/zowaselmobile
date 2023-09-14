@@ -166,6 +166,38 @@
         </div>
         <!-- -------------------------- DISPATCH SECTION --------------------------- -->
 
+
+
+        <!-- --------------- Page Content For Adding Pickup Location --------------- -->
+        <div class="modal fade modal-full pickup_locationfullmodal" style="opacity:1;display: none;" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="margin-top: -60px;">
+                    <div class="modal-header mt-1">
+                        <h5 class="modal-title zowasel-darkblue-color fontFamily1 fw-600 f-24 lh-36">Add Pickup Location</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="inputs-group margin-btm-lg">
+                            <div class="">
+                                <label for="exampleInputEmail1" class="form-label margin-btm-sm mt-0">Pickup location</label>
+                                <input id="fullmodal_pickup_location" required type="text" class="form-control mt-0 pickup_location" aria-describedby="emailHelp" placeholder="Pickup location" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top:0;">
+                        <div class="d-flex justify-content-between">
+                            <a href="#" class="btn btn-danger f-14" onclick="closepickupmodal()" data-bs-dismiss="modal" style="padding: 9px 40px;line-height: 28px;">
+                                Cancel
+                            </a>
+                            <a href="#" class="btn zowasel-darkblue-bg text-white f-14 ms-4" onclick="submitPickupLocation()" data-bs-dismiss="modal" style="padding: 9px 40px;line-height: 28px;">
+                                Continue
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- --------------- Page Content For Adding Pickup Location --------------- -->
+
       
     </div>
     <!-- Page content End -->
@@ -212,6 +244,7 @@
 <script src="../../assets/lib/pulltorefresh.js"></script>
 <script src="../../assets/js/env.js"></script> 
 <script src="../../assets/js/order.js"></script>
+<script src="../../assets/js/input.js"></script>
 
 <!-- Js PDF -->
 <script src="../../assets/js/jspdf.min.js"></script>
@@ -239,14 +272,35 @@
     }
 
 
-    let updateshipping_form = document.getElementById('updateshippingInfo_form');
-    updateshipping_form.addEventListener('submit',(e)=>{
+    function closepickupmodal(){
+        $('.pickup_locationfullmodal').hide();
+    }
+
+    var updateshippingInfo_form = document.getElementById('updateshippingInfo_form');
+    updateshippingInfo_form.addEventListener('submit', (e)=>{
         e.preventDefault();
+        let pickup_location = document.getElementById('pickup_location');
+        if(pickup_location.value == "" || pickup_location.value == null){
+            basicmodal("","Enter pickup location");
+            setTimeout(()=>{
+                $('.pickup_locationfullmodal').show();
+            },1200)
+            return;
+        }
 
-        // alert("dvfd");
         updateshippingDetails();
-
     })
+
+    const submitPickupLocation =()=>{
+        // alert("dvfd");
+        let fullmodal_pickup_location = document.getElementById('fullmodal_pickup_location');
+        if(fullmodal_pickup_location.value == "" || fullmodal_pickup_location.value == null){
+            basicmodal("","Enter pickup location");
+            return;
+        }
+
+        updatePickupLocation();
+    }
 </script>
 </body>
 </html>

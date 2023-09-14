@@ -399,6 +399,104 @@ function pageRestriction(){
 
 }
 
+function storeKYCStatus(){
+    // API TO CHECK INCASE SOCKET FAILS
+    $.ajax({
+        url: `${liveMobileUrl}/users/account/checkkycstatus`,
+        type: "GET",
+        "timeout": 25000,
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem('authToken')
+        },
+        success: function(response) { 
+            // $('.loader').addClass('loader-hidden');
+            // console.log(response, "The get all category response");
+            if(response.error == true){
+                // alert(response.message);
+                console.log(response.message);
+            }else{
+                // alert(response.message);
+                let thedata = response.data;
+                
+                console.log("the kyc/kyb status data", thedata);    
+                // KYC
+                let key2 = "userdidkyc";
+                let value2 = 1;
+                if(thedata){
+                    if(thedata.kyc){
+                        setCookie(key2,value2,0.5);
+                    }else{
+                        setCookie(key2,0,0.5);
+                    }
+                }else{
+                    setCookie(key2,0,0.5);
+                }
+
+                let key = "userkycstatus";
+                let value = 1;
+
+                if(thedata.kyc){
+                    if(thedata.kyc.verified==1){
+                        setCookie(key,value,0.5);
+                    }else{ setCookie(key,0,0.5); }
+                }else{
+                    setCookie(key,0,0.5);
+                }
+
+                // KYB
+                let key2kyb = "userdidkyb";
+                let value2kyb = 1;
+                let keykyb = "userkybstatus";
+                if(thedata.kyb){
+                    setCookie(key2kyb,value2kyb,0.5);
+                    // STATUS
+                    let valuekyb = thedata.kyb.status;
+                    if(thedata.kyb.status=="complete"){
+                        setCookie(keykyb,valuekyb,0.5);
+                    }else{
+                        setCookie(keykyb,valuekyb,0.5);
+                    }
+                }else{
+                    setCookie(key2kyb,0,0.5);
+                    setCookie(keykyb,0,0.5);
+                }
+            }
+        },
+        error: function(xmlhttprequest, textstatus, message) {
+            EndPageLoader();
+            // console.log(xmlhttprequest, "Error code");
+            if(textstatus==="timeout") {
+                basicmodal("", "Service timed out <br/>Check your internet connection");
+            }
+        },
+        statusCode: {
+            200: function(response) {
+                console.log('ajax.statusCode: 200');
+            },
+            400: function(response) {
+                console.log('ajax.statusCode: 400');
+                // console.log(response);
+            },
+            403: function(response) {
+                console.log('ajax.statusCode: 403');
+                console.log("", "Session has ended, Login again");
+                basicmodal("", "Session has ended, Login again");
+                setTimeout(()=>{
+                    logout();
+                },3000)
+            },
+            404: function(response) {
+                console.log('ajax.statusCode: 404');
+            },
+            500: function(response) {
+                console.log('ajax.statusCode: 500');
+            }
+        }
+    });
+    // API TO CHECK INCASE SOCKET FAILS
+}
+
 function setCookie(key,value,time){
     // Get the current time
     let d = new Date();
@@ -467,48 +565,57 @@ function checkifKYCis_verified(){
 
 
 function checkifKYCis_done(){
-    let userkycDoneStatus = getCookie("userdidkyc");
-    // alert(userkycDoneStatus);
-    let pathname = window.location.pathname;
-    if(pathname.includes('dashboard/kyc.html')){
-        if(userkycDoneStatus == 1){
-            // console.log(window.location)
-            location.assign(window.location.origin+'/dashboard/kycverification.html');
+    startPageLoader();
+    setTimeout(()=>{
+        EndPageLoader();
+        let userkycDoneStatus = getCookie("userdidkyc");
+        // alert(userkycDoneStatus);
+        let pathname = window.location.pathname;
+
+        if(pathname.includes('dashboard/wallet')){
+            if(userkycDoneStatus == 0){
+                // console.log(window.location)
+                location.assign(window.location.origin+'/dashboard/checkuserverification.html');
+            }
+            if(userkycDoneStatus == 1){
+                checkifKYCis_verified();
+            }
+            return;
+        }
+
+        if(pathname.includes('dashboard/kyc.html')){
+            if(userkycDoneStatus == 1){
+                // console.log(window.location)
+                location.assign(window.location.origin+'/dashboard/kycverification.html');
+            }else{
+                
+            }
         }else{
             
         }
-    }else{
-        
-    }
 
-    // if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
-    // ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
-    // ||pathname.includes('dashboard/checkuserkybverification')
-    // ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
-    // ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
-    // ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
+        // if(pathname.includes('dashboard/index')||pathname.includes('dashboard/profile')
+        // ||pathname.includes('dashboard/editprofile')||pathname.includes('dashboard/checkuserverification')
+        // ||pathname.includes('dashboard/checkuserkybverification')
+        // ||pathname.includes('dashboard/kyb')||pathname.includes('dashboard/kyc')
+        // ||pathname.includes('dashboard/settings')||pathname.includes('dashboard/verification')||pathname.includes('dashboard/accountdetails')
+        // ||pathname.includes('dashboard/editaccountdetails')||pathname.includes('dashboard/changepassword')){
 
-    // }else{
-    if(pathname.includes('dashboard/wallet')){
-        if(userkycDoneStatus == 0){
-            // console.log(window.location)
-            location.assign(window.location.origin+'/dashboard/checkuserverification.html');
-        }
-        if(userkycDoneStatus == 1){
-            checkifKYCis_verified();
-        }
-    }
+        // }else{
 
-    if(pathname.includes('dashboard/checkuserverification')){
-        if(userkycDoneStatus == 1){
-            // alert(userkycDoneStatus);
-            checkifKYCis_verified();
-            $('.complete_kyc_title').html("KYC submitted. Please wait while we verify your details");
-            $('.proceedtoKYCBTN').html(`<i class="fa fa-user mb-1"></i> &nbsp;&nbsp;Preview KYC`);
+        if(pathname.includes('dashboard/checkuserverification')){
+            if(userkycDoneStatus == 1){
+                // alert(userkycDoneStatus);
+                checkifKYCis_verified();
+                $('.complete_kyc_title').html("KYC submitted. Please wait while we verify your details");
+                $('.proceedtoKYCBTN').html(`<i class="fa fa-user mb-1"></i> &nbsp;&nbsp;Preview KYC`);
+            }
         }
-    }
+    },2000)
 }
 checkifKYCis_done();
+
+
 
 
 // Check if KYB is done
@@ -2517,9 +2624,10 @@ function openallAuctionBids(crop_id){
                 // responsemodal("successicon.png", "Success", response.message);
                 $('.p_bid_table').show();
                 console.log("Error False ",response);
-                let thedata = response.data;
-                thedata.reverse();
-                // console.log(thedata.length)
+                let thebiddata = (response.data.bids).reverse();
+                // console.log(thebiddata.length)
+
+                let thepoductdata = response.data.product;
 
                 let auctionEndDate = $('#auction_end_date').html();
                 let daysRemaining = daysDifferenceday(new Date(), auctionEndDate);
@@ -2535,7 +2643,7 @@ function openallAuctionBids(crop_id){
                 let highestAmount = -1; // Initialize with a negative value
                 let highestAmountIndex = -1;
 
-                thedata.forEach((item, index) => {
+                thebiddata.forEach((item, index) => {
                     const amount = parseFloat(item.amount); // Convert to a number for comparison
                     if (amount > highestAmount) {
                         highestAmount = amount;
@@ -2544,26 +2652,26 @@ function openallAuctionBids(crop_id){
                 });
                 
                 let bid_data;
-                for(let i=0; i<thedata.length; i++){
-                    let user = thedata[i].user;
+                for(let i=0; i<thebiddata.length; i++){
+                    let user = thebiddata[i].user;
                     
                     bid_data +=`
                         <tr style=${
                             i === highestAmountIndex && auctionStatus === "ended"
                             ? "background:#d3d3d3;":''
                         }>
-                            <td id="" style="display:none;">${thedata[i]}</td>
-                            <th scope="row">${thedata[i].created_at}</th>
+                            <td id="" style="display:none;">${thebiddata[i]}</td>
+                            <th scope="row">${thebiddata[i].created_at}</th>
                             <td>${user.first_name+" "+user.last_name}</td>
-                            <td>${thedata[i].amount}</td>
+                            <td>${thebiddata[i].amount}</td>
                             <td>
                                 ${
                                     i === highestAmountIndex && auctionStatus === "ended"
                                     ?
-                                    `<button class="btn btn-sm zowasel-bg text-white" id="notifybtn${thedata[i].crop_id}" onclick="notifyHighestBidder('auction',${thedata[i].crop_id},${thedata[i].amount},${thedata[i].user_id})">
+                                    `<button class="btn btn-sm zowasel-bg text-white" id="notifybtn${thebiddata[i].crop_id}" onclick="notifyHighestBidder('auction',${thebiddata[i].crop_id},${thebiddata[i].amount},${thebiddata[i].user_id})">
                                         Notify Buyer
                                     </button>
-                                    <button class="btn btn-sm zowasel-darkblue-bg text-white" style="display:none;" id="disabled_notifybtn${thedata[i].crop_id}">
+                                    <button class="btn btn-sm zowasel-darkblue-bg text-white" style="display:none;" id="disabled_notifybtn${thebiddata[i].crop_id}">
                                         Noitfication Sent
                                     </button>
                                     `
@@ -4416,6 +4524,26 @@ function fetchCropCategories(){
                 let index;
                 // console.log(thedata, "category data");
                 if(thedata.length > 0){
+                    // Check if the "crop-filter-component" element exists on the page
+                    const cropFilterComponent = document.getElementById("filterForm");
+                    if (cropFilterComponent) {
+                        for (let i = 0; i < thedata.length; i++) {
+                            let row = thedata[i];
+                            index= i+1;
+    
+                            rowContent += `
+                                <div class="d-flex align-items-center mb-2">
+                                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                                        ${row.name}
+                                        <input type="checkbox" value="${row.id}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            `;   
+                        }
+                        $('#p_productCategories').append(rowContent);
+                    }
+
                     for (let i = 0; i < thedata.length; i++) {
                     //   console.log('Hello World', + i);
                         let row = thedata[i];
@@ -4425,10 +4553,10 @@ function fetchCropCategories(){
                             <option value="${row.id}">${row.name}</option>
                         `;   
                     }
-                    $('#category').append(rowContent);        
-          
+                    $('#category').append(rowContent);
                 }else{
                     // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                    $('#p_productCategories').html("No product type yet");
                 }
                     
             }
@@ -5385,6 +5513,27 @@ function fetchInputCategories(){
                 let index;
                 // console.log(thedata, "category data");
                 if(thedata.length > 0){
+                    // Check if the "input-filter-component" element exists on the page
+                    const inputFilterComponent = document.getElementById("filterForm");
+                    if (inputFilterComponent) {
+                        for (let i = 0; i < thedata.length; i++) {
+                            let row = thedata[i];
+                            index= i+1;
+
+                            rowContent += `
+                                <div class="d-flex align-items-center mb-2">
+                                    <label class="checkbox-container f-16 zowasel-darkblue-color">
+                                        ${row.name}
+                                        <input type="checkbox" value="${row.id}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            `;   
+                        }
+                        $('#p_inputproductCategories').append(rowContent);
+                    }
+
+
                     for (let i = 0; i < thedata.length; i++) {
                     //   console.log('Hello World', + i);
                         let row = thedata[i];
@@ -5398,6 +5547,7 @@ function fetchInputCategories(){
           
                 }else{
                     // $('#wantedcrops').html("<tr><td colspan='9' class='text-center'><h3 class='pt-2'>No Ticket registered yet</h3></td></tr>");
+                    $('#p_inputproductCategories').html("No input product type yet");
                 }
                     
             }
@@ -5543,6 +5693,7 @@ function fetchInputs(){
                 let carouselrowContent = "";
                 let index;
                 console.log(thedata, "erfrefre");
+                globalStaticInputProducts = thedata;
                 if(thedata.length > 0){
                     for (let i = 0; i < thedata.length; i++) {
                       // console.log('Hello World', + i);
@@ -5607,7 +5758,6 @@ function fetchInputs(){
                             <a href="#">
                                 <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,10)}</div>
                                 <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,20) }</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,6)}</div>
                                 <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</div>
                             </a>
                         </div>
@@ -5773,11 +5923,10 @@ function fetchCorporateAddedInputs(){
                             <a href="#">
                                 <div class="fontFamily2 f-15 fw-600 lh-18 zowasel-darkblue-color">${truncate(row.subcategory.name,10)}</div>
                                 <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-color mt-2">${truncate(row.category.name,20) }</div>
-                                <div class="fontFamily1 f-14 fw-500 lh-21 zowasel-gray-color mt-2">${truncate(row.description,6)}</div>
                                 <div class="fontFamily1 f-16 fw-700 lh-24 zowasel-color mt-2">₦${truncate(toCommas(theprice), 10)} / ${truncate(row.packaging,10)}</div>
                             </a>
                         </div>
-                        `; 
+                        `;
                     }
 
                     let emptycell = `
@@ -7276,10 +7425,12 @@ function fetchAuctionBidsByCropID(){
                     $('.loader').addClass('loader-hidden');
                 }else{
                     // alert(response.message);
-                    let thedata = (response.data).reverse();
-                    console.log(thedata, "Bid data");
+                    let thebiddata = (response.data.bids).reverse();
+                    console.log(thebiddata, "Bid data");
 
-                    let auctionEndDate = thedata[0].auction.end_date;
+                    let thepoductdata = response.data.product;
+
+                    let auctionEndDate = thepoductdata[0].auction.end_date;
                     let daysRemaining = daysDifferenceday(new Date(), auctionEndDate);
                     // CHECK FOR AUCTION REMAINING AND END DATE
                     let auctionStatus;
@@ -7293,7 +7444,7 @@ function fetchAuctionBidsByCropID(){
                     let highestAmount = -1; // Initialize with a negative value
                     let highestAmountIndex = -1;
 
-                    thedata.forEach((item, index) => {
+                    thebiddata.forEach((item, index) => {
                         const amount = parseFloat(item.amount); // Convert to a number for comparison
                         if (amount > highestAmount) {
                             highestAmount = amount;
@@ -7303,10 +7454,10 @@ function fetchAuctionBidsByCropID(){
 
                     let rowContent = "";
                     let index;
-                    if(thedata.length > 0){
-                        for (let i = 0; i < thedata.length; i++) {
+                    if(thebiddata.length > 0){
+                        for (let i = 0; i < thebiddata.length; i++) {
                         //   console.log('Hello World', + i);
-                            let row = thedata[i];
+                            let row = thebiddata[i];
                             index= i+1;
 
                             rowContent += `
@@ -7323,7 +7474,7 @@ function fetchAuctionBidsByCropID(){
                                         i === highestAmountIndex && auctionStatus === "ended" && row.user_id === user_id
                                         ?
                                         `<button class="btn btn-sm zowasel-bg text-white" onload="checkIfOrderIsCreated()"
-                                        onclick="acceptOfferDirectly('auction',${thedata[i].crop_id},${row.amount})">
+                                        onclick="acceptOfferDirectly('auction',${thebiddata[i].crop_id},${row.amount})">
                                             Proceed
                                         </button>`
                                         :
@@ -8047,21 +8198,17 @@ function filterpage(currentPagetoFilter){
         /* --------------------------- Select Product type -------------------------- */
 
         /* ------------------------ Select Catalog(Category) ------------------------ */
-        var checkboxesCatalog = document.querySelectorAll('#filterForm #catalog input[type="checkbox"]');
+        var checkboxesCatalog = document.querySelectorAll('#filterForm #catalog #p_inputproductCategories input[type="checkbox"]');
         var checkedCountCatalog = 0;
         var selectedProductCatalog = [];
         for (var i = 0; i < checkboxesCatalog.length; i++) {
-          if (checkboxesCatalog[i].checked) {
-            checkedCountCatalog++;
-            selectedProductCatalog.push(checkboxesCatalog[i].value);
-          }
+            if (checkboxesCatalog[i].checked) {
+                checkedCountCatalog++;
+                selectedProductCatalog.push(checkboxesCatalog[i].value);
+            }
         }
       
-        // if (checkedCountCatalog === 0) {
-        //   basicmodal('','Please select at least one product catalog.');
-        //   event.preventDefault(); // Prevent form submission
-        //   return false;
-        // }
+        -
 
         console.log("selectedProductCatalog", selectedProductCatalog);
         /* ------------------------ Select Catalog(Category) ------------------------ */
@@ -8162,6 +8309,7 @@ function filterpage(currentPagetoFilter){
         }
 
         if(currentPagetoFilter=="input"){
+            // alert("Input Filter Detected");
             console.log("globalStaticInputProducts", globalStaticInputProducts);
             // Filtering out items(globalStaticInputProducts) with specific conditions
             let filteredProducttype = globalStaticInputProducts.filter(function(item) {

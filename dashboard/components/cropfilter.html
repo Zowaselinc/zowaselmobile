@@ -7,45 +7,14 @@
                 <div class="rowz d-flex align-items-center mb-3">
                     <h2 class="f-16 fw-600">Product Type</h2>
                 </div>
-                <div class="d-flex align-items-center mb-2">
-                    <!-- checkbox component -->
-                    <label class="checkbox-container f-16 zowasel-darkblue-color">
-                        Grains
-                        <input type="checkbox" value="1">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <!-- checkbox component -->
-                    <label class="checkbox-container f-16 zowasel-darkblue-color">
-                        Cash Crops
-                        <input type="checkbox" value="2">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <!-- checkbox component -->
-                    <label class="checkbox-container f-16 zowasel-darkblue-color">
-                        Spices
-                        <input type="checkbox" value="3">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <!-- checkbox component -->
-                    <label class="checkbox-container f-16 zowasel-darkblue-color">
-                        Vegetables
-                        <input type="checkbox" value="4">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <!-- checkbox component -->
-                    <label class="checkbox-container f-16 zowasel-darkblue-color">
-                        Legumes
-                        <input type="checkbox" value="5">
-                        <span class="checkmark"></span>
-                    </label>
+                <div id="p_productCategories">
+                    <!-- <div class="d-flex align-items-center mb-2">
+                        <label class="checkbox-container f-16 zowasel-darkblue-color">
+                            Grains
+                            <input type="checkbox" value="1">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div> -->
                 </div>
             </div>
             <!-- End Product type filter -->
@@ -101,6 +70,7 @@
 
 
 <script>
+    fetchCropCategories();
     customRangeSettings();
     buttomaddreset_applyfilter('crop');
 </script>

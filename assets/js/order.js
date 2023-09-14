@@ -45,7 +45,7 @@ window.addEventListener('load', ()=>{
 function lazyLoading(){
     $('.lazy').hide();
     $('.lazy').each(function(index,value) {
-        console.log(index, "frelkferk");
+        // console.log(index, "frelkferk");
         if(index < 11 ) {
         $(this).show();
         }
@@ -148,6 +148,62 @@ function formatDateRange(input) {
                 // START OF **IF IT IS AN INPUT
                 if(InputProduct){
 
+                    console.log("InputProduct ", InputProduct)
+                    $('.accepted_price').html("NGN "+InputProduct.price);
+                    $('.confirmed_quantity').html(InputProduct.stock);
+                    $('.total_price').html("NGN "+InputProduct.price);   
+                    $('#total_price').val(InputProduct.price);   
+
+                    $('.crop_type_title').html('Input Type:');
+                    $('.crop_quantity_title').html('Input Quantity:');
+                    
+                    // Hide Full Specification tab and Purchase Order tab for input product
+                    $('.full-spec, .purchase-order, .price-details').hide();
+
+                    $('.crop_type').html(InputProduct.product_type);
+                    $('.offer_type').html("Input");
+                    $('.crop_quantity').html(theproduct[0].input.stock);
+                    $('.delivery_window').html('-');
+                    $('.buyer_details').html(thedata.buyer.first_name+" "+thedata.buyer.last_name);
+                    $('.accepted_date').html(thedata.created_at);
+                    $('.seller_details').html(thedata.seller.first_name+" "+thedata.seller.last_name);
+                    // theproduct
+
+                    // Waybill
+                    if(thedata.waybill_details){
+                        $('.input_waybill_details').show();
+                        let waybill_details = JSON.parse(thedata.waybill_details);
+                        $('.waybill_address').html(waybill_details.address);
+                        $('.waybill_country').html(waybill_details.country);
+                        $('.waybill_state').html(waybill_details.state);
+                        $('.waybill_city').html(waybill_details.city);
+                        $('.waybill_zip').html(waybill_details.zip);
+
+                        let full_input_waybill_address = waybill_details.address+", "+waybill_details.city+" "+waybill_details.state+", "+waybill_details.country;
+                        localStorage.setItem("input_orderWaybillAddress", full_input_waybill_address);
+
+                        // Order Tracking Button
+                        $('.ordertracking_button').show();
+                        $('.waybill_info_text').removeClass('d-block').addClass('d-none');
+
+                        // ORDER TRACKING
+                        $('.waybill_document_btn').hide();
+                        $('.order_hash').html(localStorage.getItem('orderHash'));
+                        $('.order_payment_status').html(thedata.payment_status);
+                        if(usertype=="corporate"){
+                            $('.updatetrackingBTN').show();
+                        }
+                        // Fetching Existing Tracking Details
+                        let transit_info = JSON.parse(thedata.tracking_details);
+                        if(transit_info){
+                            // console.log(transit_info)
+                            transit_info = transit_info.transit
+                            $('.oldtransit_information').val(JSON.stringify(transit_info));
+                            $('.tracking_pickup_location').html(JSON.parse(thedata.tracking_details).pickup_location);
+                            $('.tracking_delivered_location').html(JSON.parse(thedata.tracking_details).delivery_location);
+                        }   
+                        
+                    }
                 }else{
                     // START OF **IF IT IS NOT AN INPUT
 
@@ -169,13 +225,13 @@ function formatDateRange(input) {
                             }else{
                                 get_acceptedprice = JSON.parse(thedata.products)[0].specification.price
                                 let totalprice = parseInt(thedata.total);
-                                get_quantity = totalprice/acceptedprice;
+                                get_quantity = totalprice/get_acceptedprice;
                             }
 
                             let acceptedprice = get_acceptedprice;
                             let totalprice = parseInt(thedata.total);
 
-                            $('.accepted_price').html("NGN "+acceptedprice);
+                            $('.accepted_price').html("NGN "+get_acceptedprice);
                             $('.confirmed_quantity').html(get_quantity);
                             $('.total_price').html("NGN "+totalprice);
                             $('#total_price').val(totalprice); 
@@ -340,7 +396,7 @@ function formatDateRange(input) {
                         }else{
                             get_acceptedprice = JSON.parse(thedata.products)[0].specification.price
                             let totalprice = parseInt(thedata.total);
-                            get_quantity = totalprice/acceptedprice;
+                            get_quantity = totalprice/get_acceptedprice;
                         }
 
                         let acceptedprice = get_acceptedprice;
@@ -880,6 +936,7 @@ const waybillDetailsPage =()=>{
     let order_hash = localStorage.getItem('orderHash');
 
     let transit_arr = $('#oldtransit_information').val();
+    console.log(transit_arr);
     transit_arr = JSON.parse(transit_arr);
     
 
@@ -1046,6 +1103,14 @@ function fetchUserOrdersByUserID(){
                         let row = thedata[i];
                         index= i+1;
 
+                        const products = JSON.parse(row.products);
+                        let product_type;
+                        if (products[0] && products[0].input_id) {
+                            product_type = "Input";
+                        } else {
+                            product_type = "Crop";
+                        }
+
                         let shippingstatus;
                         // console.log(JSON.parse(row.tracking_details).transit.length);
                         if(!JSON.parse(row.tracking_details)){
@@ -1089,7 +1154,9 @@ function fetchUserOrdersByUserID(){
                             <div class="row">
                                 <div class="item-inner col-7">
                                     <div class="item-title-row mb-0">
-                                        <h6 class="item-title zowasel-darkblue-color f-10"><a class="fontFamily1">#${truncate(row.order_hash, 20)}</a></h6>
+                                        <h6 class="item-title zowasel-darkblue-color f-10">
+                                            <a class="fontFamily1">#${truncate(row.order_hash, 20)}</a>
+                                        </h6>
                                     </div>
                                     <div class="item-footer">
                                         <div class="mt-3">

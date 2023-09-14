@@ -181,7 +181,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Crop Type:</td>
+                        <td class="crop_type_title">Crop Type:</td>
                         <td class="crop_type"></td>
                     </tr>
                     <tr>
@@ -193,7 +193,7 @@
                         <td class="offer_type"></td>
                     </tr>
                     <tr>
-                        <td>Crop Quantity:</td>
+                        <td class="crop_quantity_title">Crop Quantity:</td>
                         <td class="crop_quantity"></td>
                     </tr>
                     <tr>
@@ -216,20 +216,56 @@
             </table>            
             <!-- Table -->
 
+            <div class="input_waybill_details mt-4" style="display:none;">
+                <div class="header-tabs-title pricing-details">Waybill Details:</div>
+
+                <table class="tablestyle1 table table-SQS table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Parameters</th>
+                            <th><span id="parameters" class="d-block">Details</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="">Address</td>
+                            <td class="waybill_address"></td>
+                        </tr>
+                        <tr>
+                            <td class="">Country</td>
+                            <td class="waybill_country"></td>
+                        </tr>
+                        <tr>
+                            <td class="">State</td>
+                            <td class="waybill_state"></td>
+                        </tr>
+                        <tr>
+                            <td class="">City</td>
+                            <td class="waybill_city"></td>
+                        </tr>
+                        <tr>
+                            <td class="">Zip</td>
+                            <td class="waybill_zip"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
 
             <!-- Buttons -->
             <div class="btn-group w-100 gap-4 mt-3 waybilldetails_button" style="display:none;">
-                <a href="waybilldetails.html" class="btn zowaselGreen text-white w-100" type="button">Proceed to Waybill</a>
+                <a href="waybilldetails.html" class="btn zowasel-bg text-white w-100" type="button">Proceed to Waybill</a>
             </div>
             
             <div class="w-100 gap-4 mt-3 ordertracking_button" style="display:none;">
-                <span class="text-warning text-bold mb-2 d-block"><i>Waybill details has been updated</i></span>
-                <a href="ordertracking.html" class="btn zowaselGreen text-white w-100" type="button">Proceed to Order Tracking</a>
+                <span class="text-warning text-bold mb-2 waybill_info_text d-block"><i>Waybill details has been updated</i></span>
+                <a href="ordertracking.html" class="btn zowasel-bg text-white w-100" type="button">Proceed to Order Tracking</a>
             </div>
 
             <div class="w-100 gap-4 mt-3 corporateOrderPaymentBtn_Section" style="display:none;">
                 <span class="text-warning text-bold mb-2 corporateNo_waybillInfo" style="display:none;">Please wait for merchant to fill the waybill information. <br/> You can check back after some time so that you can proceed with your payment.<br/></span>
-                <a href="orderpayment.html" class="btn corporateOrderPayment_button zowaselGreen text-white w-100" type="button" style="display:none;">Proceed to payment</a>
+                <a href="orderpayment.html" class="btn corporateOrderPayment_button zowasel-bg text-white w-100" type="button" style="display:none;">Proceed to payment</a>
             </div>
             <!-- Buttons -->
             

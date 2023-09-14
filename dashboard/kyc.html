@@ -582,14 +582,14 @@
                 }
             }
             if(idType=="passport"){
-                if(idnumber.length === 7){
+                if(idnumber.length === 8){
                     $('#idTypeandNumberSection').hide();
                     $('#frontIDSection').show();
-                }else if (idnumber.length > 7) {
-                    basicmodal("","IDNumber must be shorter than or equal to 7 characters");
+                }else if (idnumber.length > 9) {
+                    basicmodal("","IDNumber must be shorter than or equal to 9 characters");
                     return false;
-                }else if (idnumber.length < 7) {
-                    basicmodal("","IDNumber must be greater than or equal to 7 characters");
+                }else if (idnumber.length < 8) {
+                    basicmodal("","IDNumber must be greater than or equal to 8 characters");
                     return false;
                 }
             }
